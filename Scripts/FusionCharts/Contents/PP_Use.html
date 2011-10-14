@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">How to use FusionCharts in PowerPoint? </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll actually use FusionCharts in PowerPoint presentations. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting the folder for Presentation </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To use FusionCharts in PowerPoint presentation, you need to keep a central location for your presentation containing the charts. This location reference shouldn't change even if the presentation is transferred from one machine to another. For e.g., if you're building the presentation in <span class="codeInline">C:\Presentations\MyNewPresentation</span> on Machine 1, the path should stay the same on Machine 2 too, if you want to port the presentation. </p>
+        <p>This is because Shockwave Object uses absolute reference for path of SWF objects. </p>
+      <p>For our example, we'll create a new folder <span class="codeInline">C:\Presentations\Sales2006</span>.</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Copying the charts</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, put the required chart SWF files in this folder. You just need to copy the SWF files of the charts that you intend to use in the presentation. For our first example, we'll plot a simple 3D column chart to represent monthly sales data for a company. So, we copy <span class="codeInline">Column3D.swf</span> to this folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Preparing your chart data</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now, that you're prepared for the roll, you need to build the XML data for the chart, as FusionCharts accepts only XML data. Create a file named as <span class="codeInline">Data.xml</span> (strictly <span class="codeInline">Data.xml</span>) with the following XML and save it in the same folder (<span class="codeInline">C:\Presentations\Sales2006</span>). If you're unsure about FusionCharts XML, please see the &quot;FusionCharts and XML&quot; section in this documentation. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;graph caption='Monthly Unit Sales' xAxisName='Month' yAxisName='Units' showValues='0' decimals='0' formatNumberScale='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='462' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='857' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='671' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='494' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May' value='761' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='960' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul' value='629' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug' value='622' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep' value='376' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='494' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='761' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='960' /&gt;<br />
+    &lt;/graph&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above XML basically contains monthly sales data for   2006. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting the PowerPoint Presentation </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now we get to the main part where we create the actual presentation. Create a new Presentation and save it as <span class="codeInline">Sales2006Presentation.ppt</span> and save it in the same folder (strictly required).</p>
+    <p>For the sake of simplicity, we'll embed the chart in the first slide itself. Before that, let's add a label to the first slide and name it as &quot;<span class="codeInline">2006 Sales Chart</span>&quot; as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_1.gif" width="569" height="469" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We'll add the chart above this label. To embed the chart, open the &quot;Control&quot; toolbox from View Menu (as shown below).</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_2.gif" width="566" height="465" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">At the bottom of the Control toolbox, you'll see an icon for &quot;Other&quot; controls.   This icon looks like a little hammer. Click on it to get a list of available   controls. (See below)</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_3.gif" width="352" height="371" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Select &quot;<span class="codeInline">Shockwave Flash Object</span>&quot; from this menu. There may be other &quot;Flash&quot; or   &quot;Shockwave&quot; related components on your machine. It is imperative that you choose   this object. Otherwise, the embed will not work. </p>
+    <p>Your cursor will now change to a crosshair. Create a rectangle on the slide   by dragging the cursor. This rectangle would be the span of the control - i.e.,   the chart would appear within this control. So, make the box of the size you   want the chart to be. This can be full-screen or a portion of the screen. You'll   see a cross being generated on your slide (as under):</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_4.gif" width="450" height="359" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Right click on this cross and from the context menu, select Properties. You'll see a Properties Dialog box as under:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_5.gif" width="262" height="340" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To select the chart .swf file, click on the Ellipses button (circled above). You'll now be presented with a dialog box as under:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_6.gif" width="433" height="286" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you might already be feeling, most of the options here are pretty   familiar. The first textbox asks you to punch in URL of the chart SWF. <strong>Here, you'll   need to hard-code the full path of the .swf file</strong>. Even though we've the .swf file in the same folder as the .ppt file, we'll still   need to give the full path (c:\...\...\chart.swf). You need to put this only as Movie URL and NOT Base   URL. </p>
+    <p>Since we're using default<span class="codeInline"> Data.xml</span> file for this example, so we do not need to provide any <span class="codeInline">dataURL</span> for this example. FusionCharts will automatically read XML data from <span class="codeInline">Data.xml</span> present in same folder. </p>
+    <p>Select the other properties and click on Ok.</p>
+    <p>Now, when you come back to the Properties window, you'll see the Playing   property is set to False. You'll need to set it to true for the chart to appear   and animated, during the slide show. Also, when you close this presentation and   re-open it, you'll again find that this property has been set to False by   Powerpoint. So, though irritating, you'll need to set this property back to true   each time you open the .ppt file.</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_7.gif" width="262" height="340" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Also, set the intended width and height of the chart in this dialog box   itself. </p>
+    <p>Finally, save and run your slide show in presentation view. You'll see the chart   as under. If the chart doesn't show up, right click on the place where the chart is supposed to be and select Play from the context menu. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PP_8.jpg" width="600" height="450" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Re-opening the Presentation </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you close and re-open this presentation, you'll see that PowerPoint has again set the Playing property of the chart to false. You'll need to set it to True each time you open this presentation again. Or, you can opt to play the chart by right clicking on it during view mode and then selecting Play. </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and Flash &gt; Handling Loading/Rendering Events </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When you're loading a FusionCharts chart inside your Flash movie, you can be notified when the chart has finished rendering. Here, we'll see a simple example, wherein we modify our previous Basic example to track the rendering event. The modified file is saved as <span class="codeInline">RenderEvent.fla</span>.</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding event listeners </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>All the charts in FusionCharts suite expose an event <span class="codeInline">rendered</span> once they've finished rendering. You can create your listener objects to listen to this event, using the following code: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment">//Create a listener object to listen to the rendered event of the chart</span><br />
+      var objL:Object = new Object();<br />
+      objL.rendered = function(){<br />
+      &nbsp;&nbsp;&nbsp;trace(&quot;The chart has finished rendering&quot;);<br />
+      }</p>
+      <p><span class="codeComment">//Register the object with the chart</span><br />
+    myFirstChart.addEventListener(&quot;rendered&quot;, objL);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we've created a listener object and associated it with the chart's instance (<span class="codeInline">myFirstChart</span>) . For the sake of demonstration, we just trace out a message whenever the chart has rendered. When you run this code, you'll see the following results: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_Render.jpg" width="514" height="410" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

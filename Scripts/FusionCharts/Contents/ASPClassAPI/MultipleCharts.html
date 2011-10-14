@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Creating multiple charts in one page </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p>While developing web pages or applications, we may need to  display multiple charts on the same page. For example, reporting Weekly Sales Quantity along with Revenue gives us a better insight. Let's see how we can accomplish this  using FusionCharts ASP Class. The code below generates two Column 3D charts  on the same page. </p>    </td>
+  </tr>
+  
+  <tr>
+     <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to see   the previous page &quot;Creating First Chart &quot; as we start off from the concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@LANGUAGE=&quot;VBSCRIPT&quot;%&gt;<br />
+      &lt;%<br />
+      <span class="codeComment">&nbsp;&nbsp; ' Include FusionCharts ASP Class</span><br />
+%&gt; <br />
+&lt;!--#include file=&quot;../Class/FusionCharts_Gen.asp&quot;--&gt;<br />
+&lt;%<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; '---------- Configuring First Chart ----------</span><br />
+&nbsp;&nbsp;&nbsp;
+dim FC<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create First FusionCharts ASP class object</span><br />
+&nbsp;&nbsp;&nbsp;
+set FC = new FusionCharts<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart type to Column3D</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setChartType(&quot;Column3D&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart size</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSize(&quot;300&quot;,&quot;250&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' set the relative path of the swf file</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSWFPath(&quot;../FusionCharts/&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp; dim strParam<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Define chart attributes</span><br />
+       &nbsp;&nbsp;&nbsp; strParam=&quot;caption=Weekly Sales;subcaption=Revenue;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart attributes</span><br />
+     &nbsp;&nbsp;&nbsp; Call FC.setChartParams(strParam)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values and category names for the First Chart</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;40800&quot;,&quot;Label=Week 1&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;31400&quot;,&quot;Label=Week 2&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;26700&quot;,&quot;Label=Week 3&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;54400&quot;,&quot;Label=Week 4&quot;, &quot;&quot;)<br />
+  <br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; '--------------------------------------------------------- </span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; '---------- Configuring Second Chart ----------</span><br />
+          <br />
+       &nbsp;&nbsp;&nbsp; dim FC2<br />
+       <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create another FusionCharts ASP class object</span><br />
+       &nbsp;&nbsp;&nbsp; set FC2 = new FusionCharts<br />
+       <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart type of the second chart as column 3D</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC2.setChartType(&quot;Column3D&quot;)<br />
+       <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart size</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC2.setSize(&quot;300&quot;,&quot;250&quot;)<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' set the relative path of the swf file</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC2.setSWFPath(&quot;../FusionCharts/&quot;)<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Define chart attributes</span><br />
+     &nbsp;&nbsp;&nbsp; strParam=&quot;caption=Weekly Sales;subcaption=Quantity;xAxisName=Week;yAxisName=Quantity;numberSuffix= U&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart attributes</span><br />
+     &nbsp;&nbsp;&nbsp; Call FC2.setChartParams(strParam)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values and category names for the second chart</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC2.addChartData(&quot;32&quot;,&quot;Label=Week 1&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC2.addChartData(&quot;35&quot;,&quot;Label=Week 2&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC2.addChartData(&quot;26&quot;,&quot;Label=Week 3&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC2.addChartData(&quot;44&quot;,&quot;Label=Week 4&quot;, &quot;&quot;)<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set Chart Caching Off  to Fix Caching error in FireFox</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC2.setOffChartCaching(true)<br />
+  <br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; '//--------------------------------------------------------</span></p>
+      <p>%&gt;<br />
+        &lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;Multiple Charts Using FusionCharts ASP Class&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' Render First Chart with JS embedding Method</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Call FC.renderChart(false)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' Render Second Chart with JS embedding Method</span><br />
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Call FC2.renderChart(false)</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's go through the steps involved in this code:
+      <ul type="disc">
+        <li>Include       <span class="codeInline">FusionCharts_Gen.asp</span>.<br />
+           <br />
+        </li>
+        <li>Create object for the <strong>First Chart</strong>     that shows weekly revenue report.<br />
+           <br />
+        <span class="codeInline">Call FC = new FusionCharts</span><br/><br/></li>
+        <li>Specify the chart type <br/><br/>
+          <span class="codeInline">Call FC2.setChartType(&quot;Column3D&quot;)</span><br />
+          <br />
+          </li><li>Specify the chart size <br/>
+          <br/>
+          <span class="codeInline">Call FC2.setChartSize(&quot;300&quot;,&quot;250&quot;)</span><br/>
+          <br/>
+        </li>
+        <li>Set relative path for the SWF file.<br />
+           <br />
+          <span class="codeInline">Call FC.setSWFPath(&quot;../FusionCharts/&quot;)</span><br />
+          <br />
+        </li>
+        <li> Set        attributes for the first chart using <span class="codeInline">setChartParams()</span> function. <br />
+           <br />
+          <span class="codeInline"> strParam=&quot;caption=Weekly Sales;subcaption=Revenue;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;;<br />
+          <br />
+          Call FC.setChartParams(strParam);</span><br />
+        <br />
+        </li>
+        <li>Add       data values for this chart.<br />
+           <br />
+          <span class="codeInline">Call FC.addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;,&quot;&quot;)<br />
+        Call FC.addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;,&quot;&quot;)</span><br />
+        <br />
+        </li>
+        <li>Now, the same steps are repeated for the <strong>Second Chart</strong>, i.e., the 'Units Sold' chart. First, create object for the chart.<br />
+            <br />
+            <span class="codeInline">Call FC = new FusionCharts</span><br/>
+          <br/>
+        </li>
+        <li>Specify the chart type <br/>
+            <br/>
+            <span class="codeInline">Call FC2.setChartType(&quot;Column3D&quot;)</span><br /><br/>
+            </li><li>Specify the chart size <br/>
+            <br/>
+            <span class="codeInline">Call FC2.setChartSize(&quot;300&quot;,&quot;250&quot;)</span><br/><br/>
+        </li>
+        <li>Set relative path for the SWF file.<br />
+           <br />
+          <span class="codeInline">Call FC2.setSWFPath(&quot;FusionCharts/&quot;)</span><br />
+          <br />
+        </li>
+        <li>Set        attributes for the first chart using <span class="codeInline">setChartParams()</span> function. <br />
+           <br />
+          <span class="codeInline">strParam=&quot;caption=Weekly Sales;subcaption=Quantity;xAxisName=Week;yAxisName=Quantity;decimalPrecision=0&quot;;<br />
+          <br />
+        Call FC2.setChartParams(strParam);</span><br />
+        <br />
+        </li>
+        <li>Add       data values for the second chart.<br />
+           <br />
+          <span class="codeInline">Call FC2.addChartData(&quot;32&quot;,&quot;label=Week 1&quot;,&quot;&quot;)<br />
+          Call FC2.addChartData(&quot;35&quot;,&quot;label=Week 2&quot;,&quot;&quot;)<br />
+          Call FC2.addChartData(&quot;26&quot;,&quot;label=Week 3&quot;,&quot;&quot;)<br />
+        Call FC2.addChartData(&quot;44&quot;,&quot;label=Week 4&quot;,&quot;&quot;)</span><br />
+        <br />
+        </li>
+        <li>Include        <span class="codeInline">FusionCharts.js</span>.<br />
+           <br />
+        </li>
+        <li>Finally, render both the  charts using <span class="codeInline">renderChart()</span> function.<br />
+           <br />
+          <span class="codeInline">Call FC.renderChart(false)<br />
+        Call FC2.renderChart(false)</span><br />
+        <br />
+        <br />
+        </li>
+    </ul>    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts ASP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the output. Both the charts have been rendered on the same page.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassMultiCharts.jpg" width="304" height="491" class="imageBorder" />&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><strong>NOTE: ASP automatically generates an ID using Session and assigns it to the chart. This id is generated using a counter variable kept in session. Hence, one every page refresh new ID would be assigned to chart. One should provide anID, using <span class="codeInline">setID()</span> function, if one wishes to interact with the chart later using JavaScript APIs like setDataXML(), setDataURL(), print(), saveAsImage() etc.</strong></td>
+  </tr>
+</table>
+</body>
+</html>

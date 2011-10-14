@@ -1,0 +1,17 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../FusionCharts/Column2D.swf", "myChartId", "550", "450", "1", "0");
+	//We've commented the line below. Change Data.xml in this folder to Data1.xml and then run this page.
+	//myChart.setDataURL("Data.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

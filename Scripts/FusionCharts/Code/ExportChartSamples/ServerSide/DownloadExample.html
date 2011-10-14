@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>
+	FusionCharts Server-side Export Sample
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "600", "300", "0", "1");
+	myChart.setDataURL("DownloadData.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

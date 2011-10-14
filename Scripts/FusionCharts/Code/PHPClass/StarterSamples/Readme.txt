@@ -1,0 +1,1 @@
+Please copy the chart SWF files from the Download Pack >> Charts folder. 

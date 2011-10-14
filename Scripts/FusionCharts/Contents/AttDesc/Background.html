@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Border &amp; Background  </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Background refers to the entire   background of the chart.</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Bg_1.jpg" width="410" height="230" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Bg_2.jpg" width="410" height="230" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing Background colors </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The background color of the chart is fully customizable. You can use either a solid or a gradient fill using the attributes below:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1" class="greyBorderTd">
+      <tr bordercolor="f1f1f1">
+        <td width="15%" valign="top" class="textBold"><p align="left">Attribute</p></td>
+        <td width="60%" valign="top" class="textBold"><p align="left">Description</p></td>
+        <td width="25%" valign="top" class="textBold"><p align="left">Example</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgColor</td>
+        <td width="60%" class="text">Lets you set the background color for the chart. Use hex color    code without #. To use a gradient fill, specify all the colors required for the gradient fill separated by commas here. </td>
+        <td width="25%" valign="top" class="codeInline">bgColor="647881"<br /></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgAlpha</td>
+        <td width="60%" class="text">Lets you set the    alpha (transparency) for the background. Valid range is from 0-100. </td>
+        <td width="25%" valign="top" class="codeInline">bgAlpha="40"</td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example: <span class="codeInline">&lt;chart bgColor='999999,FFFFFF' bgAlpha='50' ...&gt;</span> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing Chart Border </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also have a border around the chart. By default, the border is on in 2D charts and off in 3D Charts.</p>
+      <p>Shown below is a chart with a border around the chart.</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_5.jpg" width="406" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The following attributes let you control the cosmetic properties of the chart border: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1" class="greyBorderTd">
+      <tr bordercolor="f1f1f1">
+        <td width="15%" valign="top" class="textBold"><p align="left">Attribute</p></td>
+        <td width="60%" valign="top" class="textBold"><p align="left">Description</p></td>
+        <td width="25%" valign="top" class="textBold"><p align="left">Example</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">showBorder</td>
+        <td width="60%" valign="top" class="text">Whether to show a border around the chart or not. By default, it's set to 1 in 2D charts and 0 in 3D charts. </td>
+        <td width="25%" valign="top" class="codeInline">showBorder="1"<br /></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">borderColor</td>
+        <td width="60%" valign="top" class="text">Border color of the chart.</td>
+        <td width="25%" valign="top" class="codeInline">borderColor="1D8BD1"</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">borderThickness</td>
+        <td width="60%" valign="top" class="text">Border    thickness of the chart (in pixels) </td>
+        <td valign="top" class="codeInline">borderThickness="2"</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">borderAlpha</td>
+        <td width="60%" valign="top" class="text">Border    alpha of the chart.</td>
+        <td valign="top" class="codeInline">borderAlpha="60"</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">XML Example: <span class="codeInline">&lt;chart ... showBorder='1' borderColor='FF0000' borderThickness='2' borderAlpha='50' ..&gt; </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using gradient fill for background </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When using a gradient fill for the background, you can set the alpha, ratio in which colors are to be distributed and the angle at which you want to want the gradient to be. The following attributes help you do the same: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1" class="greyBorderTd">
+      <tr bordercolor="f1f1f1">
+        <td width="15%" valign="top" class="textBold"><p align="left">Attribute</p></td>
+        <td width="60%" valign="top" class="textBold"><p align="left">Description</p></td>
+        <td width="25%" valign="top" class="textBold"><p align="left">Example</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgColor</td>
+        <td width="60%" valign="top" class="text"><p>To fill the background as gradient, you need to define two (or more) colors separated by comma. Use hex code of colors without specifying #. </p>          </td>
+        <td width="25%" valign="top" class="codeInline">bgColor=&quot;99CCFF,FFFFFF&quot; <br />
+          <span class="style4"> or bgColor=&quot;FF5904,FFFDDD,FFFFFF&quot; </span></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgAlpha</td>
+        <td width="60%" valign="top" class="text">For each color code that you've specifed in <span class="codeInline">bgColor</span> attribute, you need to specify a respective alpha (transparency). Separate the alphas by comma. </td>
+        <td width="25%" valign="top" class="codeInline">bgAlpha=&quot;40,100&quot; or bgAlpha=&quot;100,60,100&quot; </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">bgRatio</td>
+        <td valign="top" class="text">Ratio of each color in the gradient on a scale of 100. The total ratios specified as this attribute should sum up to 100. For example, if you want to plot a equi-distant gradient for 2 colors, specify <span class="codeInline">bgRatio</span> as &quot;0,100&quot;. </td>
+        <td valign="top" class="codeInline">bgRatio=&quot;40,60&quot; </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">bgAngle</td>
+        <td valign="top" class="text">Angle of    the gradient fill (in degrees - 0-360). </td>
+        <td valign="top" class="codeInline">bgAngle=&quot;180&quot;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">External Image or SWF File as Background </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also specify an external image (GIF,JPEG or PNG only) or a SWF file as the background of the chart, as shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/bgSWF.jpg" width="490" height="361" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To do so, use the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1" class="greyBorderTd">
+      <tr bordercolor="f1f1f1">
+        <td width="15%" valign="top" class="textBold"><p align="left">Attribute</p></td>
+        <td width="60%" valign="top" class="textBold"><p align="left">Description</p></td>
+        <td width="25%" valign="top" class="textBold"><p align="left">Example</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgSWF</td>
+        <td width="60%" class="text">Lets you specify the URL (with full path) of the background image / SWF File. Make sure that the image and the chart SWF file are in the same sub-domain. </td>
+        <td width="25%" valign="top" class="codeInline">bgSWF=&quot;FruitsPic.jpg&quot;</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">bgSWFAlpha</td>
+        <td width="60%" class="text">You can configure the alpha of the background (loaded) image using this property. </td>
+        <td width="25%" valign="top" class="codeInline">bgSWFAlpha=&quot;40&quot;</td>
+      </tr>
+    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting background as transparent  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you wish to set your chart background as transparent in the HTML page, you need to follow these steps:</p>
+      <ol>
+        <li>In the chart's XML data, set <span class="codeInline">&lt;chart ... bgAlpha='0,0' ..&gt;</span></li>
+        <li>In the HTML code that embeds the chart, set <span class="codeInline">myChart.setTransparent(true)</span> as under:</li>
+      </ol>
+    <p class="codeInline">&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The  chart will appear within this DIV. This text will be replaced by the  chart.&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../FusionCharts/Column3D.swf&quot;,           &quot;myChartId&quot;, &quot;900&quot;, &quot;300&quot;, &quot;0&quot;,           &quot;0&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;Data.xml&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>myChart.setTransparent(true);</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+&lt;/div&gt;</p>
+    <p>Shown below is an example, where a 2D Column Chart has been embedded in an HTML page with background image. Also, the canvas has been made transparent to highlight the effect. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/TransChart.jpg" width="462" height="355" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects to background </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply effects to background using STYLES. Shown below is an example where we've applied Bevel effect to the background: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Bg_3.jpg" width="412" height="213" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">XML for this can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myBevel' type='Bevel'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Background' styles='myBevel'  /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+        &lt;/chart&gt;<br />
+    </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying animation to background </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using STYLES, you can also apply animation to background. For example, the XML below creates a fade-in effect for the background. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;<strong>&nbsp;&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myBgAnim' type='Animation' param='_alpha' start='0' duration='1'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Background' styles='myBgAnim' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

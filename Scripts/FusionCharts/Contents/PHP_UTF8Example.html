@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td><h2 class="pageHeader">Using FusionCharts with PHP &gt; Using Multilingual Text</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let us now see how we can show multilingual text in FusionCharts using PHP. FusionCharts supports  UTF-8 (Unicode Transformation Format-8) encoded multilingual character set. </p>
+      <p>In this section we will be discussing three different methods to add multilingual text in FusionCharts. These are :</p>
+      <ol>
+        <li>Using simple dataXML method,</li>
+        <li>Using Simple dataURL method and</li>
+        <li>Using data from database (using dataURL method)</li>
+      </ol>
+      <p><strong>Before you proceed with the contents in this page, we recommend you to go through the section &quot;Basic Examples&quot; and 
+        &quot;<a href="JSP_DB.html">Plotting from Database Example</a>&quot;, as we'll directly use a lot of concepts defined in those sections.</strong></p>
+      <p class="highlightBlock">The code examples contained in this page are present 
+        in <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; UTF8Examples </span> folder. <br />
+        The  Access database used in this example is  present in <span class="codeInline">Download 
+        Package &gt; Code &gt; PHP &gt;</span> <span class="codeInline">DB</span>. <br />
+        The data-sources referred by the examples are present 
+        in the <span class="codeInline">Download Package &gt; Code &gt; PHP &gt; UTF8Examples &gt; Data</span> folder.</p>
+      <p class="text">&nbsp;</p>
+      <p class="text"><span class="header">Things to remember before we start </span></p>
+      <p>FusionCharts requires UTF-8 encoded XML to have byte-order mark at the header of the XML file. So, to display UTF-8  characters in your charts, you need to stamp the UTF-8  encoded XML file with a byte-order mark.<br />
+      </p>
+      <p><strong>WARNING</strong><br />
+        Do not rely on specifying the encoding for your XML file  in the XML header region.</p>
+      <p class="codeBlock">&lt;?xml version=&quot;1.0&quot; <del>encoding=&quot;UTF-8&quot;</del>?&gt;</p>
+      <p>The thumb rule - UTF-8 BOM stamp in the header is a MUST. </p>
+      <p class="highlightBlock"> FusionCharts supports only left-to-right languages as of now. It doesn't have native support for right-to-left languages like Hebrew. So, if you want to use Hebrew with FusionCharts, you'll have to programmatically change the text sequence and then provide the data to FusionCharts.</p>
+      <p>&nbsp;</p>
+      <p><span class="header">The data source to be used</span></p>
+      <p>The data to be used is almost equivalent to the one used in the <strong>Basic Examples</strong> section, except for the fact that this one contains mult-lingual UTF-8 characters.</p>
+      <p class="codeBlock">&lt;chart caption='Monthly Sales Summary' subcaption='For the year 2008'<br />
+        xAxisName='Month' yAxisName='Sales' numberPrefix='$' showNames='1'<br />
+        showValues='0' showColumnShadow='1' animation='1'<br />
+        baseFontColor='666666' lineColor='FF5904' lineAlpha='85'<br />
+        valuePadding='10' labelDisplay='rotate' useRoundEdges='1'&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='janu&aacute;ri' value='17400' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Fevru&aacute;rios' value='19800' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='&#1605;&#1575;&#1585;&#1587;' value='21800' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='&#1571;&#1576;&#1585;&#1610;&#1604;' value='23800' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='&#20116;&#26376;' value='29600' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='&#20845;&#26376;' value='27600' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='&#1514;&#1460;&#1468;&#1513;&#1473;&#1512;&#1460;&#1497;' value='31800' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Mare&scaron;w&#257;n' value='39700' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='sett&egrave;mbre' value='37800' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='ott&agrave;gono' value='21900' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='nov&egrave;mbre' value='32900' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='d&eacute;cembre' value='39800' /&gt;<br />
+<br />
+&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCaptionFont' type='font' size='12'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='datalabels' styles='myCaptionFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&lt;/styles&gt;<br />
+&lt;/chart&gt;</p>
+      <p><span class="header">Using dataXML method</span></p>
+      <p>We will be modifying our previous example file <span class="codeInline">dataXML.php</span> present in the <span class="codeInline">BasicExample</span> folder. The two files are almost equivalent except for the fact that our file will be marked with a byte order mark and will have UTF-8 characters. To insert the byte order mark-
+      <ol>
+        <li>Open  the file in question in a text-editor that supports UTF-8 encoding with BOM  stamp (Example &ndash; Windows Notepad).</li>
+        <li>Open  the save menu and specify file name, file type, encoding and BOM mark (if the  option is available).</li>
+        <li>Save  the file.</li>
+      </ol>
+      </p>      The way the chart data is rendered and created is the same as the base example. The only difference is that this data contains multi-lingual UTF-8 characters.
+      The modified file is <span class="codeInline">dataXML.php</span> file present at the <span class="codeInline">UTF8Examples</span> folder.
+      <p>&nbsp;</p>
+      <p><span class="header">Using dataURL method</span></p>
+      <p>We will be modifying our previous example file <span class="codeInline">SimpleChart.php</span> present in the <span class="codeInline">BasicExample</span> folder. In fact, no modifications will be made to this file but rather to the <span class="codeInline">Data.xml</span> file present in the <span class="codeInline">Data</span> folder. For the <span class="codeInline">dataURL</span> method of providing chart data, the URL data source must begin with the BOM stamp. We apply the BOM stamp in the same way as we did in the <span class="codeInline">dataXML</span> method. You can get the modified file in the <span class="codeInline">UTF8Examples/Data</span> folder as <span class="codeInline">Data.xml</span>.</p>
+      <p class="text">&nbsp;</p>
+      <p><span class="header">Database as data-source</span></p>
+      <p>For this example we have added 'monthly_utf8' table to our <span class="codeInline">FactoryDB</span> schema. The table holds the attribute fields 'month_name' and 'amount', of which 'month_name' contains UTF-8 characters.The data reterieval and encoding process is the same as our previous example <span class="codeInline"> BasicDBExample.php</span> in the <span class="codeInline">DBExample</span> folder. We just need to add a BOM mark before outputting any data.</p>
+      <p class="codeBlock">&lt;?php<br />
+        <br />
+        ...<br />
+        <br />
+        <span class="codeComment">//Set Proper output content-type</span><br />
+        header('Content-type: text/xml');<br />
+        <br />
+        <span class="codeComment">// Write BOM </span><br />
+        echo pack ( &quot;C3&quot; , 0xef, 0xbb, 0xbf );<br />
+        <br />
+        ...<br />
+        <br />
+        ?&gt;</p>
+      <p>The above code sets the content type and writes the byte order mark. The modified file is in the <span class="codeInline">UTF8Examples/Data</span> folder as <span class="codeInline">getXMLFromDatabase_writeBOM.php</span>.</p>
+      <p><span class="header">The chart with UTF-8 characters</span></p>
+      <p>The image below shows our sample chart rendered with UTF-8 characters.</p>
+      <p><img src="Images/utf8_chart.jpg" alt="Chart with UTF-8 characters" width="502" height="402" /></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

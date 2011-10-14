@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Divisional Lines </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Divisional lines are horizontal lines running through the canvas. They break   up the y axis into smaller units helping in better visual data interpretation.</p>
+      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines1.jpg" width="238" height="252" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML code going into the above is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;....<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Note that we haven't specified the number of div lines we want, nor the y-axis min or max value. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adjusting divisional lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In certain cases, you would want to explicitly specify the y-axis upper &amp; lower limit values and also the number of divisional lines. In those cases, you need to disable automatic adjustment of divisional lines using <span class="codeInline">adjustDiv='0'</span>. Then you can specify the y-axis upper and lower limits using the <span class="codeInline">yAxisMaxValue</span> and <span class="codeInline">yAxisMinValue</span> attributes respectively. Also, the number of divisional lines can be specified using the <span class="codeInline">numDivLines</span> attribute. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart ... adjustDiv='0' yAxisMaxvalue='100' yAxisMinValue='0' numDivLines='5'&gt; </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Hiding y-axis values </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="text">You can hide all the y-axis values using <span class="codeInline">showYAxisValues='0'</span>.</p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0' <strong>showYAxisValues='0'</strong>&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;....<br />
+&lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above would yield the following result:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/yaxisvalues1.jpg" width="141" height="246" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Skipping y-axis values </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="text">You can skip every nth y-axis value using <span class="codeInline">the yAxisValuesStep </span>attribute. </p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0' <strong>yAxisValuesStep='2'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now the chart would look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/yaxisvalues2.jpg" width="171" height="238" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Customizing the divisional lines </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="text">The looks of the divisional lines can be customized using the following attributes: </p>
+      <table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+        <tr class="trAttHeader">
+          <td><span class="textBold"> Attribute Name </span> </td>
+          <td><span class="textBold"> Range </span> </td>
+          <td><span class="textBold"> Description </span> </td>
+        </tr>
+        <tr class='trLightBlueBg'>
+          <td width="25%" valign="top" class="codeInline"><span class="codeInline"> divLineColor </span> </td>
+          <td width="15%" valign="top"><span class="text"> </span> </td>
+          <td width='45%' valign='top'><span class="text"> Color for divisional lines (without the '#') </span></td>
+        </tr>
+        <tr class="tableGreyBorder">
+          <td width="25%" valign="top" class="codeInline"><span class="codeInline"> divLineThickness </span> </td>
+          <td width="15%" valign="top"><span class="text"> 1-5 </span> </td>
+          <td width='45%' valign='top'><span class="text"> Thickness of divisional lines </span> </td>
+        </tr>
+        <tr class='trLightBlueBg'>
+          <td width="25%" valign="top" class="codeInline"><span class="codeInline"> divLineAlpha </span> </td>
+          <td width="15%" valign="top"><span class="text"> 0-100 </span> </td>
+          <td width='45%' valign='top'><span class="text"> Alpha of divisional lines. </span> </td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart ... <strong>divLineColor='8CB1FF' divLineThickness='2' divLineAlpha='40'</strong>&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This would yield the following result:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines3.jpg" width="180" height="115" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Dashed divisional lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The divisional line can be made dashed using<span class="codeInline"> divLineIsDashed='1'. </span></p>
+      <p>The dash properties - dash length and dash gap can be customized using the <span class="codeInline">divLineDashLen</span> &amp; <span class="codeInline">divLineDashGap</span> attributes respectively. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>divLineIsDashed='1' divLineDashLen='1' divLineDashGap='2</strong>' ...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The dashed div lines with the customized dash properties would look as shown below:  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines2.jpg" width="180" height="115" /></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Alternate Horizontal Grid Bands </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The horizontal grid bands appear alternately between the divisional lines for all 2D charts. They can be hidden by setting <span class="codeInline">showAlternateHGridColor='0'</span>.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart showAlternateHGridColor='0' ...&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart without the alternate horizontal grid bands would look as under:  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines4.jpg" width="238" height="249" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the horizontal grid bands </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The color and alpha of the alternate horizontal grid bands can be customized using the <span class="codeInline">alternateHGridColor</span> and <span class="codeInline">alternateVGridAlpha</span> attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to set font properties for y-axis values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using Styles, you can individually set the font properties for the y-axis values. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines5.jpg" width="400" height="250" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myValuesFont' type='font' font='Arial' size='12' color='666666' bold='1'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='YAXISVALUES' styles='myValuesFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects to div lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We can apply effects (shadow, glow, blur, bevel) to the y-axis values and div lines using STYLES. Here, we will see a chart having shadow for the div lines. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines6.jpg" width="400" height="250" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='shadow' angle='45' distance='3' color='000000'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DIVLINES' styles='myShadow' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Similarly, the other effects can be applied to the div lines and to the y-axis values as well. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Animating div lines &amp; y-axis values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also apply animation effects to the div lines &amp; y-axis values. In the XML given below, the x-Scale of the div lines will be animated and y-position of the y-axis values will be animated. </p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim1' type='animation' param='_xScale' start</strong><strong>='0' duration='1'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim2' type='animation' param='_y' start</strong><strong>='$canvasStartY' duration='1'/&gt;</strong><strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DIVLINES' styles='myAnim1' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='YAXISVALUES' styles='myAnim2' /&gt;</strong><strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+&lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="header">Animating alternate horizontal grid bands </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Animation effects can be applied to the alternate horizontal grid using STYLES. The following XML would animate the x-Scale and the alpha of the horizontal grid bands. </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim1' type='animation' param='_xScale' start</strong><strong>='0' duration='1'/&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim2' type='animation' param='_alpha' start</strong><strong>='0' duration='1'/&gt;</strong><strong><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='HGRID' styles='myAnim1, myAnim2' /&gt;
+          </strong><strong><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+</table>
+</body>
+</html>

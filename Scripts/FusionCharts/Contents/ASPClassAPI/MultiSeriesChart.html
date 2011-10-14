@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Creating Multi-series Chart </h2></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">
+      <p>To plot multiple datasets we use Multiseries charts.  Consider the Weekly Sales chart for two consecutive months. Here, for each week, we have two sets of data coming from current month and previous month. </p>
+    </td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">Let's examine the following data for a multi-series chart.</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">
+	  	<table width="300px" cellspacing="0" cellpadding="5" class="text" style="border:1px solid #cccccc;">
+        <tr >
+           <td width="25%" height="24" class="borderBottom"><strong>Week</strong></td>
+           <td width="35%"  class="borderBottom"><div align="right"><strong>Current Month </strong></div></td>
+           <td width="40%" class="borderBottom"><div align="right"><strong>Previous Month </strong></div></td>
+        </tr>
+        <tr>
+           <td height="22" class="borderBottom">&nbsp;</td>
+           <td class="borderBottom"><div align="right"><strong>Sales </strong></div></td>
+           <td class="borderBottom"><div align="right"><strong>Sales </strong></div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 1 </td>
+           <td class="borderBottom"><div align="right">$40800</div></td>
+           <td class="borderBottom"><div align="right">$38300</div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 2 </td>
+           <td class="borderBottom"><div align="right">$31400</div></td>
+           <td class="borderBottom"><div align="right">$28400</div></td>
+        </tr>
+        <tr>
+           <td height="25" class="borderBottom">Week 3 </td>
+           <td class="borderBottom"><div align="right">$26700</div></td>
+           <td class="borderBottom"><div align="right">$15700</div></td>
+        </tr>
+        <tr>
+           <td height="25">Week 4 </td>
+           <td><div align="right">$54400</div></td>
+           <td><div align="right">$48100</div></td>
+        </tr>
+     </table>     </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassMultiSeries.jpg" width="449" height="336" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to please see   the previous page &quot;Creating First Chart &quot; as we start off from concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's go through the following code that builds the multi-series chart shown above: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@LANGUAGE=&quot;VBSCRIPT&quot;%&gt;<br />
+      &lt;%<br />
+      <span class="codeComment">&nbsp;&nbsp; ' Include FusionCharts ASP Class</span><br />
+%&gt; <br />
+&lt;!--#include file=&quot;../Class/FusionCharts_Gen.asp&quot;--&gt;<br />
+&lt;%<br />
+<br />
+&nbsp;&nbsp;&nbsp;
+dim FC<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create FusionCharts ASP class object</span><br />
+&nbsp;&nbsp;&nbsp;
+set FC = new FusionCharts<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart type to Multiseries Column3D chart</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setChartType(&quot;MSColumn3D&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart size</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSize(&quot;450&quot;,&quot;350&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set the relative path of the swf file</span><br />
+&nbsp;&nbsp;&nbsp;
+call FC.setSWFPath(&quot;../FusionCharts/&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp; dim strParam<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Define chart attributes</span><br />
+       &nbsp;&nbsp;&nbsp; strParam=&quot;caption=Weekly Sales;subcaption=Comparison;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart attributes </span><br />
+     &nbsp;&nbsp;&nbsp; call FC.setChartParams(strParam)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add category names</span><br />
+       &nbsp;&nbsp;&nbsp; call FC.addCategory(&quot;Week 1&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addCategory(&quot;Week 2&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addCategory(&quot;Week 3&quot;, &quot;&quot;, &quot;&quot;)<br />
+     &nbsp;&nbsp;&nbsp; call FC.addCategory(&quot;Week 4&quot;, &quot;&quot;, &quot;&quot;)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create a new dataset </span><br />
+       &nbsp;&nbsp;&nbsp; call FC.addDataset(&quot;This Month&quot;, &quot;&quot;)<br />
+       <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values for the above dataset</span><br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;40800&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;31400&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;26700&quot;, &quot;&quot;, &quot;&quot;)<br />
+     &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;54400&quot;, &quot;&quot;, &quot;&quot;)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create second dataset </span><br />
+       &nbsp;&nbsp;&nbsp; call FC.addDataset(&quot;Previous Month&quot;, &quot;&quot;)<br />
+       <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values for the second dataset</span><br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;38300&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;28400&quot;, &quot;&quot;, &quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;15700&quot;, &quot;&quot;, &quot;&quot;)<br />
+     &nbsp;&nbsp;&nbsp; call FC.addChartData(&quot;48100&quot;, &quot;&quot;, &quot;&quot;)</p>
+      <p>%&gt;</p>
+      <p>&lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;Multi-series Chart : Using FusionCharts ASP Class&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' Render Chart with JS embedding Method</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call FC.renderChart(false)<br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;<br />
+      </p>
+      <p>&nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above code, we're doing the following:</p>
+      <ul type="disc">
+        <li>We include <span class="codeInline">FusionCharts_Gen.asp</span>.<br />
+           <br />
+        </li>
+        <li>We create       an object for Multi-series Column3D chart and set relative file path to the SWF file.<br />
+               <br />
+                  <span class="codeInline"> set FC = new FusionCharts<br />
+                  Call FC.setChartType(&quot;MSColumn3D&quot;)<br/>
+                  Call FC.setChartSize(&quot;450&quot;,&quot;350&quot;)<br/>
+              Call FC.setSWFPath(&quot;../FusionCharts/&quot;)<br />
+                  </span><br />
+        </li>
+        <li>We store       chart attributes in <span class="codeInline">strParam</span> variable and pass it to <span class="codeInline"> setChartParams()</span> function. It       sets chart attributes.<br />
+           <br />
+</li>
+        <li>For multi-series charts, we need to add the category names separately using <span class="codeInline">addCategory()</span> function. <br />
+           <br />
+          <span class="codeInline">Call FC.addCategory(&quot;Week 1&quot;,&quot;&quot;,&quot;&quot;)<br />
+          Call FC.addCategory(&quot;Week 2&quot;,&quot;&quot;,&quot;&quot;)<br />
+          Call FC.addCategory(&quot;Week 3&quot;,&quot;&quot;,&quot;&quot;)<br />
+        Call FC.addCategory(&quot;Week 4&quot;,&quot;&quot;,&quot;&quot;)</span><br />
+        <br />
+        </li>
+        <li>Now, we need to define the first dataset. Hence, we call <span class="codeInline">addDataset() </span>function. We set the dataset's name as 'This Month'.<br />
+           <br />
+          <span class="codeInline">Call FC.addDataset(&quot;This Month&quot;) <br />
+          <br /></span></li>
+			 <li>We provide chart data specific to the above dataset. Remember to provide chart data just after the dataset is defined. Unlike single series charts (as we saw in the First Chart example), we need not specify other chart parameters here. <br /> 
+			    <br />
+        <span class="codeInline">
+          Call FC.addChartData(&quot;40800&quot;,&quot;&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;31400&quot;,&quot;&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;26700&quot;,&quot;&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;54400&quot;,&quot;&quot;,&quot;&quot;)</span><br />
+          <br />
+        Please note that as we have 4  categories, we have entered 4 values for the dataset 'This Month'.<br />
+        <br />
+			 </li>
+        <li>Next, we create the second dataset for 'Previous Month' and provide its data values. <br />
+           <br />
+          <span class="codeInline">Call FC.addDataset(&quot;Previous Month&quot;) <br />
+  Call FC.addChartData(&quot;38300&quot;,&quot;&quot;,&quot;&quot;)<br />
+  Call FC.addChartData(&quot;28400&quot;,&quot;&quot;,&quot;&quot;)<br />
+  Call FC.addChartData(&quot;15700&quot;,&quot;&quot;,&quot;&quot;)<br />
+  Call FC.addChartData(&quot;48100&quot;,&quot;&quot;,&quot;&quot;)</span><br />
+  <br />
+        </li>
+        <li>We add       <span class="codeInline">FusionCharts.js</span>.<br />
+           <br />
+        </li>
+        <li> Finally, we render the chart.<br />
+           <br />
+          <span class="codeInline">Call FC.renderChart(false)</span></li>
+      </ul>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts ASP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And the Multi-series chart is ready! </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassMultiSeries.jpg" width="449" height="336" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

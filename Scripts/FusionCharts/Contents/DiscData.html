@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Plotting Discontinuous data </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>You might often want to plot charts with incomplete data points - i.e.,   missing data. For example, when plotting a monthly sales chart, you might not have   data for all the months. So, you might just want to indicate the missing data with a   blank space on the chart not plotting anything at that particular place. FusionCharts lets you do this very easily.</p>
+      <p>Consider the following XML:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='473' /&gt; <br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May'  /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' /&gt; </strong><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug' value='457' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep' value='127' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='485' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='486' /&gt; <br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we do not have data for May and June. So, we're not providing any value attribute for the same. The chart will look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart.jpg" alt="" width="462" height="211" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can see that there are no columns for May and June in this chart. </p>
+    <p>If you run the same data against a line chart, you'll see the following output:   </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart2.jpg" width="455" height="211" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The line chart shows a break for May and Jun as there's no data for the same. If you do not even have data labels for the missing data, you can write empty set elements for the missing data as under:</p>
+      <p class="codeInline">&lt;set /&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Connecting Null Data </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In our above line chart, we were showing a break for the month May and June. If you do not want to show this break for May and Jun, and want April to directly connect to July, you can do so using the newly introduced <span class="codeInline">connectNullData</span> attribute in v3. </p>
+      <p>To do so, you just need to set <span class="codeInline">&lt;chart ... connectNullData='1' ..&gt;</span> and the chart will now look as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart3.jpg" width="456" height="204" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This attribute is valid for all the line and area charts. </p>
+      <p>Full XML data for chart reproduced again: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart showValues='0' connectNullData='1'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='473' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May'  /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug' value='457' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep' value='127' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='485' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='486' /&gt; <br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Or, if you want to highlight this break while connecting, you can use the dashed feature as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart showValues='0' connectNullData='1' lineDashGap='6'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='473' <strong>dashed='1'</strong>/&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May'  /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug' value='457' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep' value='127' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='354' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='485' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='486' /&gt; <br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This will yield the following chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DiscChart4.jpg" width="458" height="208" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<HTML>
+	<HEAD>
+		<TITLE>FusionCharts &amp; JavaScript -  Combi3D chart - View 3D Example</TITLE> 
+		
+		<SCRIPT LANGUAGE="Javascript" SRC="../../JSClass/FusionCharts.js"></SCRIPT>
+		<SCRIPT LANGUAGE="JavaScript">
+			function getAngles()
+			{
+				 //Get chart from its ID
+				var chartToView3D = getChartFromId("chart1Id");
+				var vAngles=chartToView3D.getViewAngles();
+				alert("X :"+ vAngles.xAng + ", Y :"+ vAngles.yAng);
+			}
+		</SCRIPT>
+		
+	</HEAD>
+	<BODY>
+	   <CENTER>
+	   <h2>FusionCharts and JavaScript - Combi3D chart - Get View Angles</h2>
+	
+	   <div id="chart1div">
+		  FusionCharts
+	   </div>
+	   <script language="JavaScript"> 
+			var chart1 = new FusionCharts("../FusionCharts/MSCombi3D.swf", "chart1Id", "400", "300", "0", "1"); 
+			chart1.setDataXML("<chart ><categories><category label='A' /></categories><dataset><set label='A' value='10' /></dataset><dataset><set label='B' value='11' /></dataset></chart>");
+			chart1.render("chart1div");
+	   </script>
+	   
+	   <input type='button' value='Get Current Angles' onClick='getAngles();'>
+		
+	   </CENTER>
+	</BODY>
+</HTML>

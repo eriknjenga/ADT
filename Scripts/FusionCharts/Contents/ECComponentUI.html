@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Client-side export &gt; Component UI </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As we've already seen earlier, the Export Component UI has two modes:</p>
+      <ul>
+        <li>Compact Mode - For saving single chart, when one export component instance is present for each chart. In this mode, only a button and caption is visible for saving. </li>
+        <li>Full Mode - For saving multiple charts, either individually or as a single file. In this mode, the user can select which chart to save along with the format.</li>
+      </ul>
+    <p>In both modes, you can customize the colors, fonts and titles of export component. Before we get into the attributes that actually does this, let's first quickly look at what the various elements of the Export Component are. The following diagram highlights the important elements: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/FCExporter_UI.gif" width="797" height="490" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuration attributes </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To configure any of the attributes of Export Component, the same needs to be specified in JavaScript (where the Export Component has been initialized). An example code is shown below: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><br />
+      &lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;<br />
+      &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      <br />
+     &nbsp;&nbsp;&nbsp; var myExportComponent = new FusionChartsExportObject(&quot;fcExporter1&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);<br />
+      <br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; //Customize the component properties <br />
+        &nbsp;&nbsp;&nbsp; //Width and height<br />
+      </span>&nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.width = '400';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.height = '60';<br />
+      <span class="codeComment"><br />
+      &nbsp;&nbsp;&nbsp; //Background color</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.bgColor = 'ffffdd';<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp;      //Border properties</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.borderThickness = '2';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.borderColor = '0372AB';<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; <br />
+      &nbsp;&nbsp;&nbsp; //Font properties</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.fontFace = 'Arial';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.fontColor = '0372AB';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.fontSize = '12';<br />
+      <span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;      //Message - caption of export component</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.showMessage = '1';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.message = 'Export the chart first, and then click on this button to save';<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp;      //Button visual configuration</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnWidth = '200';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnHeight= '25';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnColor = 'E1f5ff';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnBorderColor = '0372AB';<br />
+      <span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;      //Button font properties</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnFontFace = 'Verdana';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnFontColor = '0372AB';<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnFontSize = '15';<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp; <br />
+      &nbsp;&nbsp;&nbsp; //Title of button</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btnsavetitle = 'Save the chart'<br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.componentAttributes.btndisabledtitle = 'Waiting for export'; <br />
+      <span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;      //Render the exporter SWF in our DIV fcexpDiv</span><br />
+      &nbsp;&nbsp;&nbsp; myExportComponent.Render(&quot;fcexpDiv&quot;);<br />
+      <br />
+    &lt;/script&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we've specified various parameters for export component. This is done in the following syntax:</p>
+      <p class="codeInline">Component_Instance.componentAttributes.Parameter_name = 'Value';<br />
+    e.g., myExportComponent.componentAttributes.width = '400';</p>
+    <p><a href="ECReferenceComponent.html">Click here</a> to see the list of attributes that can be customized for this component. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

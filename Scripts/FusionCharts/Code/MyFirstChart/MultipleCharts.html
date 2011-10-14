@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chart1div" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart1 = new FusionCharts("../FusionCharts/Column3D.swf", "myChart1Id", "900", "300", "0", "0");
+	myChart1.setDataURL("Data.xml");
+	myChart1.render("chart1div");
+   </script>
+
+
+<div id="chart2div" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart2 = new FusionCharts("../FusionCharts/Pie3D.swf", "myChart2Id", "500", "300", "0", "0");
+	myChart2.setDataURL("Data.xml");
+	myChart2.render("chart2div");
+   </script>
+
+</body>
+</html>

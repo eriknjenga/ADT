@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+	<TITLE>FusionCharts & JavaScript - Updating chart using setDataURL() Method</TITLE>	
+	<style type="text/css">
+	<!--
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	-->
+	</style>
+	<SCRIPT LANGUAGE="Javascript" SRC="../../FusionCharts/FusionCharts.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript">
+		//updateChart method is called whenever the user clicks the button to
+		//update the chart. Here, we get a reference to the chart and update it's
+		//data using setDataURL method.
+		function updateChart(DOMId){
+			//Get reference to chart object using Dom ID
+			var chartObj = getChartFromId("chart1Id");
+			//Update it's URL
+			chartObj.setDataURL("NewData.xml");			
+			//Disable the button
+			this.document.frmUpdate.btnUpdate.disabled = true;
+		}
+	</SCRIPT>
+</HEAD>
+<BODY>
+	<CENTER>
+		<h2>FusionCharts & JavaScript - Updating chart using setDataURL() Method</h2>
+		
+		<div id="chart1div">
+			FusionCharts
+		</div>
+		<script language="JavaScript">					
+			var chart1 = new FusionCharts("../../FusionCharts/Column3D.swf", "chart1Id", "400", "300", "0", "1");		   			
+			chart1.setDataXML("<chart><set label='A' value='10' /><set label='B' value='11' /></chart>");
+			chart1.render("chart1div");
+		</script>
+		<BR>
+		<form name='frmUpdate'>
+		<input type='button' value='Change Data' onClick='javaScript:updateChart();' name='btnUpdate'>		
+		</form>
+	</CENTER>
+</BODY>
+</HTML>

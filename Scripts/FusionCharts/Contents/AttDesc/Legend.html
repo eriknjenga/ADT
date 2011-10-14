@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Legend  </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In multi-series / combination charts, the series name of each data-set shows up   in the legend of the chart. This helps you relate a data plot to its series name using its color. The legend does not appear for single-series charts because there is only one series in the chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/legend1.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Notice the legend below the chart which helps identify the series name. The XML going into the chart above is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Business Results 2005 v 2006' xAxisName='Month' yAxisName='Revenue' showValues='0' numberPrefix='$'&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;categories&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jan' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Feb' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Mar' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Apr' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='May' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jun' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/categories&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset seriesName='2006'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='27400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='25800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='26800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='32600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset seriesName='2005'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='10000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='12500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='15000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;</p>
+      <p>&lt;/chart&gt; </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The order of items in legend can be reversed by setting: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart reverseLegend='1' ...&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The legend can be placed in 2 positions: RIGHT and BOTTOM. It gets placed below the canvas by default. To place it to the right of the chart canvas, set <span class="codeInline">legendPosition='RIGHT'</span>.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <span class="codeInline"><strong>legendPosition='RIGHT'</strong></span>...&gt;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Hiding the legend </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The legend can be hidden as well using <span class="codeInline">showLegend='0'</span>. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <span class="codeInline"><strong>showLegend='0'</strong></span>...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the legend </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The looks of the legend can be customized using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="text"> legendBgColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> Background color for the legend. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> legendBgAlpha </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> Background alpha for the legend. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="text"> legendBorderColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> Border Color for the legend. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> legendBorderThickness </span> </td>
+        <td width="10%" valign="top"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top'><span class="text"> Border thickness for the legend. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="text"> legendBorderAlpha </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> Border alpha for the legend. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> legendShadow </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0/1 </span> </td>
+        <td width='75%' valign='top'><span class="text"> Whether to show a shadow for legend. </span> </td>
+      </tr>
+      
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> legendScrollBgColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've too many items on the legend, a scroll bar shows up on the same. This attribute lets you configure the background color of the scroll bar. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="text"> legendScrollBarColor </span> </td>
+        <td width="15%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've too many items on the legend, a scroll bar shows up on the same. This attribute lets you configure the bar color of the scroll bar. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> legendScrollBtnColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've too many items on the legend, a scroll bar shows up on the same. This attribute lets you configure the color of buttons of the scroll bar. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to customize the font properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using Styles, the font properties of the legend can be customized. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Business Results 2005 v 2006' xAxisName='Month' yAxisName='Revenue' showValues='0' numberPrefix='$'&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;categories&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jan' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Feb' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Mar' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Apr' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='May' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jun' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/categories&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset seriesName='2006'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='27400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='25800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='26800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='32600' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset seriesName='2005'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='10000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='12500'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='15000'/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9800' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myLegendFont' type='font' size='11' color='639ACE' bold='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Legend' styles='myLegendFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+<br />
+&lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above XML would yield a legend which looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/legend2.jpg" width="138" height="37" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Animation using Styles </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The legend can be animated using Styles. Here, we will give a fade-in effect to the legend. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart ... &gt;</p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;<strong></strong>..... <br />
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim' type='animation' param='_alpha' start='0' duration='1'/&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Legend' styles='myAnim' /&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+        <br />
+        &lt;/chart&gt;</p>    </td>
+  </tr>
+</table>
+</body>
+</html>

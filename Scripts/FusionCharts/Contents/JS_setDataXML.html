@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td valign="top" class="pageHeader">FusionCharts, JavaScript and <span class="codeInline">setDataXML</span> Method  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can change the data of a chart at client side using the <span class="codeInline">setDataXML</span> method of chart. Consider the following code contained in <span class="codeInline">ChangeDataXML.html</span>:</p>
+      <p><span class="highlightBlock">Code examples discussed in this section are present in <span class="codeInline">Download Package &gt; Code &gt; JavaScript  &gt; Basics</span> folder. </span></p>
+    <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts &amp; JavaScript - Updating chart using setDataXML() Method&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//updateChart method is called whenever the user clicks the button to<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//update the chart. Here, we get a reference to the chart and update it's<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//data using setDataXML method.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function updateChart(DOMId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Get reference to chart object using Dom ID</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;chart1Id&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;//Update it's XML</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chartObj.setDataXML(&quot;&lt;chart&gt;&lt;set label='B' value='12' /&gt;&lt;set label='C' value='10' /&gt;&lt;set label='D' value='18' /&gt;&lt;set label='E' value='21' /&gt;&lt;/chart&gt;&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Disable the button</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.document.frmUpdate.btnUpdate.disabled = true;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form name='frmUpdate'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type='button' value='Change Data' onClick='javaScript:updateChart();' name='btnUpdate'&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
+<br />
+&lt;/HTML&gt;<br /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first creating a Column 3D chart with DOM Id as <span class="codeInline">chart1Id</span>. We also register it with JavaScript. We initially provide the following data to the chart and ask it to render:</p>
+    <p class="codeInline">&lt;chart&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;</p>
+    <p>Thereafter, we're creating a button, which when clicked would update the chart with new XML data. The button calls the <span class="codeInline">updateChart()</span> JavaScript function when clicked. </p>
+    <p>The <span class="codeInline">updateChart() </span>JavaScript function has the following code to update the chart: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">function updateChart(DOMId){<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//Get reference to chart object using Dom ID</span><br />
+      &nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;chart1Id&quot;);<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//Update it's XML</span><br />
+      &nbsp;&nbsp;&nbsp;chartObj.setDataXML(&quot;&lt;chart&gt;&lt;set label='B' value='12' /&gt;&lt;set label='C' value='10' /&gt;&lt;set label='D' value='18' /&gt;&lt;set label='E' value='21' /&gt;&lt;/chart&gt;&quot;); <br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//Disable the button</span><br />
+      &nbsp;&nbsp;&nbsp;this.document.frmUpdate.btnUpdate.disabled = true;<br />
+    }</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we first get a reference to the chart using its DOM Id. We use the <span class="codeInline">getChartFromId()</span> JavaScript function to get the reference. </p>
+      <p class="highlightBlock">If you've your chart objects inside <span class="codeInline">&lt;FORM&gt;</span> elements, you CANNOT use <span class="codeInline">getChartFromId()</span> method to get a reference to the chart, as the DOM Hierarchy of the chart object has changed. You'll get a JavaScript &quot;<span class="codeInline">&lt;&lt;ChartId&gt;&gt; is undefined</span>&quot; error. In these cases, you'll manually need to get a reference to the chart object. Or, you can opt to place the chart object outside <span class="codeInline">&lt;FORM&gt;</span> element. </p>
+      <p>Once we've got the reference, we simply call <span class="codeInline">setDataXML</span> method and pass the new XML data to this function. This method forces the chart to read the new XML data and redraw accordingly. Finally, we disable the button, as it has already been clicked once. </p>
+      <p>When you now view this page, you'll first see a Column Chart with 2 columns as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_XML_Ini.jpg" width="387" height="366" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you click on the button, you'll get the following chart, and also the button is now disabled: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_XML_Fin.jpg" width="390" height="355" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The entire thing happens at client side, without any page refreshes or calls to server. </p>
+    <p>Next, we'll see how to update the data of a chart from a given URL, instead of XML.  </p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Server-side export &gt; Saving exported output on server disk </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you do not wish the exported image to be sent back to browser, but instead want it to be saved on the server, you need to make the following changes from the previous example, where the file was downloaded:</p>
+      <ol>
+        <li>Open the server-side export handler and configure the path of write-enabled folder in which images will be saved, as well as set the HTTP URL representation of that folder in the code. The handlers also allow a few advanced configuration with respect to file naming. </li>
+        <li>Change <span class="codeInline">exportAction='save'</span> in the XML</li>
+        <li>Remove <span class="codeInline">exportTargetWindow</span> attribute from your XML. As there are no downloads returned, there is no question of which window to return it in</li>
+        <li>Create a JavaScript method in your web page that gets called once the image has been saved on server. Specify the name of this function in <span class="codeInline">exportCallback</span> attribute of XML. If you do not specify any names here, by default, a JavaScript function named <span class="codeInline">FC_Exported</span> is called. </li>
+      </ol>      
+    <p>Let's first start with Step 1, where you configure the path of your temporary save folder on server and set the HTTP reference for the same. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="textBold">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring the server-side export handlers </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the export handler, you'll need to configure the following:</p>
+      <ul>
+        <li>Configure the folder on your server where the images/PDFs would be saved. Make sure that this folder has proper write permissions, as otherwise the export handlers would not be able to write to the file system. For checking and setting security settings on your server, consult the web server's documentation (i.e., IIS, Apache etc. docs)</li>
+        <li>You need to specify the HTTP mapping of this folder path, if you need your JavaScript functions to directly access this saved images. For example, say you saved your image on the server at <span class="codeInline">c:\inetpub\wwwroot\yoursite\temp</span> (or <span class="codeInline">/users/{you}/www/temp</span>) and the images saved here can be reached through <span class="codeInline">http://www.yoursite.com/temp</span>, you need to specify the URL &quot;<span class="codeInline">http://www.yoursite.com/temp</span>&quot; as mapping HTTP URL for this folder path. </li>
+        <li>Configure the file name settings - by default, FusionCharts export handlers uses GUID for automatic file name generation. At the end of this, you can opt to append current timestamp of server, or a random number to avoid over-riding of any files (in case of thousands of concurrent files being saved at a given second). You can also configure whether the files will be over-written in that folder or not (which is the default). </li>
+      </ul>
+      <p> Depending on which export handler   you're using, follow the steps below: </p>
+      <p class="lightBlueTr">If PHP:</p>
+    <p>Open <span class="codeInline">FCExporter.php</span>, scroll down, and make the changes in following lines: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>/* ----------------------- EXPORT PATH &amp; URI -------------------------------- */</p>
+      <p><span class="codeComment">/**<br />
+        * IMPORTANT: You need to change the location of folder where <br />
+        *            the exported chart images/PDFs will be saved on your <br />
+        *			  server. Please specify the path to a folder with <br />
+        *			  write permissions in the constant SAVE_PATH below. <br />
+        */ </span><br />
+      define ( &quot;SAVE_PATH&quot;,  &quot;./&quot; );<br />
+      <span class="header">/* Place your folder path here.*/</span></p>
+      <p><span class="codeComment">/**<br />
+        *	IMPORTANT: This constant HTTP_URI stores the HTTP reference to <br />
+        *	           the folder where exported charts will be saved. <br />
+        *			   Please enter the HTTP representation of that folder <br />
+        *			   in this constant e.g., http://www.yourdomain.com/images/<br />
+        */</span><br />
+      define ( &quot;HTTP_URI&quot;, &quot;http://www.yourdomain.com/images/&quot; );<br />
+      <span class="header">/* Define your HTTP Mapping URL here.</span> */ </p>
+      <p><span class="codeComment">/**<br />
+*  OVERWRITEFILE sets whether the export handler would overwrite an existing file <br />
+*  the newly created exported file. If it is set to false the export handler would<br />
+*  not overwrite. In this case if INTELLIGENTFILENAMING is set to true the handler<br />
+*  would add a suffix to the new file name. The suffix is a randomly generated UUID.<br />
+*  Additionally, you add a timestamp or random number as additional suffix.<br />
+* <br />
+*/</span><br />
+define ( &quot;OVERWRITEFILE&quot;, false );<br />
+define ( &quot;INTELLIGENTFILENAMING&quot;, true ); <br />
+define ( &quot;FILESUFFIXFORMAT&quot;, &quot;TIMESTAMP&quot; ) ;// can be TIMESTAMP or RANDOM</p>
+      <p><span class="header">/* Define file over-write, auto-naming and naming suffix configuration here.</span> */<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr">If ASP.NET: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Open FCExporter.aspx.cs and edit the following: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p> <span class="codeComment">/// &lt;summary&gt;<br />
+        /// IMPORTANT: You need to change the location of folder where <br />
+        /// the exported chart images/PDFs will be saved on your <br />
+        /// server. Please specify the path to a folder with <br />
+        /// write permissions in the constant SAVE_PATH below. <br />
+        /// <br />
+        /// Please provide the path as per ASP.NET path conventions. <br />
+        /// You can use relative or  absolute path.<br />
+        /// <br />
+        /// Special Cases: <br />
+        ///     '/' means 'wwwroot' directory.<br />
+        ///     '. /' ( without the space after .) is the directory where the FCExporter.aspx file recides.<br />
+        /// <br />
+        /// Absolute Path :<br />
+        /// <br />
+        ///     can be like this : &quot;C:\\myFolders\\myImages&quot; <br />
+        ///     ( Please never use single backslash as that would stop execution of the code instantly)<br />
+        ///     or &quot;C:/myFolders/myImages&quot;<br />
+        /// <br />
+        ///     You may have a // or \ at end : &quot;C:\\myFolders\\myImages\\&quot;  or &quot;C:/myFolders/myImages/&quot;<br />
+        /// <br />
+        ///     You can also have mixed slashes : &quot;C:\\myFolders/myImages&quot; <br />
+        /// <br />
+        /// <br />
+        /// &lt;/summary&gt;<br />
+        /// directory where the FCExporter.aspx file recides</span><br />
+        <br />
+      private const string SAVE_PATH = &quot;./&quot;;<br />
+      <span class="header"><br />
+      /* Place your folder path here.*/</span></p>
+      <p> <span class="codeComment">/// &lt;summary&gt;<br />
+        /// IMPORTANT: This constant HTTP_URI stores the HTTP reference to <br />
+        /// the folder where exported charts will be saved. <br />
+        /// Please enter the HTTP representation of that folder <br />
+        /// in this constant e.g., http://www.yourdomain.com/images/<br />
+        /// &lt;/summary&gt;<br />
+        </span><span class="codeInline">private const string HTTP_URI = &quot;http://www.yourdomain.com/images/&quot;;</span></p>
+      <p><span class="codeComment"> <span class="header">/* Define your HTTP Mapping URL here. */</span><br />
+        /// &lt;summary&gt;<br />
+        /// OVERWRITEFILE sets whether the export handler would overwrite an existing file <br />
+        /// the newly created exported file. If it is set to false the export handler would<br />
+        /// not overwrite. In this case, if INTELLIGENTFILENAMING is set to true the handler<br />
+        /// would add a suffix to the new file name. The suffix is a randomly generated GUID.<br />
+        /// Additionally, you add a timestamp or a random number as additional suffix.</span><br />
+        <span class="codeComment">/// &lt;/summary&gt;</span><br />
+        private bool OVERWRITEFILE = false;<br />
+        private bool INTELLIGENTFILENAMING = true;<br />
+        private string FILESUFFIXFORMAT = &quot;TIMESTAMP&quot;;<span class="codeComment">// value can be either 'TIMESTAMP' or 'RANDOM'</span><br />
+      </p>
+      <p class="codeComment"><span class="header">/* Define file over-write, auto-naming and naming suffix configuration here. */</span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr">If JSP: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Open <span class="codeInline">fusioncharts_export.properties</span> file present in the <span class="codeInline">Classes</span> directory and make changes in the following values there.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">#Please specify the path to a folder with write permissions relative to web application root</span><br />
+SAVEPATH=./images/<br />
+<br />
+<span class="codeComment">#This constant HTTP_URI stores the HTTP reference to <br />
+#the folder where exported charts will be saved. <br />
+#Please enter the HTTP representation of that folder <br />
+#in this constant e.g., http://www.yourdomain.com/images/</span><br />
+HTTP_URI=http://www.yourdomain.com/images/<br />
+<br />
+<span class="codeComment">#OVERWRITEFILE sets whether the export handler would overwrite an existing file <br />
+#the newly created exported file. If it is set to false the export handler would<br />
+#not overwrite. In this case if INTELLIGENTFILENAMING is set to true the handler<br />
+#would add a suffix to the new file name. The suffix is a randomly generated UUID.<br />
+#Additionally, you can add a timestamp or random number as additional prefix.</span><br />
+OVERWRITEFILE=false<br />
+INTELLIGENTFILENAMING=true<br />
+FILESUFFIXFORMAT=TIMESTAMP</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="lightBlueTr">If Ruby on Rails: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"> Open <span class="codeInline">lib/fusioncharts/exporter/properties.rb</span> and make changes in the following values there.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment"> #IMPORTANT: You need to change the location of folder where <br />
+#  the exported chart images/PDFs will be saved on your <br />
+#   server. Please specify the path to a folder with <br />
+#   write permissions in the constant SAVE_PATH below. <br />
+# This path is relative to the web application root</span><br />
+@@SAVEPATH = &quot;./images/&quot;<br />
+<br />
+<span class="codeComment">#Used to show as message in SWF<br />
+#This constant HTTP_URI stores the HTTP reference to <br />
+#the folder where exported charts will be saved. <br />
+#Please enter the HTTP representation of that folder <br />
+#in this constant e.g., http://www.yourdomain.com/images/</span><br />
+@@HTTP_URI = &quot;http://www.yourdomain.com/images/&quot;<br />
+</p>
+      <p><span class="codeComment">=begin<br />
+        ---------------------------- Export  Settings -------------------------------<br />
+        OVERWRITEFILE sets whether the export handler would overwrite an existing file <br />
+        the newly created exported file. If it is set to false the export handler would<br />
+        not overwrite. In this case if INTELLIGENTFILENAMING is set to true the handler<br />
+        would add a suffix to the new file name. The suffix is a randomly generated UUID.<br />
+        Additionally, you add a timestamp or random number as additional suffix.<br />
+        =end</span><br />
+        #Values allowed are true or false<br />
+        @@OVERWRITEFILE = false<br />
+        #Values allowed are true or false<br />
+        @@INTELLIGENTFILENAMING = true<br />
+        #Values allowed are &quot;TIMESTAMP&quot; or &quot;RANDOM&quot;<br />
+      @@FILESUFFIXFORMAT = &quot;TIMESTAMP&quot;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring the XML </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As previously mentioned, we just need to do the following changes to XML:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' <strong>exportEnabled='1' exportAtClient='0' exportAction='save' exportHandler='http://www.yoursite.com/ExportHandlers/FCExporter.php'</strong>&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This instructs the chart to save the exported image on server. </p>
+      <p>Note that we've not provided a file name here. If not provided, it takes the default value of &quot;FusionCharts&quot;. You can, however, specify your file name using <span class="codeInline">exportFileName</span> attribute of <span class="codeInline">&lt;chart&gt;</span> element. However, since in this case, the server path could already have another file name with the same name, the following conditional logic takes place:</p>
+      <ul>
+        <li>If the folder path specified on server doesn't have a file name that matches this file, the image/PDF is created using this file name.</li>
+        <li>However, if another file with the same name exists, the over-writing is dependent on whether you've changed the over-write flag (as described above) in your server-side export handler.
+          <ul>
+              <li>If you've set it to yes, the export handler blindly over-writes the old file.</li>
+            <li>If you've set it no, the new name depends on whether you've opted for smart auto-naming.
+              <ul>
+                    <li>If yes, the new name is decided by combining your specific file name + GUID + time stamp or random value (as chosen by value)</li>
+                <li>If auto-naming is   set to off (when over-write is set to off as well), the export-handler throws an error, as it doesn't have any option left. </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the call back handler </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now that everything else is setup, the only thing left is to define a JavaScript callback function handler. This callback function is invoked when the chart gets a response back from server - in both success and failure cases. </p>
+    <p>To specify your callback function to chart, you need to specify the function name as <span class="codeInline">exportCallback</span> attribute of <span class="codeInline">&lt;chart&gt;</span> element as under: </p>
+    <p class="codeInline">&lt;chart ... exportCallback='myCallBackFunction' ...&gt;</p>
+    <p>And you then need to define this function in your JavaScript code. However, if you do not define any call back function in your XML, the default callback function <span class="codeInline">FC_Exported</span> is invoked. In either case, an object is passed to the function as <span class="codeInline">FC_Exported(objRtn)</span> or <span class="codeInline">myCallBackFunction(objRtn)</span>, which contains the following parameters (returned from server):</p>
+    <ul>
+      <li><span class="codeInline">statusCode</span> - Has the value of 1 in case of success, and 0 in case of failure.</li>
+      <li><span class="codeInline">statusMessage</span> - In case of  failure, this parameter contains a string description of the error (returned by server)</li>
+      <li><span class="codeInline">fileName</span> - If saving was successful, this parameter contains the HTTP reference to the image/PDF file saved on server</li>
+      <li><span class="codeInline">width</span> &amp; <span class="codeInline">height</span> - If saving was successful, these parameters contain the width/height of saved image. Else, they contain 0.  </li>
+      <li><span class="codeInline">DOMId</span> - DOMId of the chart that was successfully exported. </li>
+    </ul>
+    <p>Let's quickly see an example code where a callback function has been implemented. In this example, once we receive the confirmation from server, we just show it in a JavaScript alert. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+    &lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//Callback handler method which is invoked after the chart has saved image on server.</span><br />
+      &nbsp;&nbsp;&nbsp;function FC_Exported(objRtn){ <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (objRtn.statusCode==&quot;1&quot;){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart was successfully saved on server. The file can be accessed from &quot; + objRtn.fileName);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart could not be saved on server. There was an error. Description : &quot; + objRtn.statusMessage);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;}<br />
+  &lt;/script&gt; <br />
+  &lt;/head&gt;</p>
+      <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+         &nbsp;&nbsp;&nbsp;&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//Create the chart. <strong>Make sure registerWithJS is set to 1, else callback cannot happen.</strong></span> <br />
+        &nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../../FusionCharts/Column2D.swf&quot;, &quot;myChartId&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;SaveData.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+  &lt;/body&gt;<br />
+    &lt;/html&gt;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, note how the default <span class="codeInline">FC_Exported</span> method is called once the server-side export of chart is completed. </p>
+    <p>When you run this code, you'll get the following output. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerSave1.jpg" width="583" height="300" /></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">Here, since we've just one chart in the page, we didn't put any if-then block to check the <span class="codeInline">DOMId</span> of the chart. However, if you've multiple charts in a page, you can do use if-then statements (based on DOMId string match) to take a different course of action when each chart in the page has been saved. </td>
+  </tr>
+</table>
+</body>
+</html>

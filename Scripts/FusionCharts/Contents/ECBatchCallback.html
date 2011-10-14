@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Batch export &gt; Setting JavaScript callback </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When exporting charts using batch export component, the component raises 3 events (calls JavaScript methods) during the total course of action:</p>
+      <ul>
+        <li><span class="codeInline">FC_ExportReady(string DOMId)</span> - This is raised when individual charts in the queue have finished capture process and have passed their data to export component.  Between initiation of chart export and till the time <span class="codeInline">FC_ExportReady</span> event is raised, you might show a waiting message/alert to the user that the chart is in processing stage. </li>
+        <li><span class="codeInline">FC_Exported(Object objRtn)</span> - This is raised when the user selects an individual chart from UI to be saved on his disk (not possible when <span class="codeInline">saveMode</span> is set as <span class="codeInline">batch</span>). This method name can be changed by specifying the same in individual chart's XML as <span class="codeInline">exportCallback</span> attribute. </li>
+        <li><span class="codeInline">FC_BatchExported (Object objRtn)</span> - This is raised when the entire batch was saved as a single file on user's disk. </li>
+      </ul>
+      <p>To handle these events, you need to define this function in your JavaScript code. In case of <span class="codeInline">FC_Exported(objRtn)</span> or <span class="codeInline">FC_BatchExported(objRtn)</span>, <span class="codeInline">objRtn</span> contains the following parameters (returned from Export Component):</p>
+      <ul>
+      <li><span class="codeInline">statusCode</span> - Has the value of 1 in case of success, and 0 in case of failure.</li>
+      <li><span class="codeInline">statusMessage</span> - In case of  failure, this parameter contains a string description of the error (returned by server)</li>
+      <li><span class="codeInline">fileName</span> - If saving was successful, this parameter contains the HTTP reference to the image/PDF file saved on server</li>
+      <li><span class="codeInline">width</span> &amp; <span class="codeInline">height</span> - If saving was successful, these parameters contain the width/height of saved image. Else, they contain 0. </li>
+      <li><span class="codeInline">DOMId</span> - In case of Save-All, this parameter contains a list of DOMId of the charts in queue that were successfully exported separated by comma. In case of individual chart saving, it contains that chart's DOM Id. </li>
+    </ul>
+    <p>Let's  quickly see an example code where all the callback functions has been  implemented. In this example, we just track the events and show messages using JavaScript alert. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+      &lt;head&gt;<br />
+&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+      &nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionChartsExportComponent.js&quot;&gt;&lt;/script&gt;<br />
+      &nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Define a function, which will be invoked when user clicks the batch-export-initiate button</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;function initiateExport(){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.BeginExport();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//This event is raised when the chart has finished capture phase and passed the data to <br />
+&nbsp;&nbsp;&nbsp;&nbsp;//Export Component for further processing</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;function FC_ExportReady(DOMId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart with DOM ID as &quot; + DOMId + &quot; has finished capture mode. It's now ready to be downloaded individually&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;} </p>
+      <p> &nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;//This event is raised when an individual chart has been successfully saved on user's disk (post click of button)</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;function FC_Exported(objRtn){<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (objRtn.statusCode==&quot;1&quot;){<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart was successfully saved. Its DOM Id is &quot; + objRtn.DOMId);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;There was an error saving the chart. Error message: &quot; + objRtn.statusMessage + &quot;. Its DOM Id is &quot; + objRtn.DOMId);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//This event is invoked when the user clicked on Save-All button and all the charts were saved on user's disk<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//as a single file.<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;function FC_BatchExported(objRtn){<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (objRtn.statusCode==&quot;1&quot;){<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The batch was exported and saved as a single file named '&quot; + objRtn.fileName + &quot;'. The charts processed were &quot; + objRtn.DOMId);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;There was an error saving the chart. Error message: &quot; + objRtn.statusMessage);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+  &lt;/script&gt;<br />
+  &lt;/head&gt;<br />
+  &lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+  &nbsp;&nbsp;&lt;div id=&quot;chart1div&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;var myChart1 = new FusionCharts(&quot;../../FusionCharts/Column2D.swf&quot;, &quot;myChartId1&quot;, &quot;350&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart1.setDataURL(&quot;SimpleExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart1.render(&quot;chart1div&quot;);<br />
+  &nbsp;&nbsp;&lt;/script&gt;<br />
+&nbsp; &lt;div id=&quot;chart2div&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;  <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;var myChart2 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;myChartId2&quot;, &quot;350&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart2.setDataURL(&quot;SimpleExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart2.render(&quot;chart2div&quot;);<br />
+  &nbsp;&nbsp;&lt;/script&gt;<br />
+&nbsp;&nbsp;  &lt;div id=&quot;chart3div&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;var myChart3 = new FusionCharts(&quot;../../FusionCharts/Pie3D.swf&quot;, &quot;myChartId3&quot;, &quot;350&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart3.setDataURL(&quot;SimpleExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myChart3.render(&quot;chart3div&quot;);<br />
+  &nbsp;&nbsp;&lt;/script&gt;<br />
+&nbsp;&nbsp;  &lt;input type='button' onClick=&quot;javascript:initiateExport();&quot; value=&quot;Begin batch export&quot; /&gt;<br />
+&nbsp;&nbsp;&lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;&lt;/td&gt;<br />
+  &nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;var myExportComponent = new FusionChartsExportObject(&quot;fcBatchExporter&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Add the charts to queue. The charts are referred to by their DOM Id.</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.sourceCharts = ['myChartId1','myChartId2','myChartId3'];<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//------ Export Component Attributes ------//<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//Set the mode as full mode<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.fullMode='1';<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Set saving mode as both. This allows users to download individual charts/ as well as download all charts as a single file.<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.saveMode='both';<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Show allowed export format drop-down<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.showAllowedTypes = '1';<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Cosmetics <br />
+&nbsp;&nbsp;&nbsp;&nbsp;//Width and height<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.width = '350';<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.height = '140';<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Message - caption of export component<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.showMessage = '1';<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.message = 'Click on button above to begin export of charts. Then save from here.';<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Render the exporter SWF in our DIV fcexpDiv<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.Render(&quot;fcexpDiv&quot;);<br />
+        <br />
+  &lt;/script&gt;  <br />
+  &lt;/body&gt;<br />
+  &lt;/html&gt;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This code, when run, will show you all the events generated for the export. </td>
+  </tr>
+</table>
+</body>
+</html>

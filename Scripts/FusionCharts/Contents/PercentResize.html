@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Resizing Charts in Percentage </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts v3 allows you to resize charts in percentage too (apart from pixels). However, this method is not recommended as this method just scales the chart and doesn't redraw the chart as per the given size. For example, when you resize a chart based on percentage, all the text on chart is scaled and not re-drawn to maintain font size.</p>
+    <p>Let's see an example.</p>
+    <p>To set your chart to resize in percentage, you'll first need to update your HTML code as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;This text is replaced by the chart<br />
+  &lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, <strong>&quot;100%&quot;, &quot;100%&quot;</strong>, &quot;0&quot;, &quot;0&quot;, <strong>&quot;FFFFFF&quot;, &quot;exactFit&quot;</strong>);<br />
+        &nbsp;&nbsp;&nbsp;chart1.setDataURL(&quot;Data.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+  &lt;/script&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the HTML above, we've first set the width and height of chart in percentage. The chart will now take the width and height (in percentage) available in it's parent container. For example, if it's contained directly in <span class="codeInline">&lt;BODY&gt;</span>, it will take 100% width and height of the entire page. If it's contained in a table, it will take 100% width and height of that table cell. </p>
+    <p>Next, in our XML, you'll need to use a <span class="codeInline">labelDisplay</span> other than <span class="codeInline">WRAP</span> mode. <span class="codeInline">WRAP</span> mode would cut off the labels in percentage mode. You can use <span class="codeInline">NONE</span>, <span class="codeInline">STAGGER</span> or <span class="codeInline">ROTATE</span> mode in this label. We'll use <span class="codeInline">NONE</span> in our example, as shown below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart baseFontSize='12' labelDisplay='NONE'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' /&gt; <br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now see the chart in browser, you'll see that the chart is absorbing 100% width and height of its parent container. Also, if you resize the browser, the chart now resizes (re-scales) along with the browser as shown below. The fonts are now rescaled and not re-drawn. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Percent_1.jpg" width="326" height="178" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Chart with percentage resizing shown at a very small size. The text appear very small. To increase text size, you can use <span class="codeInline">baseFontSize </span>attribute in XML, depending on your requirements. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Percent_2.jpg" width="469" height="388" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Re-scaled to a bigger size by resizing the browser. The text grows in size along with the chart size. </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+<style type="text/css">
+	.tablewithborder , .tablewithborder tr td { border:1px solid #cccccc;}
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; First Chart </h2></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">
+        
+           To begin with, let's create a simple chart that will visually depict the Weekly   Sales of a fictitious shop. The sample data that we intend to plot can be   tabularized as under: </td>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+        <tr>
+           <td valign="top" class="text">
+			  <table cellspacing="0" cellpadding="5" class="text"width="250px" style="border:1px solid #cccccc;">
+                    <tr style="border-bottom:1px solid #cccccc;">
+                       <td width="35%" height="24" class="textBold borderBottom">Week</td>
+                       <td width="65%" align="right" class="textBold borderBottom">Previous Month (sales) </td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 1 </td>
+                       <td align="right"class="borderBottom">$40800</td>
+                    </tr>
+                    <tr>
+                       <td height="24" class="borderBottom" >Week 2 </td>
+                       <td align="right" class="borderBottom">$31400</td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 3 </td>
+                       <td align="right" class="borderBottom">$26700</td>
+                    </tr>
+                    <tr>
+                       <td height="24"  >Week 4 </td>
+                       <td align="right">$54400</td>
+                    </tr>
+           </table>			 </td>
+	  </tr>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+   <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts PHP Class to plot this data into a column3D chart: </td>
+  </tr>
+   <tr>
+      <td valign="top" class="text">&nbsp;</td>
+   </tr>
+   <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p> <span class="codeComment">&nbsp; # Include FusionCharts PHP Class</span><br />
+         <span class="codeComment">&nbsp; </span>include('../Class/FusionCharts_Gen.php');</p>
+      <p> <span class="codeComment">&nbsp; # Create Column3D chart Object </span><br />
+         <span class="codeComment">&nbsp; </span>$FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); <br />
+        <span class="codeComment">&nbsp; # set the relative path of the swf file</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp; #  Set chart attributes</span><br />
+        <span class="codeComment">&nbsp; </span>$strParam=&quot;caption=Weekly Sales;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;;<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;setChartParams($strParam);<br />
+  <br />
+        <span class="codeComment">&nbsp; # add chart values and  category names</span><br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;);<br />
+        <span class="codeComment">&nbsp; </span>$FC-&gt;addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;);</p>
+      <p>?&gt;<br />
+        &lt;html&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;head&gt;<br />
+        <span class="codeComment">&nbsp; &nbsp; </span>&lt;title&gt;First Chart Using FusionCharts PHP Class&lt;/title&gt;<br />
+        <span class="codeComment">&nbsp; &nbsp; </span>&lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;/head&gt;<br />
+        <span class="codeComment">&nbsp; </span>&lt;body&gt;</p>
+      <p><span class="codeComment">&nbsp; </span>&lt;?php<br />
+        <span class="codeComment">&nbsp; &nbsp; # Render Chart </span><br />
+        <span class="codeComment">&nbsp; </span><span class="codeComment">&nbsp; </span>$FC-&gt;renderChart();<br />
+        <span class="codeComment">&nbsp; </span>?&gt;</p>
+      <p><span class="codeComment">&nbsp; </span>&lt;/body&gt;<br />
+   &lt;/html&gt;<br />
+        </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+      <ul type="disc">
+        <li>We include       <span class="codeInline">FusionCharts_Gen.php</span> in the program. This file contains FusionCharts PHP Class codes. <br />
+           <br />
+        <span class="codeInline">include('../Class/FusionCharts_Gen.php');</span><br />
+        <br />
+        </li>
+        <li>We create       a Column3D chart object.<br />
+           <br />
+            <span class="codeInline">$FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;); <br />
+            </span><br />
+        The       constructor of FusionCharts PHP Class is invoked and it initializes chart       type, chart width and chart height properties of the object.<br />
+        <br />
+        </li>
+        <li>Next, we set      relative path to the chart SWF files using <span class="codeInline">setSwfPath()</span> function. This is the path from which we load the chart SWF files. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</span><br />
+          <br />
+        </li>
+        <li>We store       all desired chart attributes in the <span class="codeInline">$strParam</span> variable and set       chart attributes using <span class="codeInline">setChartParams()</span>       function.<br />
+            <br />
+              <span class="codeInline">$strParam=&quot;caption=Weekly Sales;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;;<br />
+                  <br />
+          $FC-&gt;setChartParams($strParam);</span><br />
+ <br />
+        </li>
+        <li>Now, we provide chart data with <span class="codeInline">addChartData()</span> function.We pass the value first and then the category name against each value as a parameter i.e., <span class="codeInline">label=Week 1</span>  etc. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;);<br />
+  $FC-&gt;addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;);<br />
+  $FC-&gt;addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;);<br />
+  $FC-&gt;addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;);</span><br />
+        <br />
+        </li>
+        <li>Finally, we include       <span class="codeInline">FusionCharts.js</span> - FusionCharts JavaScript Embedding Class.<br />
+           <br />
+        </li>
+        <li>And display       the chart using <span class="codeInline">renderChart()</span> function.<br />
+           <br />
+          <span class="codeInline">$FC-&gt;renderChart();</span></li>
+    </ul>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the Column 3D chart that our FusionCharts PHP Class renders: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassFirstChart.jpg" width="284" height="226" class="imageBorder" /></td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to change chart width and chart height? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When we declare an object of FusionCharts PHP Class the  constructor is invoked. This constructor accepts the parameters that sets the chart type, chart width and height.</p>
+      <p>In the above code,  the statement <span class="codeInline">$FC = new FusionCharts(&quot;Column3D&quot;,<strong>&quot;300&quot;,&quot;250&quot;</strong>);</span> invokes the constructor which sets chart type as Column3D; width to 300 pixels and height to 250 pixels. <br />
+      <br />
+      Hence, we can use the constructure to set the desired dimension of our charts. Let's set our chart's dimension to 450 x 350 pixels. </p>    
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="codeInline">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline">$FC = new FusionCharts(&quot;Column3D&quot;,<strong>&quot;450&quot;,&quot;350&quot;</strong>); </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassFirstChartChangeSize.jpg" width="451" height="326" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to change chart type? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As we discussed above, chart type is also specified while declaring FusionCharts PHP Class object.<br />
+    <br />
+    <span class="codeInline">$FC = new FusionCharts(<strong>&quot;Column3D&quot;</strong>,&quot;300&quot;,&quot;250&quot;);</span><br />
+    <br />
+    To make a Pie Chart for our Weekly Revenue data, we just need to use <span class="codeInline">Pie3D</span> instead of <span class="codeInline">Column3D</span> while creating FusionCharts class object: <br />
+    <br />
+    <span class="codeInline">$FC = new FusionCharts(<strong>&quot;Pie3D&quot;</strong>,&quot;300&quot;,&quot;250&quot;); </span></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassChangeChart.jpg" width="298" height="187" class="imageBorder" /></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><a name="ChartTypesList" href="Javascript:void(0);"> </a>To change chart type you can use any of the Chart Type names listed below : </td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text"><table width="477" border="0" cellpadding="5" cellspacing="0" class="text tablewithborder" style="border:1px solid #cccccc;">
+       <tr>
+          <td width="156" class="textBold lightBlueTr">Chart Type Name </td>
+          <td width="299" class="textBold lightBlueTr">Description</td>
+       </tr>
+       <tr>
+          <td>Column2D</td>
+          <td>Single Series Column 2D Chart </td>
+       </tr>
+       <tr>
+          <td>Column3D</td>
+          <td>Single Series  Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td>Line2D</td>
+          <td>Single Series  Line Chart</td>
+       </tr>
+       <tr>
+          <td>Pie3D</td>
+          <td>Single Series  Pie 3D Chart</td>
+       </tr>
+       <tr>
+          <td>Pie2D</td>
+          <td>Single Series  Pie 2D Chart</td>
+       </tr>
+
+       <tr>
+          <td>Bar2D</td>
+          <td>Single Series  Bar 2D Chart</td>
+       </tr>
+       <tr>
+          <td>Area2D</td>
+          <td>Single Series  Area 2D Chart</td>
+       </tr>
+       <tr>
+          <td>Doughnut2D</td>
+          <td>Single Series  Doughnut 2D Chart</td>
+       </tr>
+       <tr>
+         <td>Doughnut3D</td>
+         <td>Single Series  Doughnut 3D Chart</td>
+       </tr>
+       <tr>
+         <td height="10">&nbsp;</td>
+         <td height="10">&nbsp;</td>
+       </tr>
+       <tr>
+          <td>MSColumn3D</td>
+          <td>Multi-Series Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td>MSColumn2D</td>
+          <td>Multi-Series Column 2D Chart</td>
+       </tr>
+       <tr>
+          <td>MSArea2D</td>
+          <td>Multi-Series Area 2D Chart</td>
+       </tr>
+       <tr>
+          <td>MSLine2D</td>
+          <td>Multi-Series Line Chart</td>
+       </tr>
+       <tr>
+          <td>MSBar2D</td>
+          <td>Multi-Series Bar 2D Chart</td>
+       </tr>
+       <tr>
+         <td>MSBar3D</td>
+         <td>Multi-Series Bar 3D Chart</td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+          <td>StackedColumn2D</td>
+          <td>Stacked Column 2D Chart </td>
+       </tr>
+       <tr>
+          <td>StackedColumn3D</td>
+          <td> Stacked Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td>StackedBar2D</td>
+          <td> Stacked Bar 2D Chart</td>
+       </tr>
+       <tr>
+         <td>StackedBar3D</td>
+         <td>Stacked Bar 3D Chart</td>
+       </tr>
+       <tr>
+          <td>StackedArea2D</td>
+          <td> Stacked Area 2D Chart</td>
+       </tr>
+       <tr>
+         <td>MSStackedColumn2D</td>
+         <td>Multi-Series Stacked Column 2D Chart </td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+         <td>Bubble</td>
+         <td>Multi-series Bubble Chart </td>
+       </tr>
+       <tr>
+         <td>Scatter</td>
+         <td>Multi-Series Scaller Chart </td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+         <td>ScrollColumn2D</td>
+         <td>Multi-Series Column 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td>ScrollLine2D</td>
+         <td>Multi-Series Scroll Line 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td>ScrollArea2D</td>
+         <td>Multi-Series Scroll Area 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td>ScrollStackedColumn2D</td>
+         <td>Scroll Stacked Column 2D Scroll Chart </td>
+       </tr>
+       
+       
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+	   <tr>
+         <td>MSCombi3D</td>
+         <td>Combination Single Y-Axis 3D Chart </td>
+       </tr>
+       <tr>
+          <td>MSCombi2D</td>
+          <td>Combination Single Y-Axis Chart </td>
+       </tr>
+       <tr>
+         <td>MSColumn3DLine</td>
+         <td><span ="borderBottom">Combination Single Y-Axis Chart<br />
+(Column 3D + Line) </span></td>
+       </tr>
+       <tr>
+         <td>MSCombiDY2D</td>
+         <td>Combination Dual Y-axis 2D Chart </td>
+       </tr>
+       <tr>
+         <td><span ="borderBottom">MSColumn3DLineDY</span></td>
+         <td><span ="borderBottom"> Combination Dual Y-Axis Chart<br />
+(Column 3D + Line) </span></td>
+       </tr>
+       <tr>
+         <td>StackedColumn3DLineDY</td>
+         <td> Stacked Combination Column 3D Line Dual Y-Axis Chart </td>
+       </tr>
+       <tr>
+         <td>ScrollCombi2D</td>
+         <td>Scroll Combination 2D Single Y-Axis Scroll Chart </td>
+       </tr>
+       <tr>
+         <td>ScrollCombiDY2D</td>
+         <td>Scroll Combination Dual Y-Axis 2D Scroll Chart </td>
+       </tr>
+       
+       <tr>
+         <td>MSStackedColumn2DLineDY</td>
+         <td>Combination Multi-Series  Stacked Column  2D-Line Dual Y-Axis Chart</td>
+       </tr>
+       <tr>
+         <td>&nbsp;</td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+         <td>Grid</td>
+         <td>Single Series Grid Chart </td>
+       </tr>
+
+    </table>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please note that Chart Type Names -&nbsp; <span class="codeInline">Line, MSLine</span> and <span class="codeInline">MSColumnLine3D</span>  from previous version are change to <span class="codeInline">Line2D, MSLine2D </span><span class="text">and</span><span class="codeInline"> MSColumn3DLine</span> (respectively). The old Names ares still applicable, though depricated. We recommned to use the new Names.</td>
+  </tr>
+</table>
+</body>
+</html>

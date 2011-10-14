@@ -1,0 +1,36 @@
+<html>
+<head>
+	<title>
+	FusionCharts Server-side Export Sample - Saving exported image/PDF on server disk
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script type="text/javascript">
+		//Callback handler method which is invoked after the chart has saved image on server.
+		//It's only parameter is an object which contains data returned from server. It consists of:
+		//statusCode - 1 (success) or 0 (failure)
+		//statusMessage - Any message passed from server to client
+		//fileName - HTTP reference to the generated image
+		//width - width of generated image (0 in case of failure).
+		//height - height of generated image (0 in case of failure)
+		function FC_Exported(objRtn){		
+			if (objRtn.statusCode=="1"){
+				alert("The chart with DOM Id " + objRtn.DOMId + " was successfully saved on server. The file can be accessed from " + objRtn.fileName);
+			}else{
+				alert("The chart with DOM Id " + objRtn.DOMId + " could not be saved on server. There was an error. Description : " + objRtn.statusMessage);
+			}
+		}
+	</script> 
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "400", "300", "0", "1");
+	myChart.setDataURL("SaveData.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

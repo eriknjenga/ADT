@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Client-side export &gt; Overview</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The export process, when using client-side Export Handlers, can be visualized as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientProcess.gif" width="644" height="439" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Elements involved </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>For enabling export of chart at client-side, we'll need to assemble the following elements: </p>
+      <ul>
+        <li><strong>The chart itself</strong> embedded using FusionCharts JavaScript class (<span class="codeInline">FusionCharts.js</span>). Here, we assume that you have been able to generate the chart for your page. If not, please refer to the relevant section of our documentation. </li>
+        <li><strong>FusionCharts Export Component </strong>- This is named <span class="codeInline">FCExporter.swf</span> and is present in <span class="codeInline">Download Package &gt; Charts</span>. You'll need to copy-paste this SWF to your server. A good location would be to place this SWF along with your chart SWFs. </li>
+        <li><strong>FusionCharts Export Component JavaScript class</strong> - This JavaScript class is named <span class="codeInline">FusionChartsExportComponent.js</span> and is present in <span class="codeInline">Download Package &gt; JSClass</span>. Place it where you've placed FusionCharts.js on your website (though not necessary, but this helps you centralize all FusionCharts related JS files) </li>
+      </ul>
+    <p>So let's quickly get started and setup a simple example that exports the chart as an image at client-side. </p></td>
+  </tr>
+</table>
+</body>
+</html>

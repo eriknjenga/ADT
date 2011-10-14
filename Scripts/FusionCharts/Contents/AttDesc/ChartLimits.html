@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Chart Limits </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Chart limits are the minimum &amp; maximum y-axis values. FusionCharts automatically calculates the best chart limits when you don't specify them explicitly. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/divlines1.jpg" width="238" height="252" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML code going into the above is: </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Note that the chart limits have not been defined.  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting chart limits explicitly </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can set the chart limits explicitly using the <span class="codeInline">yAxisMaxValue</span> and <span class="codeInline">yAxisMinValue</span> attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <span class="codeInline">yAxisMinValue='0' yAxisMaxValue='100' ...&gt;</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">However, in this case, when you are using the column chart, the zero plane would come up in a non-equidistant position. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Set Adaptive y-Min </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can set whether the y-axis lower limit   would be 0 (in case of all positive values on chart) or should the y-axis lower   limit adapt itself to a different figure based on values provided to the chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0' <strong>setAdaptiveYMin='1'</strong> &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Note the change in the y-axis minimum value now: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/chart_limits.jpg" width="172" height="187" /></td>
+  </tr>
+</table>
+</body>
+</html>

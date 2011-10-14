@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Gradients</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts v3 introduces gradient fill for various chart elements like background, canvas, plot etc. You can now fill these chart objects using gradient patterns, whose properties can be decided and set by you.</p>
+    <p>We'll use the example of background and see how to apply gradients to background, as the background is common to all charts. The background of each chart can be configured using the following 4 XML attributes:</p>
+    <table border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="20%" valign="top" class="codeInline">bgColor </td>
+        <td width="90%" valign="top" class="text">This attribute sets the background   color for the chart. To specify a gradient as background color, separate the hex color   codes of each color in the gradient using comma. Example: FF5904,FFFFFF.   Remember to remove # and any spaces in between. </td>
+      </tr>
+      <tr>
+        <td width="20%" valign="top" class="codeInline">bgAlpha </td>
+        <td width="90%" valign="top" class="text">Sets the alpha (transparency) for   the background. If you've opted for gradient background, you need to set a list   of alpha(s) separated by comma.</td>
+      </tr>
+      <tr>
+        <td width="20%" valign="top" class="codeInline">bgRatio </td>
+        <td width="90%" valign="top" class="text">If you've opted for a gradient   background, this attribute lets you set the ratio of each color constituent. </td>
+      </tr>
+      <tr>
+        <td width="20%" valign="top" class="codeInline">bgAngle </td>
+        <td width="90%" valign="top" class="text">Angle of the background color, in   case of a gradient. </td>
+      </tr>
+    </table>    
+    <p class="header">In Example </p>
+    <p>Let's now see how to apply a simple custom gradient to the background. We'll create a gradient that starts from orange (#ff5904) and fades into white (#ffffff) and will be evenly distributed on the background. For a start, we'll set the alpha as 100 for both the color constituents and set angle as 0 degree (left to right). The following XML helps us do so: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart bgColor='FF5904,FFFFFF' bgAlpha='100,100' bgRatio='0,100' bgAngle='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' /&gt; <br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we're first defining  <span class="codeInline">bgColor</span> as a comma separated list of colors (hex codes without #) which we want our gradient to contain. </p>
+    <p>Now for each color, we've to specify an <span class="codeInline">alpha</span> in <span class="codeInline">bgAlpha</span> attribute, again as comma separated values.  When this attribute is defined as <span class="codeInline">bgAlpha=&quot;80,50&quot;</span>   and is coupled with <span class="codeInline">bgColor=&quot;FF5904,FFFFFF&quot;</span>, the   color <span class="codeInline">FF5904</span> would be shown in 80% alpha while the   color <span class="codeInline">FFFFFF</span> would be shown in 50% alpha. <br />
+      <br />
+      Please note that when you use this attribute, you need to make sure that   number of colors defined in <span class="codeInline">bgColor</span> is same as the   number of alpha defined in <span class="codeInline">bgAlpha</span>. For example,   if you are creating a gradient fill by specifying 2 colors, then you need to   specify 2 alphas for this attribute as well, or else you may get unexpected   results. </p>
+    <p>Next, we've defined our ratio for the gradient fill as <span class="codeInline">bgRatio='0,100'</span>. When this attribute is defined as <span class="codeInline">bgRatio=&quot;80,20&quot;</span>   and is coupled with <span class="codeInline">bgColor=&quot;FF5904,FFFFFF&quot;</span>, the   color <span class="codeInline">FF5904</span> would occupy 80% of the gradient fill   while the color <span class="codeInline">FFFFFF</span> would get 20%. As in <span class="codeInline">bgAlpha</span>, there needs to be as many ratio values   separated by commas as there are colors in <span class="codeInline">bgColor</span>. Also, the sum of all the ratio values should be   100. 
+      By default, FusionCharts splits all the   colors in the list proportionally i.e. if you have 2 colors and don't define   this attribute, then both the colors would have 50% fill ratio. </p>
+    <p>Finally, we set the angle of the gradient as 0 degree (left to right).</p>
+    <p>When you now see the chart, you'll get the following output: <br />
+    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Gradient.jpg" width="388" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this example, we only saw how to apply gradient to background. In 2D charts, you can apply gradients to chart canvas also.</p>
+    <p>Moreover, in Column 2D and Area 2D charts, you can use <span class="codeInline">plotGradientColor</span> attribute to specify gradients for data plot too. </p></td>
+  </tr>
+</table>
+</body>
+</html>

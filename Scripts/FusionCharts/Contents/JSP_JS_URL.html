@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Combining FusionCharts, JSP &amp; JavaScript (dataURL) method </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts v3 offers tremendous integration capabilities with JavaScript. You can easily use FusionCharts and JavaScript to create client side dynamic charts. </p>
+      <p>Here, we'll see the JavaScript + URL method - where we ask the chart to fetch new data from server and update itself, without incurring any page refreshes. The entire application resides in a single page which makes it a seamless experience for your end viewers.</p>
+      <p><strong>Before you proceed with the contents in this page, we strictly recommend you to please go through the sections &quot;How FusionCharts works?&quot; and &quot;Basic Examples&quot;, as we'll directly use a lot of concepts defined in those sections.</strong></p>
+      <p class="highlightBlock">The code discussed in this example is present 
+        in<span class="codeInline"> Download Package &gt; Code &gt; JSP &gt; DB_JS_dataURL 
+        </span>folder. </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Mission for this example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let us first define what we want to achieve in this example. We'll carry on from our previous drill-down example and convert it into a single page example. In our previous example, we were showing the Production Summary of all the factories in a pie chart. When the user clicked on a pie slice, he was taken to another page, where a detailed date-wise chart was shown for the required factory. </p>
+      <p>In this example, we'll assimilate both the charts in a single page and make them interact with each other using JavaScript, thereby making the end-user experience smooth. Effectively, we will do the following:</p>
+      <ol>
+        <li>Contain both the pie chart (summary) and column chart (detailed) in 
+          one page (<span class="codeInline">Default.jsp</span>).</li>
+        <li>When the page loads, the pie chart would use <span class="codeInline">dataXML</span> 
+          method to show summary of all factories. This data will be built in 
+          <span class="codeInline">Default.jsp</span> itself. </li>
+      <li>The column chart would initialize with no data, as the user has not selected a factory initially. We'll customize the &quot;<span class="codeInline">No data to display</span>&quot; message of the chart to show a friendly message.</li>
+      <li>The pie chart would have JavaScript links defined for each pie slice. This JavaScript links refer to <span class="codeInline">updateChart()</span> JavaScript function present on the same page. We'll later see how to hand code this function. When a pie is clicked, the <span class="codeInline">factory ID </span>is passed to this function. </li>
+        <li>The <span class="codeInline"> updateChart()</span> function is responsible 
+          for updating the column chart. It generates a dataURL link by including 
+          the <span class="codeInline">factoryId</span> as a part of dataURL (<span class="codeInline">FactoryData.jsp</span>). 
+          <span class="codeInline">FactoryData.jsp</span> is the data provider 
+          page for the detailed column chart. Once the <span class="codeInline">dataURL</span> 
+          is built, it conveys this dataURL to the column chart.</li>
+        <li>The column chart would now accept this <span class="codeInline">dataURL</span>, 
+          send a request to <span class="codeInline">FactoryData.jsp</span> for 
+          XML data, accept it, parse it and finally render.</li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the charts container page </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Both the charts and JavaScript functions to 
+      manipulate the charts is contained in <span class="codeInline">Default.jsp</span>. 
+      It has the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@ include file=&quot;../Includes/DBConn.jsp&quot;%&gt; &lt;%@ page import=&quot;java.sql.Statement&quot;%&gt;<br />
+&lt;%@ page import=&quot;java.sql.ResultSet&quot;%&gt;<br />
+&lt;%@ page import=&quot;java.sql.Date&quot;%&gt;<br />
+&lt;HTML&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;TITLE&gt;FusionCharts - Database + JavaScript Example&lt;/TITLE&gt;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this example, we show a combination of database + JavaScript (dataURL method)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rendering using FusionCharts.</span></p>
+        <p class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The entire app (page) can be summarized as under. This app shows the break-down<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of factory wise output generated. In a pie chart, we first show the sum of quantity<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; generated by each factory. These pie slices, when clicked would show detailed date-wise<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output of that factory. The detailed data would be dynamically pulled by the column<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chart from another JSP page. There are no page refreshes required. Everything<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is done on one single page.</p>
+        <p><span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The XML data for the pie chart is fully created in JSP at run-time. JSP interacts<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with the database and creates the XML for this.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now, for the column chart (date-wise output report), each time we need the data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; we dynamically submit request to the server with the appropriate factoryId. The server<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; responds with an XML document, which we accept and update chart at client side.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;<br />
+    <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //You need to include the above JS file, if you intend to embed the chart using<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //JavaScript.<br />
+    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Embedding using JavaScripts avoids the &quot;Click to Activate...&quot; issue in Internet <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Explorer<br />
+    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //When you make your own charts, make sure that the path to this JS file is correct. <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Else, you would get JavaScript errors.</span><br />
+    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/SCRIPT&gt;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;</p>
+        <p><span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * updateChart method is invoked when the user clicks on a pie slice.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In this method, we get the index of the factory after which we request for XML data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * for that that factory from FactoryData.asp, and finally<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * update the Column Chart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @<strong>param</strong> factoryIndex Sequential Index of the factory.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br />
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function updateChart(factoryIndex){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp; //DataURL for the chart</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var strURL = &quot;FactoryData.jsp?factoryId=&quot; + factoryIndex;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp; //Sometimes, the above URL and XML data gets cached by the browser.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //If you want your charts to get new XML data on each request,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //you can add the following line:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //strURL = strURL + &quot;&amp;currTime=&quot; + getTimeForURL();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //getTimeForURL method is defined below and needs to be included<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //This basically adds a ever-changing parameter which bluffs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //the browser and forces it to re-load the XML data every time.</span></p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp; //URLEncode it - NECESSARY.</span><br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strURL = escape(strURL);</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp; //Get reference to chart object using Dom ID &quot;FactoryDetailed&quot;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var chartObj = getChartFromId(&quot;FactoryDetailed&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp; //Send request for XML</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chartObj.setDataURL(strURL);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; /**<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * getTimeForURL method returns the current time<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * in a URL friendly format, so that it can be appended to<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * dataURL for effective non-caching.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function getTimeForURL(){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var dt = new Date();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var strOutput = &quot;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strOutput = dt.getHours() + &quot;_&quot; + dt.getMinutes() + &quot;_&quot; + dt.getSeconds() + &quot;_&quot; + dt.getMilliseconds();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return strOutput;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;style type=&quot;text/css&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;!--<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; body {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .text{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-family: Arial, Helvetica, sans-serif;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; font-size: 12px;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/style&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2&gt;FusionCharts Database + JavaScript (dataURL method) Example&lt;/h2&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;h4&gt;Inter-connected charts - Click on any pie slice to see detailed<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chart below.&lt;/h4&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;p&gt;The charts in this page have been dynamically generated using<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data contained in a database.&lt;/p&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Database Objects - Initialization</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Statement st1 = null, st2 = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ResultSet rs1 = null, rs2 = null;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String strQuery = &quot;&quot;;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //strXML will be used to store the entire XML document generated</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String strXML = &quot;&quot;;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Generate the chart element</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strXML = &quot;&lt;chart caption='Factory Output report' subCaption='By Quantity' pieSliceDepth='30' showBorder='1' formatNumberScale='0' numberSuffix=' Units' &gt;&quot;;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Iterate through each factory</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strQuery = &quot;select * from Factory_Master&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st1 = oConn.createStatement();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs1 = st1.executeQuery(strQuery);</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String factoryId = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String factoryName = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String totalOutput = &quot;&quot;;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (rs1.next()) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; factoryId = rs1.getString(&quot;FactoryId&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; factoryName = rs1.getString(&quot;FactoryName&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; //Now create second recordset to get details for this factory</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strQuery = &quot;select sum(Quantity) as TotOutput from Factory_Output where FactoryId=&quot; + factoryId;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st2 = oConn.createStatement();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs2 = st2.executeQuery(strQuery);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (rs2.next()) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; totalOutput = rs2.getString(&quot;TotOutput&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; //Generate &lt;set label='..' value='..'/&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strXML += &quot;&lt;set label='&quot; + factoryName + &quot;' value='&quot; + totalOutput + &quot;' link='javaScript:updateChart(&quot; + factoryId + &quot;)'/&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; //close the resultset,statement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //enclose them in try catch block</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (null != rs2) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs2.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs2 = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (java.sql.SQLException e) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Could not close the resultset&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (null != st2) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st2.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st2 = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (java.sql.SQLException e) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Could not close the statement&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Finally, close &lt;chart&gt; element</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strXML += &quot;&lt;/chart&gt;&quot;;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //close the resultset,statement,connection<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //enclose them in try catch block</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (null != rs1) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs1.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rs1 = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (java.sql.SQLException e) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Could not close the resultset&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (null != st1) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st1.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; st1 = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (java.sql.SQLException e) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Could not close the statement&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (null != oConn) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; oConn.close();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; oConn = null;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (java.sql.SQLException e) {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Could not close the connection&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Create the chart - Pie 3D Chart with data from strXML</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/Pie3D.swf&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;strXML&quot; value=&quot;&lt;%=strXML%&gt;&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartId&quot; value=&quot;FactorySum&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartWidth&quot; value=&quot;500&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartHeight&quot; value=&quot;250&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment"> //Column 2D Chart with changed &quot;No data to display&quot; message<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;//We initialize the chart with &lt;chart&gt;&lt;/chart&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/Column2D.swf?ChartNoDataText=Please select a factory from pie chart above to view detailed data.&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;strXML&quot; value=&quot;&lt;chart&gt;&lt;/chart&gt;&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartId&quot; value=&quot;FactoryDetailed&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;chartHeight&quot; value=&quot;250&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;<strong>true</strong>&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/jsp:include&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;BR&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;a href='../NoChart.html' target=&quot;_blank&quot;&gt;Unable to see the charts above?&lt;/a&gt;&lt;/CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>Before we get to the JavaScript functions, let's first see what we're 
+        doing in our JSP Code. </p>
+    <p>We first create the XML data document for Pie chart - summary of factory output. For each <span class="codeInline">&lt;set&gt;</span>, we provide a JavaScript link to the <span class="codeInline">updateChart()</span> function and pass the factory ID to it as shown in the line below:</p>
+      <p class="codeInline">&nbsp;&nbsp;strXML&nbsp;+=&nbsp;"&lt;set&nbsp;label='"&nbsp;+&nbsp;factoryName&nbsp;+&nbsp;"'&nbsp;value='"&nbsp;+totalOutput+&nbsp;"'<br />
+      &nbsp;link='javaScript:updateChart("+factoryId&nbsp;+&nbsp;")'/&gt;";</p>
+      <p>We now create the Pie 3D chart using dataXML way and render it. The Pie 
+        3D chart has its DOM Id as <span class="codeInline">FactorySum</span>:</p>
+      <p class="codeBlock">&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/Pie3D.swf&quot; /&gt; <br />
+&lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt; <br />
+&lt;jsp:param name=&quot;<strong>strXML</strong>&quot; value=&quot;<strong>&lt;%=strXML%&gt;</strong>&quot; /&gt; <br />
+&lt;jsp:param name=&quot;<strong>chartId</strong>&quot; value=&quot;<strong>FactorySum</strong>&quot; /&gt; <br />
+&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;500&quot; /&gt; <br />
+&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;250&quot; /&gt; <br />
+&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&lt;jsp:param name=&quot;registerWithJS&quot; value=&quot;false&quot; /&gt; <br />
+&lt;/jsp:include&gt;</p>
+      <p>Now, we render an empty Column 2D chart  with <span class="codeInline">&lt;chart&gt;&lt;/chart&gt;</span> data initially. We also change the &quot;<span class="codeInline">No data to display.</span>&quot; error to a friendly and intuitive &quot;<span class="codeInline">Please select a factory from pie chart above to view detailed data.</span>&quot; This chart has its DOM Id as <span class="codeInline">FactoryDetailed</span>.</p>
+      <p class="codeBlock">&lt;jsp:include page=&quot;../Includes/FusionChartsRenderer.jsp&quot; flush=&quot;true&quot;&gt; <br />
+&lt;jsp:param name=&quot;chartSWF&quot; value=&quot;../../FusionCharts/Column2D.swf?ChartNoDataText=Please select a factory from pie chart above to view detailed data.&quot; /&gt; <br />
+&lt;jsp:param name=&quot;strURL&quot; value=&quot;&quot; /&gt; <br />
+&lt;jsp:param name=&quot;<strong>strXML</strong>&quot; value=&quot;<strong>&lt;chart&gt;&lt;/chart</strong>&gt;&quot; /&gt; <br />
+&lt;jsp:param name=&quot;<strong>chartId</strong>&quot; value=&quot;<strong>FactoryDetailed</strong>&quot; /&gt; <br />
+&lt;jsp:param name=&quot;chartWidth&quot; value=&quot;600&quot; /&gt; <br />
+&lt;jsp:param name=&quot;chartHeight&quot; value=&quot;250&quot; /&gt; <br />
+&lt;jsp:param name=&quot;debugMode&quot; value=&quot;false&quot; /&gt; <br />
+&lt;jsp:param name=&quot;<strong>registerWithJS</strong>&quot; value=&quot;<strong>true</strong>&quot; /&gt; <br />
+&lt;/jsp:include&gt; </p>
+      <p>Note that the registerWithJS parameter for this chart should be set to true. Effectively, our page is now set to show two charts. The pie chart shows 
+        the summary data provided to it using dataXML way. The column chart shows 
+        the above &quot;friendly&quot; error message. Now, when each pie slice 
+        is clicked, the <span class="codeInline">updateChart()</span> JavaScript 
+        function is called and the <span class="codeInline">factoryID</span> of 
+        the pie is passed to it. This function is responsible for updating the 
+        column chart and contains the following code: </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&nbsp;<strong>function updateChart(factoryIndex){ </strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//DataURL for the chart</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var strURL = &quot;FactoryData.jsp?factoryId=&quot; 
+      + factoryIndex;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Sometimes, the above URL and XML data gets cached by the browser.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//If you want your charts to get new XML data on each request,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//you can add the following line:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//strURL = strURL + &quot;&amp;currTime=&quot; + getTimeForURL();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//getTimeForURL method is defined below and needs to be included<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//This basically adds a ever-changing parameter which bluffs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//the browser and forces it to re-load the XML data every time.</span><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//URLEncode it - NECESSARY.</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strURL = escape(strURL);<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Get reference to chart object using Dom ID &quot;FactoryDetailed&quot;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;FactoryDetailed&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Send request for XML</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>chartObj.setDataURL(strURL);</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, </p>
+      <ol>
+        <li>We first create a <span class="codeInline">dataURL</span> string by 
+          appending the <span class="codeInline">factoryID</span> to <span class="codeInline">FactoryData.jsp</span>. 
+        </li>
+        <li>Thereafter, we URL Encode this <span class="codeInline">dataURL</span>. </li>
+        <li>Finally, we convey this <span class="codeInline">dataURL</span> to 
+          the column chart. To do so, we first get a reference to the column chart 
+          using it's DOM Id <span class="codeInline">FactoryDetailed</span>. We 
+          use the <span class="codeInline">getChartFromId</span>() function defined 
+          in <span class="codeInline">FusionCharts.js</span> to do so. </li>
+        <li>Once we've the reference to the chart, we simply call the <span class="codeInline">setDataURL</span> method of the chart and pass it the URL to request data from. </li>
+        <li>This updates the chart with new data. </li>
+      </ol>
+      <p>This completes our front-end for the app. We now just need to build <span class="codeInline">FactoryData.jsp</span> 
+        page, which is responsible to provide detailed data to column chart. It 
+        contains the following code: </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;%@&nbsp;include&nbsp;file="../Includes/DBConn.jsp"%&gt;<BR>
+&lt;%@&nbsp;page&nbsp;import="java.sql.Statement"%&gt;<BR>
+&lt;%@&nbsp;page&nbsp;import="java.sql.ResultSet"%&gt;<BR>
+&lt;%@&nbsp;page&nbsp;import="java.text.SimpleDateFormat"%&gt;<BR>
+&lt;%<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">/*<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;page&nbsp;is&nbsp;invoked&nbsp;from&nbsp;Default.jsp.&nbsp;When&nbsp;the&nbsp;user&nbsp;clicks&nbsp;on&nbsp;a&nbsp;pie<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;slice&nbsp;in&nbsp;Default.jsp,&nbsp;the&nbsp;factory&nbsp;Id&nbsp;is&nbsp;passed&nbsp;to&nbsp;this&nbsp;page.&nbsp;We&nbsp;need<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;get&nbsp;that&nbsp;factory&nbsp;id,&nbsp;get&nbsp;information&nbsp;from&nbsp;database&nbsp;and&nbsp;then&nbsp;write&nbsp;XML.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;*/</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//First,&nbsp;get&nbsp;the&nbsp;factory&nbsp;Id</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;factoryId=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Request&nbsp;the&nbsp;factory&nbsp;Id&nbsp;from&nbsp;Querystring</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;factoryId&nbsp;=&nbsp;request.getParameter("factoryId");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;strXML="";<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if(null!=factoryId){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet&nbsp;rs;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;strQuery;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement&nbsp;st;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java.sql.Date&nbsp;date=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java.util.Date&nbsp;uDate=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;uDateStr="";<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;quantity="";<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Generate&nbsp;the&nbsp;chart&nbsp;element&nbsp;string</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML&nbsp;=&nbsp;"&lt;chart&nbsp;palette='2'&nbsp;caption='Factory&nbsp;"&nbsp;+factoryId+"&nbsp;Output&nbsp;'&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subcaption='(In&nbsp;Units)'&nbsp;xAxisName='Date'&nbsp;showValues='1'&nbsp;labelStep='2'&nbsp;&gt;";<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Now,&nbsp;we&nbsp;get&nbsp;the&nbsp;data&nbsp;for&nbsp;that&nbsp;factory</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strQuery&nbsp;=&nbsp;"select&nbsp;*&nbsp;from&nbsp;Factory_Output&nbsp;where&nbsp;FactoryId="&nbsp;+&nbsp;factoryId;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st=oConn.createStatement();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs&nbsp;=&nbsp;st.executeQuery(strQuery);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(rs.next()){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date=rs.getDate("DatePro");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quantity=rs.getString("Quantity");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(date!=null)&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uDate=new&nbsp;java.util.Date(date.getTime());<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SimpleDateFormat&nbsp;sdf=new&nbsp;SimpleDateFormat("dd/MM");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uDateStr=sdf.format(uDate);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML&nbsp;+=&nbsp;"&lt;set&nbsp;label='"&nbsp;+uDateStr+"'&nbsp;value='"&nbsp;+quantity+"'/&gt;";<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Close&nbsp;&lt;chart&gt;&nbsp;element</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strXML&nbsp;+="&lt;/chart&gt;";<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=rs){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs.close();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException&nbsp;e){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Could&nbsp;not&nbsp;close&nbsp;the&nbsp;resultset");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=st)&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st.close();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException&nbsp;e){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Could&nbsp;not&nbsp;close&nbsp;the&nbsp;statement");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(null!=oConn)&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn.close();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oConn=null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}catch(java.sql.SQLException&nbsp;e){<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Could&nbsp;not&nbsp;close&nbsp;the&nbsp;connection");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Just&nbsp;write&nbsp;out&nbsp;the&nbsp;XML&nbsp;data</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//NOTE&nbsp;THAT&nbsp;THIS&nbsp;PAGE&nbsp;DOESN'T&nbsp;CONTAIN&nbsp;ANY&nbsp;HTML&nbsp;TAG,&nbsp;WHATSOEVER</span><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.setContentType("text/xml");<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+%&gt;<BR>
+&lt;%=strXML%&gt;<BR>
+</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this page, we basically request the factory Id passed to it as querystring, query the database for required data, build XML document out of it and finally write it to output stream. </p>
+    <p>When you now see the application, the initial state would look as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_URL_Ini.jpg" width="511" height="458" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And when you click on a pie slice, the following would appear on the same page (without involving any browser refreshes): </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_JS_URL_Fin.jpg" width="610" height="526" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This example demonstrated a very basic sample of the integration capabilities possible with FusionCharts v3. For advanced demos, you can see and download our FusionCharts Blueprint/Demo Applications. </td>
+  </tr>
+</table>
+</body>
+</html>

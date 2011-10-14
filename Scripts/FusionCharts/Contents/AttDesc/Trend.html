@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Trend lines &amp; Zones </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Trend lines are horizontal/vertical lines spanning the chart canvas which aid in   interpretation of data with respect to some pre-determined value. For example, when you are plotting the quarterly revenue of a company, you might want to show what the target revenue was. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/trendlines1.jpg" width="400" height="250" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the above is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; </p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;trendLines&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='430000' color='009933' displayvalue='Target' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/trendLines&gt;</strong><br />
+  &lt;/chart&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The trend line is plotted at the value which you have specified. If the value specified is not within the chart limits, then the trend line is not plotted at all. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding tool-text to trendlines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The trendlines can also show tool-text when hovered over. To specify a custom tool-text for trend-line, the following XML can be used: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; </p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;trendLines&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='430000' color='009933' displayvalue='Target' <strong>toolText='This trend was calculated last year'</strong>/&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/trendLines&gt;<br />
+  &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/TrendTooltext.jpg" width="457" height="305" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Trend zones </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Trend zones are similar to trend lines except that they mark out an entire zone rather than just a line. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/trendlines2.jpg" width="400" height="105" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For a trend zone, the XML would be as under:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;trendLines&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='430000' <strong>endValue='450000'</strong> color='009933' <strong>isTrendZone='1'</strong> displayvalue='Target' /&gt; <br />&lt;/trendLines&gt;<br />
+    </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Note that for converting a trend line into a trend zone, all we have to do is add an end value and set <span class="codeInline">isTrendZone</span> to 1. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing trend lines &amp; zones </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The looks of the trend lines can be customized using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top" class="text"><strong>Attribute Name </strong></td>
+        <td width="10%" valign="top" class="text"><strong>Range</strong></td>
+        <td width='75%' valign='top' class="text"><strong>Description</strong></td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top" class="text"><span class="text"> color </span> </td>
+        <td width="10%" valign="top" class="text"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top' class="text"><span class="text"> Color of the trend line and its associated text. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top" class="text"><span class="text"> thickness </span> </td>
+        <td width="10%" valign="top" class="text"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top' class="text"><span class="text"> If you've opted to show the trend as a line, this attribute lets you define the thickness of trend line. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top" class="text"><span class="text"> alpha </span> </td>
+        <td width="10%" valign="top" class="text"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top' class="text"><span class="text"> Alpha of the trend line. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Slanted trend lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can have slanted trend lines as well, i.e. trend line shaving a different starting &amp; ending value. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;line startValue='430000' endValue='450000' color='009933' displayvalue='Target' /&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Value on Right </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can show the trendline label to the right of the chart canvas by setting <span class="codeInline">valueOnRight
+	='1'</span>. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;line startValue='430000' color='009933' displayvalue='Target' <span class="codeInline"><strong>valueOnRight
+	='1'</strong></span>/&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Dashed trend lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The trend lines can be made dashed by setting <span class="codeInline">dashed='1'</span>. The dash length and gap can be customized using <span class="codeInline">dashLen</span> &amp; <span class="codeInline">dashGap</span> attributes respectively.	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;line startValue='430000' color='009933' displayvalue='Target' <span class="codeInline"><strong>dashed='1' dashLen='2' dashGap='2' </strong></span>/&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Animation using Styles </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using Styles, we can animate the trend lines. Here, we will animate the x-scale &amp; the alpha of the trend line. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; </p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;trendLines&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='430000' color='009933' displayvalue='Target' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/trendLines&gt;</p>
+        <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='Anim1' type='animation' param='_xScale' start='0' duration='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='Anim2' type='animation' param='_alpha' start='0' duration='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='TRENDLINES' styles='Anim1, Anim2' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;<br />
+        </strong><br />
+  &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Trend lines in Dual-Y Axis Chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">A dual y-axis chart has 2 y-axes. So when you are  defining a trend line, you also need to define which axis the line has to be defined on. This can be done using the <span class="codeInline">parentYAxis</span> attribute. By default, the trend line shows up on the primary y-axis but if you want to show it on the secondary y-axis you have to configure the same by setting <span class="codeInline">parentYAxis='S'</span>. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeBlock">&lt;line startValue='430000' color='009933' displayvalue='Target' <span class="codeInline"><strong>parentYAxis='S' </strong></span>/&gt; </span></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

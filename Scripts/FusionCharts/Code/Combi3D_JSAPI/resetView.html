@@ -1,0 +1,31 @@
+<HTML>
+	<HEAD>
+		<TITLE>FusionCharts &amp; JavaScript - Combi3D chart - Reset 3D View Example</TITLE> 
+	
+		<SCRIPT LANGUAGE="Javascript" SRC="../../JSClass/FusionCharts.js"  ></SCRIPT>
+		<SCRIPT LANGUAGE="JavaScript">
+			function reset3DView()
+			{
+				 //Get chart from its ID
+				 var chartToReset3DView = getChartFromId("chart1Id");
+				 chartToReset3DView.resetView();
+			}
+		</SCRIPT>
+	
+	</HEAD>
+	<BODY>
+		<CENTER>
+		<h2>FusionCharts &amp; JavaScript - Combi3D chart - Reset to Initial 3D View</h2>
+		
+		<div id="chart1div">FusionCharts</div>
+		<script language="JavaScript"> 
+			var chart1 = new FusionCharts("../FusionCharts/MSCombi3D.swf", "chart1Id", "400", "300", "0", "1"); 
+			chart1.setDataXML("<chart ><categories><category label='A' /></categories><dataset><set label='A' value='10' /></dataset><dataset><set label='B' value='11' /></dataset></chart>");
+			chart1.render("chart1div");
+		</script>
+		
+		<input type='button' value='Reset 3D View' onClick='reset3DView();'>
+		
+		</CENTER>
+	</BODY>
+</HTML>

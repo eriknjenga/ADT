@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/Documentation Page.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>FusionCharts Export API Documentaion - Overview</title>
+<!-- InstanceEndEditable -->
+<script type="text/javascript" src="JS/lib.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/prettify/prettify.css">
+<script type="text/javascript" src="assets/prettify/prettify.js"></script>
+<link rel="stylesheet" type="text/css" href="css/typoset.css">
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+</head>
+<body>
+<div id="wrapper">
+  <noscript class="hl-red">
+  &nbsp;<br />
+  For maximum compatibility, it is requested that you browse this page in a JavaScript enabled browser.
+  </noscript>
+  <div id="topshadow"></div>
+  <div id="viewport">
+    <h2><!-- InstanceBeginEditable name="pagetitle" --> Exporting charts as PDF/Images &gt; JavaScript Reference &gt; Export Attributes <!-- InstanceEndEditable --></h2>
+    <div id="contents"><!-- InstanceBeginEditable name="pagebody" -->
+      <p>These attributes are used while calling the <span class="code-inline">exportChart()</span> function of any FusionCharts object. They are meant to be passed as simple JavaScript object (JSON-like property-list) whenever there is the exportAttributes in context.</p>
+      <p>Typical usage of these attributes is in <span class="code-inline">exportAttributes</span> of every new <span class="code-inline">FusionChartsExportObject</span>.</p>
+      <p><strong>Example:</strong></p>
+      <pre class="prettyprint lang-html">&lt;script type=&quot;text/javascript&quot;&gt;
+    var myExporter = new FusionChartsExportObject('myExporter', 'FusionCharts/FCExporter.swf');<br /><br />    // customize the exporter by modifying the exportAttributes<br /><strong>    myExporter.exportAttributes.exportAtClient = '1';<br />    myExporter.exportAttributes.exportFormat = 'PDF';</strong><br /><br />    // render the UI<br />    myExporter.Render('ExporterContainerID');<br />&lt;/script&gt;</pre>
+      <p>In the FusionChartsExportObject constructor, you can provide export Attributes in {key1: 'value1', key2: 'value2', ... } format.</p>
+      <p><strong>Example:</strong></p>
+      <pre class="prettyprint lang-js"><span class="code-inline">var myComponent = new FusionChartsExportObject('myComponent', 'FusionCharts/FCexporter.swf', null<br />    <strong>{ exportAtClient: '1', exportFormat: 'PDF' }</strong> );</span></pre>
+      </p>
+<table width="98%" cellpadding="0" cellspacing="0" border="1">
+        <tr>
+          <th width="19%">Attribute Name</th>
+		  <th width="16%">Value Type</th>
+		  <th width="54%">Description</th>
+		  <th width="11%">Default Value</th>
+        </tr>
+        <tr>
+          <th scope="col">exportHandler</th>
+          <td>string</td>
+          <td> 	
+
+            <p>In case of server side exporting, this refers to the path of the server-side export handler (the ready-to-use scripts that we provide).</p>
+          <p>In case of client-side exporting, this refers to the DOM-Id of FusionCharts Export component that is embedded in your web page, along with the chart. </p></td>
+          <td><em>undefined</em></td>
+        </tr>
+        <tr>
+          <th scope="col">exportAtClient</th>
+          <td>boolean<br />
+            (0/1) </td>
+          <td><p> 	Whether to use client side export handlers, or server side export handlers.</p>
+          <p><strong>Note:</strong> By default the value is set to 0 which means the export is supposed to  be done at server-side.</p></td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <th scope="col">exportFormat</th>
+          <td>string enum<br />
+            ('PNG' / 'JPG' / 'PDF')</td>
+          <td><p>You can choose the format in which the chart is exported.</p></td>
+          <td>PNG</td>
+        </tr>
+        <tr>
+          <th scope="col">exportFileName</th>
+          <td>string</td>
+          <td><p>Using this attribute you can specify the name  (excluding the extension) of the file to be exported.</p>
+              <p>When server-side–save  export is specified this attribute must provide the relative path of the destination file that is going to be  saved to the server.<br />
+                e.g. “../gallery/charts/myExpenseChart”</p></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <th scope="col">exportAction</th>
+          <td>string enum<br />
+            ('download' / 'save') </td>
+          <td><p> In case of server-side exporting, the action specifies whether the exported image will be sent back to client as download, or whether it'll be saved on the server.</p>
+              <p><strong>Note:</strong> Thus is only available for server side export.</p></td>
+          <td>download</td>
+        </tr>
+        <tr>
+          <th scope="col">exportTargetWindow</th>
+          <td>string enum<br />
+            ('_self' / '_blank')</td>
+          <td><p><span class="text">In case of server-side exporting and when using download as action, this lets you configure whether the return image/PDF would open in same window (as an attachment for download), or whether it will open in a new window. </span></p>
+              <p><strong>Note:</strong> Thus is only available for server side export.</p></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <th scope="col">showExportDialog</th>
+          <td>boolean<br />
+(0/1)</td>
+          <td><p>Whether to show the export dialog during capture phase. If not, the chart starts capturing process without the dialog visible.</p></td>
+          <td>1</td>
+        </tr>
+		<tr>
+          <th scope="col">exportCallback</th>
+		  <td>string</td>
+		  <td><p>This attribute specifies the name of the callback JavaScript  function which would be called when the export event is complete.</p>
+		      <p>The internal JavaScript function <em>FC_Exported </em>is the default method that will be called when no value specified.</p></td>
+		  <td>FC_Exported</td>
+	    </tr>
+      </table>
+    <!-- InstanceEndEditable --></div>
+    <div id="footer"><!-- InstanceBeginEditable name="pageFooter" --><!-- InstanceEndEditable --></div>
+  </div>
+</div>
+</body>
+<!-- InstanceEnd -->
+</html>
+

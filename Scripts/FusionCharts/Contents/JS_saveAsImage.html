@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td valign="top" class="pageHeader">FusionCharts, JavaScript and <span class="codeInline"><strong>saveAsImage()</strong></span> Method </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you've configured your chart to allow export to images (see section Saving as Image), you can invoke this functionality using JavaScript too, using the <span class="codeInline">saveAsImage() </span>method of each chart. </p>
+      <p>The first step is to set <span class="codeInline">registerWithJS</span> flag of chart as <span class="codeInline">1</span>, as shown under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&lt;/div&gt;<br />
+&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, <strong>&quot;1&quot;</strong>); <br />
+&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart <strong>imageSave='1' imageSaveURL='http://&lt;&lt;Path to your script&gt;&gt;/FusionChartsSave.aspx'</strong>&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Next, in your XML data configure the parameters required for chart saving (<span class="codeInline">imageSave</span>, <span class="codeInline">imageSaveURL</span> etc.). Thereafter, you can invoke the <span class="codeInline">saveAsImage()</span> method of the chart object to invoke the chart saving routine. </p>
+      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts &amp; JavaScript - Saving Chart Example&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>function saveChart(){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Get chart from its ID</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chartToPrint = getChartFromId(&quot;chart1Id&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chartToPrint.saveAsImage();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;CENTER&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;h2&gt;FusionCharts and JavaScript - Basic Example&lt;/h2&gt;<br />
+<br />
+&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart <strong>imageSave='1' imageSaveURL='http://&lt;&lt;Path to your script&gt;&gt;/FusionChartsSave.aspx'</strong>&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;center&gt;&lt;input type='button' value='Save Chart as Image' onClick='javascript:saveChart();'&gt;&lt;/center&gt;<br />
+&nbsp;&nbsp;&nbsp;
+<br />
+&nbsp;&nbsp;&nbsp;&lt;/CENTER&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first creating a Column 3D chart with DOM Id as <span class="codeInline">chart1Id</span>. We also register it with JavaScript. Thereafter, we've created a HTML button, which when clicked invokes the local <span class="codeInline">saveChart()</span> function. This function just gets the reference to the chart using <span class="codeInline">getChartFromId()</span> function and finally invokes the <span class="codeInline">saveAsImage()</span> method on the chart. </p>
+      <p class="highlightBlock">If you intend to save the chart soon after the chart has loaded, make sure to put the<span class="codeInline"> saveAsImage()</span> command in <span class="codeInline">FC_Rendered</span> event; otherwise, the exporting will get invoked before the chart has started rendering, and you'll get a blank image output. </p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

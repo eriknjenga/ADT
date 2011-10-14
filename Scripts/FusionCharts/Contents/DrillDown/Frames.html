@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Linking to Frames</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts allows you to open links in 
+        specified frames too. To do so, you just specify the name of the frame 
+        in the link itself. This feature can be very useful when creating simulated 
+        drill down reports and dashboards.</p>
+      <p>To open link in a specified frame, you need to set the link as under:</p>
+      <p class="codeInline">&lt;set ... value='2235' link='F-FrameName-ShowDetails.asp%3FMonth%3DJan' 
+        ... &gt;</p>
+      <p>The first character in the link is F, denoting that we need to open this 
+        link in a frame. Post F, we add a dash character (-) and then specify 
+        the name of frame in which we want the link to open. Soon after the frame 
+        name, we add another dash character and finally write the actual link 
+        which is to be opened. <strong>Again, the link needs to be URL Encoded.</strong></p>
+      <p>XML Example:<br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='17400' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink1.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='19800' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink2.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='21800' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink3.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='23800' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink4.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='May' value='29600' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink5.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='27600' link='F-<strong>detailsFrame</strong>-../DemoLinkPages/DemoLink6.html'/&gt;<br /> 
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this example, the main frameset is contained 
+        in <span class="codeInline">FrameExample.html</span>, which has two vertical 
+        frame pane- one on top containing the chart (<span class="codeInline">FramePages\FrameChart.html</span>) 
+        and one on bottom to show the linked frame pages. The bottom pane by default 
+        shows <span class="codeInline">FramePages\LowerFrame.html</span> which 
+        contains the message &quot;Click on columns above to view details &quot;.</p>
+      <p>The setup looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="Images/Frames.jpg" width="552" height="425" border="1" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The HTML code of <span class="codeInline">FrameExample.html</span> 
+        is as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;head&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts 
+      Frame Drill-down example<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/title&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;/head&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;frameset rows=&quot;350,*&quot; 
+      cols=&quot;*&quot; frameborder=&quot;YES&quot; border=&quot;1&quot; framespacing=&quot;0&quot;&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;frame src=&quot;FramePages/FrameChart.html&quot; 
+      name=&quot;chartFrame&quot; scrolling=&quot;NO&quot; noresize &gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;frame src=&quot;FramePages/LowerFrame.html&quot; 
+      name=&quot;detailsFrame&quot; scrolling=&quot;Auto&quot; noresize&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;/frameset&gt;<br /> &lt;/html&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>The top frame (<span class="codeInline">FramePages\FrameChart.html</span>) 
+        contains the chart and is named as <span class="codeInline">chartFrame</span>. 
+        The bottom frame responds to click events from the chart - it's named 
+        as <span class="codeInline">detailsFrame</span>, and we use this name 
+        in our XML data links.</p>
+      <p>When the user now clicks on the chart links, they open up in <span class="codeInline">detailsFrame</span> 
+        frame pane, which is what we exactly wanted to.</p></td>
+  </tr>
+</table>
+</body>
+</html>

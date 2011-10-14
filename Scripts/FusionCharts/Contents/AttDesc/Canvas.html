@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Chart Canvas </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Canvas refers to   the area in which the chart is plotted. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Canvas_1.jpg" width="410" height="230" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Canvas_2.jpg" width="410" height="230" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing Canvas Fill Color </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can fill the canvas with solid or gradient color. The following attributes let you fill a solid color in the canvas:  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="15%" valign="top" class="textBold">Attribute</td>
+        <td width="60%" class="textBold">Description</td>
+        <td width="25%" valign="top" class="textBold">Example</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasbgColor</td>
+        <td width="60%" valign="top" class="text"><p>Lets you set the background color for the Canvas. Use hex color code without #. To use a gradient fill, speicfy all the colors of the gradient separated by commas. </p>          </td>
+        <td width="25%" valign="top" class="codeInline">canvasbgColor='1D8BD1'</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasbgAlpha</td>
+        <td width="60%" valign="top" class="text">Lets you sets alpha    (transparency) for canvas. </td>
+        <td width="25%" valign="top" class="codeInline style5"><p>canvasbgAlpha='60'</p>          </td>
+      </tr>
+    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example: <span class="codeInline">&lt;chart ... canvasBgColor='CCCCCC' canvasBgAlpha='80' ...&gt;</span> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing Canvas Border </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The 2D Charts have a border around the canvas as shown below:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Canvas_3.jpg" width="410" height="230" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can customize the canvas border using the attributes below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="15%" valign="top" class="textBold">Attribute</td>
+        <td width="60%" class="textBold">Description</td>
+        <td width="25%" class="textBold">Example</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBorderColor </td>
+        <td width="60%" class="text">Lets you set the color for canvas border.</td>
+        <td width="25%" valign="top" class="codeInline">canvasBorderColor='1D8BD1'</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBorderThickness </td>
+        <td width="60%" class="text">Lets you set thickness of canvas border (in pixels)</td>
+        <td width="25%" valign="top" class="codeInline">canvasBorderThickness='2'</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBorderAlpha</td>
+        <td width="60%" class="text">Lets you set alpha    for canvas border.</td>
+        <td width="25%" valign="top" class="codeInline">canvasBorderAlpha='60'</td>
+      </tr>
+    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example: <span class="codeInline">&lt;chart ... canvasBorderColor='666666' canvasBorderThickness='1' canvasBorderAlpha='80' ...&gt;</span> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using gradient fills for canvas </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also use gradients to fill the canvas. The following attributes let you do so: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="15%" valign="top" class="textBold">Attribute</td>
+        <td width="60%" valign="top" class="textBold">Description</td>
+        <td width="25%" valign="top" class="textBold">Example</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBgColor</td>
+        <td width="60%" valign="top" class="text"><p>To fill the canvas as gradient, you need to define two (or more) colors   separated by comma. Use hex code of colors without specifying #. </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBgColor='1D8BD1,FFFFFF' </p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBgAlpha</td>
+        <td width="60%" valign="top" class="text"><p>For each color code that you've specifed in <span class="codeInline">canvasbgColor</span> attribute, you need to specify a respective   alpha (transparency). Separate the alphas by comma. </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBgAlpha='40,100'</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBgRatio</td>
+        <td width="60%" valign="top" class="text"><p>Ratio of each color in the gradient on a scale of 100. The total ratios   specified as this attribute should sum up to 100. For example, if you want to   plot a equi-distant gradient for 2 colors, specify <span class="codeInline">canvasbgRatio</span> as &quot;0,100&quot;. </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBgRatio='40,60'</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBgAngle</td>
+        <td width="60%" valign="top" class="text"><p>Angle of the gradient fill (in degrees - 0-360). </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBgAngle='270' </p></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example: <span class="codeInline">&lt;chart canvasBgColor='FFFFFF,FF5904' canvasBgAlpha='100,40' canvasBgRatio='0,100' canvasBgAngle='180'&gt;</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuration Options for 3D Canvas </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For 3D charts (and canvas), you've the following configuration properties: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="15%" valign="top" class="textBold">Attribute</td>
+        <td width="60%" valign="top" class="textBold">Description</td>
+        <td width="25%" valign="top" class="textBold">Example</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">showCanvasBg</td>
+        <td width="60%" valign="top" class="text"><p>Whether to show canvas background. </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>showCanvasBg='1'</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">showCanvasBase </td>
+        <td width="60%" valign="top" class="text"><p>Whether to show canvas base. </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>showCanvasBase='1'</p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBaseDepth </td>
+        <td width="60%" valign="top" class="text"><p>Height of canvas base (in pixels) </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBaseDepth='10' </p></td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">canvasBgDepth </td>
+        <td width="60%" valign="top" class="text"><p>Depth of Canvas Background </p></td>
+        <td width="25%" valign="top" class="codeInline"><p>canvasBgDepth='3' </p></td>
+      </tr>
+    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects to Canvas </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using STYLES, you can apply effects like bevel, shadow, glow &amp; blur to canvas. Shown below is an example where bevel (right side only) and shadow have been applied to canvas: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Canvas_4.jpg" width="414" height="209" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And the XML for this can be listed as below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myBevel' type='Bevel' angle='0' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='Shadow' distance='5' angle='45'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Canvas' styles='myBevel,myShadow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can similarly apply other effects too. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Animating the Canvas </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using STYLES, you can also animate the chart canvas. For example, the XML below renders the grow-effect to the 2D canvas. For 3D canvas, you can animate only <span class="codeInline">_alpha</span> property.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCanvasAnimX' type='Animation' param='_xScale' start='0' duration='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCanvasAnimY' type='Animation' param='_yScale' start='0' duration='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Canvas' styles='myCanvasAnimX,myCanvasAnimY' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;    </strong><br />
+      &lt;/chart&gt;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In a similar manner, you can apply other animation effects to 2D canvas. </td>
+  </tr>
+</table>
+</body>
+</html>

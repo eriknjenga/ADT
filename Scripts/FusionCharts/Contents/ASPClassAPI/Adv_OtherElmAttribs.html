@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Advanced Usage &gt; Other Elements' Attributes </h2></td>
+  </tr>
+  
+
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts ASP Class API lets you configure  attributes of various chart elements like dataset, dataplot, categories etc. In this section we will see sample usage of those functions of FusionCharts ASP Class which help in achieving this. Topics include: </p>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header" style="line-height:22px;"><ul>
+      <li><a href="#cats">Provide categories attributes</a></li>
+      <li><a href="#cat">Provide attribute for each category</a></li>
+      <li><a href="#dataset">Provide dataset attributes </a></li>
+      <li><a href="#dataplotprops">Provide attribute to each dataplot</a></li>
+      </ul></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="cats" class="header" id="cats">Provide categories attributes</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">Attributes which are specific to <span class="codeInline">&lt;categories&gt;</span> element can be set using <span class="codeInline">setCategoriesParams</span> function. We will pass a delimiter (default is &quot;;&quot;) separated list of attributes to the function. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><strong>Example: </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Call FC.setCategoriesParams(&quot;font=Arial;fontSize=13;fontColor=ff0000&quot;)</td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><a name="cat" class="header" id="cat">Provide attribute for each category</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">We can configure each category while adding a category using <span class="codeInline">addCategory</span> function. This is done by passing category attributes as a list of delimiter separated attributes as the second parameter to the <span class="codeInline">addCategory</span> function. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><strong>Example:</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Call FC.addCategory(&quot;Week 1&quot;,&quot;toolText=Sales for week 1&quot;)<br />
+    Call FC.addCategory(&quot;Week 2 &quot;,&quot;toolText=Sales for second week;showlabel=1&quot;)<br />
+    Call FC.addCategory(&quot;Week 3 &quot;,&quot;showlabel=0&quot;)</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="dataset" class="header" id="dataset">Provide dataset attributes</a></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">To provide dataset attributes we need to use the function - <span class="codeInline">addDataset</span>. It accepts the <span class="codeInline">seriesName</span> attribute of the dataset as its first parameter. The other parameter accepts a delimiter (default is ;) separated list of dataset attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The example below will add 3 datasets for a combination chart. The first two datasets with 'This Month' and 'Previous Month'  as <span class="codeInline">seriesName</span> (respectively) , will be set to Primary Y-Axis and would not show data values. The third dataset with 'Total Quantity' as <span class="codeInline">seriesName</span>, will be set to Secondary Y-Axis, 5 sided anchors and various other anchor settings. </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"> <p class="codeInline">Call FC.addDataset(&quot;This Month&quot;,&quot;<strong>showValues=0;parentYAxis=P</strong>&quot;)<br />
+      ...<br />
+        <br />
+        Call FC.addDataset(&quot;Previous Month&quot;,&quot;<strong>showValues=0;parentYAxis=P</strong>&quot;) </p>
+      <p class="codeInline">...<br />
+        <br />
+  Call FC.addDataset(&quot;Total Quantity&quot;,&quot;<strong>parentYaxis=S;anchorSides=5;anchorradius=6;color=880000;anchorBgcolor=EE0000&quot;</strong>)</p>    
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart that follows is as shown below: </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><img src="../Images/ClassImages/Adv_dataset.jpg" width="432" height="334" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><a name="dataplotprops" class="header">Provide attribute to each dataplot</a> </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><span class="codeInline">setChartParams()</span> function sets chart parameters globally. However, we may need to set specific properties to particular <span class="text">dataplot</span>. To do so, we need to send the paramaters through <span class="codeInline">addChartData()</span> function while feeding data. Consider the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment"># Create a line chart object </span><br />
+    FC = new FusionCharts(&quot;Column3D&quot;,&quot;300&quot;,&quot;250&quot;) <br />
+        <br />
+        ...</p>
+      <p><span class="codeComment"># add chart values and category names</span><br />
+        Call FC.addChartData(&quot;48200&quot;, &quot;label=Week 1<strong>;alpha=40;showlabel=0;showValue=0</strong>&quot;)<br />
+        Call FC.addChartData(&quot;32100&quot;, &quot;label=Week 2<strong>;alpha=40;showlabel=0;showValue=0</strong>&quot;)<br />
+        Call FC.addChartData(&quot;21400&quot;, &quot;label=Week 3<strong>;tooltext=Lowest;link=tooLow.asp</strong>&quot;)<br />
+        Call FC.addChartData(&quot;54400&quot;, &quot;label=Week 4<strong>;showlabel=0;showValue=0;alpha=40;tooltext=Highest</strong>&quot;)<br />
+        <br />
+        ...<br />
+      </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we provide different  alpha values for each dataplot. We also hide the data values and category names of all the data plots except the third one. Again we set a link to the third dataplot. Moreover, we also set <span class="codeInline">tooltext</span> values for third and fourth dataplot. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text"><img src="../Images/ClassImages/Adv_dataplot.jpg" width="296" height="236" class="imageBorder" /></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">By the above mentioned way we can control the individual dataplots of Line, Bar, Area and all other charts.</td>
+  </tr>
+</table>
+</body>
+</html>

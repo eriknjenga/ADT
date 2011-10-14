@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Data Values </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Data values  refer to the plot values i.e., values of each data   plot (line, column, bar, pie etc.) displayed beside it. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Wrap.jpg" width="309" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the chart shown above, $434, $376 etc appearing above the column are the data values. By default, the data values are shown. But you can hide them by setting <span class="codeInline">&lt;chart showValues='0'&gt;</span>. </p>
+      <p class="header">Text labels instead of data values </p>
+    <p class="text">FusionCharts also allows you to specify custom string values instead of the numeric data values for each data item. This can be provided as <span class="codeInline">displayValue</span> attribute of <span class="codeInline">&lt;set&gt;</span> element as under:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' baseFontSize='11'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' <strong>displayValue='Yearly best, $42.3K'</strong>/&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+   &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This will result in the following. The tool-tip will, however, still show the numerical value (unless a custom tool-text is specified). </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/DisplayValue_1.jpg" width="454" height="278" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>&nbsp;</p>
+      <p class="header">Modes for data values </p>
+      <p class="text">The data values can be displayed on the chart in the following ways: </p>
+      <ul>
+          <li>Normal</li>
+          <li>Rotated</li>
+      </ul>
+      <p>In a column chart, you also have the option to place the data values either inside the column or outside it. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Rotated data values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>By default, FusionCharts shows the data values horizontally. But, you can rotate it by setting <span class="codeInline">&lt;chart rotateValues='1'&gt;</span>. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values2.jpg" width="137" height="78" border="1" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Placing data values inside columns </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The data values can be placed inside the columns using <span class="codeInline">&lt;chart placeValuesInside='1'&gt;.</span> It yields the following result. </p>    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values4.jpg" width="137" height="82" border="1" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For better clarity, you can rotate the data values when placing them inside columns - <span class="codeInline">&lt;chart rotateValues='1' placeValuesInside='1'&gt;</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values3.jpg" width="137" height="82" border="1" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Showing specific data values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can opt to show only specific data labels by using <span class="codeInline">&lt;chart showValues='0'&gt; </span>and then setting <span class="codeInline">showValue='1'</span> for the set you want to show the value. A chart having the same looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><img src="Images/data_values6.jpg" width="300" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the same is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>showValues='0'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' <strong>showValue='1'</strong>/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing Font Properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using a single font property for all the values </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you want to specify a single font property for all the text on the chart, you can use the <span class="codeInline">baseFont</span> attribute group. </p>
+        <p>The following attributes are a part of this group: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="1" align="left" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="text"><strong>Attribute Name </strong></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1" class="text"><strong>Description</strong></td>
+          <td valign="top" bordercolor="f1f1f1" class="text"><strong>Example</strong></td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline">baseFont&nbsp;</td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font family e.g., Arial, Verdana etc</span></td>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">baseFont</span>='Verdana'</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="text"><span class="codeInline">baseFontSize</span>&nbsp;&nbsp;</span></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font size (8-72)</span></td>
+          <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">baseFontSize</span>='10' </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">baseFontColor</span></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text"> Lets you define the font color. Use hex code for the color without #. E.g., 000000 or 009933 or 999999 </span></td>
+          <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">baseFontColor=</span>'<span class="text">009933</span>'</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Example XML: </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxis='Quarter' yAxisName='Sales' <strong>baseFont='Arial' baseFontSize='12' baseFontColor='333333'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt; <br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Output:</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values7.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, all the text in the chart has acquired the properties defined using the <span class="codeInline">baseFont</span> attribute group. </p>
+      <p>If you want the font properties for the text within the canvas (data values, tool tips) to be different from the font properties of the text outside the canvas, then you need to define both the <span class="codeInline">baseFont</span> and the <span class="codeInline">outCnvBaseFont</span> attribute groups. While the <span class="codeInline">baseFont</span> attribute group would set the attributes for all the text in the chart, <span class="codeInline">outCnvbaseFont </span>attribute group would over-ride the settings for the text outside the canvas, thus leaving the in-canvas text with different properties than the out-canvas text. The XML for the same would be:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxis='Quarter' yAxisName='Sales' <strong>baseFont='Arial' baseFontSize='12' baseFontColor='999999' baseFont='Arial' outCnvbaseFontSize='10' outCnvBaseFontColor='333333'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt; <br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to specify font properties for individual titles </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you do not want all the text on your chart to have similar font properties, you can use STYLES to define individual font properties for different text on the chart. Using STYLES you can specify a different font name, size, color, background &amp; border color and also make the text bold or italicized. </p>
+        <p>Shown below is a change in the font properties of the data values. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values8.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myValuesFont' type='font' size='12' color='FFFFFF' bold='1' bgColor='666666' borderColor='666666'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='myValuesFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Applying effects </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply effects (shadow, glow, blur, bevel etc.) to the chart titles using STYLES. Shown below is an example: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values9.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XMl for the same is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        </strong><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='Shadow' color='999999' angle='45'/&gt; <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='</strong><strong>myShadow' /&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We can also apply a glow to the data values as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values10.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the above is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;
+        </strong><strong><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myGlow' type='Glow' color='9999999'/&gt; <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='</strong><strong>myGlow' /&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying animation to data values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply animation effects to the data labels using STYLES. Shown below is an XML example which animates the y-position of the data values from the top of the chart canvas to their respective positions. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim' type='animation' type='animation' param='_y' start='$canvasStartY' duration='1' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='myAnim' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+</table>
+</body>
+</html>

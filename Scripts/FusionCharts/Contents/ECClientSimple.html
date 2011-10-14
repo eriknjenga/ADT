@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Client-side export &gt; Simple Example </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we'll cover examples for setting up client-side exporting of charts. We'll first start with the simplest example and then move ahead by configuring various parameters.</p>
+      <p>Before you start, you'll need to follow these steps:</p>
+      <ol>
+        <li>Copy <span class="codeInline">FusionChartsExportComponent.js</span> from <span class="codeInline">Download Package &gt; JSClass</span> to your server. A good location is where you've placed <span class="codeInline">FusionCharts.js</span></li>
+        <li>Copy <span class="codeInline">FCExporter.swf</span> from <span class="codeInline">Download Package &gt; Charts</span> to your server. A good location is where you've placed the other chart SWF files.</li>
+      </ol>
+    <p>With that done, our next few steps are:</p>
+    <ol>
+      <li>Include an instance of Exporter Component in your web page</li>
+      <li>Configure the chart  (XML) to use this instance of export component by specifying it in HTML </li>
+      <li>Start exporting   </li>
+      </ol>
+    <p>Let's see how to implement each of them in details. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating instance of Export Component in your web page </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The instance of the export component can be created in your web page easily using our <span class="codeInline">FusionChartsExportComponent</span> JavaScript class.</p>
+    <p> So, you first need to include the JavaScript class in your page as under. Make sure to include this page after <span class="codeInline">FusionCharts.js</span>, as this class references some of the objects defined in <span class="codeInline">FusionCharts.js</span>. This order of inclusion is important.</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;      &lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionChartsExportComponent.js&quot;&gt;&lt;/script&gt;<br />
+&lt;/head&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, using this class, you need to create an instance of this component in your page. For that, you first define an empty DIV and name it, as shown under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">&lt;!-- We also create a DIV to contain the FusionCharts client-side exporter component --&gt;</span><br />
+&lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the DIV has been named as <span class="codeInline">fcexpDiv</span>. </p>
+      <p class="highlightBlock">Note that you can place this DIV anywhere in your page - it's not necessary to place it beside the chart. However, since the UI of this export component shows a button for initiating export, it's better to place it somewhere near the chart so that your users can recognize it. </p>
+    <p>Finally, you create an instance of the export component in your page using the following JavaScript code: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        <span class="codeComment">//Note: fcExporter1 is the DOM ID of the DIV and should be specified as value of exportHandler<br />
+      //attribute of chart XML.</span><br />
+      var myExportComponent = new FusionChartsExportObject(&quot;fcExporter1&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);</p>
+      <p> <span class="codeComment">//Render the exporter SWF in our DIV fcexpDiv</span><br />
+    myExportComponent.Render(&quot;fcexpDiv&quot;);</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we first create an instance of <span class="codeInline">FusionChartsExportObject</span>, which is the JavaScript class representation of FusionCharts Export Component. To this, we specify the DOM-Id of this export component instance - <span class="codeInline">fcExporter1</span> in this case. We also specify the location of the component SWF file as second parameter. Finally, we call the <span class="codeInline">Render</span> method of the class with our DIV id as parameter. This generates an instance of the exporter component in the specified DIV at run-time. </p>
+    <p class="highlightBlock">While there are more parameters that you can provide in this constructor to customize the cosmetics and functional behavior of export component, we'll come to them later.</p>
+    <p>The final code of the page looks as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+      &lt;head&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionChartsExportComponent.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;/head&gt;</p>
+      <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Create the chart.<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Note that you necessarily need to set the registerWithJS attribute as 1, as JavaScript is used for client-<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//side communication between the chart and FusionCharts Exporter Component.<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../../FusionCharts/Column2D.swf&quot;, &quot;myChartId&quot;, &quot;500&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;SimpleExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+  &nbsp;&nbsp;&nbsp;&lt;/script&gt;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!-- We also create a DIV to contain the FusionCharts client-side exporter component --&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Render the export component in this<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Note: fcExporter1 is the DOM ID of the DIV and should be specified as value of exportHandler<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//attribute of chart XML.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myExportComponent = new FusionChartsExportObject(&quot;fcExporter1&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Render the exporter SWF in our DIV fcexpDiv</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myExportComponent.Render(&quot;fcexpDiv&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;</p>
+      <p>&lt;/body&gt;<br />
+    &lt;/html&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This completes the code needed in your HTML. Now, we just need to configure our chart XML data to use this export component. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring XML for client-side export </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the XML, you need to do three things:</p>
+      <ul>
+        <li>Enable your chart for export (using <span class="codeInline">exportEnabled</span> attribute) </li>
+        <li>Set it to use client-side export (using <span class="codeInline">exportAtClient</span> attribute) </li>
+        <li>Give reference (DOM Id) of the export component that you created in your HTML page (using <span class="codeInline">exportHandler</span> attribute) </li>
+      </ul>
+    <p>The following XML snippet shows how to attain these: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' <strong>exportEnabled='1' exportAtClient='1' exportHandler='fcExporter1'</strong>&gt;<br />
+  &lt;set label='Alex' value='25000'  /&gt; <br />
+  &lt;set label='Mark' value='35000' /&gt; <br />
+  &lt;set label='David' value='42300' /&gt; <br />
+  &lt;set label='Graham' value='35300' /&gt; <br />
+  &lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now fire up your HTML page, you'll see a screen as under. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientSimple1.jpg" width="481" height="340" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The screen consists of a chart and a small <span class="codeInline">Waiting</span> button below it. This button is the UI of FusionCharts export component. By default, it's enabled as the chart hasn't yet exported its data to export component. The export component can have UI in two modes - Compact or Full. What you see here is the compact mode with just the button on. We'll cover customization of this mode and full mode in the coming sections. </p>
+      <p>To start exporting, right click on the chart and select &quot;<span class="codeInline">Save as JPEG</span>&quot;. You'll see the chart entering capture phase. Once capture phase is finished, the chart passes this data to export component, which in turn processes it and makes it available for download. In this state, the title of button changes to &quot;Save&quot; and it gets enabled, as shown below. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientSimple2.jpg" width="492" height="335" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you click this button now, the browser shows a &quot;Save as&quot; dialog box, which allows you to save the exported chart output on your hard drive. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientSimple3.jpg" width="577" height="475" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the chart downloads as &quot;<span class="codeInline">FusionCharts.jpg</span>&quot;. If you wish to change the name of file, you can specify it in your XML as:</p>
+      <p class="codeInline">&lt;chart ... exportFileName='MyFileName' ...&gt; </p>
+      <p>Note  that you do not have to provide the extension here, as the extension  depends on the format that was selected on chart during export. Now, if you're wondering why the export component needs to be a separate SWF file and why does it need to have a UI, let's understand the same. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">FusionCharts Export Component - Why a separate UI? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts is made in Flash 8 (AS2) which doesn't support byte-streams and file downloads. However, Flash 10 (AS3) does support the same. So, to get the best of both worlds, the Export Component has been coded in Flash 10 (AS3) to be able to handle image/PDF building (using byte streams) and to allow download of the same. </p>
+      <p>The bridge between FusionCharts charts and the Export Component is JavaScript. So, we always ask you to set <span class="codeInline">registerWithJS</span> of chart as 1, and to run the files from a server (either localhost, or a remote server), as Flash Player, by default, blocks JavaScript communication when running from local filesystem.</p>
+    <p>Now if you're wondering why we cannot start automatic download of image/PDF from export component, rather than having to click a button, let us explain. In Flash Player, to allow download of a file, the end user has to necessarily interact with the Flash movie that initiates download. This has been done to avoid &quot;evil&quot; movies on web from doing any sort of harm. As such, the export component provides a button to click on, which initiates the download. As we earlier mentioned, the export component has two modes - Compact and Full Mode. The full mode has a much enhanced UI, wherein you can select format for each chart, or download all charts as a single file. We'll cover them later in Batch Export section. </p>
+    <p>Before that, let's quickly glance through customization options for the compact mode. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the Export Component UI </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The export component offers extensive UI customization options. Here, we'll see some of the basic configuration options. The entire list can be found in the section <span class="codeInline">Component UI Customization</span>. Consider the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">&lt;!-- We also create a DIV to contain the FusionCharts client-side exporter component --&gt;</span><br />
+&lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+<span class="codeComment">//Render the export component in this<br />
+//Note: fcExporter1 is the DOM ID of the DIV and should be specified as value of exportHandler<br />
+//attribute of chart XML.<br />
+</span>var myExportComponent = new FusionChartsExportObject(&quot;fcExporter1&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);<br />
+<br />
+<span class="codeComment">//Customize the component properties <br />
+//Width and height<br />
+</span>myExportComponent.componentAttributes.width = '400';<br />
+myExportComponent.componentAttributes.height = '60';<br />
+<span class="codeComment">//Background color</span><br />
+myExportComponent.componentAttributes.bgColor = 'ffffdd';<br />
+<span class="codeComment">//Border properties</span><br />
+myExportComponent.componentAttributes.borderThickness = '2';<br />
+myExportComponent.componentAttributes.borderColor = '0372AB';<br />
+<span class="codeComment">//Font properties</span><br />
+myExportComponent.componentAttributes.fontFace = 'Arial';<br />
+myExportComponent.componentAttributes.fontColor = '0372AB';<br />
+myExportComponent.componentAttributes.fontSize = '12';<br />
+<span class="codeComment">//Message - caption of export component</span><br />
+myExportComponent.componentAttributes.showMessage = '1';<br />
+myExportComponent.componentAttributes.message = 'Export the chart first, and then click on this button to save';<br />
+<span class="codeComment">//Button visual configuration</span><br />
+myExportComponent.componentAttributes.btnWidth = '200';<br />
+myExportComponent.componentAttributes.btnHeight= '25';<br />
+myExportComponent.componentAttributes.btnColor = 'E1f5ff';<br />
+myExportComponent.componentAttributes.btnBorderColor = '0372AB';<br />
+<span class="codeComment">//Button font properties</span><br />
+myExportComponent.componentAttributes.btnFontFace = 'Verdana';<br />
+myExportComponent.componentAttributes.btnFontColor = '0372AB';<br />
+myExportComponent.componentAttributes.btnFontSize = '15';<br />
+<span class="codeComment">//Title of button</span><br />
+myExportComponent.componentAttributes.btnsavetitle = 'Save the chart'<br />
+myExportComponent.componentAttributes.btndisabledtitle = 'Waiting for export'; <br />
+<span class="codeComment">//Render the exporter SWF in our DIV fcexpDiv</span><br />
+myExportComponent.Render(&quot;fcexpDiv&quot;);<br />
+&lt;/script&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we've specified various parameters for export component. This is done in the following syntax:</p>
+    <p class="codeInline">Component_Instance.componentAttributes.Parameter_name = 'Value';<br />
+      e.g., myExportComponent.componentAttributes.width = '400';</p>
+    <p>We've changed background colors, button colors, font properties, added a caption to UI and changed the title of button (both disabled stated and active state). When you now see your page, you'll get something as under. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientSimple4.gif" width="409" height="69" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline">In disabled mode (when export has not been initiated) </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECClientSimple5.gif" width="408" height="68" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeInline">In active mode (post export).</p>
+    <p>The full mode has more complex UI and allows lot more configuration options. Please see the page <span class="codeInline">Component UI Customization</span> to get the complete list. Before that, let's quickly see what to do when you've multiple charts on the page. </p></td>
+  </tr>
+</table>
+</body>
+</html>

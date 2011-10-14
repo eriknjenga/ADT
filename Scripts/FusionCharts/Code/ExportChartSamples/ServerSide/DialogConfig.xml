@@ -1,0 +1,8 @@
+<chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' exportEnabled='1' exportAtClient='0' exportAction='download' exportHandler='http://www.fusioncharts.com/ExportHandlers/PHP/FCExporter.php' exportFileName='MyFileName' exportFormats='PDF=Export as PDF|PNG=Export as PNG' exportDialogMessage='Building chart output ' exportDialogColor='e1f5ff' exportDialogBorderColor='0372ab' exportDialogFontColor='0372ab' exportDialogPBColor='0372ab'>
+	<set label='Alex' value='25000'  /> 
+	<set label='Mark' value='35000' /> 
+	<set label='David' value='42300' /> 
+	<set label='Graham' value='35300' /> 
+	<set label='John' value='31300' /> 
+
+</chart>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Chart Palettes </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts offers 5 palettes for you to choose from. The palette theme configures colors of the following:</p>
+      <ul>
+        <li>Background and border</li>
+        <li>Canvas border and background</li>
+        <li>Fonts</li>
+        <li>Div lines</li>
+        <li>Tooltip  </li>
+        <li>Anchors</li>
+        <li>Legend</li>
+      </ul>
+    <p>The palettes are numbered 1 to 5 and can be chosen using: <span class="codeInline">&lt;chart palette='1' ...&gt;. </span></p>
+    <p><span class="text">Shown below are the same chart with a few different palette colors. </span></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="0" cellpadding="2">
+      <tr>
+        <td><div align="center"><img src="Images/Palette1.jpg" width="256" height="205" /></div></td>
+        <td><div align="center"><img src="Images/Palette2.jpg" width="254" height="206" /></div></td>
+        <td><img src="Images/Palette3.jpg" width="259" height="209" />
+          <div align="center"></div></td>
+      </tr>
+      <tr>
+        <td class="text"><div align="center">Palette Set as 1 </div></td>
+        <td class="text"><div align="center">Palette Set as 2 </div></td>
+        <td class="text"><div align="center">Palette Set as 3 </div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the images above, the various elements of chart have changed colors based on palette number. However, the data items do not change color, as internal palettes do not cover them.</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Specifying Palette colors for data plot </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can however, specify your own palette for data items by providing a list of hex colors as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' <strong>paletteColors='FF5904,0372AB,FF0000'</strong>&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, 3 hex colors have been specified in <span class="codeInline">paletteColors</span> attribute. Since there are 3 columns in the chart, it results in following: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PaletteColors.jpg" width="258" height="209" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Had there been more columns, the colors would have been sequentially cycled for each of those columns. You can provide any number of colors as value of this attribute. </td>
+  </tr>
+</table>
+</body>
+</html>

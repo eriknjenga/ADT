@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>
+	FusionCharts Client-side Export Sample
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script language="JavaScript" src="../../FusionCharts/FusionChartsExportComponent.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	//Note that you necessarily need to set the registerWithJS attribute as 1, as JavaScript is used for client-
+	//side communication between the chart and FusionCharts Exporter Component.
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "500", "300", "0", "1");
+	myChart.setDataURL("SimpleExample.xml");
+	myChart.render("chartdiv");
+   </script>
+
+	<!-- We also create a DIV to contain the FusionCharts client-side exporter component -->
+	<div id="fcexpDiv" align="center">FusionCharts Export Handler Component</div>
+	<script type="text/javascript">
+    //Render the export component in this
+	//Note: fcExporter1 is the DOM ID of the DIV and should be specified as value of exportHandler
+	//attribute of chart XML.
+    var myExportComponent = new FusionChartsExportObject("fcExporter1", "../../FusionCharts/FCExporter.swf");
+	
+	//Customize the component
+	//Width and height
+	myExportComponent.componentAttributes.width = '400';
+	myExportComponent.componentAttributes.height = '60';
+	//Background color
+	myExportComponent.componentAttributes.bgColor = 'ffffdd';
+	//Border propeties
+	myExportComponent.componentAttributes.borderThickness = '2';
+	myExportComponent.componentAttributes.borderColor = '0372AB';
+	//Font properties
+	myExportComponent.componentAttributes.fontFace = 'Arial';
+	myExportComponent.componentAttributes.fontColor = '0372AB';
+	myExportComponent.componentAttributes.fontSize = '12';
+	//Message - caption of export component
+	myExportComponent.componentAttributes.showMessage = '1';
+	myExportComponent.componentAttributes.message = 'Export the chart first, and then click on this button to save';
+	//Button visual configuration
+	myExportComponent.componentAttributes.btnWidth = '200';
+	myExportComponent.componentAttributes.btnHeight= '25';
+	myExportComponent.componentAttributes.btnColor = 'E1f5ff';
+	myExportComponent.componentAttributes.btnBorderColor = '0372AB';
+	//Button font properties
+	myExportComponent.componentAttributes.btnFontFace = 'Verdana';
+	myExportComponent.componentAttributes.btnFontColor = '0372AB';
+	myExportComponent.componentAttributes.btnFontSize = '15';
+	//Title of button
+	myExportComponent.componentAttributes.btnsavetitle = 'Save the chart'
+	myExportComponent.componentAttributes.btndisabledtitle = 'Waiting for export';	
+    //Render the exporter SWF in our DIV fcexpDiv
+    myExportComponent.Render("fcexpDiv");
+  </script>
+
+</body>
+</html>

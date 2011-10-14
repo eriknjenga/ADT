@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Saving Chart as Image &gt; Overview </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Starting v3.0.5, FusionCharts can export charts as images. To export a chart as image, all you need to do is configure the setup using code provided by us and then right click on chart and select <em>Save as Image</em>.
+      </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_SaveAsImage.jpg" width="565" height="325" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This is done using a combination of FusionCharts and server side scripting, as Flash Player doesn't support exporting to images natively. The following processes take place when the chart is to be exported as image:</p>
+      <ol>
+        <li>First, the chart renders at client side using the XML data provided. In the XML data, you configure whether the chart would allow exporting of images. If yes, you can configure the script path and few cosmetic properties.</li>
+        <li>When the user right clicks on the chart and selects &quot;Save as Image&quot;, the chart takes a snapshot of itself, compresses it and sends to the specified server side script.</li>
+        <li>The server side scripts reads this  data, decompresses it, builds an image and returns it.</li>
+      </ol>
+      <p>In the download package, we've provided server side script for image saving in 5 languages - ASP.NET, PHP, JSP, ColdFusion and Perl, as all these technologies natively support server side image generation. If you intend to use PHP, you need to make sure that GD is installed and enabled. You can implement these scripts in other languages too using help of third party image generation components. </p>
+      <p>In the next section, we'll see how to set it up. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

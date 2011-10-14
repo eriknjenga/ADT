@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Adding your own &quot;About ...&quot; Context Menu </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can change the default &quot;About FusionCharts&quot; context menu item to show your label and link it to your own URL using: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' <strong>showAboutMenuItem='1' aboutMenuItemLabel='About My Company' aboutMenuItemLink='n-http://www.mycompany.com'</strong>&gt; <br />
+   &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This results in a menu item as shown below. The link has been specified in FusionCharts link format, and <span class="codeInline">n-</span> prefix opens the link in a new window. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/AboutMenu.jpg" width="518" height="304" /></td>
+  </tr>
+</table>
+</body>
+</html>

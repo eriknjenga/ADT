@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Chart Data &gt; Using Context Menu </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts allows you to export data from your charts in CSV format. The export of data can be triggered in two ways:</p>
+      <ul>
+        <li>Using the context menu of chart, which copies the generated CSV data to clipboard</li>
+        <li>Using FusionCharts JavaScript API for data export, which returns the CSV data as string in your JavaScript code</li>
+      </ul>
+    <p>Let's study both of them one by one. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the chart to export data from context menu </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To allow export of data using context menu, you need to specify the following in XML: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' <strong>showExportDataMenuItem='1'</strong>&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As soon as <span class="codeInline">showExportDataMenuItem='1'</span> is set in the chart, a new item is added to the chart's context menu, as shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ExportDataClip1.jpg" width="455" height="306" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The label of this menu item can be customized by setting:</p>
+      <p class="codeInline">&lt;chart ... exportDataMenuItemLabel='Copy the data of this chart' ...&gt;</p>
+    <p class="text">When you select this item, the data of this chart will be copied to your clipboard. If you open any text editor and paste the content of the clipboard, you'll get something as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&quot;Label&quot;,&quot;Sales Figure&quot;<br />
+      &quot;Alex&quot;,&quot;25000&quot;<br />
+      &quot;Mark&quot;,&quot;35000&quot;<br />
+      &quot;David&quot;,&quot;42300&quot;<br />
+      &quot;Graham&quot;,&quot;35300&quot;<br />
+    &quot;John&quot;,&quot;31300&quot;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This is basically the CSV representation of your chart's data. In case of multi-series charts, the data will have more columns (one for each dataset). Let us next see how to format the output CSV data using various export related XML attributes that FusionCharts exposes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the output CSV format </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can customize the following aspects of the output CSV data:</p>
+      <ul>
+        <li>The separator character to be used for data. By default this is CSV.</li>
+        <li>The qualifier character to be used. By default this is double quotes.</li>
+        <li>Whether to output formatted data values (as shown on chart) in CSV, or raw values.   </li>
+      </ul>
+    <p>The following attributes help in configuring this: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="15%" valign="top" class="textBold">Attribute</td>
+        <td width="60%" class="textBold">Description</td>
+        <td width="25%" class="textBold">Example</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">exportDataSeparator</td>
+        <td width="60%" class="text"><p>Lets you set the separator for CSV data. For ease of use, this attribute accepts the following pseudo codes for characters:</p>
+          <ul>
+            <li>{tab} - To specify tab character</li>
+            <li>{quot} - To specify double quotes</li>
+            <li>{apos} - To specify single quotes   </li>
+            </ul>
+          <p>You can also specify any other character apart from these pseudo codes. </p></td>
+        <td width="25%" valign="top" class="codeInline">exportDataSeparator='{tab}'</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">exportDataQualifier</td>
+        <td width="60%" class="text"><p>Lets you set the qualifier character for CSV data. For ease of use, this attribute accepts the following pseudo codes for characters:</p>
+          <ul>
+            <li>{tab} - To specify tab character</li>
+            <li>{quot} - To specify double quotes</li>
+            <li>{apos} - To specify single quotes </li>
+          </ul>
+          <p>You can also specify any other character apart from these pseudo codes. </p></td>
+        <td width="25%" valign="top" class="codeInline">exportDataQualifier='{quot}'</td>
+      </tr>
+      <tr>
+        <td width="15%" valign="top" class="codeInline">exportDataFormattedVal</td>
+        <td width="60%" class="text">Boolean value indicating whether to output formatted data values (as shown on chart) in the output CSV file. </td>
+        <td width="25%" valign="top" class="codeInline">exportDataFormattedVal='1'</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Output CSV data format for multi-series/stacked/combination charts </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">XML specified for the chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Country Comparison' shownames='1' showvalues='0' decimals='0' numberPrefix='$' showExportDataMenuItem='1'&gt;<br />
+      &lt;categories&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;category label='Austria' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;category label='Brazil' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;category label='France' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;category label='Germany' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;category label='USA' /&gt;<br />
+      &lt;/categories&gt;<br />
+      &lt;dataset seriesName='1996' color='AFD8F8' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='25601.34' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='20148.82' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='17372.76' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='35407.15' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='38105.68' /&gt;<br />
+      &lt;/dataset&gt;<br />
+      &lt;dataset seriesName='1997' color='F6BD0F' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='57401.85' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='41941.19' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='45263.37' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='117320.16' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='114845.27' /&gt;<br />
+      &lt;/dataset&gt;<br />
+      &lt;dataset seriesName='1998' color='8BBA00' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='45000.65' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set value='44835.76' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;set value='18722.18' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;set value='77557.31' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;set value='92633.68' /&gt;<br />
+        &lt;/dataset&gt;<br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Corresponding CSV output: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&quot;Label&quot;,&quot;1996&quot;,&quot;1997&quot;,&quot;1998&quot;<br />
+      &quot;Austria&quot;,&quot;25601.34&quot;,&quot;57401.85&quot;,&quot;45000.65&quot;<br />
+      &quot;Brazil&quot;,&quot;20148.82&quot;,&quot;41941.19&quot;,&quot;44835.76&quot;<br />
+      &quot;France&quot;,&quot;17372.76&quot;,&quot;45263.37&quot;,&quot;18722.18&quot;<br />
+      &quot;Germany&quot;,&quot;35407.15&quot;,&quot;117320.16&quot;,&quot;77557.31&quot;<br />
+    &quot;USA&quot;,&quot;38105.68&quot;,&quot;114845.27&quot;,&quot;92633.68&quot;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, since the XML didn't specify <span class="codeInline">xAxisName</span> attribute, <span class="codeInline">&quot;Label&quot;</span> has been put in CSV data as title for x-axis labels. The first line then contains series names of all the datasets present in the XML. Thereafter, each line of data first contains the x-axis label (category label) and value of each of those datasets for this label. </p>
+    <p>In the next section, we'll see how to access this data using JavaScript API. </p></td>
+  </tr>
+</table>
+</body>
+</html>

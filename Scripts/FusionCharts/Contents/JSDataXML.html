@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<script type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">JavaScript + setDataXML Method </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this method, you provide the XML data to FusionCharts using JavaScript   functions (present on the same page in which chart is present). The following diagram would help you understand better:</p>
+    <p>(Click on the diagram below to see the animated feature tour on this process)</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><a href='#'><img src="Images/JSXMLMethod.jpg" alt="Click to see an animated feature tour on this process" width="600" height="329" border="0" onclick="MM_openBrWindow('FeatureTours/XMLMethods.html','xmlMethods','status=yes,scrollbars=yes,resizable=yes,width=775,height=580')"/></a></p>
+    <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the following steps involved in this:</p>
+      <ol>
+        <li>Your server first sends the HTML content of the page and the chart SWF. Now, along with this, it also sends data for chart either as JavaScript arrays or XML stored in JavaScript string variables. </li>
+        <li>Once the SWF is loaded, it registers itself with pre-defined JavaScript function <span class="codeInline">FC_Rendered</span>.</li>
+        <li>Now, if the data was sent as JavaScript arrays, your JavaScript functions convert it into XML data document using string concatenation. Or, if you're using AJAX, you can also request ready-made XML data from your server. </li>
+        <li>This XML data is conveyed to the chart using the pre-build <span class="codeInline">setDataXML</span> method (defined in <span class="codeInline">FusionCharts</span> class). </li>
+        <li>The chart reads the data, parses it and then renders.</li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of JavaScript + setDataXML method</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;<br />
+        <span class="codeComment">//You need to include the above JS file, if you intend to embed the chart using JavaScript.        </span><br />
+&lt;/SCRIPT&gt;</p>
+      <p>&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt; 		<br />
+        <span class="codeComment">//All our data is stored in the &quot;data&quot; JavaScript array. This array was written using a server side script<br />
+        </span><br />
+        function FC_Rendered(DOMId){<br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//This method is called whenever a FusionCharts chart is loaded.<br />
+&nbsp;&nbsp;&nbsp;//Check if it's the required chart using ID</span><br />
+&nbsp;&nbsp;&nbsp;if (DOMId==&quot;ChId1&quot;){<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Invoke updateChart() method to update chart with new data</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChart();<br />
+&nbsp;&nbsp;&nbsp;}<br />
+        } <br />
+        <br />
+        function updateChart(){<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Storage for XML data document 			</span><br />
+&nbsp;&nbsp;&nbsp;var strXML = &quot;&lt;chart palette='2' caption='Factory  Output ' &gt;&quot;; <br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//Here, we build the XML data document from data array using string concatenation<br />
+&nbsp;&nbsp;&nbsp;//.... Build .... <br />
+&nbsp;&nbsp;&nbsp;//Closing Chart Element </span><br />
+&nbsp;&nbsp;&nbsp;strXML = strXML + &quot;&lt;/chart&gt;&quot;; <br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;//Get reference to chart object using Dom ID &quot;ChId1&quot; 			</span><br />
+&nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;ChId1&quot;); <br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update its XML 			</span><br />
+&nbsp;&nbsp;&nbsp;chartObj.setDataXML(strXML); <br />
+}<br />
+      &lt;/SCRIPT&gt;</p>
+      <p>&lt;BODY&gt;<br />
+        &lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, &quot;600&quot;, &quot;400&quot;, &quot;0&quot;, &quot;1&quot;); <strong><br />
+</strong><span class="codeComment">&nbsp;&nbsp;&nbsp;//Start Chart with empty data  as we'll later update using JavaScript</span><strong> <br />
+</strong>&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;<br />
+    &lt;/BODY&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

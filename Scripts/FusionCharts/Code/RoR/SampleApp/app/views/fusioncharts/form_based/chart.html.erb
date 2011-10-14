@@ -1,0 +1,14 @@
+<% @page_title=" FusionCharts - Form Based Data Charting Example " %>
+<% @page_heading="FusionCharts Form-Based Data Example" %>
+<% @page_subheading="Restaurant Sales Chart below" %>
+<p class='text'>Click on any pie slice to see slicing effect. Or,
+right click on chart and choose "Enable Rotation", and then drag and
+rotate the chart.</p>
+<%
+	# The xml is obtained as a string from builder template.
+	str_xml =render :file=>"fusioncharts/form_based/form_based_data",:locals=>{:str_soups => @str_soups,:str_salads => @str_salads,:str_sandwiches => @str_sandwiches,:str_beverages => @str_beverages,:str_desserts => @str_desserts}
+	
+	#Create the chart - Pie 3D Chart with data from str_xml
+	render_chart '/FusionCharts/Pie3D.swf','',str_xml,'Sales', 500, 300, false, false do-%>
+<% end -%>
+<a href='javascript:history.go(-1);'>Enter data again</a> 

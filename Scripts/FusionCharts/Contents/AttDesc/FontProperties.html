@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Font Properties </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Base Font group </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can specify generic font properties for all the text on the chart using the attributes given below. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#F1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="codeInline"> baseFont </span> </td>
+        <td width="10%" valign="top"><span class="text"> Font Name </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute lets you set the font face (family) of all the text (data labels, values etc.) on chart. If you specify outCnvBaseFont attribute also, then this attribute controls only the font face of text within the chart canvas bounds. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> baseFontSize </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-72 </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute sets the base font size of the chart i.e., all the values and the names in the chart which lie on the canvas will be displayed using the font size provided here. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="codeInline"> baseFontColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute sets the base font color of the chart i.e., all the values and the names in the chart which lie on the canvas will be displayed using the font color provided here. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' <strong>baseFont='Arial' baseFontSize ='12'  baseFontColor ='000000'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above would give an output as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/font_prop1.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Notice that all the text on the chart has the properties as mentioned using the <span class="codeInline">baseFont</span> group attributes. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Outside Canvas Base Font Group </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">All the text in the chart can be classified into 2: the text inside the canvas which consists of only the tool tip and the data values and all the text outside the canvas. You can define a base font group for all the text oustide the canvas as well. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width='10%'><span class="textBold">Range</span></td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top"><span class="codeInline"> outCnvBaseFont </span> </td>
+        <td width="10%" valign="top"><span class="text"> Font Name </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute sets the base font family of the chart font which lies outside the canvas i.e., all the values and the names in the chart which lie outside the canvas will be displayed using the font name provided here. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top"><span class="codeInline"> outCnvBaseFontSize </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-72 </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute sets the base font size of the chart i.e., all the values and the names in the chart which lie outside the canvas will be displayed using the font size provided here. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top"><span class="codeInline"> outCnvBaseFontColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute sets the base font color of the chart i.e., all the values and the names in the chart which lie outside the canvas will be displayed using the font color provided here. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>outCnvBaseFont='Arial' outCnvBaseFontSize ='12'  outCnvBaseFontColor ='000000'</strong> ... &gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">A chart having outside canvas base font group defined looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_5.jpg" width="406" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to define font properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Using Styles, you can assign various properties to fonts - face, size, color, bold, italics, underline, background &amp; border color and whether the text is HTML etc. With Styles, you have the option of applying the font properties to whichever text element you want rather than all the text elements.</p>
+    <p>We will see an example wherein the font properties of the data values have been changed using Styles. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values8.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myValuesFont' type='font' size='12' color='FFFFFF' bold='1' bgColor='666666' borderColor='666666'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='myValuesFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The font properties that we can control using Styles are: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Attribute</strong></p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Brief 
+          Description</strong></p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Sample 
+          or Valid values</strong></p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>font</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Sets 
+          the font family for the text.</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>Verdana, 
+          Arial .. </p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>size</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Specifies 
+          the font size</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>10, 
+          12 .. </p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Color</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Sets 
+          the font color, should be hex color code without #</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>FF0000, 
+          FFFFDD </p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Bold</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Flag 
+          indicating whether font should be bold or not</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>1</strong> for Yes, <strong>0</strong> for No</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Italic</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Flag 
+          indicating whether font should be italics or not</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>1</strong> for Yes, <strong>0</strong> for No</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Underline</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Flag 
+          indicating whether font should be underlined</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>1</strong> for Yes, <strong>0</strong> for No</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>bgColor</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Sets 
+          the background color for a text box, should be hex color code without 
+          #</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>FF0000, 
+          FFFFDD </p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>borderColor</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>If 
+          you need a border around your text, you can use this parameter</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>&nbsp;</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>isHTML</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>Helps 
+          you set whether the text should be rendered as HTML or plain text.</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>&nbsp;</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>leftMargin</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+          left margin of the text, in points</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>&nbsp;</p></td>
+      </tr>
+      <tr>
+        <td width="79" valign="top" bordercolor="f1f1f1" class="codeInline"><p>letterSpacing</p></td>
+        <td width="506" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+          amount of space that is uniformly distributed between characters 
+          of the text</p></td>
+        <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p>&nbsp;</p></td>
+      </tr>
+    </table></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects to text </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using Styles, we can apply various effects (shadow, glow, bevel, blur) to the text elements. Here, we see a basic example where the data values have been given a glow effect. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_values10.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the above is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt; </strong><strong><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myGlow' type='Glow' color='9999999'/&gt; <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='</strong><strong>myGlow' /&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+</table>
+</body>
+</html>

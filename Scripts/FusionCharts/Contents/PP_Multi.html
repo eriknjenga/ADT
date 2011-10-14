@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using multiple charts in a single Presentation </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had seen how to use a single chart in a PowerPoint presentation. However, in ideal cases, you can have multiple charts spanning your presentation. We'll see how to attain that in this section. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the charts </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">First up, copy all the required chart SWF files into the presentation folder. This ensures that we can use these SWF files in our presentation. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the data </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You now need to build the XML data for each chart that you wish to show in the presentation. Build the XML data for each chart and save it with different names. For this example, we'll build another XML representing sales of previous year (2005) and save the XML as <span class="codeInline">Data2005.xml</span> in the same folder. </p>
+    <p>So, if you've 10 charts in your Presentation, you need to build 10 different XML files, each having a unique name - but all in the same folder as .ppt and .swf. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding a new slide and the chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now, to add the second chart, create a second slide and add the text labels you want. </p>
+    <p>To add the chart, again select <span class="codeInline">&quot;Shockwave Flash Object&quot;</span> from Controls and draw it on the stage. Bring the properties dialog box for the same and enter the following as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/PPMulti1.gif" width="433" height="286" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>We've first provided the full path of our line chart (the second chart that we add to this presentation). </p>
+    <p>After that, we've appended the name of the XML Data   file which we want this chart to plot from. In this example, since our data file is named as<span class="codeInline"> Data2005.xml</span>, so we've appended <span class="codeInline">?dataURL=Data2005.xml</span> to the name of our chart SWF file.</p>
+    <p>For our previous chart, we've still used the default data file for FusionCharts - <span class="codeInline">Data.xml</span>. If you wish to change that, you can do it in a similar way - change the name of XML file and then append it as <span class="codeInline">dataURL</span> at the end of SWF File name.   </p>
+    <p>When you now view the presentation, you'll find our previous column chart in the first slide and line chart in the second slide. If the line chart doesn't show up or animate, right click on it and select play when viewing the presentation. </p></td>
+  </tr>
+</table>
+</body>
+</html>

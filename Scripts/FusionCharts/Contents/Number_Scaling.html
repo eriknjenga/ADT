@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Number Scaling </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts v3 introduces the concept of number scaling. Number scaling lets you define your own scales for numbers and then apply it to all numbers on the chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Basic Example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's start with the most basic example which is already defined in FusionCharts - thousands and millions scale. </p>
+    <p>By default, if your numbers on the chart are greater than 1000, FusionCharts scales them to K (Thousands) or M (Millions). For example, if you plot a chart with data as 12500, 13400 and 13300, you'll see the following chart: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_5.jpg" width="307" height="208" /> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, FusionCharts has scaled the numbers down to K. By default, FusionCharts has the K,M (1000,1000) scaling defined for each chart. You can, however, change it to anything you wish. Let's see it in the next example. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding billions to default scaling </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts, by default, has 1000,1000 (K,M) scaling defined for all charts. It doesn't have the scaling for billions defined. Let's modify the number scaling to add billion so that the final scale looks like 1000,1000,1000 (K,M,B).  </p>
+      <p>This scale, in human terms, would look something as under:</p>
+      <p>1000 = 1 K<br />
+      1000 K = 1 M<br />
+      1000 M = 1 B</p>
+    <p>Now, to convert this scale into FusionCharts XML format,   you'll have to do the following: </p>
+    <ol>
+      <li>Define your own scale for the chart as under:<br />
+        <span class="codeInline">&lt;chart numberScaleValue='1000,1000,1000'   numberScaleUnit='K,M,B' &gt;</span><br />
+        <br />
+        If you carefully see this and   match it with previous table, you'll find that whatever numeric figure was present on the left hand   side of the table is put in <span class="codeInline">numberScaleValue</span> and   whatever unit was present on the right side of the scale table has been put under   <span class="codeInline">numberScaleUnit</span> - all separated by commas. </li>
+      <li>Set the chart formatting flags to on as under:<br />
+        <span class="codeInline">&lt;chart formatNumber='1' formatNumberScale='1' ..&gt;</span></li>
+      </ol>    
+    <p>When you now view a chart containing data in billions, you'll see as under. Note that the chart now contains figure both in millions and billions. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Scale_1.jpg" width="256" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The XML for this chart can be listed as under:</p>
+    <p class="codeInline">&lt;chart numberScaleValue='1000,1000,1000' numberScaleUnit='K,M,B' numberPrefix='$'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='986000000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='3134000000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Andy' value='3245000000' /&gt;<br />
+    &lt;/chart&gt; </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Another Example - Putting time in scale </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's consider another example where we intend to plot time related figures on the chart. Say we're plotting a chart which indicates the time taken by a list of   automated processes. Each process in the list can take time ranging from a few   seconds to few days. And we've the data for each process in seconds itself.   Now, if we were to show all the data on the chart in seconds only, it won't   appear too legible. What we can do is build a scale indicating time and then specify   it to the chart. This scale, in human terms, would look something as under:</p>
+      <p>60 seconds = 1 minute<br />
+        60 minute = 1 hr<br />
+        24 hrs = 1 day<br />
+        7 days = 1   week</p>
+    <p>Now, to convert this scale into FusionCharts  XML format,   you'll have to do it as under:</p>
+    <ol>
+      <li>First you would need to define the unit of the data which you're providing.   Like, in this example, you're providing all data in seconds. So, default number   scale would be represented in seconds. We can represent it as under:<br />
+        <span class="codeInline">&lt;chart defaultNumberScale='s' ...&gt; </span></li>
+      <li>Next, we define our own scale for the chart as under:<br />
+        <span class="codeInline">&lt;chart numberScaleValue='60,60,24,7'   numberScaleUnit='min,hr,day,wk' &gt;</span><br />
+        <br />
+        Again, if you carefully see this and   match it with our range, you'll find that whatever numeric figures are present on the left hand   side of the range is put in <span class="codeInline">numberScaleValue</span> and   whatever units are present on the right side of the scale has been put under   <span class="codeInline">numberScaleUnit</span> - all separated by commas. </li>
+      <li>Set the chart formatting flags to on as under:<br />
+        <span class="codeInline">&lt;chart formatNumber='1' formatNumberScale='1' ..&gt;</span> </li>
+      </ol>
+    <p>The entire XML looks as under: </p>
+    <p class="codeInline">&lt;chart defaultNumberScale='s' numberScaleValue='60,60,24,7' numberScaleUnit='min,hr,day,wk'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='A' value='38' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='B' value='150' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='C' value='11050' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='D' value='334345' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='E' value='1334345' /&gt;<br />
+&lt;/chart&gt;</p>
+    <p>When you now view the chart, you'll see that all the data has been   automatically scaled to the best value. Like:</p>
+    <p>38 was converted to 38s<br />
+      150 was converted to 2.50min<br />
+      11050 was   converted to 3.07hr<br />
+      334345 was converted to 3.87 day<br />
+      1334345 was converted   to 2.21wk<br />
+    </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Scale_2.jpg" width="355" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Storage Size Example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Take another example, where you're plotting a chart indicating   memory usage of a network server. The usage can be from few bits to a few   gigabytes. Again, you've all your data in bits - so we can render the range as   under:</p>
+      <p>8 bits = 1 Byte<br />
+        1024 bytes = 1 KB<br />
+        1024 KB = 1 MB<br />
+        1024 MB   = 1 GB<br />
+        1024 GB = 1 TB</p>
+    <p>And the XML can be written as under:</p>
+    <p class="codeInline"> &lt;chart   defaultNumberScale='bits' numberScaleValue='8,1024,1024,1024,1024'   numberScaleUnit='bytes,KB,MB,GB,TB' &gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Length/Distance Example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's consider another length/distance example. The standard length/distance   range can be rendered as under (with <span class="codeInline">inches</span> being the default unit):</p>
+      <p>12 inches = 1 feet<br />
+        3 feet = 1 yard<br />
+        1760 yards = 1 mile</p>
+      <p>So, we can write the XML as under:<br />
+        <span class="codeInline">&lt;chart   defaultNumberScale='inches' numberScaleValue='12,3,1760'   numberScaleUnit='feet,yards,miles' &gt;</span><br />
+    </p></td>
+  </tr>
+</table>
+</body>
+</html>

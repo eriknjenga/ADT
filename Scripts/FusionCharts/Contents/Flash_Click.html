@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and Flash &gt; Handling Click Events </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>You can easily handle the click events for data points on the chart in your Flash movies. That is, whenever a user clicks on a column or line point or pie etc., you can be notified of the same in your Flash movie. Here we'll see how to do this. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding link to XML </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To enable your parent movie to track links in FusionCharts charts, you need to add S- before every link specified in the XML data document. This instructs the chart to convey the link to its parent SWF movie. An example is given below: </p>
+    <p><span class="codeInline">&lt;set name='John' value='49' link='S-parameter'/&gt;</span></p>
+    <p>Here, <span class="codeInline">S-</span> is the prefix to indicate that this link should be bubbled up to parent SWF. When this link is bubbled up, <span class="codeInline">parameter</span> is passed to the event handler. We'll see this in the example below. </p>
+    <p class="highlightBlock">If you need to pass multiple parameters, one way would be to use a comma to separate each new value. Then <span class="codeInline">String.split </span>the parameter into individual values in the called function. This is a simple method that would only work with string values. </p>
+    <p>Let's now put all this learning into a practical example to see its usage. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating a link handler example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this example, we'll create a copy of <span class="codeInline">MultipleCharts.fla</span> and save it as <span class="codeInline">ClickHandler.fla</span>. We'll define the link events for both the column and line chart. Each column or line anchor, when clicked, would call a different function, which in turn would just output the name of the set. In real life scenarios, you can do better things with this data. </p>
+    <p>The actions in the new movie would now contain the following: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment">/**<br />
+      * This keyframe contains the Actions required to load a FusionCharts<br />
+      * chart in your Flash movie.<br />
+      *<br />
+      * We've set the FPS of this movie to 120 for smooth animations.<br />
+      * Depending on your requirements, you can set any FPS. FusionCharts<br />
+      * renders time based animations, so the length of animation would stay<br />
+      * same. Only the smoothness would vary.<br />
+      */<br />
+      //You first need to include the following two files in your movie.<br />
+      //These two files contain pre-loading functions and application<br />
+      //messages for the chart.<br />
+      //Note: If you're loading multiple charts in your Flash movie, you<br />
+      //do NOT need to include these files for each each. You can put these<br />
+      //lines in the main timeline, so that it gets loaded only once.</span><br />
+      #include &quot;com/fusioncharts/includes/LoadingFunctions.as&quot;<br />
+      #include &quot;com/fusioncharts/includes/AppMessages.as&quot;<br />
+      <span class="codeComment">//To create the chart, you now need to import the Class of the <br />
+      //chart which you want to create. All charts are present in the package <br />
+      //com.fusioncharts.core.charts (Download Package &gt; SourceCode folder)<br />
+      //If you're using multiple charts, you can import all the requisite<br />
+      //chart classes in the main timeline of your movie. That ways, you<br />
+      //wouldn't have to import the chart classes everytime you wish to use.</span><br />
+      import com.fusioncharts.core.charts.Column2DChart;<br />
+      import com.fusioncharts.core.charts.Line2DChart;<br />
+      <span class="codeComment">// ---------------- Event handlers ---------------------//</span><br />
+      <strong>var objL:Object = new Object();<br />
+      objL.linkClicked = function(targetObj:Object){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;trace(&quot;Data belonging to &quot; + targetObj.link + &quot; was clicked&quot;);<br />
+}</strong><br />
+<span class="codeComment">// ------------- XML Data for the chart -------------- //</span><br />
+        <span class="codeComment">//Data for chart 1</span><br />
+        var strXML1:String = &quot;&lt;chart showBorder='0' bgAlpha='0,0' palette='1' caption='Hourly Working Rate' numberPrefix='$'&gt;&quot;;<br />
+        <span class="codeComment">//Add simple data for demo.</span><br />
+        strXML1 = strXML1+&quot;&lt;set name='John' value='32' <strong>link='S-John'</strong>/&gt;&quot;;<br />
+        strXML1 = strXML1+&quot;&lt;set name='Mary' value='65' <strong>link='S-Mary'</strong>/&gt;&quot;;<br />
+        strXML1 = strXML1+&quot;&lt;set name='Michelle' value='29' <strong>link='S-Michelle'</strong>/&gt;&quot;;<br />
+        strXML1 = strXML1+&quot;&lt;set name='Cary' value='43' <strong>link='S-Cary'</strong>/&gt;&quot;;<br />
+        strXML1 = strXML1+&quot;&lt;/chart&gt;&quot;;<br />
+        var xmlData1:XML = new XML(strXML1);<br />
+        <span class="codeComment">// Data for Chart 2</span><br />
+        var strXML2:String = &quot;&lt;chart showBorder='0' bgAlpha='0,0' palette='1' caption='Hours Worked Last week' canvasPadding='20'&gt;&quot;;<br />
+        <span class="codeComment">//Add simple data for demo.</span><br />
+        strXML2 = strXML2+&quot;&lt;set name='John' value='49' <strong>link='S-John'</strong>/&gt;&quot;;<br />
+        strXML2 = strXML2+&quot;&lt;set name='Mary' value='34' <strong>link='S-Mary'</strong>/&gt;&quot;;<br />
+        strXML2 = strXML2+&quot;&lt;set name='Michelle' value='61' <strong>link='S-Michelle'</strong>/&gt;&quot;;<br />
+        strXML2 = strXML2+&quot;&lt;set name='Cary' value='40' <strong>link='S-Cary'</strong>/&gt;&quot;;<br />
+        strXML2 = strXML2+&quot;&lt;/chart&gt;&quot;;<br />
+        var xmlData2:XML = new XML(strXML2);<br />
+        <span class="codeComment">// --------------------------------------------------- // <br />
+        // -------------- Actual Code to create the chart ------------//<br />
+        //Create movie clips required for both the charts</span><br />
+        var chartContainer1MC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder1&quot;, 1);<br />
+        var chartContainer2MC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder2&quot;, 2);<br />
+        <span class="codeComment">//Now, instantiate the charts using Constructor function of the chart.</span><br />
+        var chart1:Column2DChart = new Column2DChart(chartContainer1MC, 1, 380, 325, 20, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+        var chart2:Line2DChart = new Line2DChart(chartContainer2MC, 1, 380, 325, 440, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+        <span class="codeComment">//Convey the XML data to chart. </span><br />
+        chart1.setXMLData(xmlData1);<br />
+        chart2.setXMLData(xmlData2);<br />
+        <span class="codeComment">//Draw the charts</span><br />
+        chart1.render();<br />
+        chart2.render();<br />
+        <span class="codeComment"><strong>//Register the event listeners for charts</strong></span><strong><br />
+        chart1.addEventListener(&quot;linkClicked&quot;, objL);<br />
+        chart2.addEventListener(&quot;linkClicked&quot;, objL);
+        </strong><br />
+        <span class="codeComment">//Stop</span><br />
+        stop();<br />
+    </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we've defined the link for each column and line chart anchor with prefix of <span class="codeInline">S-</span> . The columns and line anchors, when now clicked, will be handled by <span class="codeInline">objL</span> event listener. In this handler, we've just traced out the values received as parameters. In your code, you could pass indexes of data and then deal with it the way you want to.</p>
+    <p>When you now run this code and click on any column or line point, you'll see the name of column/line anchor in output window as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_Click.jpg" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

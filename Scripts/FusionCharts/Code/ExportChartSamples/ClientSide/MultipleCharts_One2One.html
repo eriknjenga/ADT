@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>
+	FusionCharts Client-side Export Sample - Multiple Charts - Individual export handler for each
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script language="JavaScript" src="../../FusionCharts/FusionChartsExportComponent.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+	<table align='center'>
+	<tr>
+	<td>
+	<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "500", "300", "0", "1");
+	myChart.setDataURL("SimpleExample.xml");
+	myChart.render("chartdiv");
+   </script>
+	</td>
+	<td>
+	<div id="fcexpDiv" align="center">FusionCharts Export Handler Component</div>
+	<script type="text/javascript">
+    var myExportComponent = new FusionChartsExportObject("fcExporter1", "../../FusionCharts/FCExporter.swf");
+    myExportComponent.Render("fcexpDiv");
+    </script>
+  	</td>
+	</tr>
+	<tr>
+	<td>
+	<div id="chartdiv2" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart2 = new FusionCharts("../../FusionCharts/Column3D.swf", "myChartId2", "500", "300", "0", "1");
+	myChart2.setDataURL("SimpleExample2.xml");
+	myChart2.render("chartdiv2");
+    </script>
+	</td>
+	<td>
+	<div id="fcexpDiv2" align="center">FusionCharts Export Handler Component</div>
+	<script type="text/javascript">
+    var myExportComponent2 = new FusionChartsExportObject("fcExporter2", "../../FusionCharts/FCExporter.swf");
+    myExportComponent2.Render("fcexpDiv2");
+    </script>
+	</td>
+	</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and JavaScript &gt; How it Works? </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts v3 offers tremendous integration capabilities with JavaScript. It seamlessly binds with JavaScript/AJAX  to let you do the following:</p>
+      <ol>
+        <li>You can register your chart with JavaScript and then listen to various events like - chart loaded, data loaded, chart rendered, error in chart etc. <a href="JS_Events.html">For a full list of events exposed by chart, please click here</a>. </li>
+        <li>You can update the chart at client side, without incurring any page refreshes, by providing it ready-made XML data from JavaScript functions. Using this method, you can integrate FusionCharts with your AJAX applications. Your AJAX wrappers can get the data from server, process it, convert it into XML and then update the charts already present on the page. </li>
+        <li>Update the chart at client side by providing it direct URL to the XML data provider page. The chart would itself download the new data, parse it and then render - all without involving any page refreshes.</li>
+        <li>Get the chart's XML data</li>
+        <li>Get any attribute from chart XML</li>
+        <li>Get the chart's data as CSV</li>
+        <li>Invoke the exporting routine for chart (as image/PDF)</li>
+        <li>Invoke further JavaScript methods like <span class="codeInline">signature()</span> and <span class="codeInline">hasRendered()</span> to get information about the chart   </li>
+      </ol>
+      <p>Using a combination of FusionCharts and JavaScript, you can offer a seamless experience to your end users. Here, we'll discuss how to integrate both these technologies to yield the best results. </p>
+      <p>Before we move to the examples, let's quickly discuss the security configuration you need to undertake to run our examples code or your own examples, when running from local file system. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Security settings pertinent to FusionCharts and JavaScript </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Adobe Flash Player, by default, restricts SWF files on local filesystem to make any JavaScript class, or vice-versa. This has been done to reduce harm to your system by &quot;evil&quot; Flash SWFs. However, when the same SWF is routed through a server (localhost or remote), these rules do not apply as the browser then treats those SWF under a different security context, where they cannot do any harm to your local filesystem. </p>
+      <p>As sush, the same rules also apply to FusionCharts when run from your file system. So, if you directly run any of our example codes (present in <span class="codeInline">Download Pacakage &gt; Code &gt; JavaScript</span>) from your local filesystem, you'll see that they fail silently. To make them work, you can follow either of the steps below:</p>
+      <ol>
+        <li>Move the examples folder (along with ../FusionCharts folder) to your server (either localhost or remote) and execute from there. </li>
+        <li>Or, you can configure Flash Player settings to allow SWFs present in specific folders to raise JavaScript class. This can be done by going to for a specific folder, you'll need to visit <a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html" target="_blank">http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html</a> and add the folder containing our examples to the list of allowed folder in that interface. </li>
+      </ol>      
+      <p>With this, let's move ahead and create some examples. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">The first step </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Before we start with any of our examples, you first need to make sure that you've the following things ready with you:</p>
+      <ol>
+        <li><strong>Chart SWF Files </strong>- Present in Download <span class="codeInline">Package &gt; Charts</span></li>
+        <li><strong>FusionCharts JavaScript Class </strong>File (<span class="codeInline">FusionCharts.js</span>) -  Present in <span class="codeInline">Download Package &gt; JSClass</span></li>
+      </ol>
+    <p>Let's now create a basic example, where we see how to register the chart with JavaScript and track the rendered event of chart. </p>
+    <p class="highlightBlock">Code examples discussed in this section are present in<span class="codeInline">Download Package &gt; Code &gt; JavaScript  &gt; Basics</span> folder. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Registering with JavaScript and tracking the rendered event </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For this example, create a simple HTML page<span class="codeInline"> BasicExample.html</span> with the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts &amp; JavaScript - Basic Example&lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//FC_Rendered method is called whenever a FusionCharts chart on the page<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//has finished initial rendering. To this function, the chart passes its <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//own DOM Id.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function FC_Rendered(DOMId){<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//If it's our required chart</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DOMId==&quot;chart1Id&quot;){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Simply alert </span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(&quot;Look Ma! I am Column3D and I've finished loading and rendering.&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;<strong>chart1Id</strong>&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, <strong>&quot;1&quot;</strong>); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we are first creating a Column3D chart using <span class="codeInline">FusionCharts</span> JavaScript class. We set the DOM Id of the chart as <span class="codeInline">chart1Id</span>. It is this ID using which the chart will now be recognized in the HTML page. You need to make sure that each chart on the page gets a different Id, else the browser would start behaving weirdly. </p>
+      <p>To register the chart with JavaScript, we set the <span class="codeInline">registerWithJS </span>parameter to 1. It's the last parameter in <span class="codeInline">FusionCharts </span>constructor function. </p>
+      <p class="codeInline">var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;chart1Id&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, <strong>&quot;1&quot;</strong>); </p>
+    <p>Now, we've provided a basic XML data document to chart using its <span class="codeInline">setDataXML</span> method. Finally, we render the chart.</p>
+    <p>If you now switch to <span class="codeInline">&lt;SCRIPTS&gt;</span> section of HTML<span class="codeInline"> &lt;HEAD&gt;</span>, you'll find the following function:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;<span class="codeComment">//FC_Rendered method is called whenever a FusionCharts chart on the page<br />
+&nbsp;&nbsp;&nbsp;//has finished initial rendering. To this function, the chart passes its <br />
+&nbsp;&nbsp;&nbsp;//own DOM Id.</span><br />
+      &nbsp;&nbsp;&nbsp;function FC_Rendered(DOMId){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//If it's our required chart</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DOMId==&quot;chart1Id&quot;){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Simply alert </span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(&quot;Look Ma! I am Column3D and I've finished loading and rendering.&quot;);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;}<br />
+    &lt;/SCRIPT&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The above function <span class="codeInline">FC_Rendered()</span> gets invoked whenever a FusionCharts chart (on the page) has finished rendering for the first time. To this function, the chart passes its own DOM Id, so that we can cross refer to it.</p>
+    <p>In our example, when the Column 3D chart (with DOM Id <span class="codeInline">chart1ID</span>) has finished rendering, it calls this function too. In this function, we check if it was invoked by our required Column 3D chart. To do so, we match the DOM Id passed to this id with the DOM Id of our Column chart. This is useful when you've multiple charts on page and you want to track loading of each of those charts. </p>
+    <p>Finally, in this function, we output a message to the user that the chart has been loaded. In your applications, you can put in application logic here (or AJAX code) to get data or build data and then update the chart, which we'll soon see. </p>
+    <p>Now that you're famililar with the basic concepts of FusionCharts and JavaScript, we'll next see how to change the data of a chart at client side using <span class="codeInline">setDataXML</span> method. </p></td>
+  </tr>
+</table>
+</body>
+</html>

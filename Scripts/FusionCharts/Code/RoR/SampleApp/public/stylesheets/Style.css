@@ -1,0 +1,37 @@
+.trdark {
+BACKGROUND-COLOR:#B0BF9D;
+}
+
+.tableWithBorder {
+border:1px #999999 solid;
+}
+.text
+{
+FONT-SIZE: 9pt; 
+COLOR: black; 
+FONT-FAMILY: MS Sans Serif;
+
+}
+.textbolddark
+{
+FONT-SIZE: 9pt; 
+COLOR: black; 
+FONT-FAMILY: MS Sans Serif;
+
+FONT-WEIGHT:bolder;
+}
+
+A:hover
+{
+COLOR:#FFC20F;
+}
+A
+{
+FONT-SIZE: 9pt; 
+COLOR: black; 
+FONT-FAMILY: MS Sans Serif;
+
+TEXT-DECORATION:none;
+}
+
+

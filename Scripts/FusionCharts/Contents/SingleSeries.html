@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Single Series Chart XML</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, the XML structure of single 
+        series chart has been explained in a generic way. Let's recall our previous 
+        XML. It looked something like this (minus a few new nodes):</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='January' value='17400' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='February' value='19800' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='March' value='21800' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='April' value='23800' /&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May' value='29600' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      label='June' value='27600' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;vLine 
+      color='FF5904' thickness='2'/&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      label='July' value='31800' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='August' 
+      value='39700' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='September' 
+      value='37800' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='October' 
+      value='21900' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='November' 
+      value='32900' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='December' value='39800' /&gt;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;trendlines&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='22000' color='00cc00' 
+      displayValue='Average' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;/trendlines&gt; <br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&lt;styles&gt;<br /> <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='CanvasAnim' 
+      type='animation' param='_xScale' start='0' duration='1' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br /> 
+      <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply 
+      toObject='Canvas' styles='CanvasAnim' /&gt;<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;&nbsp;&nbsp;&nbsp;<br /> 
+      <br /> &nbsp;&nbsp;&nbsp;&lt;/styles&gt; <br /> &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Brief Explanation</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>The <span class="codeInline">&lt;chart&gt;</span> 
+        element is the main element of any FusionCharts XML document - it represents 
+        the starting point and the ending point of data. The <span class="codeInline">&lt;chart&gt;</span> 
+        element has a number of attributes which helps to manipulate the chart. 
+        You can find the list of all the attribute for this element in &quot;<span class="codeInline">Chart 
+        XML Sheet</span>&quot; of each chart.</p>
+      <p>In the most general form, attributes have the following form:<br>
+        <span class="codeInline">attributeName = &quot;Value&quot;<br>
+        e.g., xAxisName=&quot;Month&quot;</span> </p>
+      <p>The attributes can occur in any order and quotes can be single or double 
+        like <span class="codeInline">xAxisName='Month'. </span><span class="text">However, 
+        you need to make sure that a particular attribute occurs only once for 
+        a given element.</span></p>
+      <p>Moving on, each <span class="codeInline">&lt;set&gt;</span> element (which 
+        is a child element of the <span class="codeInline">&lt;chart&gt;</span> 
+        element) represents a set of data which is to be plotted on the graph 
+        and determines a set of data which would appear on the graph. A typical 
+        <span class="codeInline"> &lt;set&gt;</span> element would look like:</p>
+      <p class="codeInline">&lt;set label=&quot;Jan&quot; value=&quot;17400&quot; 
+        color=&quot;3300FF&quot; toolTip=&quot;January, 17400&quot; link=&quot;details.asp?month=jan&quot; 
+        showName=&quot;1&quot;/&gt;</p>
+      <p>Between <span class="codeInline">&lt;set&gt;</span> elements, we can 
+        have <span class="codeInline">&lt;vLine&gt;</span> element, which indicate 
+        vertical separator lines running along the height/width of the chart canvas.</p>
+      <p class="codeInline">&lt;vLine color='FF5904' thickness='2'/&gt;</p>
+      <p>Next we have the <span class="codeInline">&lt;trendLines&gt;</span> element. 
+        Using this function of the chart, you could draw custom lines on the chart 
+        to represent a trend. For example, in our above XML, we have defined a 
+        line at 22000 to represent the average sales for the period. </p>
+      <p>Finally, you've <span class="codeInline">&lt;styles&gt;</span> element 
+        which is new in FusionCharts v3. It helps you apply font, effects and 
+        animations to various objects of the chart. <span class="codeInline">Styles</span> 
+        lends a simple mechanism using which you can easily control the visual 
+        layout of charts. To read more on <span class="codeInline">Styles</span>, 
+        please see &quot;<span class="codeInline">FusionCharts v3 STYLES</span>&quot; 
+        section.</p></td>
+  </tr>
+</table>
+</body>
+</html>

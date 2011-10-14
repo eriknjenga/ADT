@@ -1,0 +1,8 @@
+<% @page_title="FusionCharts - dataURL and Database Example" %>
+<% @page_heading="FusionCharts dataURL and Database" %>
+<% @page_subheading="Click on any pie slice to slice it out. Or, right click to enable rotation mode." %>
+<%
+	#Create the chart - Pie 3D Chart with dataURL as @str_data_url.
+
+	render_chart '/FusionCharts/Pie3D.swf',@str_data_url,'','FactorySum', 600, 300, false, false do-%>
+<% end -%>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Chart Titles </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts allows you to add a caption, sub-caption, x-axis title and y-axis title for your charts. You can configure the font properties for each of them individually or collectively. You can also apply styles and animation effects to them. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Chart Caption </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><span class="codeInline">CAPTION</span> refers to the   title of the Chart, e.g., &quot;Monthly Summary&quot;.
+</p>
+      <p>XML Attribute: <span class="codeInline">&lt;chart ... <strong>caption</strong>='Monthly Summary' ...&gt; </span></p>
+    <p>This will add a title to the chart as shown below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_1.jpg" width="355" height="118" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Chart sub-caption </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also add a sub-title to your chart. Example: &quot;Figures in USD&quot;</p>
+    <p>XML Attribute: <span class="codeInline">&lt;chart ... <strong>subCaption</strong>='Figures in USD' ...&gt;</span> </p>
+    <p>It will add a sub-title to the chart as shown below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_2.jpg" width="355" height="103" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">x-Axis Name </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To set the x-axis name, you use the following XML:</p>
+      <p class="codeInline">&lt;chart ... <strong>xAxisName</strong>='Month' ...&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_3.jpg" width="355" height="126" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">y-Axis Name </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Similar to x-axis name, you can also set a y-axis name as under:</p>
+      <p class="codeInline">&lt;chart ... <strong>yAxisName</strong>='Revenue' ..&gt; </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_4.jpg" width="233" height="230" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The y-axis name is rotated by default on the chart. If you're using UTF-8 characters, those characters would not appear in rotated mode, as FusionCharts uses embedded characters for rotation. In that case, you can opt to show y-axis name in horizontal form using the following attribute: </p>
+    <p class="codeInline">&lt;chart rotateYAxisName='0' ..&gt; </p>
+    <p class="text">It will yield the following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><img src="Images/Title_6.jpg" width="176" height="208" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top"><p class="text">If you want to set the maximum width that the non-rotated y-axis title can assume, you can set it in pixels using the following attribute:</p>
+    <p><span class="codeInline">&lt;chart ... rotateYAxisName='0' yAxisNameWidth='40' ..&gt;</span> </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing Font Properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using a single font property for all the titles </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you want to specify a single font property for all the text outside canvas area, you can use <span class="codeInline">outCnvBaseFont</span> attribute group. The font properties specified as a part of this attribute group will be applied to Caption, Sub-Caption,   X-Axis &amp; Y-Axis names, Data Labels, Divisional Line and Trendline values.</p>
+      <p>The following attributes are a part of this group: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table width="98%" border="1" align="left" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+      <tr>
+        <td width="25%" valign="top" bordercolor="f1f1f1" class="text"><strong>Attribute Name </strong></td>
+        <td width="45%" valign="top" bordercolor="f1f1f1" class="text"><strong>Description</strong></td>
+        <td valign="top" bordercolor="f1f1f1" class="text"><strong>Example</strong></td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline">outCnvbaseFont&nbsp;</td>
+        <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font family e.g., Arial, Verdana etc</span></td>
+        <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvBaseFont</span>='Verdana'</td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="text"><span class="codeInline">outCnvbaseFontSize</span>&nbsp;&nbsp;</span></td>
+        <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font size (8-72)</span></td>
+        <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontSize</span>='10' </td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontColor</span></td>
+        <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text"> Lets you define the font color. Use hex code for the color without #. E.g., 000000 or 009933 or 999999 </span></td>
+        <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontColor=</span>'<span class="text">009933</span>'</td>
+      </tr>
+    </table>	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Example XML: </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxis='Quarter' yAxisName='Sales' <strong>outCnvBaseFont='Arial' outCnvBaseFontSize='12' outCnvBaseFontColor='333333'</strong>&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt; <br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Output:</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_5.jpg" width="406" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, all the text outside chart canvas has assumed the font properties specified as part of that attribute group. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to specify font properties for individual titles </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you do not want to specify a single font property for all the text, you can use the STYLES feature of FusionCharts v3. This also allows you finer control over the font. Using this you can bold, italicize or underline your text. Or, you can also specify a border and background colors. </p>
+    <p>Shown below is a basic example where we've used different font properties for caption and sub-caption. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Titles_7.jpg" width="409" height="212" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCaptionFont' type='font' font='Arial' size='14' color='666666' bold='1' underline='1'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='mySubCaptionFont' type='font' font='Arial' size='12' color='666666' italic='1'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAxisTitlesFont' type='font' font='Arial' size='11' bold='1'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Caption' styles='myCaptionFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='SubCaption' styles='mySubCaptionFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='XAxisName' styles='myAxisTitlesFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You cannot change the font face for y-axis name, if you show it as rotated, as it uses embedded characters. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply effects (shadow, glow, blur, bevel etc.) to the chart titles using STYLES. Shown below is an example: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Titles_8.jpg" width="407" height="209" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we've applied shadow to caption and sub-caption and glow to x-axis name and y-axis name. The XML can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCaptionFont' type='font' font='Arial' size='14' color='666666' bold='1' underline='1'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='Shadow' color='999999' angle='45'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myGlow' type='Glow' color='FF5904'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Caption' styles='myCaptionFont,myShadow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='SubCaption' styles='myShadow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='XAxisName' styles='myGlow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='YAxisName' styles='myGlow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+&lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying animation to titles </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply animation effects to the titles using STYLES. Shown below is an XML example which creates a bounce effect for the caption:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myCaptionAnim' type='animation' param='_y' easing='Bounce' start='0' duration='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Caption' styles='myCaptionAnim' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+</table>
+</body>
+</html>

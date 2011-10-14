@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting charts as PDF/Images &gt; XML Attributes </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The following XML attributes of <span class="codeInline">&lt;chart&gt;</span> element are used to configure all aspects of export chart.
+    <p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="25%" valign="top" class="textBold">Attribute Name </td>
+        <td width="15%" valign="top" class="textBold">Type</td>
+        <td valign="top" class="textBold">Description</td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top" class="lightBlueTr">Core export functionality related attributes</td>
+        </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportEnabled</td>
+        <td valign="top" class="text">Boolean (0/1) </td>
+        <td valign="top" class="text">Whether the chart will allow exporting to images/PDFs? </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportShowMenuItem</td>
+        <td valign="top" class="text">Boolean (0/1) </td>
+        <td valign="top" class="text">Whether the menu items related to export (e.g., Save as JPEG etc.) will appear in the context menu of chart. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportFormats</td>
+        <td valign="top" class="text">String</td>
+        <td valign="top" class="text"><p>List of formats that the chart will show in context menu, along with label for each one.</p>
+          <p>The attribute value should be a delimiter separated key-value pair.  The delimiter character to be used is '|' (pipe character). The syntax  for the attribute value is as follows:<br />
+            <em>KEY=Value</em>[<em>|KEY=Value</em>]*</p>
+          <p>Example: The code required to enable PNG, JPG and PDF type  of export with custom context-menu message for PNG and PDF.</p>
+          <p><em>exportType=&rdquo;PNG=Export as High Quality  Image;JPG;PDF=Export as PDF File&rdquo;</em></p></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportAtClient</td>
+        <td valign="top" class="text">Boolean (0/1) </td>
+        <td valign="top" class="text">Whether to use client side export handlers, or server side export handlers </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportHandler</td>
+        <td valign="top" class="text">String</td>
+        <td valign="top" class="text"><p>In case of server side exporting, this refers to the path of the server-side export handler (the ready-to-use scripts that we provide).</p>
+          <p>In case of client-side exporting, this refers to the DOM-Id of FusionCharts Export component that is embedded in your web page, along with the chart. </p></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportAction</td>
+        <td valign="top" class="text">'save' or 'download' </td>
+        <td valign="top" class="text">In case of server-side exporting, the action specifies whether the exported image will be sent back to client as download, or whether it'll be saved on the server. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportTargetWindow</td>
+        <td valign="top" class="text">_self or _blank </td>
+        <td valign="top" class="text">In case of server-side exporting and when using download as action, this lefts you configure whether the return image/PDF would open in same window (as an attachment for download), or whether it will open in a new window. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportCallback</td>
+        <td valign="top" class="text">String</td>
+        <td valign="top" class="text"><p>Name of JavaScript function that'll be called back when export process has finished in case of:</p>
+          <ul>
+            <li>Client side export</li>
+            <li>Batch export</li>
+            <li>Server-side export using <span class="codeInline">'save'</span> as action    </li>
+          </ul></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportFileName</td>
+        <td valign="top" class="text">String</td>
+        <td valign="top" class="text">Using this attribute you can specify the name  (excluding the extension) of the output (export) file. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">&nbsp;</td>
+        <td valign="top" class="text">&nbsp;</td>
+        <td valign="top" class="text">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top" class="lightBlueTr">Export Dialog configuration related attributes: </td>
+        </tr>
+      <tr>
+        <td width="25%" valign="top" class="codeInline">showExportDialog</td>
+        <td width="15%" valign="top" class="text">Boolean (0/1) </td>
+        <td valign="top" class="text">Whether to show the export dialog during capture phase. If not, the chart starts capturing process without the dialog visible. </td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" class="codeInline">exportDialogMessage</td>
+        <td width="15%" valign="top" class="text">String</td>
+        <td valign="top" class="text">The message to be shown in the dialog box. The default is &quot;Capturing Data : &quot; </td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" class="codeInline">exportDialogColor</td>
+        <td width="15%" valign="top" class="text">Hex Color </td>
+        <td valign="top" class="text">Background color of dialog box. </td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" class="codeInline">exportDialogBorderColor</td>
+        <td width="15%" valign="top" class="text">Hex Color </td>
+        <td valign="top" class="text">Border color of dialog box. </td>
+      </tr>
+      <tr>
+        <td width="25%" valign="top" class="codeInline">exportDialogFontColor</td>
+        <td width="15%" valign="top" class="text">Hex Color </td>
+        <td valign="top" class="text">Font color to be used for text in dialog. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">exportDialogPBColor</td>
+        <td valign="top" class="text">Hex Color </td>
+        <td valign="top" class="text">Color of progress bar in dialog. </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

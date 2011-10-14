@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Data Labels </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Data labels refer to the names for the data points which appear on the x-axis.</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Wrap.jpg" width="309" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the chart shown above, Jan 2006, Feb 2006 etc are the data labels for the chart. By default, they get wrapped when there is not enough space on the chart. </p>
+        <p>You can choose not to show the data labels by using <span class="codeInline">&lt;chart showLabels='0'&gt;</span>. By default, they're visible. </p>
+        <p class="header">Modes for data labels </p>
+      <p class="text">The data labels can be displayed on the charts in the following ways: </p>
+      <ul>
+        <li>Wrap mode</li>
+        <li>Rotated and slanted mode</li>
+        <li>Staggered mode with customizable staggered lines</li>
+        <li>Every n-th label</li>
+      </ul>      </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Wrap Mode </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>By default, FusionCharts shows all the labels in wrap mode. The wrap mode enables you to wrap your long x-axis labels in multiple lines as shown below. To enable wrap mode, all you need to do is set :</p>
+        <p class="codeInline">&lt;chart labelDisplay='WRAP'&gt; </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Wrap.jpg" width="309" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Rotating and Slanting Labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can opt to rotate the x-axis labels by using <span class="codeInline">&lt;chart labelDisplay='Rotate' ..&gt;</span>. </p>
+        <p class="highlightBlock">This method wouldn't work if you've non-english characters in your x-axis labels as FusionCharts uses embedded fonts to render rotated labels. </p>
+      <p>Consider the XML below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>labelDisplay='ROTATE'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It yields the following chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Rotate.jpg" width="306" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also slant the labels at 45 degree by using <span class="codeInline">&lt;chart labelDisplay='Rotate' slantLabels='1' ..&gt;</span> with the following results: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Slant.jpg" width="306" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Staggering labels on multiple lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts v3 introduces the stagger mode for labels. Staggering basically distributes labels into multiple lines (by default 2). To enable stagger mode, just set <span class="codeInline">&lt;chart labelDisplay='Stagger' ..&gt;</span>. It will yield the following: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_Stagger.jpg" width="308" height="207" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also choose how many lines to stagger the labels to by setting the number in <span class="codeInline">&lt;chart labelDisplay='Stagger' staggerLines='n' ..&gt;</span> where n is the number of lines. Shown below is an example with <span class="codeInline">staggerLines</span> set to 3. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/xAxis_StaggerLines.jpg" width="306" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Showing every n-th label </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If your x-axis labels represent a continuous quantity like time, date etc. which are incremental in nature, you can opt to show every n-th label instead of all the labels. This enhances the clarity of the chart. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>labelStep='4' </strong>showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun 2006' value='183' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul 2006' value='365' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug 2006' value='357' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep 2006' value='375' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct 2006' value='345' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov 2006' value='655' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec 2006' value='435' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2007' value='586' /&gt;<br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above chart, we're plotting consecutive months on the chart. So, if we show all the months, the chart gets cluttered. To avoid this, we've set <span class="codeInline">labelStep</span> as 4, so that every 4th x-axis label is only shown. </p>
+        <p>When you view the chart, you'll get following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><img src="../Images/xAxis_Step.jpg" width="384" height="210" /></p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Showing specific data labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can opt to show only specific data labels by using <span class="codeInline">&lt;chart showLabels='0'&gt; </span>and then setting <span class="codeInline">showName='1'</span> for the set you want to show the label. A chart having the same looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><img src="Images/Labels_Specific.jpg" width="300" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the same is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>showLabels='0'</strong>&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' <strong>showName='1'</strong>/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Changing Font Properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using a single font property for all the labels </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you want to specify a single font property for all the text outside canvas area, you can use <span class="codeInline">outCnvBaseFont</span> attribute group. The font properties specified as a part of this attribute group will be applied to Caption, Sub-Caption,   X-Axis &amp; Y-Axis names, Data Labels, Divisional Line and Trendline values.</p>
+        <p>The following attributes are a part of this group: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="1" align="left" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="text"><strong>Attribute Name </strong></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1" class="text"><strong>Description</strong></td>
+          <td valign="top" bordercolor="f1f1f1" class="text"><strong>Example</strong></td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline">outCnvbaseFont&nbsp;</td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font family e.g., Arial, Verdana etc</span></td>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvBaseFont</span>='Verdana'</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="text"><span class="codeInline">outCnvbaseFontSize</span>&nbsp;&nbsp;</span></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text">Lets you define the font size (8-72)</span></td>
+          <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontSize</span>='10' </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontColor</span></td>
+          <td width="45%" valign="top" bordercolor="f1f1f1"><span class="text"> Lets you define the font color. Use hex code for the color without #. E.g., 000000 or 009933 or 999999 </span></td>
+          <td valign="top" bordercolor="f1f1f1" class="codeInline"><span class="codeInline">outCnvbaseFontColor=</span>'<span class="text">009933</span>'</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Example XML: </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxis='Quarter' yAxisName='Sales' <strong>outCnvBaseFont='Arial' outCnvBaseFontSize='12' outCnvBaseFontColor='333333'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt; <br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Output:</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Title_5.jpg" width="406" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, all the text outside chart canvas has assumed the font properties specified as part of that attribute group. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to specify font properties the data labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you do not want all the text on your chart to have similar font properties, you can use STYLES to define individual font properties for different text on the chart. Using STYLES, you can specify a different font name, size, color, background &amp; border color and also make the text bold or italicized. </p>
+      <p>Shown below is a change in the basic font properties of the data labels. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Labels_Styles.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myLabelsFont' type='font' font='Arial' size='14' color='666666' bold='1' underline='1'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='myLabelsFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also define a background and border color for the data labels using STYLES. </p>        </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Labels_Styles_Bg.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myLabelsFont' type='font' bgColor='FFFFFF' borderColor='666666'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='myLabelsFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply effects (shadow, glow, blur, bevel etc.) to the chart titles using STYLES. Shown below is an example: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Labels_Styles_Shadow.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we've changed the font properties of the data labesl and applied a shadow to it. The XML can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myLabelsFont' type='font' font='Arial' size='14' color='666666' bold='1' underline='1'/&gt;<strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='Shadow' color='999999' angle='45'/&gt;
+        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='</strong>myLabelsFont<strong>,myShadow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We can also apply a glow to the data labels as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Labels_Styles_Glow.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we've changed the font properties of the data labesl and applied a shadow to it. The XML can be listed as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myLabelsFont' type='font' font='Arial' size='14' color='666666' bold='1' underline='1'/&gt;<strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myGlow' type='Glow' color='FF5904'/&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='</strong>myLabelsFont<strong>,myGlow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying animation to data labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also apply animation effects to the data labels using STYLES. Shown below is an XML example which animates the x-position of the data labels from the center of the chart canvas to their respective positions. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Quarter 4' value='465400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&nbsp;&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='mynAnim' type='animation' type='animation' param='_x' start='$canvasCenterX' duration='1' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='myAnim' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

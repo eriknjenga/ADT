@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Server-side export &gt; Overview</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The export process, when using server-side Export Handlers, can be visualized as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerOverview1.gif" width="649" height="439" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As shown above, when exporting the charts as images/PDFs using server-side Export Handlers, there are two actions that you can choose from:
+      <ol>
+        <li><strong>Download to end user</strong> - Return the generated image/PDF back to the client (browser) for downloading</li>
+        <li><strong>Save on server disk</strong> - Save the image on server-disk and return the URL of the same to callback JavaScript functions </li>
+      </ol>
+      <p class="highlightBlock">Please note that in both cases, the chart first needs to render in a browser, before the bitmap snapshot can be sent to server for processing. You CANNOT directly generate an image of chart on server, without actually rendering it in browser. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Elements involved </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>For enabling export of chart at server-side, we'll need to assemble the following elements: </p>
+      <ul>
+        <li><strong>The chart itself</strong> embedded using FusionCharts JavaScript class (<span class="codeInline">FusionCharts.js</span>). Here, we assume that you have been able to generate the chart for your page. If not, please refer to the relevant section of our documentation. </li>
+        <li><strong>FusionCharts Export Handlers (Server-side)</strong> - In case of server-side export, these server-side scripts accept and convert the bitmap snapshot of charts into images/PDFs. We've provided ready-to-use server-side export handlers in multiple programming languages like ASP.NET, PHP, JSP and Ruby on Rails. Depending on what technology you're using, you can copy-paste the relevant files from <span class="codeInline">Download Package &gt; ExportHandlers</span> folder to your web server. </li>
+      </ul>
+    <p>So let's quickly get started and setup a simple example that exports the chart as an image and sends it back to browser (for the user to save). </p></td>
+  </tr>
+</table>
+</body>
+</html>

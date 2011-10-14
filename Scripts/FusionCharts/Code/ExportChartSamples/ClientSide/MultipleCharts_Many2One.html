@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>
+	FusionCharts Client-side Export Sample - Multiple Charts - Individual export handler for each
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script language="JavaScript" src="../../FusionCharts/FusionChartsExportComponent.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+	<table align='center'>
+	<tr>
+	<td>
+	<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "350", "300", "0", "1");
+	myChart.setDataURL("SimpleExample.xml");
+	myChart.render("chartdiv");
+   </script>
+	</td>
+	<td>
+	<div id="chartdiv2" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart2 = new FusionCharts("../../FusionCharts/Column3D.swf", "myChartId2", "350", "300", "0", "1");
+	myChart2.setDataURL("SimpleExample.xml");
+	myChart2.render("chartdiv2");
+    </script>
+  	</td>
+	</tr>
+	<tr>
+	<td>
+	<div id="chartdiv3" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart3 = new FusionCharts("../../FusionCharts/Pie3D.swf", "myChartId3", "500", "350", "0", "1");
+	myChart3.setDataURL("SimpleExample.xml");
+	myChart3.render("chartdiv3");
+    </script>
+	</td>
+	<td>
+	<div id="fcexpDiv" align="center">FusionCharts Export Handler Component</div>
+	<script type="text/javascript">
+    var myExportComponent = new FusionChartsExportObject("fcExporter1", "../../FusionCharts/FCExporter.swf");
+	//Set configuration
+	//Full Mode
+	myExportComponent.componentAttributes.fullMode = '1';
+	//Set saving type to individual
+	myExportComponent.componentAttributes.saveMode = 'individual';
+	//Show allowed export format drop-down
+	myExportComponent.componentAttributes.showAllowedTypes = '1';
+	//Width and height
+	myExportComponent.componentAttributes.width = '350';
+	myExportComponent.componentAttributes.height = '120';
+	//Message - caption of export component
+	myExportComponent.componentAttributes.showMessage = '1';
+	myExportComponent.componentAttributes.message = 'Export any chart from context menu and then use this to save';
+	//Set it to show allowed format types as well
+    myExportComponent.Render("fcexpDiv");
+    </script>
+	</td>
+	</tr>
+	</table>
+</body>
+</html>

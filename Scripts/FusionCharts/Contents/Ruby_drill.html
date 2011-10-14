@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using FusionCharts with RoR - Creating Drill-down charts </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had used FusionCharts to plot a chart using data stored in database. We'll now extend that example itself to create a drill-down chart which can show more information.</p>
+    <p>If you recall from previous example, we were showing the sum of factory output in a pie chart as below: </p>
+    <p><img src="Images/Code_DBOut.jpg" width="572" height="273" class="imageBorder" /></p>
+    <p>In this example, we'll extend the previous example, so that when a user clicks on a pie slice for a factory, he can drill down to see date wise production for that factory. </p>
+    <p><span class="header">Setting up the pie chart for Link </span></p>
+    <p>To set up the pie chart to enable links for drill-down involves just minor tweaking of our previous example<span class="codeInline">.</span> We basically need to add the link attribute for each<span class="codeInline"> &lt;set&gt; </span>element<span class="codeInline">. </span></p>
+    <p class="codeBlock"><b>Controller: Fusioncharts::DbExampleController<br>
+Action: default </b> <font color="blue"> </font><br>
+      <span class="codeComment">#This action retrieves the factory data, sets the default value of @animate_chart to 1 if &quot;:animate&quot; is not present in the request.<br>
+#The view for this action default.html.erb will use the array values to construct the<br>
+#xml for this chart. To build the xml, the view takes help from the builder file (default_factories_quantity.builder)</span><br>
+def default<br>
+&nbsp;&nbsp;&nbsp;&nbsp;response.content_type = Mime::HTML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@animate_chart = params[:animate]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if @animate_chart.nil? or @animate_chart.empty?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@animate_chart = '1'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#Get data from factory masters table</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@factories = Fusioncharts::FactoryMaster.find(:all)<br>
+end<br>
+<br>
+<b>View</b>: <br>
+&lt;% @page_title=&quot; FusionCharts - Database and Drill-Down Example &quot; %&gt;<br>
+&lt;% @page_heading=&quot; FusionCharts Database and Drill-Down Example &quot; %&gt;<br>
+&lt;% @page_subheading=&quot;Click on any pie slice to see detailed data.&quot; %&gt;<br>
+&lt;p class='text'&gt;Or, right click on any pie to enable slicing or<br>
+rotation mode.&lt;/p&gt;<br>
+&lt;%<br>
+<span class="codeComment"># The xml is obtained as a string from builder template.</span><br>
+str_xml = render :file=&gt;&quot;fusioncharts/db_example/default_factories_quantity&quot;,<br>
+:locals=&gt;{:factories =&gt; @factories,:animate_chart=&gt;@animate_chart}<br>
+<span class="codeComment">#Create the chart - Pie 3D Chart with data from strXML</span><br>
+render_chart '/FusionCharts/Pie3D.swf','', str_xml, <br>
+'FactorySum', 600, 300, false, false do-%&gt;<br>
+&lt;% end-%&gt; </p>
+    <p class="text"> This action expects a parameter called &quot;animate&quot; from the request. This is assigned to the variable @animate_chart. The controller finds the data and stores it in <span class="codeInline">@factories</span>. </p>
+    <p class="text">The view is similar to the basic_dbexample.html.erb seen in the previous example, except here it passes the parameter animate_chart also in the locals hash. Here the builder template used is <span class="codeInline">default_factories_quantity.builder </span>and we pass the factories' data and animate_chart parameters to the builder. </p>
+    <p class="text">The builder template used is as follows:</p>
+    <p class="codeBlock"><span class="codeComment">#Creates xml with values for Factory Output<br>
+        #along with their names and a link to detailed action for each factory.<br>
+        #It uses the factories parameter from locals hash.<br>
+        #This data is used for building xml for chart with factory name and total output.<br>
+        #Constructs the data url for the chart which will come up on clicking on the pie slice.</span><br>
+        xml = Builder::XmlMarkup.new<br>
+        xml.chart(:caption=&gt;'Factory Output report', :subCaption=&gt;'By Quantity', <br>
+        :pieSliceDepth=&gt;'30', :showBorder=&gt;'1', :formatNumberScale=&gt;'0', <br>
+        :numberSuffix=&gt;' Units', :animation=&gt;animate_chart ) do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;factories.each do |factory|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str_data_url = &quot;/Fusioncharts/db_example/detailed/&quot;+factory.id.to_s<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;factory.name,:value=&gt;factory.total_quantity,:link=&gt;str_data_url)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br> 
+</p>
+<p>Iterate through each factory and use the name and total quantity values. We  add an attribute called link to the <span class="codeInline">&lt;set&gt; </span>tag, with value as <span class="codeInline">str_data_url</span>. This link <span class="codeInline">str_data_url</span> is the path to the detailed action with id of the factory. </p>
+<p>On clicking  a pie slice, what happens? It goes to the detailed action of the Controller. Let us now generate the chart that will be shown on clicking a pie slice.</p>
+<p><span class="header">Creating the detailed data chart page </span></p>
+<p class="codeBlock"><b>Controller: Fusioncharts::DbExampleController<br>
+Action: detailed</b> <br>
+  <span class="codeComment">#This action retrieves the factory data for the given &quot;FactoryId&quot; parameter<br>
+#The view for this action is detailed.html.erb and it uses the builder file<br>
+#factory_details.builder to build the xml for the column chart.</span><br>
+def detailed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;response.content_type = Mime::HTML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@factory_id = params[:id]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;factory = Fusioncharts::FactoryMaster.find(@factory_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@factory_output_quantities = factory.factory_output_quantities<br>
+end<br>
+<br>
+<b>View:<br>
+</b>&lt;% @page_title=&quot; FusionCharts - Database and Drill-Down Example &quot; %&gt;<br>
+&lt;% @page_heading=&quot; FusionCharts Database and Drill-Down Example &quot; %&gt;<br>
+&lt;% @page_subheading=&quot;Detailed report for the factory&quot; %&gt;<br>
+&lt;%<br>
+<span class="codeComment">#This page is invoked from default action in controller. When the user clicks on a pie<br>
+#slice rendered by default.html.erb, the factoryId is passed as a parameter to detailed function<br>
+#in the controller. We need to get that factory id, get the information from database and then show<br>
+#a detailed chart.<br>
+<br>
+# The xml is obtained as a string from builder template.</span><br>
+str_xml = render :file=&gt;&quot;fusioncharts/db_example/factory_details&quot;, <br>
+:locals=&gt;{:factory_output=&gt;@factory_output_quantities,:factory_id=&gt;@factory_id}<br>
+<br>
+<span class="codeComment">#Create the chart - Column 2D Chart with data from strXML</span><br>
+render_chart '/FusionCharts/Column2D.swf', '', str_xml, <br>
+'FactoryDetailed', 600, 300, false, false do -%&gt; <br>
+&lt;% end-%&gt; <br>
+<br>
+&lt;BR&gt;<br>
+&lt;a href='/fusioncharts/db_example/default?animate=0'&gt;Back to Summary&lt;/a&gt;<br>
+&lt;BR&gt;</p>
+<p class="text">The <span class="codeInline">detailed</span> action does the following: </p>
+<ol>
+  <li>Gets the <span class="codeInline">id</span> from the request and stores in a variable @factory_id.</li>
+  <li>Performs a find with the Model <span class="codeInline">FactoryMaster</span> for the id obtained from the previous step.</li>
+  <li>Stores the factory_output_quantities from the FactoryMaster in the variable @factory_output_quantities.<br class="text">
+  </li>
+  </ol>
+<p> The view detailed.html.erb calls the render function with the path to the builder <span class="codeInline">factory_details</span>, factory_output and factory id as parameter. The resultant xml is assigned to the variable str_xml. Finally, it calls the render_chart function to chart a Column2D chart and passes the xml to it as dataXML parameter. What does the builder template <span class="codeInline">factory_details</span> do? Here is the code:</p>
+<p class="codeBlock"><span class="codeComment">#Creates xml with values for date of production and quantity for a particular factory<br>
+    #It uses the factory_output parameter from locals hash.<br>
+    #This data is used for building xml for chart with date of production and output quantity.</span><br>
+    xml = Builder::XmlMarkup.new<br>
+    xml.chart(:palette=&gt;'2', :caption=&gt;'Factory' + factory_id.to_s + ' Output ', <br>
+    :subcaption=&gt;'(In Units)', :xAxisName=&gt;'Date', :showValues=&gt;'1', :labelStep=&gt;'2') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;factory_output.each do |output|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;formatted_date(output.date_pro),:value=&gt;output.quantity)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end</p>
+<p>This is a simple xml with the outer <span class="codeInline">&lt;chart&gt;</span> element and <span class="codeInline">&lt;set&gt; </span>elements within it. The<span class="codeInline"> &lt;set&gt;</span> element has <span class="codeInline">label</span> and <span class="codeInline">value </span>attributes. Date of production is set as the label and quantity is set as the value. These values are obtained from the array of hashes factory_data received as parameter.</p>
+<p>Following is the code for formatting date to dd/mm and removing the leading zeroes.</p>
+<p class="codeBlock"><strong>application_helper.rb<br>
+    </strong><span class="codeComment"># Formats the date to dd/mm without leading zeroes</span><br>
+    def formatted_date(date_to_format) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;date_num= date_to_format.strftime('%d').to_i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;month_num = date_to_format.strftime('%m').to_i<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result_date=date_num.to_s +&quot;/&quot;+month_num.to_s<br>
+    end</p>
+<p>Now, when you click on a pie slice, the page opens the following chart with details of the selected factory: </p>
+<p><img src="Images/Code_Drill.jpg" width="599" height="292" class="imageBorder" /></p></td>
+  </tr>
+</table>
+</body>
+</html>

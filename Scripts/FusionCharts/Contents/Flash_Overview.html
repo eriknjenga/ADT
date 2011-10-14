@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and Flash &gt; Overview </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Starting FusionCharts v3, the charts can now be very easily integrated with your Flash movies and applications. Unlike previous versions, where you had to load pre-compiled chart SWFs at run-time, you can now include the respective chart's class at design-time and then compile it with your application to form a single comprehensive unit. </p>
+      <p class="highlightBlock">To load FusionCharts v3 in your Flash movies, <strong>you need to make sure that your Flash movies are also in Flash 8 format  and uses ActionScript 2.</strong> This is because FusionCharts is coded in ActionScript 2/Flash 8 and intensively makes use of features provided in Flash 8. <br />
+        <br />
+      If you wish to use FusionCharts in your Adobe Flex solutions or Flash 9/10 movies, please have a look at <a href="http://www.fusioncharts.com/flex" target="_blank">FusionCharts for Flex</a>. </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">XML Data Usage </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts always needs its data in XML format. It CANNOT accept any other format of data including variables, arrays, recordsets etc. Even when using FusionCharts inside your Flash movies, you need to provide it XML data only. </p>
+      <p>XML data can be easily created in your Flash movies either using string concatenation or using methods of the XML Object. You do not need to store data in physical XML files. You can build the XML data in Flash variables at run-time and then pass this to chart. So, even if you've your data in arrays, recordsets or remote database (that you access using your own Flash code), you can easily convert them to XML at run-time and then use FusionCharts with it. </p>
+      <p>We won't be discussing XML data structure here, as that has already been discussed in &quot;FusionCharts and XML&quot; Section. You can find the Chart XML Sheet for each chart under &quot;Chart XML Sheets&quot; section.</p>
+    <p>Here, we'll directly jump to see how to create a FusionCharts chart in your Flash application. We'll start with a very basic single chart application. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Basic Example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>For this example, we create a new .fla named as <span class="codeInline">MyFirstChart.fla</span>. We set the size of this movie to 500x350 pixels and set background as white. </p>
+    <p class="highlightBlock">The code examples discussed in this section are present in <span class="codeInline">Download Package &gt; Code &gt; FlashExamples</span>.</p>
+    <p>Now, before we code to create the charts, we need to set (install) the charts  for use in this movie. Setting up the charts for use in your movie is very simple. You just need to copy <span class="codeInline">com</span> folder from <span class="codeInline">Download Package &gt; SourceCode</span> folder into the folder in which you'll be placing your .fla file. Here,  we're placing our <span class="codeInline">.fla</span> file in <span class="codeInline">FlashExamples</span> folder, and as such we copy the <span class="codeInline">com</span> folder here.</p>
+    <p class="highlightBlock"><span class="codeInline">com</span> folder is the package for FusionCharts v3 Class files. It contains all the files required to generate any chart in FusionCharts v3. <br />
+      <br />
+      Individual chart class files are present in <span class="codeInline">com &gt; fusioncharts &gt; core &gt; charts</span> folder. If you feel that you just need to plot a few charts in your movie, you can delete the rest of Chart Class files from this folder. <br />
+      <br />
+      There are lot of other folders under <span class="codeInline">com &gt; fusioncharts</span> folder. These files are required by FusionCharts to create the chart. </p>
+    <p>Now that the charts are set for use, let's get back to our Flash file. Rename the default layer as &quot;<span class="codeInline">Graphic Elements</span>&quot; and place an oval shape with shadow effect. Basically, we'll use this as the background of the chart. The idea is to show how easily FusionCharts can integrate with the graphical elements of your Flash movie. It should look something as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_O_GE.jpg" width="543" height="498" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, create another layer and name it as &quot;<span class="codeInline">Actions</span>&quot;. In its first keyframe, punch in the following ActionScript code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p class="codeComment">/**<br />
+      * This keyframe contains the Actions required to load a FusionCharts<br />
+      * chart in your Flash movie.<br />
+      *<br />
+      * We've set the FPS of this movie to 120 for smooth animations.<br />
+      * Depending on your requirements, you can set any FPS. FusionCharts<br />
+      * renders time based animations, so the length of animation would stay<br />
+      * same. Only the smoothness would vary.<br />
+      */<br />
+      //You first need to include the following two files in your movie.<br />
+      //These two files contain pre-loading functions and application<br />
+      //messages for the chart.</p>
+      <p><span class="codeComment">//Note: If you're loading multiple charts in your Flash movie, you<br />
+        //do NOT need to include these files for each each. You can put these<br />
+        //lines in the main timeline, so that it gets loaded only once.</span><br />
+        #include &quot;com/fusioncharts/includes/LoadingFunctions.as&quot;<br />
+        #include &quot;com/fusioncharts/includes/AppMessages.as&quot;</p>
+      <p><span class="codeComment">//To create the chart, you now need to import the Class of the <br />
+        //chart which you want to create. All charts are present in the package <br />
+        //com.fusioncharts.core.charts (Download Package &gt; SourceCode folder)<br />
+        //If you're using multiple charts, you can import all the requisite<br />
+        //chart classes in the main timeline of your movie. That ways, you<br />
+        //wouldn't have to import the chart classes everytime you wish to use.</span><br />
+        import com.fusioncharts.core.charts.Column2DChart;</p>
+      <p class="codeComment">// ------------- XML Data for the chart -------------- //<br />
+        //FusionCharts necessarily needs its data in XML format.<br />
+        //So, if you've data in arrays, forms, recordsets, etc., you<br />
+        //first need to convert it into XML. Only then would you be able<br />
+        //to use the charts.</p>
+      <p><span class="codeComment">//Here, we're hard-coding an XML data document for demo.<br />
+        //In your applications, this XML data could be dynamically<br />
+        //built at run time using string concatenation or XML<br />
+        //Object.<br />
+        //Generate the XML data. We hide the border of chart, set background<br />
+        //alpha as 0 (for transparency) and then set palette to 2.</span><br />
+        var strXML:String = &quot;&lt;chart showBorder='0' bgAlpha='0,0' palette='1' caption='Hourly Working Rate' numberPrefix='$'&gt;&quot;;<br />
+        <span class="codeComment">//Add simple data for demo.</span><br />
+        strXML = strXML + &quot;&lt;set name='John' value='32' /&gt;&quot;;<br />
+        strXML = strXML + &quot;&lt;set name='Mary' value='65' /&gt;&quot;;<br />
+        strXML = strXML + &quot;&lt;set name='Michelle' value='29' /&gt;&quot;;<br />
+        strXML = strXML + &quot;&lt;set name='Cary' value='43' /&gt;&quot;;<br />
+        strXML = strXML + &quot;&lt;/chart&gt;&quot;; <br />
+        <span class="codeComment">//FusionCharts chart classes accept XML data as XML Object<br />
+        //and not XML String.<br />
+        //So, if you've an XML string, first create an XML object from it<br />
+        //and then pass to the chart. We do the same.</span><br />
+        var xmlData:XML = new XML(strXML);<br />
+        <span class="codeComment">// --------------------------------------------------- // </span></p>
+      <p><span class="codeComment">// -------------- Actual Code to create the chart ------------//<br />
+        //To create a chart, you first need to create an empty movie clip to act as chart holder.</span><br />
+        var chartContainerMC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder&quot;,1);<br />
+        <span class="codeComment">//Now, instantiate the chart using Constructor function of the chart.        </span><br />
+        var myFirstChart:Column2DChart = new Column2DChart(chartContainerMC, 1, 450, 325, 20, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+        <span class="codeComment">//Convey the XML data to chart. </span><br />
+        myFirstChart.setXMLData(xmlData);<br />
+        <span class="codeComment">//Draw the chart</span><br />
+        myFirstChart.render();<br />
+        <span class="codeComment">//Stop</span><br />
+    stop();</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's get to the above code step by step. To include any FusionCharts chart in your Flash movie, you first need to include two files in your movie: <span class="codeInline">com/fusioncharts/includes/LoadingFunctions.as</span> and <span class="codeInline">com/fusioncharts/includes/AppMessages.as</span>. These files contain necessary pre-load functions and application messages for the chart. In your application, you can put this code in the main timeline, so that it gets executed only once.</p>
+    <p>After this, we include the Chart Class file of the chart which we intend to plot. All Chart Classes are present in <span class="codeInline">com &gt; fusioncharts &gt; core &gt; charts </span>folder. So, the package name of each chart class is <span class="codeInline">com.fusioncharts.core.charts</span>. Here, we're building a basic Column 2D chart, and as such the fully qualified class name is <span class="codeInline">com.fusioncharts.core.charts.Column2DChart</span>.</p>
+    <p>Once the classes are imported, we set our focus to building the XML data for the chart. In this example, we're using a single series Column 2D chart. So, the XML structure has to be single series XML. We build the XML using string concatenation in the variable <span class="codeInline">strXML</span>. Here, we're hard-coding the XML data in this string variable. In your real world application, this data could come from a database, web service, recordset etc. All you would need to do is get the appropriate data and then encode it into XML using string concatenation or XML Object (though string concatenation is far easier to use and understand). Finally, we create an XML Object from this xml string, as FusionCharts accepts only XML Objects. </p>
+    <p>Movin on , let's see how to build the chart now. Each FusionCharts chart needs an empty movie clip to build itself in. So, we create an empty movie clip named as <span class="codeInline">ChartHolder</span>. We store the reference to this movie clip in <span class="codeInline">chartContainerMC</span> variable. For demonstration purposes, we've created this empty movie clip in <span class="codeInline">_level0</span> at depth 1. In your applications, you can create it nested within any movie clip.</p>
+    <p class="codeInline">var chartContainerMC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder&quot;,1);</p>
+    <p>After that, we come to the main line of code - the line that instantiates the chart object. </p>
+    <p><span class="codeInline">var myFirstChart:Column2DChart = new Column2DChart(chartContainerMC, 1, 450, 325, 20, 15, false, &quot;EN&quot;, &quot;noScale&quot;);</span></p>
+    <p>Here, we're creating an instance of <span class="codeInline">Column2DChart</span> class in our local variable <span class="codeInline">myFirstChart</span>. <span class="codeInline">myFirstChart</span> now stores the reference of the column 2D chart that we intend to display in this movie. To the constructor function of the chart class, we pass the following parameters (in sequential order): </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" align="center" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="23%" class="header">Parameter</td>
+        <td width="77%" class="header">Description</td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">targetMC</td>
+        <td class="text"><p>Reference to the movie clip in which the chart will create its sub-movie clips. In our example above, we're creating <span class="codeInline">ChartHolder</span> movie clip for the chart. So, we pass its reference <span class="codeInline">chartContainerMC</span> to the chart. </p>
+          <p>Whenever you're passing a movie clip reference to chart, make sure it's an empty movie clip. </p></td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">depth</td>
+        <td class="text">The depth inside the <span class="codeInline">targetMC</span> (previous parameter) where you want the chart to start drawing it's elements. You can normally pass 1 as this parameter. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">width</td>
+        <td class="text">Intended width of chart in pixels. If you're using &quot;<span class="codeInline">exactFit</span>&quot; as <span class="codeInline">scaleMode</span>, this attribute represents percentage. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">height</td>
+        <td class="text">Intended height of chart in pixels. If you're using &quot;<span class="codeInline">exactFit</span>&quot; as <span class="codeInline">scaleMode</span>, this attribute represents percentage. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">x</td>
+        <td class="text">x-offset for the chart inside <span class="codeInline">targetMC </span>movie clip. This effectively asks the chart to leave x pixels on left inside <span class="codeInline">targetMC</span> movieclip before it starts drawing. In our example, we've set it to 20, as we've our oval background element border extending till 20 pixels on left. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">y</td>
+        <td class="text">y-offset for the chart inside <span class="codeInline">targetMC </span>movie clip. This effectively asks the chart to leave y pixels on top inside <span class="codeInline">targetMC</span> movieclip before it starts drawing. In our example, we've set it to 15, as we've our oval background element border extending till 15 pixels on top. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">debugMode</td>
+        <td class="text">This takes a boolean value indicating whether to start the chart in debug mode or not. Please see <span class="codeInline">Debugging your Charts &gt; Debug Window</span> section for more information on this. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">lang</td>
+        <td class="text">2 Letter ISO code for the language of application						messages. It depends on what data you've fed for Application Messages. By default, only English messages are fed into the system and the ISO code is &quot;<span class="codeInline">EN&quot;</span>. </td>
+      </tr>
+      <tr>
+        <td valign="top" class="codeInline">scaleMode</td>
+        <td class="text">Scale mode of the movie - <span class="codeInline">noScale</span> or <span class="codeInline">exactFit</span>. noScale is the recommended method for FusionCharts, as that scales the chart in pixels. <span class="codeInline">exactFit</span> method basically re-scales the entire chart instead of re-drawing. </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Note that the above parameters are same for all FusionCharts chart. </p>
+    <p>This completes the initialization of your chart. You now need to convey the XML data to chart. To do so, you use the <span class="codeInline">setXMLData() </span>method of Chart Class as under:</p>
+    <p class="codeInline">myFirstChart.setXMLData(xmlData);</p>
+    <p>Here, <span class="codeInline">xmlData </span>refers to our XML Object which we had earlier created. Finally, you render the chart by calling<span class="codeInline"> render() </span>method of the chart object:</p>
+    <p class="codeInline">myFirstChart.render();</p>
+    <p>When you now view this application, you'll get the following results. </p>
+    <p class="highlightBlock">If you run this app, you'll see that the animations are a bit jerky. This is because your movie's default FPS (frames per seconds) is set to 12. FusionCharts uses time based animations as as such it still completes the same animation path using 12 FPS, which results in the jerkiness. So, to make the animations smooth, you can increase the FPS depending on your application's requirements.  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_O_Out.jpg" width="512" height="408" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Easy - isn't it? Well, this was just a beginning. You'll soon see how easy it is to embed powerful charting capabilities in your Flash applications now. We next see how to load multiple charts in the same application. </p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

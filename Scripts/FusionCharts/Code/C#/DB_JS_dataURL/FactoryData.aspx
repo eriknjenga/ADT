@@ -1,0 +1,1 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FactoryData.aspx.cs" Inherits="DB_JS_dataURL_FactoryData" %>

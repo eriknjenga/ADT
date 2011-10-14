@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Highlighting Selective Data </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts v3 allows you to highlight selective data using a lot of ways. Here, we'll be discussing some of them including:</p>
+      <ul>
+        <li>Highlighting a data set by changing its alpha</li>
+        <li>Using dashed border to highlight data </li>
+        <li>Using individual anchor properties on a line/area chart to highlight a data</li>
+        <li>Using individual color properties on a multi-series chart to highlight a single data</li>
+      </ul>
+    <p>Let's see all of the above one by one. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Highlighting a data set by changing its alpha</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Highlighting a data by changing its alpha is one of the simplest methods. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' <strong>alpha='50'</strong>/&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' /&gt; <br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we've set the <span class="codeInline">alpha</span> of second column to 50 (on a scale of 0-100). When you now see this chart, you'll see that the column is semi-transparent making it the focus point.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Hl_Alpha.jpg" width="358" height="213" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using dashed border to highlight data </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also highlight a data by setting it as dashed. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' <strong>dashed='1'</strong>/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' /&gt; <br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="50%" valign="top"><div align="center"><img src="Images/Hlt_Dashed1.jpg" width="285" height="186" class="imageBorder" /></div></td>
+        <td valign="top"><div align="center"><img src="Images/Hlt_Dashed2.jpg" width="288" height="193" class="imageBorder" /></div></td>
+      </tr>
+      <tr>
+        <td width="50%" valign="top"><div align="center" class="imageCaption">When applied on a column chart </div></td>
+        <td valign="top"><div align="center"><span class="imageCaption">When applied on a line chart </span></div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using individual anchor properties on a line/area chart to highlight a data </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts v3 allows you to set individual <span class="codeInline">&lt;set&gt;</span> level anchor properties too. Consider the following XML: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart showValues='0'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' <strong>anchorRadius='6' anchorSides='4' anchorBorderColor='0372AB' anchorBgColor='E1f5ff'</strong>/&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Hary' value='323' /&gt; <br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above XML gives the following output on a line chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Hlt_Anchor.jpg" alt="" width="310" height="211" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can clearly see the highlighted anchor on the chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using individual color properties on a multi-series chart to highlight a single data</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts v3 also allows you to specify<span class="codeInline"> &lt;set&gt;</span> level color in a multi-series chart. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;categories&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label=&quot;Product A&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label=&quot;Product B&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/categories&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset SeriesName=&quot;2005&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;324&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;457&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset SeriesName=&quot;2006&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;456&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;787&quot; <strong>color='FF5904'</strong>/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;dataset SeriesName=&quot;2007&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;557&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value=&quot;767&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above code, we've a multi-series XML. We're highlighting a single <span class="codeInline">&lt;set&gt;</span> by setting its color explicitly. When you now see this chart, you'll get the following output: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Hlt_Color.jpg" width="511" height="211" /></td>
+  </tr>
+</table>
+</body>
+</html>

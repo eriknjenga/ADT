@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Batch export &gt; Over-riding export parameters </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Using the Export Component JavaScript object, you can also over-ride the export parameters that you've specified for each chart in XML. This is particularly useful in particular scenarios:</p>
+      <ul>
+        <li>When your XML has parameters related to server-side export (say saving on server-disk) to be used by some part of code in that page. But if you also want your user to be able to instantly download a snapshot of the chart (using client-side exporter) by calling another routine. In this case, when the user clicks on a button, you can over-ride the export parameters specified in the XML (set <span class="codeInline">exportAtClient</span> to 1, specify client-side <span class="codeInline">exportHandlers</span>) and then start export routine. </li>
+        <li>When in a batch mode, you do not want the charts to show Export Dialog box. You can then over-ride the show dialog box property at run-time, thereby eliminating the need to specify the same in XML. So, when users export individual charts, they do see the dialog box. But, when your batch process starts, the dialog can be hidden, thereby enabling the process to carry on silently in the background.</li>
+        <li>Change call-backs at run-time, depending on your application</li>
+        <li>Change export format and file name at run-time, if needed  </li>
+      </ul>
+    <p>The list of parameters that can be over-ridden this way is as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" cellpadding="2" cellspacing="0" border="1">
+      <tr>
+        <th width="19%" class="text"><div align="left">Attribute Name</div></th>
+        <th width="16%" class="text"><div align="left">Value Type</div></th>
+        <th width="54%" class="text"><div align="left">Description</div></th>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportHandler</div></th>
+        <td valign="top" class="text">string</td>
+        <td valign="top" class="text"><p>In case of server side exporting, this refers to the path of the server-side export handler (the ready-to-use scripts that we provide).</p>
+            <p>In case of client-side exporting, this refers to the DOM-Id of FusionCharts Export component that is embedded in your web page, along with the chart. </p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportAtClient</div></th>
+        <td valign="top" class="text">boolean<br />
+          (0/1) </td>
+        <td valign="top" class="text"><p> Whether to use client side export handlers, or server side export handlers.</p>
+            <p><strong>Note:</strong> By default the value is set to 0 which means the export is supposed to  be done at server-side.</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">showExportDialog</div></th>
+        <td valign="top" class="text">boolean<br />
+          (0/1)</td>
+        <td valign="top" class="text"><p>Whether to show the export dialog during capture phase. If not, the chart starts capturing process without the dialog visible.</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportFormat</div></th>
+        <td valign="top" class="text">string<br />
+          ('PNG' / 'JPG' / 'PDF')</td>
+        <td valign="top" class="text"><p>You can choose the format in which the chart is exported.</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportFileName</div></th>
+        <td valign="top" class="text">string</td>
+        <td valign="top" class="text"><p>Using this attribute you can specify the name  (excluding the extension) of the file to be exported.</p>
+            <p>When server-side&ndash;save  export&nbsp;is specified this attribute must provide the relative path of the destination file that is going to be  saved to the server.<br />
+              e.g. &ldquo;../gallery/charts/myExpenseChart&rdquo;</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportAction</div></th>
+        <td valign="top" class="text">string <br />
+          ('download' / 'save') </td>
+        <td valign="top" class="text"><p> In case of server-side exporting, the action specifies whether the exported image will be sent back to client as download, or whether it'll be saved on the server.</p>
+            <p><strong>Note:</strong> Thus is only available for server side export.</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" scope="col"><div align="left">exportTargetWindow</div></th>
+        <td valign="top" class="text">string<br />
+          ('_self' / '_blank')</td>
+        <td valign="top" class="text"><p>In case of server-side exporting and when using download as action, this lets you configure whether the return image/PDF would open in same window (as an attachment for download), or whether it will open in a new window. </p>
+            <p><strong>Note:</strong> Thus is only available for server side export.</p></td>
+        </tr>
+      <tr>
+        <th valign="top" class="text" ><div align="left">exportCallback</div></th>
+        <td valign="top" class="text">string</td>
+        <td valign="top" class="text"><p>This attribute specifies the name of the callback JavaScript  function which would be called when the export event is complete.</p>
+            <p>The internal JavaScript function <em>FC_Exported </em>is the default method that will be called when no value specified.</p></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">An Example  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's quickly see an example how to hide the Export dialog box of all charts during a batch process. To do so, we just add the following line to our export component code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Initialize Batch Exporter with DOM Id as fcBatchExporter</span><br />
+&nbsp;&nbsp;&nbsp;var myExportComponent = new FusionChartsExportObject(&quot;fcBatchExporter&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);<br />
+<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;//Add the charts to queue. The charts are referred to by their DOM Id.</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.sourceCharts = ['myChartId1','myChartId2','myChartId3'];<br />
+<br />
+&nbsp;<span class="codeComment">&nbsp;&nbsp;//------- Export related Attributes ------//</span><br />
+&nbsp;&nbsp;&nbsp;<strong>myExportComponent.exportAttributes.showExportDialog = '0';</strong><br />
+<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//------ Export Component Attributes ------//<br />
+&nbsp;&nbsp;&nbsp;//Set the mode as full mode</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.fullMode='1';<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Set saving mode as both. This allows users to download individual charts/ as well as download all charts as a single file.</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.saveMode='both';<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Show allowed export format drop-down</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.showAllowedTypes = '1';<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Cosmetics <br />
+&nbsp;&nbsp;&nbsp;//Width and height</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.width = '350';<br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.height = '140';<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Message - caption of export component</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.showMessage = '1';<br />
+&nbsp;&nbsp;&nbsp;myExportComponent.componentAttributes.message = 'Click on button above to begin export of charts. Then save from here.';<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Render the exporter SWF in our DIV fcexpDiv</span><br />
+&nbsp;&nbsp;&nbsp;myExportComponent.Render(&quot;fcexpDiv&quot;); <br />
+&lt;/script&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the format is:</p>
+    <p class="codeInline">export_object.exportAttributes.parameter='value';</p>
+    <p>When you run the above example and initiate batch export, you'll see that the capturing phase does not show export dialog any more. This saves you the trouble of specifying the parameter in each chart's XML. </p></td>
+  </tr>
+</table>
+</body>
+</html>

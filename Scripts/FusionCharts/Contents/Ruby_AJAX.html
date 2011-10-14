@@ -1,0 +1,180 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {color: #000000}
+-->
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td><h2 class="pageHeader">Using FusionCharts with RoR &gt; AJAX Examples </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this section, we'll use AJAX in Ruby on Rails and generate dynamic charts. We'll do the following: </p>
+        <ul>
+        <li><span class="text">Create a page which will contain a drop-down of Factory names and the details of that factory in a Column chart. </span></li>
+        <li>On selecting a factory from the drop-down, the chart updates to show the details of the selected factory. </li>
+      </ul>
+      <p><strong>Before you proceed with the contents in this page, we recommend you to go through the section &quot;Basic Examples &quot;.</strong> </p>
+        <p class="highlightBlock">All code discussed here is present in <br>      
+	     <span class="codeInline">Controller : Download Package > Code > RoR > SampleApp &gt;  app > fusioncharts
+    &gt; controllers > ajax_example_controller.rb</span>. <br> 
+    <span class="codeInline">View : Download Package > Code > RoR > SampleApp &gt;  app > views > fusioncharts    &gt;  ajax_example</span> folder.<br>
+    <span class="codeInline">View Helper Modules: Download Package > Code > RoR > SampleApp &gt;  lib &gt; fusion_charts_helper.rb </span></p> 
+	    <p><span class="header">Creating the  page with factory names drop-down and initial chart. </span><br>
+	    <br>
+	    We will create a controller called AjaxExampleController with the action default_factory_form for this page.      </p>
+	    <p class="text">The code in the controller and view are given below. </p>    
+	    <p class="codeBlock"><b>Controller: <b>Fusioncharts::AjaxExampleController</b><br/>
+  Action: default_factory_form<br>
+      </b><span class="style1">class Fusioncharts::AjaxExampleController &lt; ApplicationController</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;def default_factory_form<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.content_type = Mime::HTML <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@factories = Fusioncharts::FactoryMaster.find(:all)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(@factories.size&gt;0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory = @factories[0]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@factory_id = factory.id # Default factory<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory = Fusioncharts::FactoryMaster.find(@factory_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@factory_name = factory.name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@factory_output_quantities = factory.factory_output_quantities<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<font color="blue"><br>
+</font><span class="style1">end</span><font color="blue"><br>
+        <br/>
+     </font> <b>View: default_factory_form</b><strong>.html.erb</strong><br>
+&lt;HTML&gt;<br>
+&lt;HEAD&gt;<br>
+&lt;TITLE&gt;FusionCharts - Ajax Based Data Charting Example&lt;/TITLE&gt;<br>
+&lt;%= javascript_include_tag &quot;FusionCharts&quot; %&gt;<br>
+&lt;%= javascript_include_tag 'prototype' %&gt;<br>
+&lt;style type=&quot;text/css&quot;&gt;<br>
+&lt;!--<br>
+    body {<br>
+    font-family: Arial, Helvetica, sans-serif;<br>
+    font-size: 12px;<br>
+    }<br>
+    .text{<br>
+    font-family: Arial, Helvetica, sans-serif;<br>
+    font-size: 12px;<br>
+    }<br>
+    --&gt;<br>
+&lt;/style&gt;<br>
+&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br>
+    /*updateChart method is invoked when response for the factory_json action is obtained.<br>
+    In this method, we build the XML data<br>
+    for the selected factory, using data stored in JSON, and finally<br>
+    update the Column Chart.<br>
+    @param request <br>
+    */<br>
+    function updateChart(request){<br>
+    if (request.readyState == 4 /*complete*/) {<br>
+    <br>
+    var output_quantities = eval('(' + request.responseText + ')');<br>
+    var index = document.getElementById(&quot;factory_factory_id&quot;).selectedIndex;<br>
+    var selected_factory = document.getElementById(&quot;factory_factory_id&quot;).options[index].text;<br>
+    var strXML = &quot;&lt;chart palette='2' caption='&quot; + selected_factory + &quot; Output ' subcaption='(In Units)' xAxisName='Date' showValues='1' labelStep='2' &gt;&quot;;<br>
+    for(i=0;i&lt;output_quantities.size();i++){<br>
+    strXML = strXML + &quot;&lt;set label='&quot; + output_quantities[i].formatted_date+ &quot;' value='&quot; + output_quantities[i].quantity + &quot;' /&gt;&quot;;<br>
+    }<br>
+    //Closing Chart Element<br>
+    strXML = strXML + &quot;&lt;/chart&gt;&quot;; <br>
+    }<br>
+    //Get reference to chart object using Dom ID &quot;AjaxChart&quot;<br>
+    var chartObj = getChartFromId(&quot;AjaxChart&quot;);<br>
+    //Update it's XML<br>
+    chartObj.setDataXML(strXML);<br>
+    }<br>
+&lt;/SCRIPT&gt;<br>
+&lt;/HEAD&gt;<br>
+&lt;BODY&gt;<br>
+&lt;CENTER&gt;<br>
+&lt;h2&gt;FusionCharts Ajax And JSON Example&lt;/h2&gt;<br>
+&lt;p class='text'&gt;Select a factory to view its details&lt;/p&gt;<br> 
+&lt;table width='50%' align='center' cellpadding='2' cellspacing='1'<br>
+    border='0' class='text'&gt;<br>
+&lt;tr&gt;<br>
+&lt;td align='center'&gt;&lt;B&gt;Select Factory:&lt;/B&gt; <br>
+    <br>
+&lt;%= collection_select(&quot;factory&quot;, &quot;factory_id&quot;, @factories, :id, :name,{},{:onChange=&gt;remote_function(:url=&gt;{:action=&gt;'factory_json'},:with =&gt; &quot;'factory_id='+value&quot;, :complete=&gt;'javascript:updateChart(request)')} )%&gt;<br>
+&lt;/td&gt;<br>
+&lt;/tr&gt;<br>
+&lt;tr&gt;<br>
+&lt;td colspan=2&gt;<br>
+&lt;%= render :partial=&gt;&quot;factory_details_chart&quot;, :locals=&gt;{:factory_id=&gt; @factory_id,:factory_name=&gt;@factory_name,:factory_output =&gt; @factory_output_quantities} %&gt;<br>
+&lt;/td&gt;<br>
+&lt;/tr&gt;<br>
+&lt;table&gt;<br>
+&lt;/CENTER&gt;<br>
+&lt;/BODY&gt;<br>
+&lt;/HTML&gt;</p>
+        <p class="text">The following steps are carried out in the controller action:</p>
+        <ol>
+            <li>Find all the factories present in the database. This data is stored in <span class="codeInline">@factories</span>, which is used in the view to showa drop-down of factory names.</li>
+            <li>The  first factory is taken as default factory. The factory name and output quantities for this factory are stored in<span class="codeInline"> @factory_name</span> and<span class="codeInline"> @factory_output_quantities. </span>These values are used in the view, to show the chart. </li>
+        </ol>        
+        <p class="text">Let us next, dissect the view page and see it part by part. To show the drop-down of factory names, we will use the collection_select helper method. This is shown below:</p>
+        <p class="codeBlock">&lt;%= collection_select(&quot;factory&quot;, &quot;factory_id&quot;, @factories, :id, :name,{},{:onChange=&gt;remote_function(:url=&gt;{:action=&gt;'factory_json'},:with =&gt; &quot;'factory_id='+value&quot;, :complete=&gt;'javascript:updateChart(request)')} )%&gt;</p>
+        <p>We have added onChange handler to this drop-down. When the user selects a different factory from this drop-down, it contacts the action factory_json from the same controller with factory_id as parameter. On completing the action, the javascript function updateChart will be invoked.</p>
+        <p>In order to show the chart, we will render a partial _factory_details_chart passing it the factory id, name and output quantities. The partial renders the chart using FusionChartsHelper and the factory_details builder file. Here we will not go into the details of the partial and the builder, since they are similar those seen in <a href="Ruby_drill.html">Drill Down example </a>and other examples.The resulting chart is shown below:</p>
+        <p class="text"><img src="Images/Code_Drill.jpg" width="599" height="292" class="imageBorder" /> </p>
+        <p class="text">On selecting a different factory from the drop-down, the chart with that factory's details should be shown. For this, we will use AJAX. Since Ruby on Rails provides great support for AJAX, our task is very simple. As seen in the above code, we have provided the :url, :with and :complete parameters to the remote_function which is given to the onChange handler. The url provided to the remote_function is :action=&gt; 'factory_json'. Let us analyze the action and its output. The code for this action is:</p>
+        <p class="codeBlock"><b>Controller: <b>Fusioncharts::AjaxExampleController</b><br/>
+Action: factory_json<br>
+        </b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;def factory_json<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_id = params[:factory_id]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory = Fusioncharts::FactoryMaster.find(@factory_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factory_output_quantities = factory.factory_output_quantities<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.content_type = Mime::JSON<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;render :json=&gt;factory_output_quantities.to_json(:methods=&gt;'formatted_date')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end</p>        
+        <p class="text">In this action, the expected parameter is factory_id. A look-up is performed and the factory details for this  id is obtained. The factory_output_quantities of the factory is converted to JSON format using the to_json method. Note that, we have used :methods=&gt;'formatted_date'. This means the formatted_date method from FactoryOutputQuantity model class will be included in the resulting JSON, then the view can directly use this value instead of the unformatted date obtained from database. This json is then rendered. The action is complete. </p>
+        <p class="text">On completing the action, the javascript function updateChart is called. It receives the Factory details in the JSON format. Let us focus on this javascript function now.</p>
+        <p class="codeBlock">function updateChart(request){<br>
+if (request.readyState == 4 /*complete*/) {<br>
+<br>
+var output_quantities = eval('(' + request.responseText + ')');<br>
+var index = document.getElementById(&quot;factory_factory_id&quot;).selectedIndex;<br>
+var selected_factory = document.getElementById(&quot;factory_factory_id&quot;).options[index].text;<br>
+var strXML = &quot;&lt;chart palette='2' caption='&quot; + selected_factory + &quot; Output ' subcaption='(In Units)' xAxisName='Date' showValues='1' labelStep='2' &gt;&quot;;<br>
+for(i=0;i&lt;output_quantities.size();i++){<br>
+strXML = strXML + &quot;&lt;set label='&quot; + output_quantities[i].formatted_date+ &quot;' value='&quot; + output_quantities[i].quantity + &quot;' /&gt;&quot;;<br>
+}<br>
+//Closing Chart Element<br>
+strXML = strXML + &quot;&lt;/chart&gt;&quot;; <br>
+}<br>
+//Get reference to chart object using Dom ID &quot;AjaxChart&quot;<br>
+var chartObj = getChartFromId(&quot;AjaxChart&quot;);<br>
+//Update it's XML<br>
+chartObj.setDataXML(strXML);<br>
+}</p>        
+        <p class="text">In this function, the following steps are performed:</p>
+        <ol>
+            <li>Check if the request is in ready state. If request is ready, the responseText is taken from the request.</li>
+            <li>Create the xml for the chart for the selected factory. Top-most element is the chart tag. </li>
+            <li>Create set tag for each element in the responseText (output_quantitiess). Assign label as <span class="codeInline">output_quantities[i].formatted_date</span> and value as <span class="codeInline">output_quantities[i].quantity.</span></li>
+            <li>Close the chart tag.</li>
+            <li>Use getChartFromId to obtain handle to the chart object, passing the chartId &quot;AjaxChart&quot; as parameter.</li>
+            <li>Invoke the setDataXML on the chart object with the XML created in the previous steps.</li>
+            </ol>        
+        <p>Our job is done. The chart will now get refreshed with details of the selected factory.</p>
+        <p>In this example, we have seen </p>
+        <ul>
+            <li>how to use AJAX to trigger an action whenever the user selects a name from the drop-down </li>
+            <li> how an action can respond  with JSON </li>
+            <li>how a Javascript callback function can parse the JSON output and create XML </li>
+            <li>finally, how to display the chart with new details.</li>
+        </ul>        
+        <p class="text">This is just the beginning of what can be achieved with Ruby on Rails, AJAX and FusionCharts. Keep exploring!</p></td>
+</tr>
+ 
+</table>
+</body>
+</html>

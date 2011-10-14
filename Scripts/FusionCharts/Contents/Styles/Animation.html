@@ -1,0 +1,460 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td class="text"><span class="pageHeader">Animation Style Type Parameters</span></td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>One of the best things about FusionCharts is the animated 
+        charting sequences that users get to relish. By default, FusionCharts 
+        animates only the data plot (columns, 
+        bars, lines etc.). However, FusionCharts v3 does not limit your imaginations just there.</p>      
+      <p class="text">Using the <span class="codeInline">Animation 
+        Style Type</span>, you can virtually animate each and every object on 
+        the chart. You can define custom animations and apply them to various 
+        objects of the chart. </p>      
+      <p class="text">Each chart object has a list of supported animation 
+        properties that can be set through <span class="codeInline">Animation 
+        Style Type.</span> Before we get to the parameters supported 
+        by the animation style type, let's quickly glance through the properties 
+        of chart objects that we can animate using <span class="codeInline">Animation 
+        Style Type.</span> </p>
+      <p class="text">The animation style type helps you animate the following properties of chart objects:</p></td>
+  </tr>
+  
+  <tr> 
+    <td class="text"><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="127" valign="top"><p class="textBold">Property</p></td>
+          <td width="751" valign="top"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_x</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Helps 
+              animate the <span class="codeInline">x</span> position of the given 
+              chart object</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_y</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Helps 
+              animate the <span class="codeInline">y</span> position of the given 
+              chart object.</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_xScale</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Using 
+              this property, you can animate the <span class="codeInline">x-scale 
+              </span>(horizontal scale) of the given chart object</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_yScale</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Like 
+              <span class="codeInline">xScale</span>, this animates the <span class="codeInline">y-scale.</span></p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_alpha</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Helps 
+              <span class="codeInline">alpha</span> transition (transparency fading) 
+              animation effect</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" bordercolor="f1f1f1" class="codeInline"><p>_rotation</p></td>
+          <td width="751" valign="top" bordercolor="f1f1f1" class="text"><p>Helps 
+              you animate the pies and doughnuts in circular motion</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  
+  <tr> 
+    <td class="text"><p class="text">Not all parameters can be applied to all 
+        chart objects. For example, text fields cannot be <span class="codeInline">x-scaled</span> 
+        or <span class="codeInline">y-scaled</span> nor does the rotation effect 
+        apply to them. Similarly, the horizontal <span class="codeInline">div 
+        lines </span>do not support <span class="codeInline">y-scaling</span> 
+        and <span class="codeInline">x-shifting</span>. The list of animation 
+        parameters for each chart object is given in the Chart Specification sheet 
+        of the respective <span class="codeInline">chart.</span></p>      <p>Multiple animations in combination or multiple animations 
+        in sequence can also be applied to any chart object. For example, you 
+        can opt to <span class="codeInline">y-scale</span> and <span class="codeInline">alpha-fade</span> 
+        the <span class="codeInline">data plot </span>(combination animation) 
+        or you might go for <span class="codeInline">x-scale</span> first and 
+        then<span class="codeInline"> y-scale </span>(sequential animation).</p>      <p>Let's now get to the attributes that<span class="codeInline"> 
+        Animation Style Type </span>exposes to help us control the functionalities:</p></td>
+  </tr>
+  
+  <tr> 
+    <td class="text"><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="127" valign="top"><p class="textBold">Attribute</p></td>
+          <td width="751" valign="top"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" class="codeInline"><p>param</p></td>
+          <td width="751" valign="top" class="text"><p>This attribute lets you specify the 
+              property of chart object which you want to animate e.g., <span class="codeInline">_x, 
+              _y, _xscale</span> etc</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" class="codeInline"><p>start</p></td>
+          <td width="751" valign="top" class="text"><p>The <span class="codeInline">start</span> 
+              value of animation e.g., if you're animating the data plot for fade 
+              in alpha effect, the start value of <span class="codeInline">alpha</span> 
+              would be 0</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" class="codeInline"><p>Duration</p></td>
+          <td width="751" valign="top" class="text"><p>Using this, you can control the <span class="codeInline">duration</span> 
+              of animation in seconds</p></td>
+        </tr>
+        <tr> 
+          <td width="127" valign="top" class="codeInline"><p>Easing</p></td>
+          <td width="751" valign="top" class="text"><p>This attribute lets you specify the 
+              pattern of animation easing. Valid values are<span class="codeInline"> 
+              "elastic", "bounce", "regular", "strong" or "none".</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  
+  <tr> 
+    <td class="text"><p>For the<span class="codeInline"> Animation Style Type</span>, 
+        except <span class="codeInline">Easing</span>, all the above attributes 
+        are <strong>mandatory</strong></p>      <p>Before getting to detailed explanations, let's quickly 
+        cruise through a quick animation sample. Let's try and animate our canvas 
+        so that it scales up after the chart is loaded. </p>      
+        <p class="text">To do so, we first need to define our custom style. Since 
+        scaling up involves simultaneous increment of both<span class="codeInline"> 
+        _xScale </span>and<span class="codeInline"> _yScale</span>, we'll now 
+        need to define two animation styles and then apply them to Canvas object. 
+        The style definition goes as under:</p></td>
+  </tr>
+  
+  <tr> 
+    <td class="codeBlock"><p>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>&lt;style 
+        name='MyXScaleAnim' type='ANIMATION' duration='1' start='0' param=&quot;_xscale&quot; 
+        /&gt;</strong><br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='MyYScaleAnim' type='ANIMATION' duration='1' start='0' 
+        param=&quot;_yscale&quot; /&gt;</strong> <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... More XML Here .... <br />
+        &lt;/styles&gt;</p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">In the above code, we name the two styles as<span class="codeInline"> 
+        MyXScaleAnim</span> and<span class="codeInline"> MyYScaleAnim </span>with 
+        their param (animation parameter) as<span class="codeInline"> _xscale</span> 
+        and<span class="codeInline"> _yscale</span> respectively. We set start 
+        value as 0, we want the canvas to scale up from 0 to 100 (remember that 
+        scales are always from 0-100 in FusionCharts). We also specify the duration 
+    as 1 for the animation sequence.</p>
+      <span class="text">To apply this animation style to canvas, the following code 
+    is used:</span></td>
+  </tr>
+  
+  <tr> 
+    <td class="codeBlock"><p>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... More XML Here ....<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;application&gt;<br />
+        <strong>&lt;apply toObject='Canvas' styles='MyXScaleAnim,MyYScaleAnim' 
+        /&gt;</strong><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/application&gt;<br />
+        &lt;/styles&gt;</p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">If you run the above code against a single series axis 
+        chart, you'll see that the canvas scales up from 0 size to full size, 
+        before the data is animated and rendered. Bingo! Exactly what we needed! 
+    Let's move on to the attributes in details now.</p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header"><span class="codeInline">param</span> attribute</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">The<span class="codeInline"> param </span><span class="text">attribute</span> 
+        specifies the property of chart object, which is to be animated. As earlier 
+        discussed, it can take one of the following values, depending on the chart 
+        object:</p>
+      <ul type="disc">
+        <li class="codeInline">_x </li>
+        <li class="codeInline">_y</li>
+        <li class="codeInline">_xScale </li>
+        <li class="codeInline">_yScale</li>
+        <li class="codeInline">_alpha</li>
+        <li class="codeInline">_rotation</li>
+      </ul>      <p class="text">We reiterate that not all chart objects support all the 
+        above properties. Please refer to the Chart Specification Sheet for the 
+        given chart to get the list of supporter animation parameters for each 
+      chart object.</p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Setting the start position of animation object</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">In our above example, where we were scaling the canvas 
+        from 0 to 100, we had set the start value of animation to 0, as we want 
+        the canvas to scale from 0 to 100. You always need to set a start value 
+        for any animation style. The end value is decided by FusionCharts based 
+        on the chart object and animation parameter.</p>      <p class="text">For example, if you want to animate the<span class="codeInline"> 
+        y </span>position of <span class="codeInline">div lines</span> from 0 
+        to their final position (which is within the canvas), you need to set 
+        start position to 0. But since you do not know the end position of individual 
+        <span class="codeInline">div line</span>, it's automatically set by FusionCharts.</p>      <p class="text">Similarly, if you want to animate the <span class="codeInline">div 
+        lines Y </span>position for a chart, whose height is 500 pixels, from 
+        bottom to the respective final position, you'll need to set start position 
+        as 500. The end position again will be decided by FusionCharts.</p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Macros in start values</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Often, you might want to specify the start <span class="codeInline">x/y 
+        </span>position for the animation as the start/center/end position of 
+        the canvas or chart. For example, if you want to animate the <span class="codeInline">y 
+        </span>property of <span class="codeInline">div lines</span> from canvas 
+        top to their respective final position, you'll need to experiment with 
+        a lot of <span class="codeInline">Y </span>values before you can finally 
+        get the start<span class="codeInline"> Y </span>position of canvas. This 
+        is because the canvas start position is dynamically calculated at run-time 
+        and it depends on a lot of factors like captions, sub captions, chart 
+        padding, margins etc. </p>      <p class="text">FusionCharts v3 introduces<span class="codeInline"> Macros</span> 
+        to bail you out of this trouble. <span class="codeInline">Macros</span> 
+        are pre-defined variables which assume values at run time. For example, 
+        <span class="codeInline">$canvasStartY</span> represents the start <span class="codeInline">Y 
+        </span>position of the canvas, and it assumes a value at run-time only. 
+        So, if you need to animate your <span class="codeInline">div lines' Y</span> 
+        position from <span class="codeInline">canvas start</span> <span class="codeInline">Y</span> 
+        to their final actual positions, all you need to do is:</p>      <p class="codeInline">&lt;style name='DivYAnim' type='ANIMATION' duration='1' 
+        start='$canvasStartY' param=&quot;_y&quot; /&gt;</p>      <p class="text">FusionCharts, at run-time, will automatically calculate 
+        and assign the value for this <span class="codeInline">macro </span>and 
+        you'll see the animation sequence starting from start <span class="codeInline">Y 
+        </span>Position of canvas. So, now even if you resize the chart or opt 
+        to show/hide captions or change margins, you never need to keep a tab 
+        on the <span class="codeInline">y</span> position of canvas. FusionCharts 
+        does that for you. </p>      <p class="text">FusionCharts v3 supports the following <span class="codeInline">Macro</span> 
+        values for <span class="codeInline">Animation Style Type</span>:</p></td>
+  </tr>
+  
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartStartX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Chart 
+              Start X </span>Position. It's 0 if you're loading the chart in an 
+              HTML page. However, if you're loading the chart in another Flash 
+              movie, it will take the given<span class="codeInline"> X </span>position</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartStartY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Chart 
+              Start Y</span> Position. It's 0 if you're loading the chart in an 
+              HTML page. However, if you're loading the chart in another Flash 
+              movie, it will take the given<span class="codeInline"> Y </span>position.</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartWidth</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Width 
+              of the chart</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartHeight</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Height 
+              of the chart</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartEndX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>End 
+              <span class="codeInline">X Position</span> of the chart. Same as 
+              width of chart if you're loading the chart in an HTML page</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartEndY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>End<span class="codeInline"> 
+              Y Position </span>of the chart. Same as height of chart if you're 
+              loading the chart in an HTML page.</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartCenterX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Center 
+              X </span>Position of the chart</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$chartCenterY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Center 
+              Y </span>Position of the chart.</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasStartX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Canvas 
+              Start X</span> Position (from left) i.e.,<span class="codeInline"> 
+              x</span> co-ordinate of left side of the canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasStartY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Canvas 
+              Start Y </span>Position (from top) i.e., <span class="codeInline">y</span> 
+              co-ordinate of the top of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasWidth</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Width 
+              of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasHeight</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Height 
+              of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasEndX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>End 
+              <span class="codeInline">X</span> Position of Canvas i.e., <span class="codeInline">x</span> 
+              co-ordinate of right side of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasEndY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>End 
+              <span class="codeInline">Y</span> Position of Canvas i.e.,<span class="codeInline"> 
+              y</span> co-ordinate of bottom of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasCenterX</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Center 
+              <span class="codeInline">X</span> Position of canvas</p></td>
+        </tr>
+        <tr> 
+          <td width="145" valign="top" bordercolor="f1f1f1" class="codeInline"><p>$canvasCenterY</p></td>
+          <td width="578" valign="top" bordercolor="f1f1f1" class="text"><p>Center 
+              <span class="codeInline">Y </span>Position of canvas</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  
+  <tr> 
+    <td><span class="pageHeader">&nbsp;</span></td>
+  </tr>
+  <tr> 
+    <td><p class="highlightBlock"><strong>Macro names are case-sensitive. </strong>As 
+        such, you need to make sure that you're providing the <span class="codeInline">macro</span> 
+        names in proper case i.e., <span class="codeInline">$canvasstarty </span>won't 
+        work and it will log an error in debug window. You'll need to correctly 
+        specify it as<span class="codeInline"> $canvasStartY.</span></p></td>
+  </tr>
+  <tr>
+    <td><p class="text"><strong>More Examples using Macros:</strong></p>
+    <p><span class="codeInline">&lt;style name='LabelsAnim' type='ANIMATION' duration='1' 
+    start='$canvasCenterX' param=&quot;_x&quot; /&gt;</span> <br>
+    <span class="codeInline">&lt;style name='YValuesAnim' type='ANIMATION' duration='1' 
+    start='$canvasCenterY' param=&quot;_y&quot; /&gt;</span> </p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="header">Creating Macro Expressions </td>
+  </tr>
+  <tr>
+    <td class="text"><p class="text">You can also add numeric (integer) values to pre-defined macros to offset the animation when using macros. For example, if you wanted to animate the div lines from 10 pixels above canvas starting Y position, you could use: </p>
+    <p><span class="codeInline">&lt;style name='DivYAnim' type='ANIMATION' duration='1' 
+    start='<strong>$canvasStartY-10</strong>' param=&quot;_y&quot; /&gt;</span></p>
+    <p>Or, if you wanted to animate from 10 pixels below canvas start position, you could use:</p>
+    <p><span class="codeInline">&lt;style name='DivYAnim' type='ANIMATION' duration='1' 
+    start='<strong>$canvasStartY+10</strong>' param=&quot;_y&quot; /&gt;</span> </p>
+    <p>Currently, FusionCharts allows only + (addition) and - (substraction) operation in Macro expressions. </p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Specifying the easing for animation</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text"><span class="codeInline">Easing</span> refers to gradual 
+        acceleration or deceleration during an animation. For example, a chart 
+        object might gradually increase its speed near the beginning of an animation, 
+        but slow down right at the end of the animation before it arrives at a 
+        full stop. There are many different equations for the acceleration and 
+        deceleration, which change the easing animation accordingly. Easing helps 
+        your animations appear more realistic. </p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">FusionCharts v3 supports the following easing methods:</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="text"><p class="textBold">Methods</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Elastic</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>Adds 
+              an elastic effect that falls outside the transition range at one 
+              or both ends. The amount of elasticity is unaffected by the duration</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Bounce</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>Adds 
+              a bouncing effect within the transition range at one or both ends. 
+              The number of bounces relates to the duration&mdash;longer durations 
+              produce more bounces</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strong</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>Adds 
+              slower movement at one or both ends. This effect is similar to Regular 
+              easing, but it's more pronounced</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Regular</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>Adds 
+              slower movement at one or both ends. This feature enables you to 
+              add a speeding-up effect, a slowing-down effect, or both.</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>None</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>Adds 
+              an equal movement from start to end without effects, slowing, or 
+              speeding up. This transition is also referred to as a linear transition.</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">For any of the above easing method, FusionCharts provides 
+        the easing effect at the end of the transition. For example, if you animate 
+        the columns from <span class="codeInline">0 _yscale</span> to <span class="codeInline">100 
+        _yscale</span>, you'll see that the columns animated very fast in the 
+        start (they grow up very soon) but the animation at the end part is slow.</p>
+      <p class="text">You can use any of the above easing methods for any animation 
+        style that you define.</p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Putting tool tip in multiple lines  </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>By default, if your tool-tips are larger than the chart width, FusionCharts will automatically wrap them. However, if you want to add manual breaks to the content of your tool-text, you can do so as under: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' tooltext='John Miller<strong>{br}</strong>Score: 420<strong>{br}</strong>Rank:2'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' tooltext='Mary Evans<strong>{br}</strong>Score: 295<strong>{br}</strong>Rank:3'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' tooltext='Tom Bowler<strong>{br}</strong>Score: 523<strong>{br}</strong>Rank:1'/&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above XML, to add a line break in the tool-tip, we've used the pseudo code {br}.</p>
+      <p>When you now see the chart, you'll get the following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ToolTipMultiple.jpg" width="405" height="207" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying HTML to labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">However, if you want to add line breaks to your data labels, the process is a bit different. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='John Miller&amp;lt;BR&amp;gt;Score: 420&amp;lt;BR&amp;gt;Rank:2' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mary Evans&amp;lt;BR&amp;gt;Score: 295&amp;lt;BR&amp;gt;Rank:3' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Tom Bowler&amp;lt;BR&amp;gt;Score: 523&amp;lt;BR&amp;gt;Rank:1' value='523' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myHTMLFont' type='font' isHTML='1' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DATALABELS' styles='myHTMLFont' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;/styles&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above XML, we've first setting label for each<span class="codeInline"> &lt;set&gt;</span>. To separate each line we use the <span class="codeInline">&lt;BR&gt;</span> HTML tag. However, since XML cannot use <span class="codeInline">&lt;</span> and <span class="codeInline">&gt;</span>, so we convert<span class="codeInline"> &lt;BR&gt;</span> to <span class="codeInline">&amp;lt;BR&amp;gt;</span> . Thereafter, we need to tell FusionCharts that we'll be displaying HTML content in label. So, we create a new font style type with <span class="codeInline">isHTML</span> property set to 1 and then apply it to <span class="codeInline">DATALABELS</span> object. </p>
+      <p>The above XML will now render the following chart: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/LabelHTML.jpg" width="407" height="206" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Server-side export &gt; Returning the exported output as download </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When returning the exported output (image/PDF) as download to browser, the entire process flow looks as under:</p>
+      <ol>
+        <li>The chart on your web page reads the XML data and renders. This XML data contains parameters that help you configure the export parameters.</li>
+        <li>When the user right clicks on chart and selects an export chart menu item, the chart sends the data to server (where the FusionCharts Export Handlers come into action).</li>
+        <li>The server-side Export Handlers accept this bitmap data from chart, along with other parameters, generate the image/PDF and  return it back to browser.</li>
+      </ol>
+      <p>Let's quickly see how to configure the entire setup. </p>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the server-side export handlers </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>First, you'll need to copy-paste the required server side Export Handler from <span class="codeInline">Download Package&gt;ExportHandlers</span> folder to your server. For this example, we've copied the PHP files to <span class="codeInline">http://www.domain.com/FusionCharts/ExportHandlers/PHP</span>. Make sure you've copied all the files from the respective folder.</p>
+      <p>This completes the server-side setup for download routine of export. Next, we'll configure the XML  for export parameters. </p>
+      <p class="highlightBlock">Our export handlers in few languages depend on some other libraries e.g., the PHP handler needs GD and GZip installed on your server. Similarly, Ruby on Rails needs RMagick and zlib to be present on your server. Make sure that you've these dependencies installed properly. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="textBold">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding export parameters to XML </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now, you need to set the chart to allow export. This is done using: <span class="codeInline">&lt;chart exportEnabled='1' ...&gt;</span> . If <span class="codeInline">exportEnabled</span> is set to 0, the chart cannot initiate export process, irrespective of the trigger. </p>
+    <p>Next, you need to set the export Handler, which is the path to server-side export handler. For our example, we've set the path as <span class="codeInline">http://www.domain.com/FusionCharts/ExportHandlers/PHP</span> - so the XML now looks like: <span class="codeInline">&lt;chart exportEnabled='1' exportHandler='http://www.domain.com/FusionCharts/ExportHandlers/PHP' ...&gt;</span> </p>
+    <p>Now, since we intend to use server-side export, we set <span class="codeInline">&lt;chart ... exportAtClient='0' ...&gt;</span></p>
+    <p>Finally, using server-side export handler, we intend to have the export file download to user's machine. So, we set: <span class="codeInline">&lt;chart exportAction='download' ...&gt; </span></p>
+    <p>The final XML for this example looks as under:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' exportEnabled='1' <span class="codeInline">exportHandler='http://www.domain.com/FusionCharts/ExportHandlers/PHP</span>' exportAtClient='0' exportAction='download' &gt;<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now run your chart and select &quot;Save as JPEG image&quot; from context menu, the chart will first start the capture process as shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerDown0.jpg" width="600" height="300" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">After capturing, the chart sends its data to export handler (PHP in this case), which in turn processes it and returns an output image for download as shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerDown1.jpg" width="592" height="341" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="highlightBlock">Note that in the above image the dialog says <span class="codeInline">from: http://www.fusioncharts.com</span>. When the PHP files are hosted on your server, this will reflect your domain name. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting target window for download </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, by default, the export chart returned the image in the same browser window. However, if you want to specify a new browser window for the exported image, you can set: </p>
+    <p><span class="codeInline">&lt;chart ... exportTargetWindow='_blank' ...&gt;. </span></p>
+    <p>This will open the output image in a new browser window. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring file name of exported file </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Additionally, the return file name, by default is named as FusionCharts (.jpg/,png/.pdf). You can change this by setting: </p>
+    <p><span class="codeInline">&lt;chart ... exportFileName='MyFileName' ...&gt;</span> </p>
+    <p>Note that you do not have to provide the extension here, as the extension depends on the format that was selected on chart during export. This will result in: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerDown2.jpg" width="381" height="300" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>That was all about server-side download routine. </p>
+    <p>Next we'll see how to have these images saved on server disk, rather than download them. </p></td>
+  </tr>
+</table>
+</body>
+</html>

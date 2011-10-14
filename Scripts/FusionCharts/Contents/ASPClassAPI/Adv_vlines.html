@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Advanced Usage &gt; Creating Vertical lines  </h2></td>
+  </tr>
+  
+  
+
+  <tr>
+    <td valign="top" class="text"><p>Vertical line  is used  as a vertical separator between blocks of data. The <span class="codeInline">addChartData()</span> function of FusionCharts ASP Class lets you create vertical lines on the chart. Let's find out how to do it through the example given below. </p>    </td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment">' Add chart values and category names</span><br />
+        Call FC.addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;,&quot;&quot;)</p>
+      <p> <span class="codeComment">' Add first vline</span><br />
+        <strong>Call FC.addChartData(&quot;&quot;,&quot;&quot;,&quot;color=FF0000&quot;)</strong><br />
+        <br />
+        <span class="codeComment">' Add chart values </span><br />
+        Call FC.addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;,&quot;&quot;)<br />
+        <br />
+        Call FC.addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;,&quot;&quot;)</p>
+      <p> <span class="codeComment">' Add Second vline</span><br />
+        <strong>Call FC.addChartData(&quot;&quot;,&quot;&quot;,&quot;color=00FF00&quot;)<br />
+        </strong><br />
+        <span class="codeComment">' Add chart value </span><br />
+        Call FC.addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;,&quot;&quot;)</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above code snippet, we add two Vertical lines to the chart. The first vline is between data values 40800 and 31400 and the second one is between values 26700 and 54400. <br />
+    Earlier we have seen that <span class="codeInline">addChartData()</span>adds  data required for the chart. Now, we see that it also helps in adding <span class="codeInline">vLine</span> (Vertical Line) in the chart. But, there is a difference between these two processes. The <span class="codeInline">addChartData()</span>function used for adding a <span class="codeInline">vLine</span>  should have three parameters. The first two parameters are to be kept blank and the third parameter contains attributes (separated by delimiter) for the <span class="codeInline">vLines,</span> for example,<span class="codeInline"> color </span>etc. But, when we use <span class="codeInline">addChartData()</span> for providing data to the chart,   the first two two parameters have to be passed with values and the last one is kept blank. </td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <strong>Chart XML Reference- &gt;</strong> <strong>Single Series Charts-&gt; Vertical Lines </strong>section to know more about attributes of Vertical lines and and how they are applied. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The resultant chart would look like the image below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><img src="../Images/ClassImages/Adv_vline1.jpg" width="301" height="251"class= imageBorder/></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

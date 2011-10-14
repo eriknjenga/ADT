@@ -1,0 +1,331 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Bevel Style Type</span></td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text">If you need to create bevel effects for any of chart objects, 
+      you'll need to use the <span class="codeInline">Bevel Style Type</span> 
+      with the following list of properties:</td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="163" valign="top"><p class="textBold">Properties</p></td>
+          <td width="715" valign="top"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Angle</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              angle of the bevel. Valid values are from 0 to 360 degrees. The 
+              default value is 45</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Distance</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              offset distance of the bevel. Valid values are in pixels (floating 
+              point). The default value is 4.</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowColor</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              shadow color of the bevel. Valid values are in hexadecimal format 
+              RRGGBB (without #). The default value is 000000</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowAlpha</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              alpha transparency value of the shadow color. This value is specified 
+              as a normalized value from 0 to 100. For example, 25 set a transparency 
+              value of 25%. The default value is 50.</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>highlightColor</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              highlight color of the bevel. Valid values are in hexadecimal format 
+              RRGGBB (without #). The default value is FFFFFF</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>highlightAlpha</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              alpha transparency value of the highlight color. The value is specified 
+              as a normalized value from 0 to 100. For example, 25 sets a transparency 
+              value of 25%. The default value is 50.</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of horizontal blur in pixels. Valid values are from 0 to 
+              255 (floating point). The default value is 4. Values that are a 
+              power of 2 (such as 2, 4, 8, 16, and 32) are optimized to render 
+              more quickly than other values</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of vertical blur in pixels. Valid values are from 0 to 255 
+              (floating point). The default value is 4. Values that are a power 
+              of 2 (such as 2, 4, 8, 16, and 32) are optimized to render more 
+              quickly than other values</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strength</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              strength of the imprint or spread. Valid values are from 0 to 255. 
+              The larger the value, the more color is imprinted and the stronger 
+              the contrast between the bevel and the background. The default value 
+              is 1</p></td>
+        </tr>
+        <tr> 
+          <td width="163" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Quality</p></td>
+          <td width="715" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              number of times to apply the filter. The default value is 1, which 
+              is equivalent to low quality. A value of 2 is medium quality, and 
+              a value of 3 is high quality. Filters with lower values are rendered 
+              more quickly</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p><span class="text">To set the bevel for any object of the chart, you 
+        just need to define a </span><span class="codeInline">Bevel Style Type 
+        </span><span class="text">and apply it as under:</span><br />
+      </p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock"><p><span class="codeInline">&lt;style name='MyFirstBevel' 
+        type='Bevel' /&gt;</span></p>
+      <p class="codeInline">&hellip;<br />
+        &lt;apply toObject='DataPlot' styles='MyFirstBevel' /&gt; </p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">It will give you the following effect:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_11.jpg" width="258" height="192" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="textBold">Setting angle and distance</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">You can set the bevel angle and distance as under:<br />
+      <span class="codeInline">&lt;style name='MyFirstBevel' type='Bevel' distance='7' 
+      angle='200'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="226" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="241" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="239" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="226" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Distance 
+            </p></td>
+          <td width="241" valign="top" bordercolor="f1f1f1" class="codeInline"><p>distance=<span class="codeInline">'value 
+              (in pixels)' </span></p></td>
+          <td width="239" valign="top" bordercolor="f1f1f1" class="codeInline"><p>distance=<span class="codeInline">'7' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="226" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Angle</p></td>
+          <td width="241" valign="top" bordercolor="f1f1f1" class="codeInline"><p>angle=<span class="codeInline">'value 
+              (between 0 to 360)'</span></p></td>
+          <td width="239" valign="top" bordercolor="f1f1f1" class="codeInline"><p>angle=<span class="codeInline">'200'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">And it looks like this now:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_12.jpg" width="257" height="192" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="textBold">Setting shadow colors</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">To change shadow color and alpha, you can use the following 
+      parameters:<br />
+      <span class="codeInline">&lt;style name='MyFirstBevel' type='Bevel' shadowColor='000000' 
+      shadowAlpha='80' distance='5' angle='45'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="247" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="338" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="247" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowColor 
+            </p></td>
+          <td width="338" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowColor=<span class="codeInline">'Hex 
+              Value (without #)' </span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowColor=<span class="codeInline">'000000' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="247" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowAlpha</p></td>
+          <td width="338" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowAlpha=<span class="codeInline">'value 
+              (between 0 to 100)'</span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>shadowAlpha=<span class="codeInline">'80'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">It will change the shadow color as under:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_13.jpg" width="258" height="195" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="textBold">Controlling blur amount</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can also change the blur amount to get a smoother 
+        bevel.</p></td>
+  </tr>
+  <tr> 
+    <td><span class="codeInline">&lt;style name='MyFirstBevel' type='Bevel'&nbsp; 
+      blurX='12' blurY='12'/&gt;</span></td>
+  </tr>
+  <tr> 
+    <td><p class="codeInline">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX='value' 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX='12' 
+            </p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Blurry</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY='value'</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY='12'</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">The above gives the following output:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><div align="center"><img src="Images/Styles/style_11.jpg" width="258" height="192" class="imageBorder" /></div></td>
+          <td><div align="center"><img src="Images/Styles/style_14.jpg" width="255" height="195" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">Original with default 
+              blur</span></div></td>
+          <td><div align="center"><span class="imageCaption">With both blurX and 
+              blurY set as 12</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="textBold">Increasing bevel strength</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">To increase bevel strength, use the strength attribute 
+      as under:<br />
+      <span class="codeInline">&lt;style name='MyFirstBevel' type='Bevel' strength='3'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strength</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>strength='value'</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>strength='3'</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_15.jpg" width="256" height="194" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can play with a plethora of aforementioned properties 
+        and style type to get the look you want.</p></td>
+  </tr>
+</table>
+</body>
+</html>

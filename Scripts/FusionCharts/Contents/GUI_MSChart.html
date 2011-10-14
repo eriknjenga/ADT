@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Creating Multi-series XML Data </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous examples, we were using single series XML Data, as we were plotting data for just 1 year. Let's now consider a case where we want to compare our sales data for 2006 against sales data for 2005.</p>
+    <p>Our data table would look as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="70%" border="1" cellspacing="0" cellpadding="1">
+      <tr class="textBold">
+        <td width="101">Month</td>
+        <td width="104"><div align="right">2005</div></td>
+        <td width="96"><div align="right">2006</div></td>
+        </tr>
+      <tr class="text">
+        <td>January</td>
+        <td><div align="right">$17400</div></td>
+        <td><div align="right">$18300</div></td>
+        </tr>
+      <tr class="text">
+        <td>February</td>
+        <td><div align="right">$19800</div></td>
+        <td><div align="right">$16500</div></td>
+        </tr>
+      <tr class="text">
+        <td>March</td>
+        <td><div align="right">$21800</div></td>
+        <td><div align="right">$21200</div></td>
+        </tr>
+      <tr class="text">
+        <td>April</td>
+        <td><div align="right">$23800</div></td>
+        <td><div align="right">$21200</div></td>
+        </tr>
+      <tr class="text">
+        <td>May</td>
+        <td><div align="right">$29600</div></td>
+        <td><div align="right">$24500</div></td>
+        </tr>
+      <tr class="text">
+        <td>June</td>
+        <td><div align="right">$27600</div></td>
+        <td><div align="right">$21800</div></td>
+        </tr>
+      <tr class="text">
+        <td>July</td>
+        <td><div align="right">$31800</div></td>
+        <td><div align="right">$29400</div></td>
+        </tr>
+      <tr class="text">
+        <td>August</td>
+        <td><div align="right">$39700</div></td>
+        <td><div align="right">$31500</div></td>
+        </tr>
+      <tr class="text">
+        <td>September</td>
+        <td><div align="right">$37800</div></td>
+        <td><div align="right">$31200</div></td>
+        </tr>
+      <tr class="text">
+        <td>October</td>
+        <td><div align="right">$21900</div></td>
+        <td><div align="right">$23600</div></td>
+        </tr>
+      <tr class="text">
+        <td>November</td>
+        <td><div align="right">$32900</div></td>
+        <td><div align="right">$34600</div></td>
+        </tr>
+      <tr class="text">
+        <td>December</td>
+        <td><div align="right">$39800</div></td>
+        <td><div align="right">$32300</div></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the XML Document </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To build the XML data document for this data, again launch our XML Generator Utility and choose option 1 &quot;<span class="codeInline">I want to manually enter data</span>&quot;. </p>
+    <p>Now, first enter the data series name in the grid (2005, 2006 etc.) by clicking on column header and changing it from <span class="codeInline">Series_1</span> (or <span class="codeInline">Series_2</span> ...) to our required value (2005, 2006). Thereafter enter the actual values as shown below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_MS_1.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you now click on &quot;<span class="codeInline">Convert to XML</span>&quot; button, you'll see that the utility has converted this data into multi-series XML data format as shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_MS_2.gif" width="560" height="227" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Again, configure the chart properties and save this data along with HTML, as explained before. </p>
+    <p>When you now see the chart, you'll get the following results: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_MS_Chart.jpg" width="600" height="193" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Zero Plane </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Zero plane is a plane which separates the positive and negative numbers on a chart having both of them. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/zerop2.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/zerop1.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The zero plane appears in the column, line and the area chart. It can be removed in the line chart but not in the column or the area chart because they use this as their base to draw. It can be removed in the line chart by setting <span class="codeInline">showZeroPlane='0'</span>. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the zero plane </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The customizable attributes for the zero plane in a 2D chart are:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> zeroPlaneColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> </span> </td>
+        <td width='75%' valign='top'><span class="text"> Color for the Zero Plane. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="codeInline"> zeroPlaneThickness </span> </td>
+        <td width="10%" valign="top"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top'><span class="text"> Thickness of zero plane. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> zeroPlaneAlpha </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> Alpha of zero plane. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <span class="codeInline"><strong>zeroPlaneColor</strong></span><strong>='000000' zeroPlaneThickness='1' zeroPlaneAlpha='80'</strong><span class="codeInline">....&gt;</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The attributes for the zero plane of a 3D chart are: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="20%" class="text"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%" class="text"><span class="textBold"> Range </span> </td>
+        <td width='70%' class="text"><span class="textBold"> Description </span> </td>
+      </tr>
+
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="text"><span class="codeInline"> zeroPlaneColor </span> </td>
+        <td width="10%" valign="top" class="text">&nbsp;</td>
+        <td width='70%' valign='top' class="text"> Color for the Zero Plane. </td>
+      </tr>
+      
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="text"><span class="codeInline"> zeroPlaneAlpha </span> </td>
+        <td width="10%" valign="top" class="text"> 0-100 </td>
+        <td width='70%' valign='top' class="text"> Alpha of zero plane. </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top"><span class="codeInline"> zeroPlaneShowBorder </span> </td>
+        <td width="10%" valign="top"><span class="text"> Boolean </span> </td>
+        <td width="70%" valign='top'><span class="text"> Whether to show border of zero plane. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="20%" valign="top"><span class="codeInline"> zeroPlaneBorderColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Color </span> </td>
+        <td width="70%" valign='top'><span class="text"> Sets the border color of zero plane. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeBlock">&lt;chart</span><strong>zeroPlaneColor='FFFFFF' zeroPlaneAlpha='80' zeroPlaneBorderColor='999999'....&gt;</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying effects to the zero plane </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We can apply effects (shadow, glow, blur, bevel) to the div lines and zero plane using STYLES. To apply any style to the zero plane, we have to apply the style to the divisional lines. Here, we will see a chart having shadow for the div lines. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/zerop3.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart showValues='0' &gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 1' value='100' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 2' value='-40' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 3' value='-70' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 4' value='40' /&gt;<br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;</strong><br />
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='shadow' angle='45' distance='3' color='000000'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DIVLINES' styles='myShadow' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong></p>
+    <p>&lt;/chart&gt; </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Similarly, the other effects can be applied to the div lines &amp; zero plane. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Animating div lines &amp; zero plane </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also apply animation effects to the div lines &amp; zero plane. In the XML given below, the x-Scale of the div lines &amp; zero plane will be animated. </p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart showValues='0' &gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 1' value='100' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 2' value='-40' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 3' value='-70' /&gt;<br />
+        <strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;set name='Set 4' value='40' /&gt;<br />
+        <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim1' type='animation' param='_xScale' start</strong><strong>='0' duration='1'/&gt;<br />
+        </strong><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DIVLINES' styles='myAnim1' /&gt;<br />
+          </strong><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+              <br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

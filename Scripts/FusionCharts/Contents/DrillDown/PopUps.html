@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Opening links in pop-up windows</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts also allows you to open your 
+        links in pop up windows. To open a link in pop-up window, you need to 
+        define the link as under:</p>
+      <p class="codeInline">&lt;set .. value='235' link=&quot;P-detailsWin,width=400,height=300,toolbar=no,scrollbars=no, 
+        resizable=no-ShowDetails.asp%3FMonth%3DJan&quot; /&gt; </p>
+      <p>Here, we've: </p>
+      <ol>
+        <li>Prefixed the link with P- so as to denote that the link is to be opened 
+          in a new pop-up window. </li>
+        <li>Specified a name for the new window. In this case it's <span class="codeInline">detailsWin</span>. 
+          If you want all the links to open in the same pop-up, use the same window 
+          name across all links. However, if you want each link to open in a new 
+          pop-up, specify a different window name for each link. </li>
+        <li>After the name of the pop up window comes the list of attributes for 
+          the new window separated by commas. Possible list of attributes is defined 
+          below.</li>
+        <li>Finally, the actual link to be invoked is defined after a dash (-). 
+          Again, the link is URL Encoded.</li>
+      </ol>
+      <p></p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Possible attributes for new window</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <ul>
+        <li> <strong><span class="codeInline">height</span></strong><br>
+          Specifies the height of the window in pixels. <br>
+          Value = number<br>
+        </li>
+        <li> <span class="codeInline"><strong>width</strong></span> <br>
+          Specifies the width of the window in pixels. <br>
+          Value = number<br>
+        </li>
+        <li><span class="codeInline"><strong>resizable</strong></span> <br>
+          When enabled, allows the user to manually resize the window by dragging 
+          its edges or corners. <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>scrollbars</strong></span> <br>
+          Specifies whether or not to display the horizontal and vertical scrollbars 
+          that normally appear when the page content is larger than the screen. 
+          <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li><span class="codeInline"><strong>menubar</strong></span><br>
+          Specifies whether or not to display a menu bar at the top of the window. 
+          <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>toolbar</strong></span> <br>
+          Specifies whether or not to display the main toolbar (with the back, 
+          forward, stop etc. buttons). <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>location</strong></span> <br>
+          Specifies whether or not to display the location bar (the Address Bar 
+          in Internet Explorer) - where URLs are typed and displayed. <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>directories</strong></span> <br>
+          Specifies whether or not to display any additional toolbar (e.g the 
+          Links Bar in Internet Explorer). <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>status</strong></span> <br>
+          Specifies whether or not to display the status bar at the foot of the 
+          window. <br>
+          Value = yes or no, 1 or 0.<br>
+        </li>
+        <li> <span class="codeInline"><strong>left</strong></span> <br>
+          Specifies the distance in pixels of the new window from the left edge 
+          of the screen. (This applies to Internet Explorer. For Netscape Navigator 
+          use screenX). <br>
+          Value = number<br>
+        </li>
+        <li> <span class="codeInline"><strong>top</strong></span> <br>
+          Specifies the distance in pixels of the new window from the top edge 
+          of the screen. (This applies to Internet Explorer. For Netscape Navigator 
+          use screenY). <br>
+          Value = number<br>
+        </li>
+        <li> <span class="codeInline"><strong>fullscreen</strong></span> <br>
+          When enabled causes the window to open in full-screen mode (Internet 
+          Explorer only.) <br>
+          Value = yes or no, 1 or 0.</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="textBold">Sample XML:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='17400' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      scrollbars=no,resizable=no-DemoLinkPages/DemoLink1.html'/&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;set 
+      label='Feb' value='19800' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      scrollbars=no,resizable=no-DemoLinkPages/DemoLink2.html'/&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;set 
+      label='Mar' value='21800' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      scrollbars=no,resizable=no-DemoLinkPages/DemoLink3.html'/&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;set 
+      label='Apr' value='23800' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      scrollbars=no,resizable=no-DemoLinkPages/DemoLink4.html'/&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;set 
+      label='May' value='29600' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      &nbsp;&nbsp;&nbsp;scrollbars=no,resizable=no-DemoLinkPages/DemoLink5.html'/&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='27600' link='P-detailsPopUp,width=400,height=300,toolbar=no, 
+      scrollbars=no,resizable=no-DemoLinkPages/DemoLink6.html'/&gt;<br /> &lt;/chart&gt;</td>
+  </tr>
+</table>
+</body>
+</html>

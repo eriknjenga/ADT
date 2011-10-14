@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Handling long x-axis labels </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Often, in your chart data, you might have long x-axis names (category names).   Fitting them on a small chart space becomes a little cumbersome, as they make   the chart look too cluttered. FusionCharts v3 offers a myriad of options to help you gain control over long/too many x-axis labels. Here, we've explained a few such methods including:</p>
+      <ul>
+        <li>Using wrap mode</li>
+        <li>Using rotated and slanted mode</li>
+        <li>Using staggered mode and setting stagged lines</li>
+        <li>Showing every n-th label </li>
+        <li> Displaying short label on axis and showing full name as tool tip</li>
+      </ul>
+    <p>Let's see each of them one by one. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Wrap Mode </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>By default, FusionCharts starts all the charts in wrap mode. The wrap mode enables you to wrap your long x-axis labels in multiple lines as shown below. To enable wrap mode, all you need to do is set :</p>
+    <p class="codeInline">&lt;chart labelDisplay='WRAP'&gt;  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Wrap.jpg" width="309" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Rotating and Slanting Labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can opt to rotate the x-axis labels by using <span class="codeInline">&lt;chart labelDisplay='Rotate' ..&gt;</span>. </p>
+    <p class="highlightBlock">This method wouldn't work if you've non-english characters in your x-axis labels as FusionCharts uses embedded fonts to render rotated labels. </p>
+    <p>Consider the XML below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>labelDisplay='ROTATE'</strong>&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It yields the following chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Rotate.jpg" width="306" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also slant the labels at 45 degree by using <span class="codeInline">&lt;chart labelDisplay='Rotate' slantLabels='1' ..&gt;</span> with the following results: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Slant.jpg" width="306" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Staggering labels on multiple lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts v3 introduces the stagger mode for labels. Staggering basically distributes labels into multiple lines (by default 2). To enable stagger mode, just set <span class="codeInline">&lt;chart labelDisplay='Stagger' ..&gt;</span>. It will yield the following: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Stagger.jpg" width="308" height="207" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can also choose how many lines to stagger the labels to by setting the number in <span class="codeInline">&lt;chart labelDisplay='Stagger' staggerLines='n' ..&gt;</span> where n is the number of lines. Shown below is an example with <span class="codeInline">staggerLines</span> set to 3. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_StaggerLines.jpg" width="306" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Showing every n-th label </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If your x-axis labels represent a continuous quantity like time, date etc. which are incremental in nature, you can opt to show every n-th label instead of all the labels. This enhances the clarity of the chart. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' <strong>labelStep='4' </strong>showValues='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2006' value='434' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb 2006' value='376' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar 2006' value='343' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr 2006' value='234' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May 2006' value='356' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun 2006' value='183' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jul 2006' value='365' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Aug 2006' value='357' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Sep 2006' value='375' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct 2006' value='345' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov 2006' value='655' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec 2006' value='435' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan 2007' value='586' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above chart, we're plotting consecutive months on the chart. So, if we show all the months, the chart gets cluttered. To avoid this, we've set labelStep as 4, so that every 4th x-axis label is only shown. </p>
+    <p>When you view the chart, you'll get following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_Step.jpg" width="384" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"> Displaying short label on axis and showing full name as tool tip</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you're working on a small chart size, you can also opt to show abbreviated names on x-axis, but show full names as tool tip. Consider the XML below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numberPrefix='$' rotateValues='1'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='J' toolText='January' value='434' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='F' toolText='February' value='376' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='M' toolText='March' value='343' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='A' toolText='April' value='234' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='M' toolText='May' value='356' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='J' toolText='June' value='183' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='J' toolText='July' value='365' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='A' toolText='August' value='357' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='S' toolText='September' value='375' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='O' toolText='October' value='345' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='N' toolText='November' value='655' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='D' toolText='December' value='435' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above XML, we're showing only the first character of each month name on x-axis. The rest of information is shown as tool tip as below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/xAxis_ToolTip.jpg" width="384" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In this section, we've just given you a brief idea of your control over x-axis. You can mix and match these ideas to effectively get a much better control over the x-axis. </td>
+  </tr>
+</table>
+</body>
+</html>

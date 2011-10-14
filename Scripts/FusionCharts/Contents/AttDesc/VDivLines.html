@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Vertical divisional lines </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Vertical divisional lines are vertical lines running through the canvas in a line/area chart. They help in relating the data to its respective label, when there is large   amount of data. </p>
+        <p>You can put vertical div lines in your chart by using the <span class="codeInline">numVDivLines</span> attribute. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart <strong>numVDivLines='10'</strong>&gt;<br />
+    </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vdivline1.jpg" width="145" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">    Customizing the looks of the vertical divisional lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can customize the looks of the vertical divisional lines using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr bordercolor="#CCCCCC" class="trAttHeader">
+        <td><span class="textBold"> Attribute Name </span> </td>
+        <td><span class="textBold"> Range </span> </td>
+        <td><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="codeInline"><span class="codeInline"> vDivLineColor </span> </td>
+        <td valign="top"><span class="text"> </span> </td>
+        <td valign='top'><span class="text"> Color of vertical axis division lines. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><span class="codeInline"> vDivLineThickness </span> </td>
+        <td valign="top"><span class="text"> In Pixels </span> </td>
+        <td valign='top'><span class="text"> Thickness of vertical axis division lines. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="codeInline"><span class="codeInline"> vDivLineAlpha </span> </td>
+        <td valign="top"><span class="text"> 0-100 </span> </td>
+        <td valign='top'><span class="text"> Alpha of vertical axis division lines. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Dashed divisional lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The vertical divisional line can be made dashed using <span class="codeInline">vDivLineIsDashed='1'</span>. </p>
+        <p>The dash properties - dash length and dash gap can be customized using the <span class="codeInline">vDivLineDashLen</span> &amp; <span class="codeInline">vDivLineDashGap</span> attributes respectively. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart numVDivLines='10' <strong>vDivLineIsDashed='1' vDivLineDashLen='2' vDivLineDashGap='2'</strong> ...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart with the above properties would lookas under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vdivline4.jpg" width="145" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Alternate Vertical Grid Bands </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The vertical grid bands appear alternately between the vertical divisional lines. They can be displayed by setting <span class="codeInline">showAlternateVGridColor='1'</span>.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>showAlternateVGridColor='1'</strong> ...&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart with the alternate vertical grid bands would look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vdivline2.jpg" width="145" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the vertical grid bands </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The color and alpha of the alternate vertical grid bands can be customized using the <span class="codeInline">alternateVGridColor</span> and <span class="codeInline">alternateVGridAlpha</span> attributes respectively. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>showAlternateVGridColor='1' alternateVGridColor='D9E5F1' alternateVGridAlpha='100'</strong>...&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Using Styles to animate alternate vertical grid bands </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Animation effects can be applied to the alternate vertical grid bands using STYLES. The following XML would animate the y-Scale and the alpha of the horizontal grid bands. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' numVDivLines='2' showAlternateVGridColor='1'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim1' type='animation' param='_yScale' start</strong><strong>='0' duration='1'/&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim2' type='animation' param='_alpha' start</strong><strong>='0' duration='1'/&gt;</strong><strong><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='VGRID' styles='myAnim1, myAnim2' /&gt; </strong><strong><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+</table>
+</body>
+</html>

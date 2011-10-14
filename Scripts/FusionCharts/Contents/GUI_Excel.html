@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Plotting charts from data contained in MS Excel or other spreadsheets </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If you've your data stored in Microsoft Excel or other spreadsheets, you can now easily plot charts from it using FusionCharts. Our visual XML Generator lets you do so at just a few clicks. Lets' quickly see an example. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting a chart from data stored in Microsoft Excel </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we'll see how to plot a Column 3D chart from data stored in a Microsoft Excel spreadsheet. Please note that this is not just limited to Microsoft Excel. You can use data from any spreadsheet - it's just for demo that we're using Microsoft Excel in this example. </p>
+    <p>For our example, we've our monthly sales data stored in an Excel worksheet as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_1.gif" width="313" height="392" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see, we've two columns of data. The first column has the month name which we'll plot on x-axis of the chart. The revenues would be plotted as columns. </p>
+    <p>To plot this data, you now need to select ONLY the data that you wish to plot. Select the data as under (<strong>excluding the header</strong>): </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_2.gif" width="311" height="374" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Copy this data in clipboard by pressing Ctrl + C. You'll now see a dashed border around the data. </p>
+    <p>Now, we need to paste this data in our XML Generator Utility. Launch the XML Generator utility and select the second option &quot;<span class="codeInline">I want to copy/paste my data from spreadsheet / table</span>&quot;. </p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_4.jpg" width="478" height="179" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the text area that you now get, paste the data that's in your clipboard. It should look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_5.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, select &quot;<span class="codeInline">Tab</span>&quot; as delimiter if you're copying data from Microsoft Excel. </p>
+    <p>If you're copying from other sources, you need to judge your delimiter and then set it accordingly. Delimiter is the character that separates two different data items on a single row of data. For example, in our above data, our month names and revenue figures are separated by a <span class="codeInline">Tab</span> character. So, we select <span class="codeInline">Tab</span> as the delimiter. </p>
+    <p>Now, you've two options to convert it into XML:</p>
+    <ol>
+      <li>You can directly convert this data into XML without making any changes to it.</li>
+      <li>Or, you can edit this data in the grid and then convert it to XML.</li>
+      </ol>
+    <p>To choose option 1, click on &quot;<span class="codeInline">Convert to XML</span>&quot; button. You'll instantly get the XML as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_12.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can now configure the chart properties or generate HTML from here as explained in earlier sections. </p>
+      <p>Going back to previous step, if you had wished to edit the data before conversion, you can click on &quot;<span class="codeInline">Edit and Convert</span>&quot; button. This lets you edit your data in a grid as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_6.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>After editing your data, you can now click on &quot;<span class="codeInline">Convert to XML</span>&quot; button to generate the XML and finally chart. </p>
+    <p>Let's now see how to convert multiple columns of data from Microsoft Excel into charts. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting chart from multi-column data </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's take an example where we've to plot a multi-series chart where we'll compare sales data for two years. Our Excel sheet for the same looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_7.gif" width="299" height="376" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, we've sales data for two years in this Excel Sheet. Again to convert this into XML, just select the rows/columns containing data (excluding header again). </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_8.gif" width="240" height="261" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, paste this data in the XML generator utility as before and select Tab as the delimiter. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_9.gif" width="371" height="264" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Do not worry if your data is looking scattered (unformatted) as shown in the image above. The XML Generator Utility internally recognizes the tab characters and will convert the data perfectly. When you now click on &quot;<span class="codeInline">Convert to XML</span>&quot; button, you'll get the following XML as required: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_MS_2.gif" width="560" height="227" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This proves how easy it is to create multi-series charts too. </p>
+    <p>As our last example, we'll now see how to plot data contained in scatter rows and columns in your Excel sheets. Till now, all we were plotting was data contained in sequential rows, which we could directly copy from and paste into our Utility.  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plotting data contained in multiple rows/columns in spreadsheet </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now consider an example where we've data scattered across multiple rows in a spreadsheet. We'll assimilate them and then plot a chart.</p>
+    <p>Our Excel sheet looks as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_10.gif" width="506" height="290" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, you can see that we've sales data and quantity for 2005 and 2006. We just want to plot the revenue data of 2005 and 2006 on a chart. </p>
+    <p>To do so, you'll have to first bring these two columns next to each other in another Excel sheet. So, open a new Excel sheet and first copy the Month name column to it. After that, copy both the revenue columns next to month column in the new sheet as under. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_11.gif" width="517" height="546" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, we now have our data in the normal multi-column format as discussed earlier in this. From here, you can now follow the same steps as previously discussed to build your chart.</p>
+    <p>So, we just proved how easy it is to build interactive and animated charts from your Excel data sheets in a matter of minutes and just a few clicks. You can easily add these charts to your PowerPoint presentations or website to wow your viewers!</p>
+    <p>Next, we'll see how to convert data from Microsoft Word into exciting charts.  </p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="text"><strong>Applying custom defined styles to chart objects</strong></span></td>
+  </tr>
+  <tr> 
+    <td> <span class="text">To apply your defined styles to chart objects, you 
+      first need to make sure that you've the list of chart objects present in 
+      each chart. This can be found here in the </span><span class="codeInline">"Chart 
+      Sheet"</span><span class="text"> for each chart. <font color="#FF0000">&lt;&lt;link&gt;&gt; </p> 
+      </font> </span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">As a case example, we've the following chart objects for 
+        2D Single Series Column Chart:</p>
+      <ul type="disc">
+        <li class="codeInline">BACKGROUND</li>
+        <li class="codeInline">CANVAS</li>
+        <li class="codeInline">CAPTION</li>
+        <li class="codeInline">SUBCAPTION</li>
+        <li class="codeInline">YAXISNAME</li>
+        <li class="codeInline">XAXISNAME</li>
+        <li class="codeInline">DIVLINES</li>
+        <li class="codeInline">YAXISVALUES</li>
+        <li class="codeInline">HGRID</li>
+        <li class="codeInline">DATALABELS</li>
+        <li class="codeInline">DATAVALUES</li>
+        <li class="codeInline">TRENDLINES</li>
+        <li class="codeInline">TRENDVALUES</li>
+        <li class="codeInline">DATAPLOT</li>
+        <li class="codeInline">TOOLTIP</li>
+        <li class="codeInline">VLINES</li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Each of the above objects has been explained individually 
+        in the Chart Sheet, and as such we won't go into the details of chart 
+        object here. Also, each chart can have a different list of Objects. So, 
+        you need to ensure that you're working with the right Object name for 
+        the given chart.</p></td>
+  </tr>
+  <tr> 
+    <td><span class="text">The following </span><span class="codeInline">XML </span><span class="text">does 
+      the work of applying styles to different chart objects:</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock"><p>&lt;application&gt;<br />
+        &nbsp;&nbsp; &lt;apply toObject='Caption' styles='MyFirstFontStyle,MyFirstShadow' 
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;apply toObject='Canvas' styles='MyFirstAnimationStyle' 
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;apply toObject='DataPlot' styles='MyFirstShadow' 
+        /&gt;<br />
+        &lt;/application&gt;&nbsp;&nbsp; </p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Each<span class="codeInline"> <em>&lt;</em>apply&gt; </span>element 
+        helps to apply multiple styles to one chart object e.g., in our code, 
+        we first apply the <span class="codeInline">MyFirstFontStyle</span> font 
+        style to <span class="codeInline">Caption</span> of the chart and then 
+        apply the shadow style <span class="codeInline">MyFirstShadow</span> to 
+        the same object. To apply multiple styles, we separate the names of the 
+        respective styles by a comma.</p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">Format: <span class="codeInline">&lt;apply toObject='Object' 
+        styles='Style1, Style2, Style3 ...' /&gt; </span></p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You need to make sure of few things here:</p></td>
+  </tr>
+  <tr> 
+    <td><ul type="disc">
+        <li class="text">To apply multiple styles to a chart object, you need 
+          to separate the style names using comma.<br />
+          e.g., <span class="codeInline">&lt;apply toObject='Caption' styles='<strong>MyFirstFontStyle,MyFirstShadow</strong>' 
+          /&gt;</span><br />
+        </li>
+        <li class="text">To apply a single style to multiple objects, you'll need 
+          to define<span class="codeInline"> &lt;apply&gt;</span> element for 
+          each object and then assign the style for it. <br />
+          e.g., <br />
+          <span class="codeInline">&lt;apply toObject='Caption' styles='<strong>MyFirstShadow'</strong> 
+          /&gt;<br />
+          &lt;apply toObject='DataPlot' styles=<strong>'MyFirstShadow</strong>' 
+          /&gt;<br />
+          </span><br />
+          You <strong>CANNOT</strong> separate the object list by comma and then 
+          assign a single style to it - the following will be INVALID:<br />
+          <span class="codeInline"><s>&lt;apply toObject='Caption,DataPlot' styles='MyFirstShadow' 
+          /&gt;</s></span></li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td><ul type="disc">
+        <li class="text">The style name specified during application has been 
+          defined earlier in style definition and the spelling is correct, else, 
+          FusionCharts would ignore it and log the error in <span class="codeInline">Debug 
+          Window.</span></li>
+      </ul></td>
+  </tr>
+  <tr> 
+    <td><p class="text">And now that you're familiar with style definition and 
+        application, we move on to see the list of parameters supported by each 
+        style type. We start with the<span class="codeInline"> FONT</span> style.</p></td>
+  </tr>
+</table>
+</body>
+</html>

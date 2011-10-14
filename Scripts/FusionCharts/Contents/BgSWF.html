@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Setting backgrounds for charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts allows you to easily set a background image/movie for your   chart. You can use this option to embed background images (GIF, JPEG or PNG), other SWF Files, or data tables (in image format) as your chart background. </p>
+      <p>To embed an image, all you need to do is set <span class="codeInline">bgSWF</span> property of <span class="codeInline">&lt;chart&gt;</span> element as shown below. You can also dynamically change the transparency of the loaded image using <span class="codeInline">bgSWFAlpha</span> property, which accepts a value between 0 and 100. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Sales Figures' labelDisplay='NONE' <strong>bgSWF='ChartBg.jpg'</strong> canvasBgAlpha='30' canvasBorderColor='333333' canvasBorderThickness='0' divLineColor='333333'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&lt;styles&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myFont' type='font' isHTML='1' bold='1' size='11' color='FFFFFF' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='shadow' color='333333' angle='45' strength='3'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='YAxisValues' styles='myFont,myShadow' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataLabels' styles='myFont,myShadow' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DataValues' styles='myFont,myShadow' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='Caption' styles='myFont,myShadow' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;/styles&gt;<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're:</p>
+      <ul>
+        <li>Loading a background image <span class="codeInline">ChartBg.jpg</span> by setting it as <span class="codeInline">bgSWF</span> attribute. If your image file is in a different location, you'll need to specify the full path. Also, due to security restrictions, your image file has to reside on the same sub-domain as chart SWF File. </li>
+        <li>Setting canvas alpha as 30, so that it becomes see-through for the background to appear.</li>
+        <li>Defining styles for other chart elements formatting.  </li>
+      </ul>
+    <p>When you view this chart (with the background image), you'll get something as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/bgSWF.jpg" width="490" height="361" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Simple and effective - isn't it? </p>
+    <p>For best results, you need to make sure that the background image and your chart have the same dimensions (width and height). Else, the loaded image would align at top left of the chart. </p></td>
+  </tr>
+</table>
+</body>
+</html>

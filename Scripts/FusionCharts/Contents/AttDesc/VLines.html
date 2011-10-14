@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Vertical Separator Lines </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">vLines are vertical (or horizontal in case of bar charts) separator lines that   help you separate blocks of data. They can be placed between any two data   points, even at irregular intervals.  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vline1.jpg" width="400" height="250" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for the same is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='420000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='910000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='680000' /&gt;<br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;&lt;vLine/&gt;</strong><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='720000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='810000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='510000' /&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see, a vertical separator line is introduced in the chart using the <span class="codeInline">&lt;vLine&gt;</span> element between those &lt;set&gt; elements, where you want it to be placed.  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring the position of vertical line </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>By default, when you add a vLine to the chart, it appears between the two data points visually. You can, however, place it anywhere between those two data points by setting the value of <span class="codeInline">linePosition</span> attribute between 0 and 1. 0 places the vertical line at the position of previous data and 1 at the next data. Example: </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='680000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&lt;vLine linePosition='0'/&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='810000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='510000' /&gt;<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vLinePosition1.jpg" width="260" height="209" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Setting <span class="codeInline">linePosition</span> to 1 in the same XML results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vLinePosition2.jpg" width="257" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding labels to vertical lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can add a label to vertical line by setting &lt;vLine label='Your text' ..&gt;. An example is shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='680000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&lt;vLine label='2009'/&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='810000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='510000' /&gt;<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vLineLabel.jpg" width="311" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring Label Position </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The label can be configured to show either at the top of the canvas (<span class="codeInline">labelPosition='0'</span>) or at the bottom (<span class="codeInline">labelPosition='1'</span>) or anywhere in between. To show the label at bottom of canvas, we use the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='680000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;<strong>&lt;vLine label='2009' labelPosition='1'/&gt;</strong><br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='810000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='510000' /&gt;<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vLineLabelPosition.jpg" width="309" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Turning Label borders on/off </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The label can be configured not to have any borders, either at chart level by setting <span class="codeInline">&lt;chart showVLineLabelBorder='0' ..&gt;</span> or at individual vLine level by setting <span class="codeInline">&lt;vLine showLabelBorder='0' ..&gt;</span>. This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/vLineLabelBorder.jpg" width="310" height="207" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Label alignment configuration </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The label can be configured to anchor at left, center (default) or right using <span class="codeInline">&lt;vLine ... labelHAlign='left'...&gt;</span> Shown below are examples: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="0" cellpadding="2">
+      <tr>
+        <td><div align="center"><img src="Images/vLineHAlign1.jpg" width="309" height="208" /></div></td>
+        <td><div align="center"><img src="Images/vLineHAlign2.jpg" width="307" height="208" /></div></td>
+      </tr>
+      <tr>
+        <td><div align="center"><span class="codeInline">labelHAlign='left'</span></div></td>
+        <td><div align="center"><span class="codeInline">labelHAlign='right'</span></div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Similarly, the vertical position can be set as top, middle (default) or bottom as value of <span class="codeInline">labelVAlign </span>attribute. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td><span class="textBold"> Attribute Name </span> </td>
+        <td><span class="textBold"> Range </span> </td>
+        <td><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="text"> label </td>
+        <td valign="top" class="text">String</td>
+        <td valign='top' class="text"> Label of the vertical line </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="text"> showLabelBorder </td>
+        <td valign="top" class="text"> Boolean 0/1 </td>
+        <td valign='top' class="text"> Whether to show border for this vertical line label. </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="text">linePosition</td>
+        <td valign="top" class="text"> 0-1 </td>
+        <td valign='top' class="text"> Position of the line between the 2 data points </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="text">labelPosition</td>
+        <td valign="top" class="text">0-1</td>
+        <td valign='top' class="text">Position of the label (ranging from top of canvas to bottom) </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="text">labelHAlign</td>
+        <td valign="top" class="text">left, center or right </td>
+        <td valign='top' class="text">Horizontal anchor point for vLine label </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top" class="text">labelVAlign</td>
+        <td valign="top" class="text">top, middle or bottom </td>
+        <td valign='top' class="text">Vertical anchor point for vLine label </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the looks of the separator line </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The looks of the vertical separator line can be customized using the attributes of the <span class="codeInline">&lt;vLine&gt;</span> element given below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td><span class="textBold"> Attribute Name </span> </td>
+        <td><span class="textBold"> Range </span> </td>
+        <td><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top"><span class="text"> color </span> </td>
+        <td valign="top"><span class="text"> Hex Color </span> </td>
+        <td valign='top'><span class="text"> This attribute defines the color of vertical separator line. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top"><span class="text"> thickness </span> </td>
+        <td valign="top"><span class="text"> In Pixels </span> </td>
+        <td valign='top'><span class="text"> Thickness in pixels of the vertical separator line. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top"><span class="text"> alpha </span> </td>
+        <td valign="top"><span class="text"> 0-100 </span> </td>
+        <td valign='top'><span class="text"> Alpha of the vertical separator line. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><strong>&lt;</strong>vLine<strong> color='999999' thickness='2' alpha='60' /&gt;</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Dashed vertical separator lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The vertical separator lines can be made dashed using <span class="codeInline">dashed='1'</span> in the <span class="codeInline">&lt;vLine&gt;</span> element. </p>
+        <p>The dash properties - dash length and dash gap can be customized using the <span class="codeInline">dashLen</span> &amp; <span class="codeInline">dashGap</span> attributes respectively. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><strong>&lt;</strong>vLine<strong> <span class="codeInline">dashed='1'</span>  <span class="codeInline">dashLen</span>='2' <span class="codeInline">dashGap</span>='2'/&gt;</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to animate vertical separator lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Animation effects can be applied to the vertical separator lines using STYLES. The following XML would animate the y-Scale of the separator lines. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Oct' value='420000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Nov' value='910000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Dec' value='680000' /&gt;<br />
+<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&lt;vLine/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='720000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='810000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='510000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim' type='animation' param='_yScale' start</strong><strong>='0' duration='1'/&gt;
+    </strong><strong><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='VLINES' styles='myAnim' /&gt; </strong><strong><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+</table>
+</body>
+</html>

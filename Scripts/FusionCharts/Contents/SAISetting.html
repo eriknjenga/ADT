@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Saving as Image &gt; Setting it up </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>To allow image saving, you just need to set:</p>
+      <p class="codeInline">&lt;chart ... imageSave='1' imageSaveURL='Path/FusionChartsSave.aspx or FusionChartsSave.php' ...&gt;</p>
+      <p>And now copy the image saving script from <span class="codeInline">Download Package &gt; ImageSaving</span> folder to the relevant path. This  will enable the charts to export as image, as shown below: </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_SaveAsImage.jpg" width="565" height="325" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When the user clicks on &quot;<span class="codeInline">Save as Image</span>&quot;, he'll first be presented with this dialog box, after which the data is sent to server and returned as an image. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_Progress.jpg" width="565" height="284" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Attributes pertinent to image saving</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can specify the following attributes for &lt;chart&gt; element to configure image saving: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="96%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="20%" class="textBold">Attribute Name</td>
+        <td width="15%" class="textBold">Attribute Type </td>
+        <td width="65%" class="textBold">Description</td>
+      </tr>
+      <tr>
+        <td width="20%" class="codeInline">imageSave</td>
+        <td width="15%" class="text">Boolean (0/1) </td>
+        <td width="65%" class="text">Whether to allow exporting of the chart as image. </td>
+      </tr>
+      <tr>
+        <td width="20%" class="codeInline">imageSaveURL</td>
+        <td width="15%" class="text">URL</td>
+        <td width="65%" class="text">Path of the image saving script. This path has to be relative to the chart and should  be on the same sub domain as the chart. </td>
+      </tr>
+      <tr>
+        <td width="20%" class="codeInline">imageSaveDialogColor</td>
+        <td width="15%" class="text">Hex Color </td>
+        <td width="65%" class="text">Sets the color of the dialog box which the user sees while the pixels of the chart is being captured. By default, a white dialog is shown when the user intiates the export. </td>
+      </tr>
+      <tr>
+        <td width="20%" class="codeInline">imageSaveDialogFontColor</td>
+        <td width="15%" class="text">Hex Color </td>
+        <td width="65%" class="text">Sets the font color of the dialog box which the user sees while the pixels of the chart is being captured.</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Troubleshooting</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If the chart doesn't save as image properly, you need to check for the following:</p>
+      <ul>
+        <li>See if you've correctly set the image save script URL in XML.</li>
+        <li>Check if the URL is relative and resides in the same sub-domain.</li>
+        <li>If you're using PHP, you need to make sure that you've GD installed and enabled.</li>
+        <li>If you're using Perl, you need to make sure that you've Perl 5.8 or later with ImageMagick library and Perl bindings (aka Image::Magick perl module). </li>
+        <li>If you're using ColdFusion, you need to make sure that you've CFMX 6.1 or
+          later (the image saving code depends on the 1.4 JRE which is included with CFMX<br />
+        6.1).</li>
+        <li>Make sure that any download tools like DAP etc. are not used to download the image, as they do not resend the POST data. </li>
+    </ul></td>
+  </tr>
+</table>
+</body>
+</html>

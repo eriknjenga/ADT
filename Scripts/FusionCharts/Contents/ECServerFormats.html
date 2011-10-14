@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting charts as PDF/Images &gt;  Configuring output formats and context menu </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When you enable a chart for export by setting <span class="codeInline">&lt;chart exportEnabled='1' ...&gt;</span>, the chart context menu shows all the export formats possible - JPEG, PNG and PDF, as shown below: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_SaveAsImage.jpg" width="492" height="295" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you however need to only show selective formats or change the label of menu items, you can do it as under:</p>
+    <p class="codeInline">&lt;chart ... exportFormats='PDF=Export as PDF|PNG=Export as PNG' ...&gt;</p>
+    <p>The format of this attribute is <span class="codeInline">FileType=Menu_Item_Label|File_Type2=Menu_Item_Label2</span> (the items are separated by | character; pipe character).    Possible file types are JPG, PNG and PDF. The order of the item specified in the attribute value is reflected in the menu as well.</p>
+    <p>The above XML generates the following menu (note the change or order and title of menu items):  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerFormat.jpg" width="400" height="300" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Hiding the context menu items </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you do not wish to show any of the context menu items related to export (for e.g., if you just want to have the export triggered using JavaScript), you can set:</p>
+    <p class="codeInline">&lt;chart exportShowMenuItem='0' ..&gt;</p>
+    <p>This will remove all export related items from context menu. </p></td>
+  </tr>
+</table>
+</body>
+</html>

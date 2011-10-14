@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Creating your first chart visually </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we'll get our hands down n dirty and create our first chart using the FusionCharts XML Generator Tool. As our first example, we'll create a simple Monthly Sales Chart. </p>
+      <p>When we'll be finished, our chart would look as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/FirstChart.jpg" width="550" height="183" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Pre-requisites for creating a chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>To create any FusionCharts chart, you need to assemble the following four things:</p>
+      <ol>
+      <li><strong>SWF File</strong> for the chart that you want to create. We 
+        want to create a 3D Column Chart, whose SWF file is named 
+        as <span class="codeInline">Column3D.swf</span>. All the chart SWF files 
+        are present in <span class="codeInline">Download Package</span> &gt; <span class="codeInline">Charts</span> folder. </li>
+      <li><strong>FusionCharts JavaScript File </strong>- This file (<span class="codeInline">FusionCharts.js</span>) is present in <span class="codeInline">Download Package &gt; JSClass </span>folder. </li>
+      <li><strong>XML Data File</strong>. As you already know by now, FusionCharts accepts data only in 
+        a pre-defined XML format. We'll build the XML data using our visual tool soon. </li>
+      <li><strong>HTML Wrapper File</strong>. This HTML file would contain the 
+        code to embed the chart. Again, we'll build this using the visual tool.  </li>
+    </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting the playground </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>We now need to set the playground for our first chart. Create a new folder named as <span class="codeInline">MyFirstChart</span> under any folder on your computer (say <span class="codeInline">c:\FusionCharts</span>, if you can't think of a better place). For each chart that you create using the FusionCharts visual GUI, you'll need to create a separate folder. </p>
+    <p class="highlightBlock">You can also have multiple charts in same folder. But, for that you'll need to do some code editing which is discussed in &quot;Guide for Web Developers&quot; section. Here, we've tried to keep things as simple as possible. </p>
+    <p>Next, you need to copy the chart SWF file from <span class="codeInline">Download Package &gt; Charts</span> and <span class="codeInline">FusionCharts.js</span> from from <span class="codeInline">Download Package &gt;JSClass</span> folder respectively into this folder.  The setup should look as under till now: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_1.gif" width="356" height="292" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>That completes our setup for the chart creation. In this folder, we can now have 1 chart. For each chart that you create, you'll need to create a separate folder. </p>
+      <p>With the playground ready, it&rsquo;s  now just a two-step affair to pop-up enticing charts:</p>
+      <ol>
+        <li>Generate XML</li>
+        <li>Create HTML Wrapper</li>
+      </ol>
+      <p>Let's now shift our attention to creating the XML data file for this chart. XML  generation is again split into following:</p>
+      <ol>
+        <li>Actual Data for plotting the Chart</li>
+        <li>Chart Cosmetics like Caption, sub-caption, Titles at X and Y-axis  and so on.</li>
+      </ol>      </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the XML Data</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To build any chart, we first need 
+        to have the data that we'll represent on the chart. Since we're plotting 
+        monthly sales summary for a given year, our data in tabular form would 
+        look something like below. Each month given below would be represented 
+    on the chart as a 3D column.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="200" border="1" cellspacing="0" cellpadding="1">
+      <tr class="textBold">
+        <td>Month</td>
+        <td><div align="right">Net Revenue</div></td>
+      </tr>
+      <tr class="text">
+        <td>January</td>
+        <td><div align="right">$17400</div></td>
+      </tr>
+      <tr class="text">
+        <td>February</td>
+        <td><div align="right">$19800</div></td>
+      </tr>
+      <tr class="text">
+        <td>March</td>
+        <td><div align="right">$21800</div></td>
+      </tr>
+      <tr class="text">
+        <td>April</td>
+        <td><div align="right">$23800</div></td>
+      </tr>
+      <tr class="text">
+        <td>May</td>
+        <td><div align="right">$29600</div></td>
+      </tr>
+      <tr class="text">
+        <td>June</td>
+        <td><div align="right">$27600</div></td>
+      </tr>
+      <tr class="text">
+        <td>July</td>
+        <td><div align="right">$31800</div></td>
+      </tr>
+      <tr class="text">
+        <td>August</td>
+        <td><div align="right">$39700</div></td>
+      </tr>
+      <tr class="text">
+        <td>September</td>
+        <td><div align="right">$37800</div></td>
+      </tr>
+      <tr class="text">
+        <td>October</td>
+        <td><div align="right">$21900</div></td>
+      </tr>
+      <tr class="text">
+        <td>November</td>
+        <td><div align="right">$32900</div></td>
+      </tr>
+      <tr class="text">
+        <td>December</td>
+        <td><div align="right">$39800</div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's now convert it into XML. To do so, launch the XML Generator Utility by running XMLGenerator.html (present in <span class="codeInline">Download Package &gt; Tools</span>) and click the &quot;<span class="codeInline">Launch XML Generator</span>&quot; button. You'll be presented with an interface showing three options as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Ov_1.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, since this is our first example, we'll take the simplest route of all - we'll manually enter our data in the tabular grid provided by this utility. So, click on &quot;<span class="codeInline">I want to manually enter data</span>&quot; button. You'll be provided with an empty grid as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_2.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>This is the screen where you can manually enter data. The first row in the grid is reserved for data labels - in our example, month names serve as data labels. The data labels appear on the x-axis of the chart. In the rest of columns, you can put in values for the respective data.</p>
+    <p>In our example, we're plotting data for just 1 year, so we would use only 1 column to enter data. Enter the data as under: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_3.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If the original number of rows are not sufficient to fit in your data, you can also add more rows to the grid by clicking on &quot;<span class="codeInline">Add</span>&quot; button next to &quot;<span class="codeInline">Add 5 rows</span>&quot;. Now, to convert this data into XML, just click the &quot;<span class="codeInline">Convert to XML</span>&quot; button. </p>
+    <p>You'll now get a screen with the XML data representation as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_4.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">So, on the click of a button, our utility has cooked &amp; converted your tabular data into XML format, as required by FusionCharts. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><strong>XML for Chart Cosmetics</strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's now add some captions and axis names to our chart. To do so, click on &quot;Configure Chart&quot; button. You'll be provided with a interface to enter titles and additional parameters as under:</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_5.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, you can provide the caption, sub-caption, x-axis name and y-axis name for the chart. You can also enter a number prefix for the chart. Number prefix refers to a character which gets added to all the numbers on the chart. Since in our case, we're displaying sales figures in $, we set $ as number prefix. Similar to number prefix, number suffix characters gets added at the end of all the numbers on the chart. </p>
+      <p>Next, FusionCharts allows you to choose a palette (color theme) from 5 pre-defined palettes. Lastly, you can choose whether to format your numbers by scaling them into K (Thousands), M (Millions). If set to yes, 13000 would appear as 13K on chart, 12340000 would appear as 1.234M and so on.</p>
+      <p class="highlightBlock">FusionCharts v3 offers a lot more configurable properties, which can be configured via XML only. Those properties cannot be configured using this GUI. </p>
+      <p>Enter the above parameters and click the &quot;Update&quot; button. You'll now see that the XML  has been updated with this information: </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_6.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You now need to save this XML data for use by the chart. To do so, click on &quot;<span class="codeInline">Copy to Clipboard</span>&quot; button. This copies the XML data to your clipboard. Next,  paste it in a text editor and save it as <span class="codeInline">Data.xml</span> in our previous <span class="codeInline">MyFirstChart</span> folder. </p>
+    <p>Now, the final step left is to create the HTML code for the chart, which we'll see next. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating the HTML Wrapper for chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To create the HTML code for this chart, click the &quot;<span class="codeInline">Generate HTML</span>&quot; button in the above screen. You'll be presented with the following screen where you can select your chart type, width and height (in pixels). Select Column 3D as chart type and enter your desired width and height as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_FC_7.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You'll see that when you change the chart type or dimensions, the HTML code in the text-area below gets dynamically updated. You now need to save this HTML code. Again use the &quot;<span class="codeInline">Copy to Clipboard</span>&quot; button and save this HTML as <span class="codeInline">Chart.html</span> in the same folder. </p>
+    <p>And that marks the end of chart creation process. To view the chart, explore to our <span class="codeInline">MyFirstChart</span> folder and run <span class="codeInline">Chart.html </span><span class="text">in your browser</span>. You'll get an animated Column 3D chart as shown below. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/FirstChart.jpg" width="550" height="183" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>A painless and rewarding experience indeed! We just proved how easily you can now build animated and interactive charts for your your websites or presentations using this new GUI tool. </p>
+    <p>We'll next see how to convert this Column 3D chart into Pie 3D Chart. </p></td>
+  </tr>
+</table>
+</body>
+</html>

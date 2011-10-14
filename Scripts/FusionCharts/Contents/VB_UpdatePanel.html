@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with ASP.NET 2.0 (VB)&gt;&gt; ASP.NET.AJAX Update Panel </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>FusionCharts can effectively be used in ASP.NET.AJAX Update Panel to plot dynamic data-driven charts. In this example, we'll show a few basic examples to help you get started.</p>
+      <p>We'll cover the following examples here:</p>
+    <ol>
+      <li>We'll use FusionCharts in an Update Panel taking data from a database.</li>
+      <li>We'll then use 2 FusionCharts one of which affect the other chart in an Update panel.</li>
+      </ol>
+    <p>Let's quickly see each of them. <br />
+      </p>
+    <p><strong>Before you go further with this page, we recommend you to please see the 
+							previous sections &quot;Basic Examples&quot; and other subsequent pages as we start off from concepts 
+	  explained in that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="highlightBlock">All code discussed here is present in <span class="codeInline">Download Package &gt; Code &gt; C# </span> &gt; <span class="codeInline">UpdatePanel</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">To use Update Panel you need to have  ASP.NET.AJAX Extension  installed in your machine. You can avail it from <a href="http://www.asp.net/ajax/downloads/" target="_blank">http://www.asp.net/ajax/downloads</a>.<br />
+      You need to rename the given web.config.ajax to web.config to incorporate the ASP.NET.AJAX extension.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Creating UpdatePanels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>We will creare 3 UpdatePanels:</p>
+      <ul>
+        <li>First on top with RadioButtonList control to select Factory Name (id -<span class="codeInline"> FactorySelector</span>)</li>
+        <li>Left - with a GridView control showing selected Factory's output data -(id -<span class="codeInline"> GridUP</span>) </li>
+        <li>Right - with a Column2D chart (using FusionCharts) to show factory output data (id - <span class="codeInline">FusionChartsUP</span>) <br />
+          <br />
+          <br />
+        The design view will look like this : </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/CS_UP1.jpg" width="500" height="352" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Lets look at the UpdatePanel code for the <span class="codeInline">FactorySelector</span>: (<span class="codeInline">Sample1.aspx</span>)  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;asp:UpdatePanel ID=&quot;FactorySelector&quot; runat=&quot;server&quot;&gt;<br />
+&nbsp;&nbsp; &lt;ContentTemplate&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;asp:RadioButtonList ID=&quot;RadioButtonList1&quot; runat=&quot;server&quot; AutoPostBack=&quot;<strong>True</strong>&quot; Height=&quot;40px&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+OnSelectedIndexChanged=&quot;<strong>RadioButtonList1_SelectedIndexChanged</strong>&quot; Width=&quot;400px&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RepeatDirection=&quot;Horizontal&quot; Style=&quot;font-weight: bold; font-size: 14px; font-family: Verdana&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ForeColor=&quot;#404040&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/asp:RadioButtonList&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/ContentTemplate&gt;<br />
+&lt;/asp:UpdatePanel&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here we set a code behind function to be called when selection changes. Since AutoPostBack is set to true it will evoke AJAX call. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The UpdatePanel code that will contain the chart is simpler. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;asp:UpdatePanel ID=&quot;FusionChartsUP&quot; runat=&quot;server&quot;&gt;<br />
+&nbsp;&nbsp; &lt;ContentTemplate&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;asp:Panel ID=&quot;<strong>Panel1</strong>&quot; runat=&quot;server&quot; Height=&quot;350px&quot; Width=&quot;440px&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/asp:Panel&gt;<br />
+&nbsp;&nbsp;&nbsp; s &lt;/ContentTemplate&gt;<br />
+&lt;/asp:UpdatePanel&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here we palce a Panel control where the chart will be loaded. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now let's find out what happends in the code-behind (<span class="codeInline">Sample1.aspx.vb</span>) function <span class="codeInline">RadioButtonList1_SelectedIndexChanged()</span> when a Facory is selected :</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">     <span class="codeComment">&nbsp;'When radio button selection changes i.e. selected factory changes     </span><br />
+   &nbsp; Protected Sub RadioButtonList1_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs)         <br />
+    <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; 'Update FusionCharts and gridview with as per selected factory </span><br />
+  &nbsp;&nbsp;&nbsp;&nbsp; updateChart()     <br />
+ &nbsp; End Sub </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It calls up<span class="codeInline"> UpdateChart()</span> function. Let's trace it: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p> Private Sub updateChart()</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Get factory details depending on FactoryID from selected Radio Button<br />
+        </span>&nbsp;&nbsp;&nbsp; Dim strSQL As String = &quot;select DatePro, Quantity from Factory_Output where FactoryId=&quot; &amp; RadioButtonList1.SelectedValue.ToString() &amp; &quot; order by DatePro&quot;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Create data reader to bind data with GridView <br />
+      </span>&nbsp;&nbsp;&nbsp; Dim rs As New DbConn(strSQL)<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Fillup gridview with data from datareader<br />
+        </span>&nbsp;&nbsp;&nbsp; GridView1.DataSource = rs.ReadData<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' binding the data<br />
+        </span>&nbsp;&nbsp;&nbsp; GridView1.DataBind()</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Create database connection to get data for chart <br />
+      </span>&nbsp;&nbsp;&nbsp; Dim oRs As New DbConn(strSQL)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Create FusionCharts XML<br />
+        </span>&nbsp;&nbsp;&nbsp; Dim strXML As New StringBuilder()<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Create chart element<br />
+        </span>&nbsp;&nbsp;&nbsp; strXML.Append(&quot;&lt;chart caption='Factory &quot; &amp; RadioButtonList1.SelectedValue.ToString() &amp; &quot;' showborder='0' bgcolor='FFFFFF' bgalpha='100' subcaption='Daily Production' xAxisName='Day' yAxisName='Units' rotateLabels='1'  placeValuesInside='1' rotateValues='1' &gt;&quot;)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Iterate through database<br />
+        </span>&nbsp;&nbsp;&nbsp; While oRs.ReadData.Read()</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 'Create set element<br />
+        </span>&nbsp;&nbsp;&nbsp; <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Also set date into d/M format</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; </span>&nbsp;&nbsp;&nbsp; strXML.Append(&quot;&lt;set label='&quot; &amp; Convert.ToDateTime(oRs.ReadData(&quot;DatePro&quot;)).ToString(&quot;d/M&quot;) &amp; &quot;' value='&quot; &amp; oRs.ReadData(&quot;Quantity&quot;).ToString() &amp; &quot;' /&gt;&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp; End While</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Close chart element<br />
+        </span>&nbsp;&nbsp;&nbsp; strXML.Append(&quot;&lt;/chart&gt;&quot;)<br />
+      </p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'outPut will store the HTML of the chart rendered as string <br />
+        </span>&nbsp;&nbsp;&nbsp; Dim outPut As String = &quot;&quot;<br />
+        &nbsp;&nbsp;&nbsp; If IsPostBack = True Then</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 'when an ajax call is made we use RenderChartHTML method<br />
+        </span>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; outPut = FusionCharts.RenderChartHTML(&quot;../FusionCharts/Column2D.swf&quot;, &quot;&quot;, strXML.ToString(), &quot;chart1&quot;, &quot;445&quot;, &quot;350&quot;, False, False)</p>
+      <p> &nbsp;&nbsp;&nbsp; Else</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 'When the page is loaded for the first time, we call RenderChart() method to avoid IE's 'Click here to Acrtivate...' </span>message<br />
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; outPut = FusionCharts.RenderChart(&quot;../FusionCharts/Column2D.swf&quot;, &quot;&quot;, strXML.ToString(), &quot;chart1&quot;, &quot;445&quot;, &quot;350&quot;, False, False)<br />
+        &nbsp;&nbsp;&nbsp; End If</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Clear panel which will contain the chart<br />
+        </span>&nbsp;&nbsp;&nbsp; Panel1.Controls.Clear()</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; 'Add Litaral control to Panel which adds the chart from outPut string<br />
+        </span>&nbsp;&nbsp;&nbsp; Panel1.Controls.Add(New LiteralControl(outPut))</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' close Data Reader<br />
+       </span>&nbsp;&nbsp;&nbsp; oRs.ReadData.Close()<br />
+    End Sub</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code we do the following :</p>
+      <ul>
+        <li>Open database connection to get data for the selected factory</li>
+        <li>Update the GridView control with the data from the database </li>
+        <li>Create the chart XML for using the data</li>
+        <li>Use <span class="codeInline">InfoSoftGlobal.FusionCharts.RenderChartHTML</span> method to generate HTML for the chart to be displayed</li>
+        <li>Update the Panel control in the FusionChartsUP UpdatePanel with this HTML for the chart</li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Note that we also used <span class="codeInline">InfoSoftGlobal.FusionCharts.RenderChart()</span> method when <span class="codeInline">isPostBack</span> is false. We do this for a specific reason to deal with the Internet Explorer's 'Click Here to Activate Control' message when a page loads for the first time, i.e. no post back is done.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Thus, the chart gets updated in UpdatePanel, using AJAX, each time a factory is selected from the Radio buttons list. Here goes a screenshot of one instance : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/CS_UP1a.jpg" width="783" height="549" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Modified Sample </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We modify the sample above to insert two charts. One on the left, a pie chart with summary data, showing total production of each Factory in each slice. On clicking a slice, i.e. selecting a Factory, another chart will show up in an UpdatePanel. This chart, a Column2D chart, like the previous example will show the the details of the slected Factory. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Lets see how the desing is modified :(<span class="codeInline">Sample2.aspx</span>)</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/CS_UP2.jpg" width="500" height="265" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here, we put only one UpdatePanel i.e. <span class="codeInline">FusionChartsUP </span>that will load up the chart. The HTML code for this remains the same as the previous example. The left part will contain the Pie chart that will load up once, when the page is loaded first. But we have an added Javascript to add in this page : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="codeComment">//Call Ajax PostBack Function</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;
+function updateChart(factoryId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="codeComment">//Call drillDown C# function by Ajax<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//we pass the name of the function ('drillDown') to call <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//and the parameter (i.e. factoryId) to be passed to it<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//both separated by a delimiter(here we use $, you can use anything)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>__doPostBack(&quot;Panel1&quot;,&quot;drillDown$&quot; + factoryId);<br />
+}<br />
+&lt;/script&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This function is actually evoked when a pie slice is clicked. The factory id is passed to the function. This function used the ASP.NET.AJAX 's function <span class="codeInline">__doPostBack</span>(). This function takes 2 parameters. The first one is name of the control where post-back updates will be reflected. Throuhg the second parameter we pass the name of the code-belind function to be called along with the parameter. This parameter passed to the code-belind script as request variable -<span class="codeInline"> __EVENTARGUMENT.</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">To know more on how to evoke JavaScript functions form a chart please refer to section <span class="codeInline">Guide for Web Develpers &gt;&gt; Drill Down Charts</span> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's now see how the request is treated in the code-behind file <span class="codeInline">Sample2.aspx.vb.</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"> <p> Private Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;
+        'This will execute first time the page loads and not on ajax post back calls<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp; If IsPostBack = False Then</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' Show a blank Column2D Chart at first<br />
+        </span>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; showColumnChart()<br />
+        &nbsp;&nbsp;&nbsp;&nbsp; Else<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' Handle Ajax PostBack Call<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' store Asp.Net Ajax special HTTP request<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' __EVENTARGUMENT holds value passed by JS function -__doPostBack<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' The value can be like &quot;drillDown$1&quot;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'We take $ as delimiter so we get drillDown as the function to call<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'and 1 as the factory id. It can vary depending on the pie slice clicked.</span></p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dim sEventArguments As String = Request(&quot;__EVENTARGUMENT&quot;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If sEventArguments &lt;&gt; &quot;&quot; Then</p>
+      <p><span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'extract arguments passed to the HTTP Request <br />
+      </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Dim iDelimiter As Integer = sEventArguments.IndexOf(&quot;$&quot;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Dim sArgument As String = sEventArguments.Substring(iDelimiter + 1)<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' extract the name of the post back function <br />
+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; If sEventArguments.StartsWith(&quot;drillDown&quot;) = True Then<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ' call the post back function passing the argument(s)<br />
+</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; drillDown(sArgument)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; End If<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If<br />
+        &nbsp;&nbsp;&nbsp;&nbsp; End If<br />
+    End Sub    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The above code is executed whenever a page is loaded be is at first or through AJAX call. It does the following :</p>
+      <ul>
+        <li>It loads a blank Column2D chart on first load calling function <span class="codeInline">showColumnChart()</span></li>
+        <li>On post-back calls it parses the <span class="codeInline">__EVENTARGUMENT</span> request and extract the name of the function to be called and argument to be passed to the function. Here the argument will be the Factory Id.</li>
+        <li>Accrodingly the function name that the request gives is  <span class="codeInline">DrillDown</span> and is called. </li>
+        <li><span class="codeInline">DrillDown</span>() function is same as the <span class="codeInline">updateChart()</span> function of the previous example, which creates chart XML as per the selected Factory and sets the panel with the chart HTML created using <span class="codeInline">InfoSoftGlobal.FusionCharts.RenderChartHTML</span> function. </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The final outout will look like this : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/CS_UP2a.jpg" width="927" height="479" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

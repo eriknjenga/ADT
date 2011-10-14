@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader"><strong>FusionCharts PHP Class API &gt; Creating   Scatter - Bubble Char</strong>t</h2></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">Now, let's create a simple scatter chart that will  visually display the Server Performance with reference to Server-Load against  Response Time. Server Load and Response Time will be plotted against X-axis and  Y-axis respectively.<br />
+The sample data that we intend to plot can be tabularized as  under:</td>
+  <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top" class="text">
+			  			   
+			  <table cellspacing="0" cellpadding="5" class="text"width="624" style="border:1px solid #cccccc;">
+                <tr style="border-bottom:1px solid #cccccc;">
+                  <td height="24" colspan="2" align="center" class="textBold borderBottom">  Server1 </td>
+                  <td colspan="2" align="center" class="textBold borderBottom">  Server2</td>
+                </tr>
+                <tr>
+                  <td height="24" align="right"class="borderBottom"><span class="textBold">Server Load(TPS)</span></td>
+                  <td align="right"class="borderBottom"><span class="textBold">Response Time(Sec)</span></td>
+                  <td align="right"class="borderBottom"><span class="textBold">Server Load(TPS)</span></td>
+                  <td align="right"class="borderBottom"><span class="textBold">Response Time(Sec)</span></td>
+                </tr>
+                <tr>
+                  <td width="10%" height="24" align="right"class="borderBottom">21</td>
+                  <td width="15%" align="right"class="borderBottom">2.4</td>
+                  <td width="10%" align="right"class="borderBottom">23</td>
+                  <td width="14%" align="right"class="borderBottom">1.4</td>
+                </tr>
+                <tr>
+                  <td height="24" align="right"class="borderBottom">32</td>
+                  <td align="right"class="borderBottom">3.5</td>
+                  <td align="right"class="borderBottom">29</td>
+                  <td align="right"class="borderBottom">1.5</td>
+                </tr>
+                <tr>
+                  <td height="24" align="right" class="borderBottom">43</td>
+                  <td align="right" class="borderBottom">2.5</td>
+                  <td align="right" class="borderBottom">33</td>
+                  <td align="right" class="borderBottom">1.5</td>
+                </tr>
+                <tr>
+                  <td height="24" align="right" class="borderBottom">48</td>
+                  <td align="right" class="borderBottom">4.1</td>
+                  <td align="right" class="borderBottom">41</td>
+                  <td align="right" class="borderBottom">1.1</td>
+                </tr>
+              </table>
+			  </td>
+	  </tr>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+   <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts PHP Class to plot this data into a Scatter chart: </td>
+  </tr>
+   <tr>
+      <td valign="top" class="text">&nbsp;</td>
+   </tr>
+   <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp; # Include FusionCharts PHP Class</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>include(&quot;../Class/FusionCharts_Gen.php&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Create Scatter chart Object </span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC = new FusionCharts(&quot;Scatter&quot;,&quot;300&quot;,&quot;250&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; # set the relative path of the swf file</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;setSwfPath(&quot;../FusionCharts/&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; # Define chart attributes</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$strParam=&quot;caption=Server Performance;yAxisName=Response Time (sec);xAxisName=Server Load (TPS)&quot;;<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; # Set chart attributes</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;setChartParams($strParam);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add Category, 1st parameter take label and 2nd parameter takes x axis value <br />
+        &nbsp;&nbsp; # as parameter list </span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;10&quot;,&quot;x=10;showVerticalLine=1&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;20&quot;,&quot;x=20;showVerticalLine=1&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;30&quot;,&quot;x=30;showVerticalLine=1&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;40&quot;,&quot;x=40;showVerticalLine=1&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;50&quot;,&quot;x=50&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add a new dataset</span> <br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addDataSet(&quot;Server 1&quot;,&quot;anchorRadius=6&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; # Add chart data for the above dataset<br />
+        &nbsp;&nbsp; # where 1st parameter for X axis value<br />
+        &nbsp;&nbsp; # 2nd parameter take Y axis as parameter list<br />
+        &nbsp;&nbsp; # e.g y=27</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;21&quot;,&quot;y=2.4&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;32&quot;,&quot;y=3.5&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;43&quot;,&quot;y=2.5&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;48&quot;,&quot;y=4.1&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp; # Add another dataset</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addDataSet(&quot;Server 2&quot;,&quot;anchorRadius=6&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; # Add chart data for the above dataset<br />
+        &nbsp;&nbsp; # where 1st parameter for X axis value<br />
+        &nbsp;&nbsp; # 2nd parameter take Y axis as parameter list<br />
+        &nbsp;&nbsp; # e.g y=30</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;23&quot;,&quot;y=1.4&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;29&quot;,&quot;y=1.5&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;33&quot;,&quot;y=1.5&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;41&quot;,&quot;y=1.1&quot;);<br />
+  <br />
+        ?&gt;<br />
+  &lt;html&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp; </span>&lt;head&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>&lt;title&gt;Scatter Chart : FusionCharts PHP Class&lt;/title&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>&lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp; </span>&lt;/head&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp; </span>&lt;body&gt;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; # Render Chart </span><br />
+        <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </span>$FC-&gt;renderChart();<br />
+        <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; </span>?&gt;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp; </span>&lt;/body&gt;<br />
+  &lt;/html&gt;</p>
+     </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+      <ul type="disc">
+        <li><span class="text">We include FusionCharts_Gen.php in the program. This file contains FusionCharts PHP Class codes. <br />
+          </span><br />
+            <span class="codeInline">include('../Class/FusionCharts_Gen.php');</span><br />
+            <br />
+        </li>
+        <li>We create       a Scatter chart object and set relative path to the chart SWF file. <br />
+            <br />
+            <span class="codeInline">$FC = new FusionCharts(&quot;<strong>Scatter</strong>&quot;,&quot;300&quot;,&quot;250&quot;);</span><br />
+            <br />
+            <span class="codeInline">$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</span><br />
+            <br />
+        </li>
+        <li>We store       all desired chart attributes in the <span class="codeInline">$strParam</span> variable and set       chart attributes using <span class="codeInline">setChartParams()</span> function.<br />
+            <br />
+            <span class="codeInline">$FC-&gt;setChartParams($strParam);</span><br />
+            <br />
+        </li>
+        <li>Now, we add X Axis  categories using <span class="codeInline">addCategory</span>() function. The first parameter takes label and the second parameter takes x axis value and option to show a vertical line along with this category.<br />
+          <br />
+          <span class="codeInline">$FC-&gt;addCategory(&quot;10&quot;,&quot;x=10;showVerticalLine=1&quot;);<br />
+          $FC-&gt;addCategory(&quot;20&quot;,&quot;x=20;showVerticalLine=1&quot;);<br />
+          $FC-&gt;addCategory(&quot;30&quot;,&quot;x=30;showVerticalLine=1&quot;);<br />
+          $FC-&gt;addCategory(&quot;40&quot;,&quot;x=40;showVerticalLine=1&quot;);<br />
+          $FC-&gt;addCategory(&quot;50&quot;,&quot;x=50&quot;);<br />
+          </span><br />
+          <br />
+        </li>
+        <li><span class="text"></span><span class="text">Thereafter, we add a dataset and  provide chart data with addChartData() function. Please note that for Scatter chart the first parameter would take x value and the second parameter takes y value of a dataplot  as an attribute. We also can pass other dataplot attributes in the second parameter. The attributes must be delimiter separated.<br />
+          </span><br />
+            <span class="codeInline">$FC-&gt;addDataSet(&quot;Server 1&quot;,&quot;anchorRadius=6&quot;);<br />
+            $FC-&gt;addChartData(&quot;21&quot;,&quot;y=2.4&quot;);<br />
+            $FC-&gt;addChartData(&quot;32&quot;,&quot;y=3.5&quot;);<br />
+            $FC-&gt;addChartData(&quot;43&quot;,&quot;y=2.5&quot;);<br />
+          $FC-&gt;addChartData(&quot;48&quot;,&quot;y=4.1&quot;);<br />
+          <br />
+          </span></li>
+        <li><span class="text">Now, we create another dataset and provide  chart data with <span class="codeInline">addChartData()</span> function.<br />
+          </span><br />
+          <span class="codeInline">$FC-&gt;addDataSet(&quot;Server 2&quot;,&quot;anchorRadius=6&quot;);<br />
+          $FC-&gt;addChartData(&quot;23&quot;,&quot;y=1.4&quot;);<br />
+          $FC-&gt;addChartData(&quot;29&quot;,&quot;y=1.5&quot;);<br />
+          $FC-&gt;addChartData(&quot;33&quot;,&quot;y=1.5&quot;);<br />
+          $FC-&gt;addChartData(&quot;41&quot;,&quot;y=1.1&quot;);</span><br />
+          <br />
+          <br />
+        </li>
+        <li>Finally, we include <span class="codeInline">FusionCharts.js</span> - FusionCharts JavaScript Embedding Class and <br />
+            <br />
+        </li>
+        <li>Display       the chart using <span class="codeInline">renderChart()</span> function.<br />
+            <span class="codeInline"><br />
+        $FC-&gt;renderChart();</span></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the Scatter chart that our FusionCharts PHP Class renders: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassScatter.jpg" width="299" height="251" class="imageBorder" /></td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><span class="pageHeader"><strong>Creating the  BubbleChar</strong>t</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>Now, let's create yet  another chart called Bubble chart that will  visually display the Revenue earned in two consecutive months (Previous Month and Current Month) for the No. of products. It will also depict Market share of the related No. of products.<br />
+The sample data that we intend to plot can be tabularized as  under:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table cellspacing="0" cellpadding="5" class="text"width="624" style="border:1px solid #cccccc;">
+        <tr style="border-bottom:1px solid #cccccc;">
+          <td height="24" colspan="3" align="center" class="textBold borderBottom"><span class="">Previous Month </span></td>
+          <td colspan="3" align="center" class="textBold borderBottom"><span class="">Current Nonth </span></td>
+        </tr>
+        <tr>
+          <td width="16%" height="24" align="right"class="borderBottom"><span class="textBold">No. of Products</span></td>
+          <td width="10%" align="right"class="borderBottom"><span class="textBold">Revenue</span></td>
+          <td width="15%" align="right"class="borderBottom"><strong>Market Share </strong></td>
+          <td width="17%" align="right"class="borderBottom"><span class="textBold">No. of Products</span></td>
+          <td width="10%" align="right"class="borderBottom"><span class="textBold">Revenue</span></td>
+          <td width="14%" align="right"class="borderBottom"><strong>Market Share </strong></td>
+        </tr>
+        <tr>
+          <td height="24" align="right"class="borderBottom">20</td>
+          <td align="right"class="borderBottom">72000</td>
+          <td align="right"class="borderBottom">8</td>
+          <td align="right"class="borderBottom">18</td>
+          <td align="right"class="borderBottom">22000</td>
+          <td align="right"class="borderBottom">3</td>
+        </tr>
+        <tr>
+          <td height="24" align="right" class="borderBottom">43</td>
+          <td align="right" class="borderBottom">42000</td>
+          <td align="right" class="borderBottom">5</td>
+          <td align="right" class="borderBottom">35</td>
+          <td align="right" class="borderBottom">62000</td>
+          <td align="right" class="borderBottom">5</td>
+        </tr>
+        <tr>
+          <td height="24" align="right" class="borderBottom">70</td>
+          <td align="right" class="borderBottom">90000</td>
+          <td align="right" class="borderBottom">2</td>
+          <td align="right" class="borderBottom">50</td>
+          <td align="right" class="borderBottom">55000</td>
+          <td align="right" class="borderBottom">10</td>
+        </tr>
+        <tr>
+          <td height="24" align="right">90</td>
+          <td align="right">75000</td>
+          <td align="right">4</td>
+          <td align="right">70</td>
+          <td align="right">25000</td>
+          <td align="right">3</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts PHP Class to plot this data into a Bubble chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp; # Include FusionCharts PHP Class</span><br />
+        <span class="codeComment">&nbsp;&nbsp; </span>include(&quot;../Class/FusionCharts_Gen.php&quot;);</p>
+        <p> <span class="codeComment">&nbsp;&nbsp; # Create Bubble chart Object </span><br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC = new FusionCharts(&quot;bubble&quot;,&quot;450&quot;,&quot;350&quot;);<br />
+  <br />
+          <span class="codeComment">&nbsp;&nbsp; # set the relative path of the swf file</span><br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;setSwfPath(&quot;../FusionCharts/&quot;);</p>
+        <p> <span class="codeComment">&nbsp;&nbsp; # Define chart attributes</span><br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$strParam=&quot;caption=Monthly Sales;xAxisName=Number of Products;yAxisName=Revenue;numberPrefix=$;decimalPrecision=0;formatNumberScale=1&quot;;<br />
+  <br />
+          <span class="codeComment">&nbsp;&nbsp; # Set chart attributes</span><br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;setChartParams($strParam);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span><br />
+          <span class="codeComment">&nbsp;&nbsp; # Add Category, 1st parameter take label and 2nd parameter takes x axis value &nbsp;&nbsp; <br />
+          &nbsp;&nbsp; # as parameter list </span><span class="codeComment">&nbsp;&nbsp; </span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;0&quot;,&quot;x=0;showVerticalLine=1&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;20&quot;,&quot;x=20;showVerticalLine=1&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;40&quot;,&quot;x=40;showVerticalLine=1&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;60&quot;,&quot;x=60;showVerticalLine=1&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;80&quot;,&quot;x=80;showVerticalLine=1&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addCategory(&quot;100&quot;,&quot;x=100;showVerticalLine=1&quot;);<br />
+          </span><br />
+  <br />
+          <span class="codeComment">&nbsp;&nbsp; # Add a new dataset</span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addDataSet(&quot;Previous Month&quot;);</span><br />
+          <span class="codeComment">&nbsp;&nbsp; # Add chart data for the above dataset<br />
+          &nbsp;&nbsp; # where 1st parameter for X axis value<br />
+          &nbsp;&nbsp; # 2nd parameter take Y and Z axis as parameter list<br />
+          &nbsp;&nbsp; # e.g y=12200;z=10</span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;20&quot;,&quot;y=72000;z=8&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;43&quot;,&quot;y=42000;z=5&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;70&quot;,&quot;y=90000;z=2&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;90&quot;,&quot;y=75000;z=4&quot;);</span><br />
+  <br />
+          <span class="codeComment">&nbsp;&nbsp; # Add another dataset</span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addDataSet(&quot;Current Month&quot;);</span><br />
+          <span class="codeComment">&nbsp;&nbsp; # Add chart data for the above dataset<br />
+          &nbsp;&nbsp; # where 1st parameter for X axis value<br />
+          &nbsp;&nbsp; # 2nd parameter take Y and Z axis as parameter list<br />
+          &nbsp;&nbsp; # e.g y=12200;z=10</span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;18&quot;,&quot;y=22000;z=3&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;35&quot;,&quot;y=62000;z=5&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;50&quot;,&quot;y=55000;z=10&quot;);<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;addChartData(&quot;70&quot;,&quot;y=25000;z=3&quot;);</span></p>
+        <p>?&gt;<br />
+          &lt;html&gt;<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>&lt;head&gt;<br />
+          <span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>&lt;title&gt;Bubble Chart : Using FusionCharts PHP Class&lt;/title&gt;<br />
+          <span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>&lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>&lt;/head&gt;<br />
+          <span class="codeComment">&nbsp;&nbsp; </span>&lt;body&gt;</p>
+        <p> <span class="codeComment">&nbsp;&nbsp; </span>&lt;?php<br />
+          <span class="codeComment">&nbsp;&nbsp; &nbsp;&nbsp; # Render Chart </span><br />
+          <span class="codeInline"><span class="codeComment">&nbsp;&nbsp; </span><span class="codeComment">&nbsp;&nbsp; </span>$FC-&gt;renderChart();</span><br />
+          <span class="codeComment">&nbsp;&nbsp; </span>?&gt;</p>
+        <p> <span class="codeComment">&nbsp;&nbsp; </span>&lt;/body&gt;<br />
+          &lt;/html&gt;</p>
+        </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+        <ul type="disc">
+          <li><span class="text">We include </span><span class="codeInline">FusionCharts_Gen.php.</span><span class="text"><br />
+          </span><br />
+              <span class="codeInline">include('../Class/FusionCharts_Gen.php');</span><br />
+              <br />
+          </li>
+          <li>Then, we create       a Bubble chart object and set relative path to the chart SWF file. <br />
+              <br />
+              <span class="codeInline">$FC = new FusionCharts(&quot;bubble&quot;,&quot;450&quot;,&quot;350&quot;);</span><br />
+              <br />
+              <span class="codeInline">$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</span><br />
+              <br />
+          </li>
+          <li>We store       all desired chart attributes in the <span class="codeInline">$strParam</span> variable and set       chart attributes using <span class="codeInline">setChartParams()</span> function.<br />
+              <br />
+              <span class="codeInline">$FC-&gt;setChartParams($strParam);<br />
+              <br />
+          </span></li>
+          <li>Now, we add X Axis  categories using <span class="codeInline">addCategory()</span> function. The first parameter takes label and the second parameter takes x axis value and option to show a vertical line along with this category.<br />
+            <span class="codeInline"><br />
+            </span><span class="codeInline">$FC-&gt;addCategory(&quot;0&quot;,&quot;x=0;showVerticalLine=1&quot;,&quot;&quot;);<br />
+$FC-&gt;addCategory(&quot;20&quot;,&quot;x=20;showVerticalLine=1&quot;,&quot;&quot;);<br />
+$FC-&gt;addCategory(&quot;40&quot;,&quot;x=40;showVerticalLine=1&quot;,&quot;&quot;);<br />
+$FC-&gt;addCategory(&quot;60&quot;,&quot;x=60;showVerticalLine=1&quot;,&quot;&quot;);<br />
+$FC-&gt;addCategory(&quot;80&quot;,&quot;x=80;showVerticalLine=1&quot;,&quot;&quot;);<br />
+$FC-&gt;addCategory(&quot;100&quot;,&quot;x=100;showVerticalLine=1&quot;,&quot;&quot;);</span><br />
+<br />
+          </li>
+          <li><span class="text">Thereafter, we add a dataset and provide chart data with <span class="codeInline">addChartData()</span> function. Please note that for Bubble chart the first parameter would take x value and the second parameter takes y and z values of a dataplot as attribute list separated by delimiter. We also can pass other dataplot attributes in the second parameter. The attributes must be delimiter separated.<br />
+          </span><br />
+              <span class="codeInline">$FC-&gt;addDataSet(&quot;Previous Month&quot;);<br />
+              $FC-&gt;addChartData(&quot;20&quot;,&quot;y=72000;z=8&quot;);<br />
+              $FC-&gt;addChartData(&quot;43&quot;,&quot;y=42000;z=5&quot;);<br />
+              $FC-&gt;addChartData(&quot;70&quot;,&quot;y=90000;z=2&quot;);<br />
+          $FC-&gt;addChartData(&quot;90&quot;,&quot;y=75000;z=4&quot;);<br />
+            <br />
+            </span></li>
+          <li>Now, we add another dataset and use <span class="codeInline">addChartData()</span> function to add data to the dataset.<br />
+            <br />
+            <span class="codeInline">$FC-&gt;addDataSet(&quot;Current Month&quot;);<br />
+            $FC-  &gt;addChartData(&quot;18&quot;,&quot;y=22000;z=3&quot;);<br />
+            $FC-&gt;addChartData(&quot;35&quot;,&quot;y=62000;z=5&quot;);<br />
+            $FC-&gt;addChartData(&quot;50&quot;,&quot;y=55000;z=10&quot;);<br />
+            $FC-&gt;addChartData(&quot;70&quot;,&quot;y=25000;z=3&quot;);<br />
+            </span><br />
+            <br />
+          </li>
+          <li><span class="text">Finally, we include </span><span class="codeInline">FusionCharts.js</span><span class="text"> - FusionCharts JavaScript Embedding Class and <br />
+          </span><br />
+          </li>
+          <li><span class="text">Display       the chart using renderChart() function.<br />
+          </span><br />
+              <span class="codeInline">$FC-&gt;renderChart();</span></li>
+        </ul>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the Bubble chart that our FusionCharts PHP Class renders: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassBubble.jpg" width="451" height="351" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Loading external logo </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can load external logos at run-time to be displayed over the chart. The logos can be GIF/JPEG/PNG or SWF files that reside on the same sub-domain as the chart SWF. To load a logo, you use <span class="codeInline">logoURL</span> attribute of <span class="codeInline">chart</span> element as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' exportEnabled='1' exportShowMenuItem='0' <strong>logoURL='logo_igpl.gif'</strong>&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Logo1.jpg" width="476" height="297" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring logo position </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The logo can be configured using logoPosition='TL' .. attribute to be shown in the following positions:</p>
+      <ul>
+        <li>TL - Top-left of the chart</li>
+        <li>TR - Top-right of the chart</li>
+        <li>BL - Bottom-left of the chart</li>
+        <li>BR - Bottom-right of the chart</li>
+        <li>CC - Center of the chart      </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Configuring logo opacity and scale </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Once the logo has loaded, its opacity and scale can be configured as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart yAxisName='Sales Figure' caption='Top 5 Sales Person' numberPrefix='$' useRoundEdges='1' bgColor='FFFFFF,FFFFFF' showBorder='0' exportEnabled='1' exportShowMenuItem='0' logoURL='logo_fc.gif' <strong>logoPosition='CC' logoAlpha='30' logoScale='150'</strong>&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Alex' value='25000'  /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Mark' value='35000' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='David' value='42300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='Graham' value='35300' /&gt; <br />
+  &nbsp;&nbsp;&nbsp;&lt;set label='John' value='31300' /&gt;<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This results in: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Logo2.jpg" width="437" height="278" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Linking the logo to external URLs </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can even link the logo to an external URL by setting <span class="codeInline">&lt;chart ... logoLink='link in FusionCharts format'&gt;</span>.</p>
+    <p>This link can open in same window, new window, pop-up windows, frames or even invoke JavaScript methods. </p></td>
+  </tr>
+</table>
+</body>
+</html>

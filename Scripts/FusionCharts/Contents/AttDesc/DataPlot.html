@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Data Plot </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Plot refers to the column, lines etc. in a column, line chart respectively. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Specifying custom colors for individual data plots </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In all the charts, you can specify custom color for each data plot. This is done using the <span class="codeInline">color</span> attribute of <span class="codeInline">&lt;set /&gt;</span> element as under. The color has to be in hex code format (RRGGBB) without #. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart ....&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' color='FF0000'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' color='00FF00'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' color='0000FF'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_plot_color.jpg" width="286" height="165" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Removing the gradient color </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">By default, most charts in FusionCharts suite have FFFFFF as the plot gradient color. In case you wish to use solid fills for the column (or area), you have to use the <span class="codeInline">plotGradientColor</span> attribute without any color defined for it, i.e. <span class="codeInline">plotGradientColor</span>=''</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart <span class="codeInline">plotGradientColor</span>='' ....&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' color='FF0000'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' color='00FF00'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' color='0000FF'/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/data_plot_gradient_no.jpg" width="284" height="166" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Applying common gradient </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using the <span class="codeInline">plotGradientColor</span> attribute, you can globally add a gradient color to the entire plot (column, area) of   chart by specifying a color as its attribute. For example, if you want to set #333333 as the common gradient color for all the columns in a 2D column chart, your data would be as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart <strong>plotGradientColor='333333'</strong> ....&gt; <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/col2d_plotgradient3.jpg" width="180" height="112" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Controlling gradient properties </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The plot gradient properties can be controlled using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> plotFillAngle </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-360 </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've opted to fill the plot (column, area etc.) as gradient, this attribute lets you set the fill angle for gradient. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="text"> plotFillRatio </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've opted to fill the plot (column, area etc.) as gradient, this attribute lets you set the ratio for gradient. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="text"> plotFillAlpha </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> If you've opted to fill the plot (column, area etc.) as gradient, this attribute lets you set the fill alpha for gradient. </span> </td>
+      </tr>
+      
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart plotGradientColor='333333' <strong>plotFillRatio='80,20' plotFillAlpha='95,100' plotFillAngle='45'</strong>&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Note that we have specified 2 values for <span class="codeInline">plotFillRatio</span> and <span class="codeInline">plotFillAlpha. </span>This is because one of the values specified is taken by the color specified for the column (or taken by default from the color palette) and the other one by the common gradient color specified using <span class="codeInline">plotGradientColor</span> attribute. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Plot border</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">By default, each data plot (column, area, pie etc) shows a border around it. You can hide the same using <span class="codeInline">showPlotBorder='0'</span>.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/plotborder1.jpg" width="180" height="112" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart <strong>showPlotBorder='0'</strong> ....&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='720000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;....<br />
+      &lt;/chart&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Dashed Plot border </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can make the plot border dashed using <span class="codeInline">plotBorderDashed='1'</span>. The dash length &amp; gap can be customized using the <span class="codeInline">plotBorderDashLen</span> and <span class="codeInline">plotBorderDashGap</span> attributes respectively. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart plotBorderDashed='1' <span class="codeInline">plotBorderDashLen</span>='2' <span class="codeInline">plotBorderDashGap='2' ...&gt; </span> </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above XML would yield the following chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/plotborder2.jpg" width="180" height="112" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using rounded border and glass fill effect for 2D Columns / 2D Bars </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In charts that support 2D Columns or Bars (like column charts, bar charts, 2D combination charts etc.), you can opt to plot columns/bars with rounded edges and glass effect gradients. To do so, you need to add <span class="codeInline">useRoundEdges='1'</span> attribute to <span class="codeInline">&lt;chart&gt;</span> element as under: </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0' <span class="codeInline"><strong>useRoundEdges='1'</strong></span>&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='800000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May' value='810000' /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='510000' /&gt;<br />
+    &lt;/chart&gt;</span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This will yield the following results: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header"><img src="Images/Col_RoundEdge.jpg" width="506" height="306" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above image, the columns have been rounded and filled with a glass effect gradient. Apart from that, the canvas has also been modified to render the top part as rounded shape. </p>
+    <p>However, in this mode, the following features wouldn't work:</p>
+    <ul>
+      <li>When you plot the columns with rounded edges, shadow is applied to them by default and <span class="codeInline">showShadow</span> attribute doesn't work any more. If you want to remove shadow from this mode, you'll have to over-ride the shadow with a new shadow style (applied to DATAPLOT) with alpha as 0.</li>
+      <li>Plot fill properties like gradient color, angle etc. wouldn't work any more, as the colors for gradient are now calculated by the chart itself.</li>
+      <li>Plot border properties also do not work in this mode. Also, you cannot render the border as dash in this mode.    </li>
+    </ul></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Using Styles to provide effects to data plot </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Using Styles, you can apply effects like shadow, glow, bevel and blur to the data plot. In the XML given below, we have given a bevel and shadow effect to the columns in a column chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/plot1.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML going into the same is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='800000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May' value='810000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='510000' /&gt;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myBevel' type='bevel' distance='3'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myShadow' type='shadow' angle='45' distance='3'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DATAPLOT' styles='myBevel, myShadow' /&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Applying animation using STYLES </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can customize animation of the data plot using STYLES. Given below is an XML which renders fade-in effect for columns, lines etc. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='420000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='910000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='800000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='550000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='May' value='810000' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='510000' /&gt;<br />
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myAnim' type='animation' param='_alpha' start='0' duration='2'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DATAPLOT' styles='myAnim' /&gt; <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+</table>
+</body>
+</html>

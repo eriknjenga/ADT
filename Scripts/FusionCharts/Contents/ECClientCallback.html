@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Client-side export &gt; Setting JavaScript callback </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When using FusionCharts Export component, you can configure the component to invoke a callback JavaScript method, when the chart has been saved by user. This is useful for tracking whether the exported charts have been saved by your user. </p>
+    <p>By default, the invoked function name is <span class="codeInline">FC_Exported(objRtn)</span>. You can, however, call a different function as well by specifying the following in your chart XML: </p>
+    <p class="codeInline">&lt;chart .. exportCallback='myCallBackFunction' ...&gt;</p>
+    <p>And you then need to define this function in your JavaScript code.  However, if you do not define any call back function in your XML, the  default callback function <span class="codeInline">FC_Exported</span> is invoked. In either case, an object is passed to the function as <span class="codeInline">FC_Exported(objRtn)</span> or <span class="codeInline">myCallBackFunction(objRtn)</span>, which contains the following parameters (returned from Export Component):</p>
+    <ul>
+      <li><span class="codeInline">statusCode</span> - Has the value of 1 in case of success, and 0 in case of failure.</li>
+      <li><span class="codeInline">statusMessage</span> - In case of  failure, this parameter contains a string description of the error (returned by server)</li>
+      <li><span class="codeInline">fileName</span> - If saving was successful, this parameter contains the HTTP reference to the image/PDF file saved on server</li>
+      <li><span class="codeInline">width</span> &amp; <span class="codeInline">height</span> - If saving was successful, these parameters contain the width/height of saved image. Else, they contain 0. </li>
+      <li><span class="codeInline">DOMId</span> - DOMId of the chart that was successfully exported. </li>
+    </ul>
+    <p>Let's  quickly see an example code where a callback function has been  implemented. In this example, once the user has saved the exported chart on his disk (after clicking the Save button for the same), we just show it in a JavaScript alert. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+      &lt;head&gt;<br />
+      &lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;script language=&quot;JavaScript&quot; src=&quot;../../FusionCharts/FusionChartsExportComponent.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+  <span class="codeComment">&nbsp;&nbsp;//Default callback function that gets invoked when user has finished saving the exported output to his disk</span> <br />
+&nbsp;&nbsp;<strong>function FC_Exported(objRtn){<br />
+&nbsp;&nbsp;&nbsp;if (objRtn.statusCode==&quot;1&quot;){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart was successfully saved. Its DOM Id is &quot; + objRtn.DOMId);<br />
+&nbsp;&nbsp;&nbsp;} else{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;There was an error saving the chart. Error message: &quot; + objRtn.statusMessage + &quot;. Its DOM Id is &quot; + objRtn.DOMId);<br />
+&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;} </strong><br />
+&lt;/script&gt;<br />
+&lt;/head&gt;</p>
+      <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+        var myChart = new FusionCharts(&quot;../../FusionCharts/Column2D.swf&quot;, &quot;myChartId&quot;, &quot;500&quot;, &quot;300&quot;, &quot;0&quot;, &quot;1&quot;);<br />
+        myChart.setDataURL(&quot;Callback.xml&quot;);<br />
+        myChart.render(&quot;chartdiv&quot;);<br />
+  &lt;/script&gt;</p>
+      <p>&lt;div id=&quot;fcexpDiv&quot; align=&quot;center&quot;&gt;FusionCharts Export Handler Component&lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+      var myExportComponent = new FusionChartsExportObject(&quot;fcExporter1&quot;, &quot;../../FusionCharts/FCExporter.swf&quot;);<br />
+        myExportComponent.Render(&quot;fcexpDiv&quot;);<br />
+  &lt;/script&gt;</p>
+      <p>&lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">FC_ExportReady event </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>At times, you might want  to track the event when the chart has finished its capture phase and has passed the data to export component, but user has not saved the image/PDF on his disk. Between initiation of chart export and till the time <span class="codeInline">FC_ExportReady</span> event is raised, you might show a waiting message/alert to the user that the chart is in processing stage. </p>
+    <p>The syntax of event is <span class="codeInline">FC_ExportReady(DOMId)</span>. You can use <span class="codeInline">DOMId</span> (string) as the identifier for each chart to check which chart has finished processing. </p>
+    <p>The following code explains its usage: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;script type=&quot;text/javascript&quot;&gt;<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp;//This event is raised when the chart has finished capture phase and passed the data to <br />
+&nbsp;&nbsp;&nbsp;//Export Component for further processing<br />
+      </span>&nbsp;&nbsp;&nbsp;function FC_ExportReady(DOMId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;The chart with DOM ID as &quot; + DOMId + &quot; has finished capture mode. It's now ready to be downloaded&quot;);<br />
+&nbsp;&nbsp;&nbsp;} <br />
+&lt;/script&gt;</td>
+  </tr>
+</table>
+</body>
+</html>

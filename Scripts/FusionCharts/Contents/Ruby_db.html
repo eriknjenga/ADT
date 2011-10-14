@@ -1,0 +1,106 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td><h2 class="pageHeader">Using FusionCharts with RoR &gt; Plotting data from a database </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts and Ruby to plot charts from data contained in a database. We'll create a pie chart to show &quot;Factory Output Quantity  by Factory&quot; using <span class="codeInline">dataXML</span> method.</p>
+      <p>For the sake of ease, we'll use the MySQL Database. You can, however, use any database with FusionCharts including SQLLite, MS SQL, Oracle, Access etc.  Database configuration will be available here <span class="codeInline">Download Package >> RoR >> config >> database.yml</span>. In the production version, we have used database named as factorydb. </p>
+      <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p>  
+    <p class="highlightBlock">All code discussed here is present in <br>
+        <span class="codeInline">Controller : Download Package > Code > RoR > SampleApp &gt; app > controllers > fusioncharts &gt; db_example_controller.rb</span>. <br>
+        <span class="codeInline">Rhtml : Download Package > Code > RoR > SampleApp &gt; app > views > fusioncharts &gt; db_example</span> folder. </p>    
+    <p><span class="header">Database Structure </span></p>    <p>Let's quickly have a look at the database structure. </p>    <p><img src="Images/Code_RubyDB.jpg" width="368" height="160" class="imageBorder" /></p>    <p>The database contains just 2 tables:</p>    <ol>
+        <li><span class="codeInline">factory_masters</span>: To store the name and id of each factory</li>
+        <li><span class="codeInline">factory_output_quantities</span>: To store the number of units produced by each factory for a given date.</li>
+    </ol>    <p>Note that the name of the table is pluralized, as per Ruby conventions. For demonstration, we've fed some sample data in the database. </p>    <p class="header">Database Configuration </p>    <ol>
+        <li>All the database configuration is present in the file app &gt; config &gt; database.yml. Here we need to specify the database name, user name and password to access the database. We have used the MySQL database for our examples. We assume that you have created the database with the name factorydb, either by using the rake db:create utility or by using MySQL create database command. </li>
+        <li>Once this is done, we need to create the required tables. The required sql script &quot;create_tables.sql&quot; is present in the <span class="codeInline">Download Package > Code > RoR >db </span>folder. You could run this script in your mysql and create the tables and insert the sample data. The other way of creating these tables, is to run rake db:migrate for the migration scripts &quot;001_create_factory_masters.rb&quot; and &quot;002_create_factory_output_quantities.rb&quot; present in the folder <span class="codeInline">Download Package > Code > RoR >db &gt; migrate. </span>Note that these scripts will not create foreign key relationships. You would have to manually alter the table to create these relationships, if you think neccessary. To insert the sample data please run the sql script <span class="codeInline">&quot;</span>insert_sample_data.sql<span class="codeInline">&quot; </span>present in the<span class="codeInline"> Download Package > Code > RoR >db</span> folder. </li>
+    </ol>    <p>Let's now shift our attention to the code that will interact with the database, fetch data and then render a chart. </p>    <p class="header">Database Example Using dataXML method</p>    
+    <p class="codeBlock">        <b>Controller: Fusioncharts::DbExampleController<br>
+  Action: basic_dbexample<br>
+        </b>
+      
+    class Fusioncharts::DbExampleController &lt; ApplicationController<br>
+    <span class="codeComment">#This is the layout which all functions in this controller make use of.</span><br>
+    layout &quot;common&quot;<br>
+    <br>
+    <span class="codeComment">#This action retrieves the Factory data <br>
+#which holds factory name and corresponding total output quantity.<br>
+#The view for this action basic_dbexample will use these values to construct the<br>
+#xml for this chart. To build the xml, the view takes help of the builder file (basic_factories_quantity.builder)</span><br>
+def basic_dbexample<br>
+&nbsp;&nbsp;&nbsp; response.content_type = Mime::HTML<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#Get data from factory masters table</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@factories = Fusioncharts::FactoryMaster.find(:all)<br>
+    end<br>
+    <font color="blue"><br>
+    </font> <b>View:</b><br>
+&lt;% @page_title=&quot;FusionCharts - Database Example&quot; %&gt;<br>
+&lt;% @page_heading=&quot;FusionCharts Database Example Using dataXML method&quot; %&gt;<br>
+&lt;% @page_subheading=&quot;Click on any pie slice to slice it out. Or, right click to enable rotation mode.&quot; %&gt;<br>
+&lt;%<br>
+<span class="codeComment">#In this example, we show how to connect FusionCharts to a database.<br>
+#For the sake of ease, we've used a database which contains two tables, which are linked to each<br>
+#other.<br> 
+# The xml is obtained as a string from builder template.</span><br>
+    str_xml = render :file=&gt;&quot;fusioncharts/db_example/basic_factories_quantity&quot;,:locals=&gt;{:factories =&gt; @factories}<br>
+    <span class="codeComment">#Create the chart - Pie 3D Chart with data from strXML</span><br>
+    render_chart '/FusionCharts/Pie3D.swf', '', str_xml, 'FactorySum', 600, 300, false, false do-%&gt; <br>
+&lt;% end-%&gt; </p>    
+    <p class="text">Now, here we need to understand some lines of code. </p>    <ol>
+    <li>The <span class="codeInline">basic_dbexample</span><span class="text"> action of the controller, first preforms a find on </span><span class="codeInline">FactoryMaster</span><span class="text"> model, getting all the values. </span></li>
+    <li>For each factory in the record set obtained in the previous step, we need the total output quantity for that factory. This is done in the FactoryMaster Model. Note that <span class="codeInline">FactoryMaster</span> and <span class="codeInline">FactoryOutputQuantity</span> are related to each other as shown:<br>
+      <br>
+      <p class="codeBlock"><span class="codeComment">#Model class to store data of factory id and name<br>
+      #As per Ruby On Rails conventions, we have the corresponding table <br>
+      #factory_masters in the database</span><br>
+      class <strong>Fusioncharts::FactoryMaster</strong> &lt; ActiveRecord::Base<br>
+&nbsp;&nbsp;&nbsp;&nbsp;has_many :factory_output_quantities,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:order =&gt; 'date_pro asc'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">#Calculates the total output quantity by summing the quantity from factory_output_quantities </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;def total_quantity<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.factory_output_quantities.sum(:quantity)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+  end<br>
+  <br>
+  <span class="codeComment">#Model class to store output data of factories<br>
+  #As per Ruby On Rails conventions, we have the corresponding table <br>
+  #factory_output_quantities in the database</span><br>
+  class <strong>Fusioncharts::FactoryOutputQuantity</strong> &lt; ActiveRecord::Base<br>
+&nbsp;&nbsp;&nbsp;&nbsp;belongs_to :factory_master<br>
+  end</p>
+  <p> Based on this relation, Ruby On Rails is able to get the data for <span class="codeInline">FactoryOutputQuantity</span> when a find is performed on FactoryMaster.</p>
+  </li>
+    <li>The view <span class="codeInline">basic_dbexample.html.erb</span> passes the <span class="codeInline">@factories</span> present in the controller to the builder file &quot;<span class="text"><strong>basic_factories_quantity</strong></span>&quot;, as locals parameter. The xml obtained from the builder is assigned to <span class="codeInline">str_xml</span> variable.</li>
+    <li>Finally, <span class="codeInline">render_chart</span> function is called by setting the <span class="codeInline">str_xml</span> as xml parameter.</li>
+    </ol>    
+    <p>Let us now take a look at the builder file.</p>    <p class="codeBlock"><strong>Builder - basic_factories_quantity.builder</strong><span class="codeComment"><br>
+    #Creates xml with values for Factory Output<br>
+    #along with their names.<br>
+    #It uses the factories parameter from locals hash.<br>
+    #This data is used for building xml for chart with factory name and total output.<br>
+    </span>xml = Builder::XmlMarkup.new<br>
+    xml.chart(:caption=&gt;'Factory Output report', :subCaption=&gt;'By Quantity', :pieSliceDepth=&gt;'30', :showBorder=&gt;'1', :formatNumberScale=&gt;'0', :numberSuffix=&gt;'Units') do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;factories.each do |factory|<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xml.set(:label=&gt;factory.name,:value=&gt;factory.total_quantity)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+end<br>
+    </p>    
+    <p>The builder builds chart element with several attributes, then iterates through the factories (received via :locals from the view) to create the &lt;set&gt; element with value for <span class="codeInline">label</span>  as factory name and value for <span class="codeInline">value</span> attribute as total factory output. </p>
+    <p><br>
+        When you now run the code, you'll see a beautiful pie chart as under:<br> 
+        <img src="Images/Code_DBOut.jpg" width="572" height="273" class="imageBorder" /></p></td>
+</tr>
+ 
+</table>
+</body>
+</html>

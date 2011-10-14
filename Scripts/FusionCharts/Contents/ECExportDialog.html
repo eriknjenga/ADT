@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting charts as PDF/Images &gt; Configuring export dialog cosmetics </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>When the chart is in capture phase, it shows the export dialog as shown below: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_Progress.jpg" width="565" height="284" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>The cosmetics of this dialog can be customized using the following attributes: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="95%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr>
+        <td width="25%" class="textBold">Attribute Name </td>
+        <td width="15%" class="textBold">Type</td>
+        <td class="textBold">Description</td>
+      </tr>
+      <tr>
+        <td width="25%" class="codeInline">showExportDialog</td>
+        <td width="15%" class="text">Boolean (0/1) </td>
+        <td class="text">Whether to show the export dialog during capture phase. If not, the chart starts capturing process without the dialog visible. </td>
+      </tr>
+      <tr>
+        <td width="25%" class="codeInline">exportDialogMessage</td>
+        <td width="15%" class="text">String</td>
+        <td class="text">The message to be shown in the dialog box. The default is &quot;Capturing Data : &quot; </td>
+      </tr>
+      <tr>
+        <td width="25%" class="codeInline">exportDialogColor</td>
+        <td width="15%" class="text">Hex Color </td>
+        <td class="text">Background color of dialog box. </td>
+      </tr>
+      <tr>
+        <td width="25%" class="codeInline">exportDialogBorderColor</td>
+        <td width="15%" class="text">Hex Color </td>
+        <td class="text">Border color of dialog box. </td>
+      </tr>
+      <tr>
+        <td width="25%" class="codeInline">exportDialogFontColor</td>
+        <td width="15%" class="text">Hex Color </td>
+        <td class="text">Font color to be used for text in dialog. </td>
+      </tr>
+      <tr>
+        <td class="codeInline">exportDialogPBColor</td>
+        <td class="text">Hex Color </td>
+        <td class="text">Color of progress bar in dialog. </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">An example </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Shown below is a customized dialog box: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ECServerDialog.jpg" width="400" height="300" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It has the following parameters in XML: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline">&lt;chart ... 
+      exportDialogColor='e1f5ff' exportDialogBorderColor='0372ab' exportDialogFontColor='0372ab' exportDialogPBColor='0372ab' ...&gt; </td>
+  </tr>
+</table>
+</body>
+</html>

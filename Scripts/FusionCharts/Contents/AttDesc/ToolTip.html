@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Tool Tip </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>A  tool-tip is shown when the mouse is hovered over a particular   data point. It shows the following information:</p>
+      <ul>
+        <li>Single series chart (except pie &amp; doughnut): Name &amp; value </li>
+        <li>Pie &amp; Doughnut: Name &amp; value/percentage </li>
+        <li>Multi-series &amp; combination chart: Series Name, Category Name, Data Value</li>
+      </ul>    </td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="Images/tooltip1.jpg" width="120" height="110" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can opt not to show the tool tip using <span class="codeInline">showToolTip='0' </span>attribute.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart showToolTip='0'...&gt; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To show the tool-tip without shadow, you may set: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart showToolTipShadow='0' ...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Custom Tool Text </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="text">You can set a cutom tool tip for any of the data points using <span class="codeInline">tooltext</span> attribute of the <span class="codeInline">&lt;set&gt;</span> element which is used to define the individual data elements. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart caption='Monthly Revenue' xAxisName='Month' yAxisName='Revenue' numberPrefix='$' showValues='0'&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='220000' <strong>toolText='Highest'</strong>/&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='90000' /&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;...<br />
+  &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The above would yield the following result:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/tooltip7.jpg" width="120" height="110" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><span class="header">Customizing the tool tip </span></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p class="text">You can customize the background &amp; border color of the tool tip using the <span class="codeInline">toolTipBorderColor</span> and <span class="codeInline">toolTipBgColor</span> attributes respetively. The colors should be without the '#' symbol. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart ... <strong>toolTipBorderColor='D9E5F1' toolTipBgColor='D9E5F1'</strong>&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This would yield the following result:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/tooltip2.jpg" width="120" height="110" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Styles to specify font properties for tool tip </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Using STYLES, you can set individual font properties for different text on the chart. </p>
+      <p>Here, we will customize the font properties of the tool tip using STYLES to have the following end result:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/tooltip4.jpg" width="400" height="200" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The XML for this chart is as under. To read more on Styles, please see &quot;<span class="codeInline">For Web Developers &gt; FusionCharts and STYLES</span>&quot; section. </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Quarterly Sales Summary' subcaption='Figures in $' xAxisName='Quarter' yAxisName='Sales' showValues='0' &gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 1' value='420500' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 2' value='295400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 3' value='523400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Qtr 4' value='465400' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<strong>&lt;styles&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myToolTipFont' type='font' font='Arial' size='12' color='FF5904'/&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='ToolTip' styles='myToolTipFont' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/styles&gt;</strong><br />
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Tool Tip in multiple lines </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts v3 allows you to put your tool tips in multiple lines with a little manual tweaking. Consider the XML below: </p></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420' tooltext='John Miller<strong>{br}</strong>Score: 420<strong>{br}</strong>Rank:2'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295' tooltext='Mary Evans<strong>{br}</strong>Score: 295<strong>{br}</strong>Rank:3'/&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523' tooltext='Tom Bowler<strong>{br}</strong>Score: 523<strong>{br}</strong>Rank:1'/&gt;<br />
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above XML, to add a line break in the tool-tip, we've used the pseudo code {br}.</p>
+        <p>When you now see the chart, you'll get the following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ToolTipMultiple.jpg" width="405" height="207" /></td>
+  </tr>
+</table>
+</body>
+</html>

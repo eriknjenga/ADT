@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<chart caption='Ventes mensuelles' xAxisName='Mois' yAxisName='Units' decimals='0' formatNumberScale='0'>
+<set label='Janvier' value='462'/>
+<set label='' value='857'/>
+<set label='Mars' value='671'/>
+<set label='' value='494'/>
+<set label='Mai' value='761'/>
+<set label='' value='960'/>
+<set label='Juillet' value='629'/>
+<set label='' value='622'/>
+<set label='Septembre' value='376'/>
+<set label='' value='494'/>
+<set label='Novembre' value='761'/>
+<set label='' value='960'/>
+</chart>

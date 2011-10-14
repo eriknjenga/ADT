@@ -1,0 +1,9 @@
+<chart caption='ABC Bank Branches' subCaption='(In Asian Countries)' yaxislabel='Branches' xaxislabel='Country'>
+    <set label='Hong Kong' value='235' link="j-myJS('Hong Kong, 235')"/>
+    <set label='Japan' value='123' link="j-myJS('Japan, 123')"/>
+    <set label='Singapore' value='129' link="j-myJS('Singapore, 129')"/>
+    <set label='Malaysia' value='121' link="j-myJS('Malaysia, 121')"/>
+    <set label='Taiwan' value='110' link="j-myJS('Taiwan, 110')"/>
+    <set label='China' value='90' link="j-myJS('China, 90')"/>
+    <set label='S. Korea' value='86' link="j-myJS('S. Korea, 86')"/>
+</chart>

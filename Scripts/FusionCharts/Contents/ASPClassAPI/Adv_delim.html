@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Advanced Usage &gt; Setting Delimiter </h2></td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">Delimiter is the character used to separate two consecutive attributes within the chart attribute list. FusionCharts uses semicolon (;) as a default delimiter. To replace the default delimiter with a new character, simply call <span class="codeInline">setParamDelimiter()</span> function and pass the new delimiter character through it as shown in the code below:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><strong>Call FC.setParamDelimiter</strong>(&quot;<strong>$</strong>&quot;)</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now you can use '<strong>$</strong>' as delimiter in the following statements of your program: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">strParam=&quot;bgColor=CC66CC<strong>$</strong>canvasBgColor=BC6699<strong>$</strong>showBorder=1<strong>$</strong>borderColor=00FF00&quot;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Consider the code below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@LANGUAGE=&quot;VBSCRIPT&quot;%&gt;<br />
+      &lt;%<br />
+      <span class="codeComment">&nbsp; ' Include FusionCharts ASP Class</span><br />
+%&gt; <br />
+&lt;!--#include file=&quot;../Class/FusionCharts_Gen.asp&quot;--&gt;<br />
+&lt;%<br />
+<br />
+&nbsp;&nbsp;&nbsp;
+dim FC<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create FusionCharts ASP class object</span><br />
+&nbsp;&nbsp;&nbsp;
+set FC = new FusionCharts<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart type to Column2D</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setChartType(&quot;column2D&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart size </span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSize(&quot;450&quot;,&quot;350&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set the relative path of the swf file</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSWFPath(&quot;../FusionCharts/&quot;)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set colon (:) as delimiter</span><br />
+     &nbsp;&nbsp;&nbsp; Call FC.setParamDelimiter(&quot;:&quot;)</p>
+      <p> &nbsp;&nbsp;&nbsp; dim strParam<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Define chart attributes </span><br />
+       &nbsp;&nbsp;&nbsp; strParam=&quot;caption=Weekly Sales:xAxisName=Week:yAxisName=Revenue:numberPrefix=$&quot;<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart attributes </span><br />
+       &nbsp;&nbsp;&nbsp; Call FC.setChartParams(strParam)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values and category names</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;40800&quot;,&quot;label=Week 1:alpha=80&quot;,&quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;31400&quot;,&quot;label=Week 2:alpha=60&quot;,&quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;,&quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;,&quot;&quot;)<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set hash (#) as delimiter</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC.setParamDelimiter(&quot;#&quot;)<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add First TrendLine</span><br />
+      &nbsp;&nbsp;&nbsp; Call FC.addTrendLine(&quot;startValue=42000#color=ff0000#displayvalue=Target#showOnTop=1&quot;)</p>
+      <p> 
+	  
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set semicolon (;) as delimiter</span><br />
+        &nbsp;&nbsp;&nbsp;
+Call FC.setParamDelimiter(&quot;;&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add Second TrendLine</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.addTrendLine(&quot;startValue=30000;color=008800;displayvalue=Average;showOnTop=1&quot;)<br />
+<br />
+%&gt;<br />
+&lt;html&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;First Chart - Set Delimiter : Using FusionCharts ASP Class&lt;/title&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' Render Chart with JS embedding Method</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Call FC.renderChart(false)<br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+      &lt;/html&gt;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The code shows how we can use different delimiters in our programs provided the delimiter is declared before being used. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

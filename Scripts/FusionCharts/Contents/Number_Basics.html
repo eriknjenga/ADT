@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Number Formatting in FusionCharts </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts v3 offers you a lot of options to format your numbers on the chart. From number prefixes and suffixes to controlling the decimal places to scaling your numbers based on a pre-defined scale, FusionCharts lets you do it all. In this section, we'll see the number formatting properties supported by FusionCharts and look into number scaling in the next section.</p>
+      <p>We'll start with  setting decimal precisions for the numbers on chart. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Controlling decimal precision </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>All the charts in FusionCharts v3 support the attribute <span class="codeInline">decimals</span>. This single attribute lets you control the decimal precision of all the numbers on the chart. Using this attribute, you can globally set the number of decimal places of ALL   numbers of the chart. For e.g., if you have numbers on your chart as 12.432,   13.4 and 13 and you set <span class="codeInline">&lt;chart ... decimals='2'   &gt;</span>, the numbers would be converted to 12.43, 13.4 and 13   respectively.</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="0" align="center">
+      <tr>
+        <td><div align="center"><img src="Images/Number_1.jpg" width="258" height="208" /></div></td>
+        <td><div align="center"><img src="Images/Number_2.jpg" width="256" height="210" /></div></td>
+      </tr>
+      <tr>
+        <td valign="top"><div align="center" class="imageCaption">Chart without any decimal formatting applied </div></td>
+        <td valign="top"><div align="center" class="imageCaption">With decimals set to 2 (see the first column value) </div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Similarly, if you had data as 0.12342, 0.134 and 0.13, and you set decimals as 3, FusionCharts would output 0.124, 0.134 and 0.13 respectively. Note that even though we've set decimals to 3, FusionCharts now doesn't forcibly add the 0 padding to 0.13 to form 0.130, as the trailing 0 is un-necessary.</p>
+    <p>However, if you want your numbers on the chart to have trailing zeroes too, you can set <span class="codeInline">&lt;chart ... forceDecimals='1' &gt;</span> and now the numbers would show as 0.124, 0.134 and 0.130 respectively. Shown below are examples: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="0" align="center">
+      <tr>
+        <td><div align="center"><img src="Images/Number_3.jpg" width="255" height="205" /></div></td>
+        <td><div align="center"><img src="Images/Number_4.jpg" width="257" height="206" /></div></td>
+      </tr>
+      <tr>
+        <td valign="top"><div align="center" class="imageCaption">Trailing zeroes missing in last column's value. </div></td>
+        <td valign="top"><div align="center" class="imageCaption">Forcing trailing zeroes by setting <span class="codeInline">forceDecimals='1'</span> </div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Automatic number formatting </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">FusionCharts automatically formats your numbers by adding K,M (Kilo, Million) and proper commas to the numbers. Shown below is an example: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_5.jpg" width="307" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above image, the data for chart is 12500, 13400 and 13300. FusionCharts automatically formats the number scaling to convert to K (Thousands) &amp; M (Millions). If you do not wish to truncate numbers in this manner, just use:</p>
+    <p class="codeInline">&lt;chart formatNumberScale='0'..&gt;</p>
+    <p>When you now view the chart, you'll get the following output:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_6.jpg" alt="" width="306" height="207" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can see above that FusionCharts is now showing full numbers on the chart. It has also added commas to the numbers at the required places. If you do not need the commas too, set <span class="codeInline">formatNumber=0</span>. But, setting <span class="codeInline">formatNumber=0</span> wouldn't format any decimal places too (even if explicitly specified in XML). </p>
+    <p>Shown below is an example with <span class="codeInline">&lt;chart ... formatNumber='0' formatNumberScale='0' ..&gt;</span> : </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_7.jpg" width="304" height="206" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can see that the commas have been removed from numbers.  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting custom thousand and decimal separator character</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>By default, FusionCharts uses . (dot) as decimal separator and , (comma) as thousand separator character. However, you can customize this character depending on your requirements. </p>
+    <p>To do so, use the <span class="codeInline">decimalSeparator</span> and <span class="codeInline">thousandSeparator</span> attribute. For  example, let's set our thousands separator as dot and decimal separator as comma. To do so, you'll have to use the following xml: </p>
+    <p class="codeInline">&lt;chart ... <strong>decimalSeparator=',' thousandSeparator='.'</strong> &gt; </p>
+    <p>Shown below is the output. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="0" align="center">
+      <tr>
+        <td><div align="center"><img src="Images/Number_8.jpg" alt="" width="261" height="215" /></div></td>
+        <td><div align="center"><img src="Images/Number_9.jpg" width="257" height="209" /></div></td>
+      </tr>
+      <tr>
+        <td valign="top"><div align="center" class="imageCaption">Chart with default decimal and thousand separator. FusionCharts by default separates thousands using commas and decimals using dots. </div></td>
+        <td valign="top"><div align="center" class="imageCaption">Chart with swapped decimal and thousands separator character. </div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Adding number prefix and suffix </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts allows you to add a prefix or suffix to all numbers on the   chart. You can use the following attributes of <span class="codeInline">&lt;chart&gt;</span> element to attain   the same:</p>
+      <ul>
+        <li><span class="codeInline">numberPrefix=&quot;$&quot;</span> : Using this attribute, you   could add prefix to all the numbers visible on the graph. For example, to   represent all dollars figure on the chart, you could specify this attribute to '   $' to show like $40000, $50000. </li>
+        <li><span class="codeInline">numberSuffix=&quot;p.a&quot;</span> : Using this attribute, you   could add a suffix to all the numbers visible on the graph. For example, to   represent all figure quantified as per annum on the chart, you could specify   this attribute to ' /a' to show like 40000/a, 50000/a. </li>
+      </ul>
+    <p>If you intend to use special characters for <span class="codeInline">numberPrefix</span> or   <span class="codeInline">numberSuffix</span>, you'll need to URL Encode them when using <span class="codeInline">dataXML</span> method. For example, if you wish to have <span class="codeInline">numberSuffix</span> as % (like 30%), you'll need to   specify it as under:<br />
+      <span class="codeInline">numberSuffix='%25'</span></p>
+    <p>In dataURL method, you can <strong>directly</strong> specify the character. </p>
+    <p>Examples:<br />
+    </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="98%" border="0" align="center">
+      <tr>
+        <td width="50%"><div align="center"><img src="Images/Number_12.jpg" width="257" height="206" /></div></td>
+        <td><div align="center"><img src="Images/Number_13.jpg" width="254" height="208" /></div></td>
+      </tr>
+      <tr>
+        <td width="50%" valign="top"><div align="center" class="imageCaption">Number Prefix set as $ for the chart </div></td>
+        <td valign="top"><div align="center" class="imageCaption">Number Suffix Set as % </div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Y-axis values decimal formatting in manual div-lines mode </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you've opted to manually set the number of divisional lines on chart, you can also control the decimals of y-axis values separately. For example, consider the following XML and chart:</p>
+    <p class="codeInline">&lt;chart yAxisMinValue='115' yAxisMaxValue='140' adjustDiv='0' numDivLines='3' &gt;<br />
+      &lt;set label='John' value='125' /&gt;<br />
+      &lt;set label='Mary' value='134' /&gt;<br />
+      &lt;set label='Andy' value='131' /&gt;<br />
+    &lt;/chart&gt;</p>
+    <p>The chart for this XML looks as under:  </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_10.jpg" width="256" height="208" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this chart, we've manually fixed the chart lower limit, upper limit and number of divisional lines. We've also asked FusionCharts not to automatically adjust divisional lines. Now, if you see the chart, you'll find that FusionCharts has truncated decimals from y-axis values, as it couldn't find any other decimal values on the chart. </p>
+    <p>You can, however, opt to just show decimals on y-axis values in this case (when <span class="codeInline">adjustDiv</span> is false) using <span class="codeInline">yAxisValueDecimals</span> attribute. e.g., <span class="codeInline">&lt;chart yAxisMinValue='115' yAxisMaxValue='140' adjustDiv='0' numDivLines='3' yAxisValueDecimals='2' decimals='0' &gt;. </span></p>
+    <p>When you now see the chart, you'll get 2 decimal places on y-axis values. But, the other numbers on chart would still have 0 decimal places. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_11.jpg" width="311" height="215" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Note that <span class="codeInline">forceDecimals</span> doesn't work in this mode. </p>
+    <p>Next, we'll see how to utilize the new number scale formatting properties provided in FusionCharts v3. </p></td>
+  </tr>
+</table>
+</body>
+</html>

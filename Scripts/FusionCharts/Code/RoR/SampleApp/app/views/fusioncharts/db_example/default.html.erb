@@ -1,0 +1,13 @@
+<% @page_title=" FusionCharts - Database and Drill-Down Example " %>
+<% @page_heading=" FusionCharts Database and Drill-Down Example " %>
+<% @page_subheading="Click on any pie slice to see detailed data." %>
+<p class='text'>Or, right click on any pie to enable slicing or
+rotation mode.</p>
+<%
+	# The xml is obtained as a string from builder template.
+	str_xml = render :file=>"fusioncharts/db_example/default_factories_quantity",:locals=>{:factory_data => @factory_data,:animate_chart=>@animate_chart}
+
+	#Create the chart - Pie 3D Chart with data from strXML
+	render_chart '/FusionCharts/Pie3D.swf','', str_xml, 'FactorySum', 600, 300, false, false  do-%>
+<% end-%> 
+

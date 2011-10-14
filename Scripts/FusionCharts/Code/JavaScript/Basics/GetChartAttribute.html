@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<TITLE>FusionCharts & JavaScript - Getting Chart Attribute Example</TITLE> 
+<SCRIPT LANGUAGE="Javascript" SRC="../../FusionCharts/FusionCharts.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+function getChartAttrib(){
+//Get chart from its ID
+var chartToPrint = getChartFromId("chart1Id");
+alert(chartToPrint.getChartAttribute('caption'));
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<CENTER>
+<h2>FusionCharts and JavaScript - getChartAttribute() Example</h2>
+
+<div id="chart1div">
+FusionCharts
+</div>
+<script language="JavaScript"> 
+var chart1 = new FusionCharts("../../FusionCharts/Column3D.swf", "chart1Id", "400", "300", "0", "1"); 
+chart1.setDataXML("<chart caption='My chart caption' ><set label='A' value='10' /><set label='B' value='11' /></chart>");
+chart1.render("chart1div");
+</script>
+<center><input type='button' value='Get Chart Caption' onClick='javascript:getChartAttrib();'></center>
+
+</CENTER>
+</BODY>
+</HTML>

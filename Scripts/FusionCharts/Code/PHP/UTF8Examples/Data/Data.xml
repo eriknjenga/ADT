@@ -1,0 +1,27 @@
+﻿<chart caption='Monthly Sales Summary' subcaption='For the year 2008'
+xAxisName='Month' yAxisName='Sales' numberPrefix='$' showNames='1'
+showValues='0' showColumnShadow='1' animation='1'
+baseFontColor='666666' lineColor='FF5904' lineAlpha='85'
+valuePadding='10' labelDisplay='rotate' useRoundEdges='1'>
+  <set label='januári' value='17400' />
+  <set label='Fevruários' value='19800' />
+  <set label='مارس' value='21800' />
+  <set label='أبريل' value='23800' />
+  <set label='五月' value='29600' />
+  <set label='六月' value='27600' />
+  <set label='תִּשׁרִי' value='31800' />
+  <set label='Marešwān' value='39700' />
+  <set label='settèmbre' value='37800' />
+  <set label='ottàgono' value='21900' />
+  <set label='novèmbre' value='32900' />
+  <set label='décembre' value='39800' />
+  
+  <styles>
+    <definition>
+      <style name='myCaptionFont' type='font' size='12'/>
+    </definition>
+    <application>
+      <apply toObject='datalabels' styles='myCaptionFont' />
+    </application>
+  </styles>
+</chart>

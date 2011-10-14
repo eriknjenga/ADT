@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and Flash &gt; Advanced Examples </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous examples, we had seen how to load FusionCharts in your Flash movies in a very basic way. In this advanced example, we'll assimilate all the information that you've gained from previous examples and use that with new concepts to create an interactive form based reporting application. We'll build a form that takes in weekly product wise sales information for a restaurant and then plot it on a 3D Pie chart.</p>
+      <p>This application explains the following new concepts pertinent to FusionCharts:</p>
+      <ol>
+        <li>Using FusionCharts with data received in forms.</li>
+        <li>Showing chart on-demand</li>
+        <li>Hiding   a chart when not required</li>
+        <li>Removing and re-initializing a chart </li>
+        <li>Updating an existing chart with new data. </li>
+      </ol>      
+      <p>If you're excited just by reading the possibilities above, let's inspire you more by showing how the application would look like when it's finished: </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_Frm_Ini.jpg" width="508" height="404" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Initial state of the application, where the user enters sales data for the restaurant. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><img src="Images/Flash_frm_fin.jpg" width="508" height="404" /></p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Final chart generated when the user enters requisite data and then clicks on &quot;Plot It&quot; button. </p>
+    <p>Now that you're already jumping, let's straight jump into action. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting the movie </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>For this example, we'll create a new .fla and name it as <span class="codeInline">FormExample.fla</span>. We keep it under the same <span class="codeInline">FlashExamples</span> folder so that we do not have to make additional copies of <span class="codeInline">com</span> folder. </p>
+    <p>In this application, we've three states. </p>
+    <ol>
+      <li>Initialization State - This is an invisible state for the user. In this state, we create an instance of the <span class="codeInline">Pie3DChart</span> class and convey the initialization parameters.</li>
+      <li>Form State - This is the first visible state for the user. In this state, we show the data-entry form to the user. Internally, we update the form fields with default data. We also handle the click event for form's submit button.</li>
+      <li>Chart State - In this state, we request the data submitted by the user, create an XML data document out of it and then show it as a chart.  </li>
+      </ol>
+    <p>Each state is represented by a key-frame as shown below. The name of state keyframes are <span class="codeInline">FInit</span>, <span class="codeInline">FForm</span> and <span class="codeInline">FChart</span> respectively. Shown below is a screenshot: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_frm_st.jpg" alt="" width="288" height="213" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above we've following additional layers in this movie:</p>
+      <ul>
+        <li><span class="codeInline">Background</span> layer contains the oval background shared by form and chart.</li>
+        <li><span class="codeInline">Form</span> layer contains the form elements which we'll soon visit. The form elements are visible only in frame 1 and 2, as the 3rd frame shows the chart.</li>
+        <li><span class="codeInline">Back Button</span> layer contains a button used by the user to get back to form when viewing the chart. As such, it's present only in the 3rd frame.</li>
+        <li><span class="codeInline">Actions</span> Layer contains actions to initialize chart, initialize form and then render chart</li>
+      </ul>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting the form </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The form for this application looks as under. We've 5 text fields on this form to accept data for 5 products. Apart from that, it also contains a few descriptive labels. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_frm_full.jpg" width="540" height="589" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Binding Actions </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's now switch our focus to the core of this application - ActionScripts which bind the entire application. We'll study the ActionScripts frame by frame. Let's first see the ActionScript contained in frame 1: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">/** <br />
+      * In this frame, we initialize the chart object.<br />
+      * We initialize it only once but re-use it multiple times<br />
+      * later.<br />
+      */<br />
+      //Include &amp; import files necessary for Chart creation</span><br />
+      #include &quot;com/fusioncharts/includes/LoadingFunctions.as&quot;<br />
+      #include &quot;com/fusioncharts/includes/AppMessages.as&quot;<br />
+      import com.fusioncharts.core.charts.Pie3DChart;<br />
+      <span class="codeComment">//Create container movie clip for chart</span><br />
+      var chartContainerMC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder&quot;, 1);<br />
+      <span class="codeComment">//Initialize chart object.</span><br />
+      var salesChart:Pie3DChart = new Pie3DChart(chartContainerMC, 1, 450, 300, 20, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+      <span class="codeComment">//Goto next frame</span><br />
+    gotoAndStop(&quot;FForm&quot;);</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this frame, we're basically including and importing the required files for chart. We're also creating the empty movie clip for the chart and then instantiating the <span class="codeInline">Pie3DChart</span>. The actions in this frame run only once during the entire application. So, we're effectively creating only one instance of <span class="codeInline">Pie3DChart</span>. We'll be updating the same instance with new data as and when the user changes the data in form. </p>
+    <p>Let's see the code that runs the form in frame 2: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p><span class="codeComment">/**<br />
+      * This frame is an application state which contains the input form<br />
+      * for the user. <br />
+      */<br />
+      //Restrict text fields to accept only numeric values</span><br />
+      txtSoups.restrict = &quot;0-9&quot;;<br />
+      txtSalads.restrict = &quot;0-9&quot;;<br />
+      txtSandwiches.restrict = &quot;0-9&quot;;<br />
+      txtBeverages.restrict = &quot;0-9&quot;;<br />
+      txtDesserts.restrict = &quot;0-9&quot;;</p>
+      <p><span class="codeComment">//Set default values for text fields - just for demo.</span><br />
+        txtSoups.text = &quot;108&quot;;<br />
+        txtSalads.text = &quot;162&quot;;<br />
+        txtSandwiches.text = &quot;360&quot;;<br />
+        txtBeverages.text = &quot;171&quot;;<br />
+      txtDesserts.text = &quot;99&quot;;</p>
+      <p><span class="codeComment">//Define the listener for &quot;Plot&quot; button's click event.</span><br />
+        var btnListener:Object = new Object();<br />
+        btnListener.click = function() {<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//When the plot button is clicked, we need to generate XML document<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;//from data provided in form fields.<br />
+        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;//Build the XML data and convey it to chart</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>var strXML:String=&quot;&lt;chart bgAlpha='0,0' caption='Sales by Product Category' subCaption='For this week' showPercentValues='1' pieSliceDepth='30'&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Add data to it</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;set label='Soups' value='&quot; + txtSoups.text + &quot;' /&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;set label='Salads' value='&quot; + txtSalads.text + &quot;' /&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;set label='Sandwiches' value='&quot; + txtSandwiches.text + &quot;' /&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;set label='Beverages' value='&quot; + txtBeverages.text + &quot;' /&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;set label='Desserts' value='&quot; + txtDesserts.text + &quot;' /&gt;&quot;; <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Let's add some styling to caption</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;styles&gt;&lt;definition&gt;&lt;style type='font' name='CaptionFont' size='15'/&gt;&lt;/definition&gt;&lt;application&gt;&lt;apply toObject='caption' styles='CaptionFont' /&gt;&lt;/application&gt;&lt;/styles&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>strXML = strXML + &quot;&lt;/chart&gt;&quot;;<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//Convey the XML data to chart. </span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>salesChart.setXMLData(new XML(strXML));<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//We draw the chart on next frame. So, go there.</span><br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;</span>gotoAndStop(&quot;FChart&quot;);<br />
+        };<br />
+        <span class="codeComment">//Attach the event listener to button.</span><br />
+      btnPlot.addEventListener(&quot;click&quot;, btnListener);</p>
+      <p><span class="codeComment">//Stop till an action is invoked.</span><br />
+    stop();</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Here, we're:</p>
+      <ol>
+        <li>Restricting the form text fields to accept only numeric data</li>
+        <li>Setting some default values for them (for demonstration purpose only)</li>
+        <li>Defining the event listener for <span class="codeInline">&quot;Plot it</span>&quot; button</li>
+        <li>In the click event listener handler, we create an XML data document out of data specified by the user in the form. We store the data in <span class="codeInline">strXML</span> variable.  </li>
+        <li>We convey this XML data to chart using <span class="codeInline">setXMLData()</span> method. </li>
+        <li>Finally, we send the control to <span class="codeInline">FChart</span> frame, which contains the code to render the chart. </li>
+      </ol>
+    <p>In <span class="codeInline">FChart</span> frame, we've the following actions: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">/**<br />
+* We actually draw the chart in this frame. <br />
+*/ <br />
+//Show the chart container.</span><br />
+chartContainerMC._visible = true;<br />
+<span class="codeComment">//Draw the chart</span><br />
+salesChart.render();<br />
+<br />
+<span class="codeComment">//Define the listener for back button's click event.</span><br />
+var btnListener:Object = new Object();<br />
+btnListener.click = function(){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Re-initialize the chart, so that user can plot again<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//as we're allowing the user to go back to form and then<br />
+&nbsp;&nbsp;&nbsp;&nbsp;//chart the data again.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;salesChart.remove();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;salesChart.reInit();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Hide the chart container so that it doesn't overlap form.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;chartContainerMC._visible = false;<br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Goto the form</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;gotoAndStop(&quot;FForm&quot;);<br />
+}<br />
+<span class="codeComment">//Add event listener</span><br />
+btnBack.addEventListener(&quot;click&quot;,btnListener);<br />
+stop();</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first setting the visibility of chart container movie clip (<span class="codeInline">chartContainerMC</span>) to true. If this application is running for the first time, the visibility of this movie clip is already true. However, if the user has viewed the chart once, then updated data in form and then clicked &quot;Plot it&quot; chart button, the container for chart is hidden by us. So, we set it to visible again.</p>
+    <p>Thereafter, we straight render the chart by calling <span class="codeInline">render() </span>method on <span class="codeInline">salesChart</span> object (which is an instance of <span class="codeInline">Pie3DChart</span>). The XML data was already conveyed to chart in previous frame.</p>
+    <p>We also define the event listener for &quot;Back&quot; button. In this handler, we're first removing the chart using <span class="codeInline">remove()</span> method of this chart. This method removes all the items in the chart (barring logger). The chart still stays in the memory though.<span class="codeInline"> remove() </span>method is used when you want to use the same chart object again in your movie to plot another chart. Since we intend to re-use the chart object to plot the data again, we call the <span class="codeInline">remove()</span> method. After the <span class="codeInline">remove() </span>method, we ask the chart to re-initialize by calling the <span class="codeInline">reInit() </span>method. This method prepares the chart to accept new data and be able to render again. <span class="codeInline">reInit()</span> method should always be called after <span class="codeInline">remove()</span> method of the chart, if you intend to use the chart object to plot another chart. </p>
+    <p class="highlightBlock">If you need to destroy the chart altogether (when you do not need to plot any other charts using the same object), you should call the <span class="codeInline">destroy()</span> method of chart. e.g., <span class="codeInline">salesChart.destroy().</span> This method removes all the associated movie clips, listeners, events and data containers for the chart. </p>
+    <p>We also hide the container movie clip for the chart, as that's not required in the Form visible state. Finally, we go back to the form state of the application. </p>
+    <p>When you now run the application, you'll get the desired results (as shown above). This example demonstrates all the features that you can attain when using FusionCharts within your Flash movies.</p>
+    <p>Let's now cover the last and final thing next - using rotated text in your charts. </p></td>
+  </tr>
+</table>
+</body>
+</html>

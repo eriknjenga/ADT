@@ -1,0 +1,236 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Glow Style Type</span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">The <span class="codeInline">Glow Style Type </span>lets 
+        you apply a glowing outline around any chart object. It has the following 
+        configurable properties:</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="139" valign="top"><p class="textBold">Properties</p></td>
+          <td width="739" valign="top"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Color</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              color of the glow in hex code (without #). The default value is 
+              FF0000</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Alpha</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              alpha transparency value for the shadow color. Valid values are 
+              0 to 100. For example, 25 sets a transparency value of 25%</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of horizontal blur. Valid values are 0 to 255. The default 
+              value is 8. Values that are a power of 2 (such as 2, 4, 8, 16 and 
+              32) are optimized to render more quickly than other values</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of vertical blur. Valid values are 0 to 255. The default 
+              value is 8. Values that are a power of 2 (such as 2, 4, 8, 16 and 
+              32) are optimized to render more quickly than other values</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strength</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              strength of the imprint or spread. The higher the value, the more 
+              color is imprinted and the stronger the contrast between the glow 
+              and the background. Valid values are 0 to 255. The default is 2</p></td>
+        </tr>
+        <tr> 
+          <td width="139" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Quality</p></td>
+          <td width="739" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              number of times to apply the effect. Valid values are 0 to 15. The 
+              default value is 1, which is equivalent to low quality. A value 
+              of 2 is medium quality, and a value of 3 is high quality. Glows 
+              with lower values are rendered quicker.</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Setting glow color and alpha</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">To define a glow's color and alpha, you use the following 
+      code:<br />
+      <span class="codeInline">&lt;style name='MyFirstGlow' type='Glow' color='FF5904' 
+      alpha='75'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Color 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>color=<span class="codeInline">'Hex 
+              Value (without #)' </span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>color=<span class="codeInline">'FF5904' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Alpha</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>alpha=<span class="codeInline">'value 
+              (between 0 to 100)'</span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>alpha=<span class="codeInline">'75'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td class="text">It gives the following result:</td>
+  </tr>
+  
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_8.jpg" width="257" height="192" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Configuring glow blur</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">You can configure the blur amount of glow as under:<br />
+      <span class="codeInline">&lt;style name='MyFirstGlow' type='Glow' color='FF5904' 
+      alpha='75' blurX='12' blurY='12'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX=<span class="codeInline">'value' 
+              </span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX=<span class="codeInline">'12' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Blurry</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY=<span class="codeInline">'value'</span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY=<span class="codeInline">'12'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><div align="center"><img src="Images/Styles/style_8.jpg" width="257" height="192" class="imageBorder" /></div></td>
+          <td><div align="center"><img src="Images/Styles/style_9.jpg" width="264" height="195" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">Original chart &ndash; 
+              default blur&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;</div></td>
+          <td><div align="center"><span class="imageCaption">With blurX and blurY 
+              set to 10</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Controlling glow strength and quality</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can also control the glow strength and quality to 
+        get better results.</p>      <p class="text">Following example shows a glow with higher strength:</p></td>
+  </tr>
+  
+  <tr> 
+    <td class="codeBlock"><p>&lt;style name='MyFirstGlow' type='Glow' color='FF5904' 
+        alpha='75' strength='5'/&gt;</p>
+      &lt;style name='MyFirstGlow' type='Glow' color='FF5904' alpha='75' quality='10'/&gt;</td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Quality 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>quality='value' 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>quality='10' 
+            </p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strength</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>strength='value'</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>strength='5'</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><div align="center"><img src="Images/Styles/style_8.jpg" width="257" height="192" class="imageBorder" /></div></td>
+          <td><div align="center"><img src="Images/Styles/style_10.jpg" width="263" height="196" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">Original chart &ndash; 
+              default blur</span></div></td>
+          <td><div align="center"><span class="imageCaption">With enhanced strength</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can apply glow to any object of the chart. It's not 
+        just restricted to data plot. However, too much application might result 
+        in slower rendering of the chart. </p></td>
+  </tr>
+</table>
+</body>
+</html>

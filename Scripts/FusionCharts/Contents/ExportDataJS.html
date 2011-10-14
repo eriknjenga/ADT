@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Chart Data &gt; Using JavaScript Menu </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>You can access the data of the chart from its JavaScript API as well. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Setting up the chart to allow JavaScript export </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>When using the JavaScript API to access chart data, you first need to make sure of the following things:</p>
+      <ul>
+        <li>You've set the <span class="codeInline">registerWithJS</span> flag of chart as 1 in your HTML code</li>
+        <li>You're invoking the <span class="codeInline">getDataAsCSV()</span> API only after the chart has been rendered (i.e., in <span class="codeInline">FC_Rendered</span> method) </li>
+    </ul></td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;HTML&gt;<br />
+&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts &amp; JavaScript - Getting chart data as CSV &lt;/TITLE&gt; <br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+&nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//FC_Rendered method is called whenever a FusionCharts chart on the page<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//has finished initial rendering. To this function, the chart passes its <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//own DOM Id.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function FC_Rendered(DOMId){<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//If it's our required chart</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DOMId==&quot;chart1Id&quot;){<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//Get reference to the chart object</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;chart1Id&quot;);  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Simply alert the CSV Data </span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(<strong>chartObj.getDataAsCSV()</strong>);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;BODY&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;<strong>chart1Id</strong>&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, <strong>&quot;1&quot;</strong>); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you run this code, you should get a screen as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/ExportData2.jpg" width="417" height="300" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Customizing the output CSV </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The customization attributes for exported CSV data still remain the same, as under (to be specified in chart XML): </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="f1f1f1">
+        <tr>
+          <td width="15%" valign="top" class="textBold">Attribute</td>
+          <td width="60%" class="textBold">Description</td>
+          <td width="25%" class="textBold">Example</td>
+        </tr>
+        <tr>
+          <td width="15%" valign="top" class="codeInline">exportDataSeparator</td>
+          <td width="60%" class="text"><p>Lets you set the separator for CSV data. For ease of use, this attribute accepts the following pseudo codes for characters:</p>
+              <ul>
+                <li>{tab} - To specify tab character</li>
+                <li>{quot} - To specify double quotes</li>
+                <li>{apos} - To specify single quotes </li>
+              </ul>
+            <p>You can also specify any other character apart from these pseudo codes. </p></td>
+          <td width="25%" valign="top" class="codeInline">exportDataSeparator='{tab}'</td>
+        </tr>
+        <tr>
+          <td width="15%" valign="top" class="codeInline">exportDataQualifier</td>
+          <td width="60%" class="text"><p>Lets you set the qualifier character for CSV data. For ease of use, this attribute accepts the following pseudo codes for characters:</p>
+              <ul>
+                <li>{tab} - To specify tab character</li>
+                <li>{quot} - To specify double quotes</li>
+                <li>{apos} - To specify single quotes </li>
+              </ul>
+            <p>You can also specify any other character apart from these pseudo codes. </p></td>
+          <td width="25%" valign="top" class="codeInline">exportDataQualifier='{quot}'</td>
+        </tr>
+        <tr>
+          <td width="15%" valign="top" class="codeInline">exportDataFormattedVal</td>
+          <td width="60%" class="text">Boolean value indicating whether to output formatted data values (as shown on chart) in the output CSV file. </td>
+          <td width="25%" valign="top" class="codeInline">exportDataFormattedVal='1'</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

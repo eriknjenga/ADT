@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>
+	FusionCharts Server-side Export Sample - Configuration of context menu items
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	var myChart = new FusionCharts("../../FusionCharts/Column3D.swf", "myChartId", "400", "300", "0", "1");
+	myChart.setDataURL("SelectedFormats.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

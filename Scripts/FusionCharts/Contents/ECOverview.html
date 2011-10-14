@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Overview </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Starting FusionCharts v3.0.7, you could export your charts as images. And FusionCharts v3.1 adds new dimensions to it, by allowing you to export as PDFs as well, and also lets you choose whether to export the charts at client-side or server-side. </p>
+    <p>Shown below is an example image, where a user can export the chart using the context menu of chart. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_SaveAsImage.jpg" width="492" height="295" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When he selects an export format, he gets a screen as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SAI_Progress.jpg" width="565" height="284" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Once the capturing process is complete, the data is sent to our export handlers which in turn return the image/PDF to you. </p>
+      <p>Now, before we jump into the pan to explain the usage, let us first see what all can be made possible using FusionCharts Export Component. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">The possibilities </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Using FusionCharts export charts routine, you can do the following:</p>
+      <ul>
+        <li>Export charts as images (JPEG, PNG) or PDFs at client-side or server-side. In either case, the chart first needs to render in browser. You cannot directly export the chart as images/PDFs on server until the chart has rendered in browser.</li>
+        <li>When using server-side export, you can save the exported output on server's disk at a configurable location. This allows you to later embed those charts in your emails or reports. </li>
+        <li>When using client-side export, you can use our batch export process to export all charts present on a page as a single image or PDF in just one click.</li>
+        <li>Configure callback JavaScript functions that get invoked after the export process has completed. This helps you show a custom waiting message to the user during the chart export process and also integrate your export process with dynamic scripts and AJAX components </li>
+        <li>Configure cosmetic properties of the client-side export handler User Interface. The client-side export handler is the component used to convert charts as images when opting for client-side export. </li>
+      </ul>
+      <p>If you're already excited about how all of this can be attained, let's quickly first see what happens behind the scenes so that you get a good understanding of the entire process. </p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; Advanced Usage &gt;Applying Styles </h2></td>
+  </tr>
+  
+
+  <tr>
+    <td valign="top" class="text">
+      <p>Using FusionCharts ASP Class API we can apply various styles to the charts. Style lends a simple mechanism using which you can   easily control the visual layout of charts. For each defined object on a chart, you can apply one or more styles like animation bevel, blur, font, shadow and glow. Let's see how we can accomplish this   using FusionCharts ASP Class.</p>    
+    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><p><span class="codeInline">defineStyle()</span><span class="text"> and </span><span class="codeInline">applyStyle()</span> functions of FusionCharts ASP Class let you  apply styles to various objects of the chart. The process of applying styles involves two steps: </p>
+      <ul>
+        <li>Use <span class="codeInline">defineStyle()</span> to define a custom style. </li>
+        <li>Use <span class="codeInline">applyStyle()</span> to apply the custom   defined styles to different chart objects. </li>
+      </ul>
+      <p>Let's take an example. </p></td>
+  </tr>
+  
+  <tr>
+    <td valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p><span class="codeComment">' Define a Font Style element</span><br />
+        <strong>Call FC.defineStyle(&quot;MyFirstFontStyle&quot;,&quot;font&quot;,&quot;font=Verdana;size=12;color=FF0000; bgColor=FFFFDD;borderColor=666666&quot;)<br />
+        <br />
+        </strong><span class="codeComment"> ' Define a Glow Style element</span><br />
+         <strong>Call FC.defineStyle(&quot;MyFirstGlow&quot;,&quot;Glow&quot;,&quot;color=FF5904;alpha=75&quot;)<br />
+        </strong><br />
+        <span class="codeComment">' Apply FONT Style to CAPTION object</span><br />
+        <strong>Call FC.applyStyle(&quot;CAPTION&quot;,&quot;MyFirstFontStyle&quot;)<br />
+        </strong><br />
+         <span class="codeComment">' Apply FONT and GLOW Style to XAXISNAME object </span><br />
+         <strong>Call FC.applyStyle(&quot;XAXISNAME&quot;,&quot;MyFirstGlow,MyFirstFontStyle&quot;)<br />
+         <br />
+         </strong><span class="codeComment"> ' Apply GLOW Style to YAXISNAME object</span><span class="codeInline"><br />
+        </span> <strong>Call FC.applyStyle(&quot;YAXISNAME&quot;,&quot;MyFirstGlow&quot;)<br />
+        </strong><br />
+    </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  
+  
+  <tr>
+     <td height="46" valign="top" class="text">
+       <p>At first, we define two style elements using <span class="codeInline">defineStyle()</span> function. The <span class="codeInline">defineStyle</span> () function takes three parameters viz. custom name, style type and style attributes. First we define a style and name it as &quot;MyFirstFontStyle&quot;. It is of &quot;Font&quot; type. The attributes  defined in it are font, size, color, border color and background color. Then, we define style &quot;MyFirstGlow&quot; of &quot;Glow&quot; type. The attributes defined in it are <span class="codeInline">color </span>and <span class="codeInline">alpha</span> (i.e. transparency).</p>
+       <p>Next, we apply  those two defined styles to the chart objects. The first <span class="codeInline">applyStyle</span>() function applies style &quot;MyFirstFontStyle&quot; to the &quot;CAPTION&quot; object of the chart. The next <span class="codeInline">applyStyle()</span> applies both &quot;MyFirstGlow&quot; and &quot;MyFirstFontStyle&quot; to  &quot;XAXISNAME&quot;. So it gives the &quot;Glow&quot; effect and the &quot;Font&quot; effect together. The last <span class="codeInline">applyStyle() </span>applies the style &quot;MyFirstGlow&quot; to  &quot;YAXISNAME&quot;. </p>
+     </td>
+  </tr> 
+  <tr>
+  <tr>
+     <td valign="top" class="text"><br />     </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <strong>Guide for Web Developers--&gt;</strong> <strong>FusionCharts v3 STYLES </strong> section to know more about the various style types and and how they are applied with various attributes. </td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">And the resultant chart is: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="../Images/ClassImages/Adv_style.jpg" width="299" height="241" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

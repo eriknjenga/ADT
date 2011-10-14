@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>FusionCharts Samples</title>
+
+<style type="text/css">
+
+	#layout { text-align : center ; padding : 0px ; }
+		
+	#content-body { padding : 1px 0 1px 0;  }
+	
+	#header , #footer {
+		text-align : center;
+		border : 1px solid #745C92;
+		background-color : #9D7FBD;
+		font-family : "Trebuchet MS",Georgia, "Times New Roman";
+		font-size : 36px;
+		line-height : 65px;
+		color : #fff;
+		width : 790px;
+	}
+	
+	#footer {
+		font-family : Verdana, Arial, Helvetica, sans-serif;
+		font-size : 12px; 
+		line-height : 20px;
+	}
+	
+	#content { 
+		text-align : left;
+		border : 1px solid #B7ACBF; 
+		background-color : #EFEBF2; 
+		width : 790px;
+	}
+
+	#content ul, a { 
+		font-family : Verdana, Arial, Helvetica, sans-serif;
+		font-size : 10px; 
+		line-height : 26px; 
+		color : #422863; 
+		text-decoration : none;
+	}
+	
+	a:hover { text-decoration : underline; color : #422863; }
+	
+	
+	#content ul li { font-weight : bold; list-style : none; }
+	
+	#content ul li ul li {font-weight: normal; line-height : 22px; list-style : disc; }
+	
+	
+
+</style>
+</head>
+
+<body>
+<div id="layout">
+	<div id="header">FusionCharts - RoR Samples</div>
+
+
+	<div id="content-body">
+	  <div id="content">
+   
+    	  <ul>
+              <li>Basic Examples
+              	  <ul>
+                	    		    <li><%= link_to 'Simple Column 3D Chart using data from XML File (dataURL method)', :controller=>'fusioncharts/basic_example',:action => 'basic_chart' %></li>
+					    <li><%= link_to 'Simple Column 3D Chart (dataXML method)', :controller=>'fusioncharts/basic_example',:action => 'basic_data_xml' %></li>
+					    <li><%= link_to 'JavaScript embedding using dataURL method', :controller=>'fusioncharts/basic_example',:action => 'simple_chart' %></li>
+					    <li><%= link_to 'JavaScript Embedding using dataXML Method', :controller=>'fusioncharts/basic_example',:action => 'data_xml' %></li>
+					    <li><%= link_to 'Multiple Charts on a single page', :controller=>'fusioncharts/basic_example',:action => 'multi_chart' %></li>
+                  </ul>
+		    	
+              <li>Plotting Chart from Data Contained in Arrays
+              	<ul>
+					 <li><%= link_to 'Single Series Chart Example', :controller=>'fusioncharts/array_example',:action => 'single_series' %></li>
+				     <li><%= link_to 'Multi Series Chart Example', :controller=>'fusioncharts/array_example',:action => 'multi_series' %></li>
+				     <li><%= link_to 'Stacked Chart Example', :controller=>'fusioncharts/array_example',:action => 'stacked' %></li>
+				     <li><%= link_to 'Combination Chart Example', :controller=>'fusioncharts/array_example',:action => 'combination' %></li>
+
+                </ul>
+		      
+              </li>
+              
+			 <li>Form Based Example
+			  <ul>
+    			<li><%= link_to 'Plotting Charts from Data in Forms', :controller=>'fusioncharts/form_based',:action => 'default' %></li>
+   			 </ul>
+			 </li>
+			 
+			 <li>Database Examples
+			  <ul>
+    			<li><%= link_to 'Database Example Using dataXML Method', :controller=>'fusioncharts/db_example',:action => 'basic_dbexample' %></li>
+				<li><%= link_to 'Database Example Using dataURL Method', :controller=>'fusioncharts/db_data_url',:action => 'default' %></li>
+			    <li><%= link_to 'Database and Drill-Down Example', :controller=>'fusioncharts/db_example',:action => 'default' %></li>
+   			 </ul>
+			 </li>
+			 
+			 <li>Database and JavaScript Examples
+			  <ul>
+    			<li><%= link_to 'Client Side Dynamic Chart Example', :controller=>'fusioncharts/db_js',:action => 'default' %></li>
+				<li><%= link_to 'Dynamic Chart Example Using dataURL Method', :controller=>'fusioncharts/db_js_dataurl',:action => 'default' %></li>
+   			 </ul>
+			 </li>
+			 
+			 <li>Multilingual (UTF-8) Examples 
+			 <ul>
+  				    <li><%= link_to 'Japanese Example using data from Database', :controller=>'fusioncharts/utf8_example',:action => 'japanese_dbexample' %></li>
+				    <li><%= link_to 'French Example using data from Database', :controller=>'fusioncharts/utf8_example',:action => 'french_dbexample' %></li>
+				    <li><%= link_to 'Japanese Example using data from XML file', :controller=>'fusioncharts/utf8_example',:action => 'japanese_xmlfile_example' %></li>
+				    <li><%= link_to 'French Example using data from XML file', :controller=>'fusioncharts/utf8_example',:action => 'french_xmlfile_example' %></li>
+					    
+   			 </ul>
+			 </li>
+			  
+		  </ul>
+          
+
+
+	  </div>
+	</div>
+	
+
+    <div id="footer">&copy; 2009 InfoSoft Global (P) Ltd. All Rights Reserved</div>
+
+</div>
+</body>
+</html>

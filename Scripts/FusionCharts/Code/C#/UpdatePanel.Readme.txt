@@ -1,0 +1,5 @@
+To see the UpdatePanel Examples you need to :
+
+1. install ASP.NET.AJAX Extension  It can be downloaded freely from http://www.asp.net/ajax/downloads/
+
+2. rename web.config.ajax to web.config

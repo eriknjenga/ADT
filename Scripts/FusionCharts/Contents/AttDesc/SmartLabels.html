@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">XML Attributes for Smart Labels &amp; Lines </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Smart labels are the labels for the pie/doughnut chart. The smart labels prevent overlapping of   labels even when a large number of labels are placed in close vicinity. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/pie_labels1.jpg" width="482" height="202" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can disable the smart labels (if required to save chart space or when there are few pie segments) using <span class="codeInline">enableSmartLabels='0'</span>. When the smart labels are switched off, the pie labels would be displayed without the smart label lines. But if the number of labels increases and smart labels are not being used, then the labels might overlap. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>enableSmartLabels='0'</strong>...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="header">Customizing the smart labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The smart labels can be customized using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> smartLineColor </span> </td>
+        <td width="10%" valign="top"><span class="text"> Hex Code </span> </td>
+        <td width='75%' valign='top'><span class="text"> Color of smart label connector lines. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="codeInline"> smartLineThickness </span> </td>
+        <td width="10%" valign="top"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top'><span class="text"> Thickness of smart label connector lines. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> smartLineAlpha </span> </td>
+        <td width="10%" valign="top"><span class="text"> 0-100 </span> </td>
+        <td width='75%' valign='top'><span class="text"> Alpha of smart label connector lines. </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td valign="top"><span class="codeInline"> isSmartLineSlanted </span> </td>
+        <td valign="top"><span class="text"> 0/1 </span> </td>
+        <td valign='top'><span class="text"> The smart lines (smart label connector lines) can appear in two ways: Slanted or Straight. This attribute lets you choose between them. </span> </td>
+      </tr>
+      
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong><span class="codeInline">smartLineThickness='2' smartLineColor='333333' isSmartLineSlanted='0'</span></strong>...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Label Clearance </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can set the label distance and clearance using the following attributes: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr bordercolor="#CCCCCC" class="trAttHeader">
+        <td width="15%"><span class="textBold"> Attribute Name </span> </td>
+        <td width="10%"><span class="textBold"> Range </span> </td>
+        <td width='75%'><span class="textBold"> Description </span> </td>
+      </tr>
+      <tr class="tableGreyBorder">
+        <td width="15%" valign="top"><span class="codeInline"> labelDistance </span> </td>
+        <td width="15%" valign="top"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top'><span class="text"> This attribute helps you set the distance of the label/value text boxes from the pie/doughnut edge. </span> </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="15%" valign="top"><span class="codeInline"> smartLabelClearance </span> </td>
+        <td width="10%" valign="top"><span class="text"> In Pixels </span> </td>
+        <td width='75%' valign='top'><span class="text"> Clearance distance of a label (for sliced-in pies) from adjacent sliced out pies. </span> </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Skipping Overlap labels </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">When you have too many labels in your pie chart (which is difficult to adust even using smart labels), the labels might overlap. In that case, you have the option to skip the overlapping labels using <span class="codeInline">skipOverlapLabels='1'</span>. The labels of the least significant pies would be removed. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Displaying values </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can set whether you want the actual value of the pie segment to be displayed in the label or the percentage value. By default, the actual values are displayed ($550K, $720K in the chart shown above). When you want to display their percentages, use <span class="codeInline">showPercentValues='1'</span>. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart<span class="codeInline"><strong> showPercentValues='1'</strong></span>...&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

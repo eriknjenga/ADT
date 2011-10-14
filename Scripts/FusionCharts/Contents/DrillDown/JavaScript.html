@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using JavaScript functions as links</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">
+      <p>Instead of  using simple links, you can also 
+        set JavaScript links using FusionCharts. That is, you can invoke a JavaScript 
+        function present in the same page (in which the chart is present) when 
+        the end viewer clicks a data element on the chart. In FusionCharts v3.0.7, we have introduced a new way to accomplish this.  Now, you just need to  place the name of the JavaScript function preceded by <span class="codeInline">&quot;j-&quot;</span> as shown below:</p>
+		<p class="codeInline">&lt;set label='USA' value='235' link=&quot;<strong>j-</strong>myJS('USA',235)&quot;/&gt; </p>
+		<p>Just place the function name with proper parameters after the <strong>j-</strong> notation. The function will be evaluated as a standard JavaScript function. Any number of parameters can be passed to this function. However, you <strong>cannot use a semi-colon</strong> within the declaration. </p>
+		<p>Since FusionCharts v3.1, we have also introduced the following new syntax:</p>
+	  <p class="codeInline">&lt;set label='USA' value='235' link=&quot;<strong>j-</strong>myJS-USA,235&quot;/&gt; </p>
+      <p class="highlightBlock">The classical function-call notation of JavaScript has been replaced by following expression <br />
+        <br />
+        <b>j-</b>{<b>user function name</b>}-{<b>parameter</b>}<br />
+      <br />
+      The {user function name} is a user-defined function. It will receive the parameters as a <strong>single</strong> de-limiter separated string. <br />
+      The {parameters} is a de-limiter separated value field. The parameter field <em>should not be enclosed within quotes</em>. Using this method, you can just pass one parameter from chart to your JavaScript. So, when you need to pass multiple parameters, combine them using a delimiter in XML, and then in your JavaScript method split it again. <br />
+      <br />
+      The classical notation will be evaluated faster since no String decomposition takes place. However, the new syntax removes all the problems with nested quotation marks.</p>	  
+      
+	  <p>In the above code, <span class="codeInline">myJS</span> refers to a custom 
+        JavaScript function present in the HTML page that embeds this chart. You 
+        can also specify any number of parameters for this function. When you 
+        now click the data item (column, pie, bar etc.) for this particular data, 
+        <span class="codeInline">myJS </span>function would be invoked and 'USA, 
+        235' would be passed to the function as the function parameter. Here, 
+        we've passed the data label and value just for demonstration purposes. 
+        In actual charts, you can pass identifier numbers or strings to each data. 
+        When the user clicks on the link, these identifiers can be sent back to 
+        your JavaScript function for further actions (like loading detailed data 
+        for that identifier using AJAX or anything - the possibilities are endless).</p>
+      <p>Let's quickly put up an example for this kind of links. We'll create 
+        a simple 2D Column chart indicating &quot;ABC Bank Branches&quot; in Asia. 
+        Each column when clicked would pass its label and value to our custom 
+        JavaScript function <span class="codeInline">myJS</span>, which (for the 
+        sake of demonstration) would just write it out in an alert box. </p>
+      <p>We create <span class="codeInline">JSExample.html</span> for this example 
+        in <span class="codeInline">DrillDown</span> folder. It contains the following 
+        HTML code:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;html&gt;<br /> &nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;JavaScript Link Example&lt;/title&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot; 
+      src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br /> 
+      <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function myJS(myVar){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(myVar);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//--&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+      </strong>&nbsp;&nbsp;&nbsp;&lt;/head&gt; <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp; &lt;div id=&quot;chartdiv&quot; align=&quot;center&quot;&gt;The 
+        chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var myChart = new FusionCharts(&quot;../FusionCharts/Column2D.swf&quot;, 
+        &quot;myChartId&quot;, &quot;500&quot;, &quot;300&quot;, &quot;0&quot;, 
+        &quot;1&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.setDataURL(&quot;JSExample.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myChart.render(&quot;chartdiv&quot;);<br />
+        &nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+        &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+      </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Here, we've a defined a function <span class="codeInline">myJS</span> 
+        which will respond to the clicks generated from the chart. Additionally, <strong>it's important</strong> to set the <span class="codeInline">registerWithJS</span> attribute in constructor to 1 (the last attribute in the line which initializes a FusionCharts chart in the page). </p>
+      <p>And now,<span class="codeInline"> JSExample.xml</span> looks as under:</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart caption='ABC Bank Branches' subCaption='(In 
+      Asian Countries)' yaxislabel='Branches' xaxislabel='Country'&gt;<br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      label='Hong Kong' value='235' <strong>link='j-myJS-Hong Kong, 
+      235'</strong>/&gt; <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Japan' 
+      value='123' <strong>link='j-myJS-Japan, 123'</strong>/&gt; 
+      <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Singapore' value='129' <strong>link='j-myJS-Singapore, 
+      129'</strong>/&gt; <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Malaysia' 
+      value='121' <strong>link='j-myJS-Malaysia, 121'</strong>/&gt; 
+      <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Taiwan' value='110' <strong>link='j-myJS-Taiwan, 
+      110'</strong>/&gt; <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='China' 
+      value='90' <strong>link='j-myJS-China, 90'</strong>/&gt; 
+      <br /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='S. Korea' value='86' <strong>link='j-myJS-S. 
+      Korea, 86'</strong>/&gt; <br /> 
+      &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">As you can see above, for each data item, we've 
+      defined a JavaScript link that points to the custom function <span class="codeInline">myJS</span>. 
+      To this function, we're passing the name and value of the data item. 
+      <p>When you view the chart and click on a column, you'll see something like 
+        under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/JavaScript.jpg" width="510" height="347" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><strong>Note:</strong> The above mentioned way of using JavaScript functions as links is supported by all the major browsers. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+<td valign="top" class="text"><span class="pageHeader">Deprecated way of Using JavaScript functions as links</span></td>
+  </tr>
+  <tr>
+
+    <td valign="top" class="text">
+      <p>JavaScript functions can also be invoked using  a slightly different way.  We placed the name of JavaScript function(s) preceded by <span class="codeInline">"JavaScript:"</span>, as shown below: </p>
+      <p class="codeInline">&lt;set label='USA' value='235' link="<strong>JavaScript:</strong>myJS('USA, 
+    235')"/&gt;</p></td>
+  </tr>
+  <tr>
+    <td class="text" valign="top">&nbsp;</td>
+
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><strong>Note</strong>: In some cases Internet Explorer fails to invoke JavaScript functions as links using this method. This method is deprecated since FusionCharts v3.0.7. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+
+    <td valign="top" class="text">Using this method, the<span class="codeInline"> JSExample.xml</span>  would look like this:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+
+    <td valign="top" class="codeBlock">&lt;chart caption='ABC Bank Branches' subCaption='(In 
+      Asian Countries)' yaxislabel='Branches' xaxislabel='Country'&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      label='Hong Kong' value='235' <strong>link="JavaScript:myJS('Hong Kong, 
+      235');"</strong>/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Japan' 
+      value='123' <strong>link="JavaScript:myJS('Japan, 123');"</strong>/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Singapore' value='129' <strong>link="JavaScript:myJS('Singapore, 
+      129');"</strong>/&gt; <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Malaysia' 
+      value='121' <strong>link="JavaScript:myJS('Malaysia, 121');"</strong>/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Taiwan' value='110' <strong>link="JavaScript:myJS('Taiwan, 
+      110');"</strong>/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='China' 
+      value='90' <strong>link="JavaScript:myJS('China, 90');"</strong>/&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='S. Korea' value='86' <strong>link="JavaScript:myJS('S. 
+      Korea, 86');"</strong>/&gt; <br>
+
+&lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As you can see above, for each data item, we 
+      used<strong class="codeInline"> JavaScript:</strong>, instead of <span class="codeInline"><strong>j-</strong></span>,  which points to the custom function <span class="codeInline">myJS</span>. 
+    This is the only difference with the new procedure. Apart from this, everything else is the same.</td>
+  </tr>
+
+</tbody></table>
+</body>
+</html>

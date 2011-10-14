@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Embedding multiple charts in a page </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Using FusionCharts, you can embed any number of charts in a single - there is no such restriction (even in evaluation). In fact, you can even mix gauges and maps from our other products (<a href="http://www.fusioncharts.com/widgets" target="_blank">FusionWidgets</a>, <a href="http://www.fusioncharts.com/maps" target="_blank">FusionMaps</a> and <a href="http://www.fusioncharts.com/PowerCharts" target="_blank">PowerCharts</a>) and put them on the same page as charts. Here, we'll quickly see an example.</p>
+    <p>The process of embedding multiple charts is similar to that of embedding a single chart. You just need to take care of the following:</p>
+    <ul>
+      <li> Each chart on the page should reference a different DIV to render.</li>
+      <li>Each chart on the page should have a different ID (specified in the JavaScript container)</li>
+      <li>Each chart has it's own JavaScript variable name (e.g., <span class="codeInline">var chart1 = new FusionCharts(...); var chart2 = new FusionCharts(...);</span> )</li>
+    </ul>
+    <p>Shown below is an example page containing multiple charts. The page is named as <span class="codeInline">MultipleCharts.html</span> and is stored in <span class="codeInline">MyFirstChart</span> folder itself. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+      &lt;head&gt;<br />
+  &lt;script language=&quot;JavaScript&quot; src=&quot;../FusionCharts/FusionCharts.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;/head&gt;</p>
+      <p>&lt;body bgcolor=&quot;#ffffff&quot;&gt;<br />
+        &lt;div id=&quot;<strong>chart1div</strong>&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;var <strong>myChart1</strong> = new FusionCharts(&quot;../FusionCharts/Column3D.swf&quot;, &quot;<strong>myChart1Id</strong>&quot;, &quot;900&quot;, &quot;300&quot;, &quot;0&quot;, &quot;0&quot;);<br />
+        &nbsp;&nbsp;&nbsp;<strong>myChart1</strong>.setDataURL(&quot;Data.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;<strong>myChart1</strong>.render(&quot;<strong>chart1div</strong>&quot;);<br />
+  &lt;/script&gt;</p>
+      <p>&lt;div id=&quot;<strong>chart2div</strong>&quot; align=&quot;center&quot;&gt;The chart will appear within this DIV. This text will be replaced by the chart.&lt;/div&gt;<br />
+  &lt;script type=&quot;text/javascript&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;var <strong>myChart2</strong> = new FusionCharts(&quot;../FusionCharts/Pie3D.swf&quot;, &quot;<strong>myChart2Id</strong>&quot;, &quot;500&quot;, &quot;300&quot;, &quot;0&quot;, &quot;0&quot;);<br />
+        &nbsp;&nbsp;&nbsp;<strong>myChart2</strong>.setDataURL(&quot;Data.xml&quot;);<br />
+        &nbsp;&nbsp;&nbsp;<strong>myChart2</strong>.render(&quot;<strong>chart2div</strong>&quot;);<br />
+  &lt;/script&gt;</p>
+      <p>&lt;/body&gt;<br />
+    &lt;/html&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see here, we've embedded two charts in a page - a column 3D chart and a pie 3D chart. The column 3D chart has an ID of <span class="codeInline">myChart1Id</span> and its DIV is named as <span class="codeInline">chart1div</span>, with the chart variable as <span class="codeInline">myChart1</span>. The pie chart has different ID, DIV name and chart variable.</p>
+    <p>When you run this page, you'll see both the charts in the page. </p></td>
+  </tr>
+</table>
+</body>
+</html>

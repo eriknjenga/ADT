@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr>
+    <td class="pageHeader">FusionCharts and Styles </td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td class="text"><p>FusionCharts v3 introduces <span class="codeInline">Styles</span> 
+        to help you apply font, effects and animations to various objects of the 
+        chart. <span class="codeInline">Styles </span>lends a simple mechanism 
+        using which you can easily control the visual layout of charts. </p>
+      <p class="text">To use <span class="codeInline">Styles</span>, all you 
+        need to do is:</p>      <ul>
+        <li class="text">Define your own style attributes in the <span class="codeInline">XML</span> 
+          data document, and</li>
+        <li class="text">Associate (i.e., apply) them with defined <span class="codeInline">Objects</span> 
+          of the chart.</li>
+      </ul>      <p class="text">Starting FusionCharts v3, each object on the chart has 
+        been assigned a unique name, for direct association with style definitions. 
+        For example, the background of the chart is termed as <span class="codeInline">BACKGROUND</span>. 
+        Similarly, the plot (columns, lines, areas etc.) on the chart is named 
+        as <span class="codeInline">DATAPLOT</span>. This enables you to associate 
+        each style to multiple chart objects or associate multiple chart objects 
+      to a particular style.</p>      
+      <p><span class="text">You can find the list of objects for each chart in 
+      individual </span><span class="codeInline">Chart XML Sheet</span>. </p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text"><strong>Advantages of using Style:</strong></p></td>
+  </tr>
+  <tr> 
+    <td><ul type="disc">
+        <li class="text">Better control over chart look &amp; feel.</li>
+        <li class="text">You can precisely define custom animations and effects 
+          according to your own taste.</li>
+        <li class="text">Your formatting (cosmetic) attributes are grouped together 
+          in one element in the<span class="codeInline"> XML</span> document, 
+          thereby separating data from visual formatting.</li>
+        <li class="text">You can store the entire style definition in a central 
+          location in your application, so that all charts within application 
+          can utilize it.</li>
+        <li class="text">Easy re-use of style definitions. Each style can be applied 
+          to multiple chart objects or vice versa.</li>
+      </ul></td>
+  </tr>
+  
+  <tr> 
+    <td><p class="text"><strong>Style Types</strong></p></td>
+  </tr>
+  <tr> 
+    <td class="text">Before we delve into more details, let's briefly skim over 
+      the different style type options that are present in FusionCharts v3.</td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Font</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p>The<span class="codeInline"> 
+              Font</span> style allows you to control text properties for all 
+              the text on the chart. Using this, you can set the font family, 
+              color, size, background color, border color, spacing etc. of individual 
+              text elements on the chart</p></td>
+        </tr>
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Animation</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Animation</span> 
+              style type allows you to define your custom animations for different 
+              elements of the chart. By default, FusionCharts animates the data 
+              plot (columns, lines, area etc.) only. However, you can define your 
+              custom animations for other chart objects (like captions, titles, 
+              values etc.) in the <span class="codeInline">XML.</span> Each chart 
+              object can have multiple animation properties (like x, y, xscale, 
+              yscale, alpha etc.) and each sequence can have its own duration</p></td>
+        </tr>
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Shadow</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p>To 
+              apply <span class="codeInline">shadow</span> effect to any object 
+              on the chart, use this style type with configurable properties</p></td>
+        </tr>
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Glow</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Glow</span> 
+              Style type lets you apply glow effects to objects on the chart.</p></td>
+        </tr>
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Bevel</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p>To 
+              apply<span class="codeInline"> bevel</span> effect for any of the 
+              chart objects, use this style type.</p></td>
+        </tr>
+        <tr> 
+          <td width="103" valign="top" bordercolor="f1f1f1" class="text"><p class="codeInline"><strong>Blur</strong></p></td>
+          <td width="487" valign="top" bordercolor="f1f1f1" class="text"><p><span class="codeInline">Blur</span> 
+              Style type helps to create a blur effect for any object on the chart. 
+              The amount and distance of blur are configurable.</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

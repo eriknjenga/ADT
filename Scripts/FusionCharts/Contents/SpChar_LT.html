@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using &gt; and &lt; characters in FusionCharts XML </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You cannot directly use &lt; and &gt; characters in FusionCharts XML as these are invalid characters from XML perspective. To use &lt; and &gt;, you first need to convert them into<span class="codeInline"> &amp;lt; </span>and<span class="codeInline"> &amp;gt; </span> respectively. This conversion makes the XML a valid one. Next, you need to tell FusionCharts that you're sending HTML characters as part of XML but it should be rendered as text and not HTML. </p>
+      <p>Let's see an example to clear the concepts. We'll create a chart whose x-axis labels would read &lt;5, 5-10 and &gt;10. To do so, we'll have to use the following XML: </p>
+      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart &gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set <strong>label='&amp;lt; 5'</strong> value='420' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set <strong>label='5-10'</strong> value='295' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set <strong>label='&amp;gt; 10'</strong> value='523' /&gt; <br />
+      &nbsp;&nbsp;&nbsp;&lt;styles&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='myHTMLFont' type='font' <strong>isHTML='0'</strong> /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply toObject='DATALABELS' styles='myHTMLFont' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;/styles&gt;<br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're first defining the labels after converting &lt; to<span class="codeInline"> &amp;lt;</span> and &gt; to <span class="codeInline">&amp;gt;</span></p>
+    <p>After that we're defining a font style type whose <span class="codeInline">isHTML</span> property is set to 0. This helps us tell FusionCharts that we need to show this text as normal text and not HTML. We finally apply this font style to the object in which we wish to display the &lt; or &gt; signs. Example, if your series name contains these characters, you'll need to apply this style to LEGEND object. Similarly, if you want to show it in tool tip, you'll have to apply it on <span class="codeInline">TOOLTIP</span> object. </p>
+    <p>When you now see the chart, you'll get the following: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/LTGT.jpg" width="354" height="205" /></td>
+  </tr>
+</table>
+</body>
+</html>

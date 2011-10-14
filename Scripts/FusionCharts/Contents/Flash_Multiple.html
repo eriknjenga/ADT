@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts and Flash &gt; Loading Multiple Charts </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In our previous example, we had seen how to load a single Column 2D chart in a Flash movie. Here, we'll see how to load two charts in a single Flash Movies.</p>
+      <p>Loading two (or n charts) in your Flash movie is as simple and straight-forward as loading a single movie. You just need to create instances of each chart class, provide it the right XML data and then ask it to render. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">In Example</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For this example, we create <span class="codeInline">MultipleCharts.fla</span> under FlashExamples folder. Like in previous example, we create a layer <span class="codeInline">&quot;Graphic Elements&quot;</span> in this file too and add two oval backgrounds instead of one, as we'll now be loading two charts. Shown below is a reference image: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_ML_Ov.jpg" width="600" height="354" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, in the <span class="codeInline">Actions</span> Layer of this movie, punch the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><span class="codeComment">//You first need to include the following two files in your movie.<br />
+//These two files contain pre-loading functions and application<br />
+//messages for the chart.<br />
+//Note: If you're loading multiple charts in your Flash movie, you<br />
+//do NOT need to include these files for each each. You can put these<br />
+//lines in the main timeline, so that it gets loaded only once.</span><br />
+#include &quot;com/fusioncharts/includes/LoadingFunctions.as&quot;<br />
+#include &quot;com/fusioncharts/includes/AppMessages.as&quot;<br />
+<br />
+<span class="codeComment">//To create the chart, you now need to import the Class of the <br />
+//chart which you want to create. All charts are present in the package <br />
+//com.fusioncharts.core.charts (Download Package &gt; SourceCode folder)<br />
+//If you're using multiple charts, you can import all the requisite<br />
+//chart classes in the main timeline of your movie. That ways, you<br />
+//wouldn't have to import the chart classes everytime you wish to use.</span><br />
+import com.fusioncharts.core.charts.Column2DChart;<br />
+import com.fusioncharts.core.charts.Line2DChart;<br />
+<br />
+<span class="codeComment">// ------------- XML Data for the charts -------------- //<br />
+//Data for chart 1</span><br />
+var strXML1:String = &quot;&lt;chart showBorder='0' bgAlpha='0,0' palette='1' caption='Hourly Working Rate' numberPrefix='$'&gt;&quot;;<br />
+<span class="codeComment">//Add simple data for demo.</span><br />
+strXML1 = strXML1+&quot;&lt;set name='John' value='32' /&gt;&quot;;<br />
+strXML1 = strXML1+&quot;&lt;set name='Mary' value='65' /&gt;&quot;;<br />
+strXML1 = strXML1+&quot;&lt;set name='Michelle' value='29' /&gt;&quot;;<br />
+strXML1 = strXML1+&quot;&lt;set name='Cary' value='43' /&gt;&quot;;<br />
+strXML1 = strXML1+&quot;&lt;/chart&gt;&quot;;<br />
+var xmlData1:XML = new XML(strXML1);<br />
+<br />
+<span class="codeComment">// Data for Chart 2</span><br />
+var strXML2:String = &quot;&lt;chart showBorder='0' bgAlpha='0,0' palette='1' caption='Hours Worked Last week' canvasPadding='20'&gt;&quot;;<br />
+<span class="codeComment">//Add simple data for demo.</span><br />
+strXML2 = strXML2+&quot;&lt;set name='John' value='49' /&gt;&quot;;<br />
+strXML2 = strXML2+&quot;&lt;set name='Mary' value='34' /&gt;&quot;;<br />
+strXML2 = strXML2+&quot;&lt;set name='Michelle' value='61' /&gt;&quot;;<br />
+strXML2 = strXML2+&quot;&lt;set name='Cary' value='40' /&gt;&quot;;<br />
+strXML2 = strXML2+&quot;&lt;/chart&gt;&quot;;<br />
+var xmlData2:XML = new XML(strXML2);<br />
+<span class="codeComment">// --------------------------------------------------- // <br />
+<br />
+// -------------- Actual Code to create the chart ------------//</span><br />
+//Create movie clips required for both the charts<br />
+var chartContainer1MC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder1&quot;, 1);<br />
+var chartContainer2MC:MovieClip = this.createEmptyMovieClip(&quot;ChartHolder2&quot;, 2);<br />
+<br />
+<span class="codeComment">//Now, instantiate the charts using Constructor function of the chart.</span><br />
+var chart1:Column2DChart = new Column2DChart(chartContainer1MC, 1, 380, 325, 20, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+var chart2:Line2DChart = new Line2DChart(chartContainer2MC, 1, 380, 325, 440, 15, false, &quot;EN&quot;, &quot;noScale&quot;);<br />
+<br />
+<span class="codeComment">//Convey the XML data to chart. </span><br />
+chart1.setXMLData(xmlData1);<br />
+chart2.setXMLData(xmlData2);<br />
+<br />
+<span class="codeComment">//Draw the charts</span><br />
+chart1.render();<br />
+chart2.render();<br />
+<span class="codeComment">//Stop</span><br />
+stop();</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above code, we're:</p>
+      <ol>
+        <li>First including   <span class="codeInline">com/fusioncharts/includes/LoadingFunctions.as</span> &amp; <span class="codeInline">com/fusioncharts/includes/AppMessages.as</span> - required files for pre-loading chart. </li>
+        <li>Thereafter, we import the <span class="codeInline">Column2DChart</span> class and <span class="codeInline">Line2DChart</span> Class as we'll be plotting two charts in this example.</li>
+        <li>We now create the XML data for both the charts. In this example, again, we've hard-coded the XML data. You can create the XML data dynamically based on your data sources.</li>
+        <li>We convert the XML data into XML Objects.</li>
+        <li>We now create two empty movie clips - one for each chart.</li>
+        <li>Next, we create instances of both the chart and pass the required parameters. We set the x and y offset of line so that it draws on the right of column chart.</li>
+        <li>Moving on, we convey the XML data of each chart using <span class="codeInline">setXMLData</span> method.  </li>
+        <li>Finally, we draw both the charts by calling the <span class="codeInline">render()</span> method for each chart's instance object. </li>
+      </ol>
+    <p>When you now view the application, you'll get the following output. Again, you might need to adjust the FPS of the movie based on your requirements. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Flash_ML_Out.jpg" alt="" width="600" height="284" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this example, we've included just the Column 2D and Line Charts. You can include any FusionCharts v3 chart in your application in the same way. </p>
+    <p>Also, here we've shown just 2 charts together. You can include any number of charts in your application (on a single screen too).</p>
+    <p>Now that you're fairly convinced of the power of FusionCharts in conjunction with Flash, let's move ahead and see an advanced example that will illustrate a few advanced features like updating chart data at run-time, hiding chart, re-initializing chart etc. </p></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts ASP Class API &gt; First Chart </h2></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">
+        
+           To begin with, let's create a simple chart that will visually depict the Weekly   Sales of a fictitious shop. The sample data  we intend to plot can be   tabularized as shown below: </td>
+  <tr>
+           <td valign="top" class="text">&nbsp;</td>
+  </tr>
+        <tr>
+           <td valign="top" class="text">
+			  <table cellspacing="0" cellpadding="5" class="text"width="250px" style="border:1px solid #cccccc;">
+                    <tr style="border-bottom:1px solid #cccccc;">
+                       <td width="35%" height="24" class="textBold borderBottom">Week</td>
+                       <td width="65%" align="right" class="textBold borderBottom">Previous Month (sales) </td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 1 </td>
+                       <td align="right"class="borderBottom">$40800</td>
+                    </tr>
+                    <tr>
+                       <td height="24" class="borderBottom" >Week 2 </td>
+                       <td align="right" class="borderBottom">$31400</td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 3 </td>
+                       <td align="right" class="borderBottom">$26700</td>
+                    </tr>
+                    <tr>
+                       <td height="24"  >Week 4 </td>
+                       <td align="right">$54400</td>
+                    </tr>
+           </table>			 </td>
+	  </tr>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+   <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts ASP Class to plot this data into a column3D chart: </td>
+  </tr>
+   <tr>
+      <td valign="top" class="text">&nbsp;</td>
+   </tr>
+   <tr>
+    <td valign="top" class="codeBlock"><p>&lt;%@LANGUAGE=&quot;VBSCRIPT&quot;%&gt;<br />
+      &lt;%<br />
+      <span class="codeComment">&nbsp; ' Include FusionCharts ASP Class</span><br />
+%&gt; <br />
+ &lt;!--#include file=&quot;../Class/FusionCharts_Gen.asp&quot;--&gt;<br />
+ &lt;%<br />
+<br />
+&nbsp;&nbsp;&nbsp;
+dim FC<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Create FusionCharts ASP class object</span><br />
+&nbsp;&nbsp;&nbsp;
+set FC = new FusionCharts<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart type to Column3D</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setChartType(&quot;Column3D&quot;)<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart size </span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSize(&quot;300&quot;,&quot;250&quot;)<br />
+<br />
+<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set the relative path of the swf file</span><br />
+&nbsp;&nbsp;&nbsp;
+Call FC.setSWFPath(&quot;../FusionCharts/&quot;)</p>
+      <p> <span class="codeInline">&nbsp;&nbsp;&nbsp; dim strParam</span><br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Define chart attributes</span><br />
+       &nbsp;&nbsp;&nbsp; strParam=&quot;caption=Weekly Sales;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Set chart attributes</span><br />
+     &nbsp;&nbsp;&nbsp; Call FC.setChartParams(strParam)</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; ' Add chart values and category names</span><br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;,&quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;,&quot;&quot;)<br />
+       &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;,&quot;&quot;)<br />
+     &nbsp;&nbsp;&nbsp; Call FC.addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;,&quot;&quot;)</p>
+      <p> %&gt;<br />
+        &lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;First Chart Using FusionCharts ASP Class&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; ' Render Chart with JS embedding Method</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Call FC.renderChart(false)<br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+      &lt;/html&gt;</p>
+     </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+      <ul type="disc">
+        <li>We include       <span class="codeInline">FusionCharts_Gen.asp</span> in the program. This file contains FusionCharts ASP Class codes. <br />
+           <br />
+        <span class="codeInline">&lt;!--#include file=&quot;../Class/FusionCharts_Gen.asp&quot;--&gt;</span><br />
+        <br />
+        </li>
+        <li>We create       a  chart object.<br />
+           <br />
+            <span class="codeInline">set FC = new FusionCharts<br />
+            </span><br />
+        </li>
+        <li>We specify the chart type.<br/><br/>
+        <span class="codeInline">Call FC.setChartType(&quot;Column3D&quot;)</span><br />
+          <br/>
+        </li>
+		  <li>We specify the  size of the chart.<br/><br />
+          <span class="codeInline">Call FC.setSize(&quot;300&quot;,&quot;250&quot;)</span>
+      </ul>
+      <ul type="disc"><li>Next, we set a relative path to the chart SWF files using <span class="codeInline">setSwfPath()</span> function. This is the path from which we load the chart SWF files. <br />
+          <br />
+          <span class="codeInline">Call FC.setSWFPath(&quot;../FusionCharts/&quot;)</span><br />
+          <br />
+        </li>
+        <li>We store       all desired chart attributes in the <span class="codeInline">strParam</span> variable and set       chart attributes using <span class="codeInline">setChartParams()</span>       function.<br />
+          <br />
+          <span class="codeInline">strParam=&quot;caption=Weekly Sales;xAxisName=Week;yAxisName=Revenue;numberPrefix=$&quot;<br />
+          </span><br />
+          <span class="codeInline">Call FC.setChartParams(strParam);</span><br />
+          <br />
+        </li>
+        <li>Now, we provide chart data through the <span class="codeInline">addChartData()</span> function.We pass the value first and then the category name against each value as a parameter i.e., <span class="codeInline">label=Week 1</span>  etc. <br />
+          <br />
+          <span class="codeInline">Call FC.addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;,&quot;&quot;)<br />
+          Call FC.addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;,&quot;&quot;)<br />
+        Call FC.addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;,&quot;&quot;)</span><br />
+		<P class="highlightBlock"><strong>NOTE:</strong> ASP does not support the 
+		  concept of optional parameter. 
+		  Hence, we need to provide all the 
+		  parameters. In case you have 
+		  nothing to pass as a parameter to a 
+		  function, you need to provide a blank 
+		  (&quot;&quot;) value, as we did here for <span class="codeInline">addChartData()</span>. In the coming pages we will follow this rule as well. </P>
+          <br />
+        </li>
+        <li>Finally, we include       <span class="codeInline">FusionCharts.js</span> - FusionCharts JavaScript Embedding Class.<br />
+          <br />
+        </li>
+        <li>And display       the chart using <span class="codeInline">renderChart()</span> function. Please note <span class="codeInline">False</span> is passed as a parameter to the <span class="codeInline">renderChart()</span> function. This is done to render the chart using JavaScript embedding method. IF you wish to render the chart using HTML embedding method, you would need to pass <span class="codeInline">True</span> instead. <br />
+          <br />
+        <span class="codeInline">Call FC.renderChart(false)</span></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the Column 3D chart that our FusionCharts ASP Class renders: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassFirstChart.jpg" width="284" height="226" class="imageBorder" /></td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts ASP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to change chart width and chart height? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>When we declare an object of FusionCharts ASP Class, we use initializing functions like <span class="codeInline">setChartType, setSize</span> etc.<br />
+        <br />
+        In the code above, the statement <span class="codeInline">Call FC.setSize(&quot;300&quot;,&quot;250&quot;)</span>  sets the chart's width to 300 pixels and height to 250 pixels. <br />
+        <br />
+      Hence, we can use this to set the desired dimension of our charts. Let's set our chart's dimension to 450 x 350 pixels. </p>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="codeInline">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeInline">Call FC<strong>.setSize(&quot;450&quot;,&quot;350&quot;)</strong></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassFirstChartChangeSize.jpg" width="451" height="326" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to change chart type? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">As we discussed above chart type is also specified using  <span class="codeInline">setChartType</span> function, while declaring FusionCharts ASP Class object.  <br />
+    <br />
+    <span class="codeInline">Call FC.setChartType(&quot;<strong>Column3D</strong>&quot;)</span><br />
+    <br />
+    To make a Pie Chart for our Weekly Revenue data, we just need to provide <span class="codeInline">Pie3D</span> instead of <span class="codeInline">Column3D</span> to <span class="codeInline">setChartType</span> function. <br />
+    <br />
+    <span class="codeInline">Call FC.setChartType(&quot;<strong>Pie3D</strong>&quot;) </span></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassChangeChart.jpg" width="298" height="187" class="imageBorder" /></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><a name="ChartTypesList" href="Javascript:void(0);"> </a>To change chart type you can use any of the Chart Type names listed below : </td>
+  </tr>
+  
+  <tr> 
+    <td valign="top" class="text"><table width="477" border="0" cellpadding="5" cellspacing="0" class="text" style="border:1px solid #cccccc;">
+       <tr>
+          <td width="156" class="lightBlueTr textBold borderBottom">Chart Type Name </td>
+          <td width="299" class="lightBlueTr textBold borderBottom">Description</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Column2D</td>
+          <td class="borderBottom">Single Series Column 2D Chart </td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Column3D</td>
+          <td class="borderBottom">Single Series  Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Line2D</td>
+          <td class="borderBottom">Single Series  Line Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Pie3D</td>
+          <td class="borderBottom">Single Series  Pie 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Pie2D</td>
+          <td class="borderBottom">Single Series  Pie 2D Chart</td>
+       </tr>
+
+       <tr>
+          <td class="borderBottom">Bar2D</td>
+          <td class="borderBottom">Single Series  Bar 2D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Area2D</td>
+          <td class="borderBottom">Single Series  Area 2D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">Doughnut2D</td>
+          <td class="borderBottom">Single Series  Doughnut 2D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">Doughnut3D</td>
+         <td class="borderBottom">Single Series  Doughnut 3D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom" height="10">&nbsp;</td>
+         <td class="borderBottom" height="10">&nbsp;</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSColumn3D</td>
+          <td class="borderBottom">Multi-Series Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSColumn2D</td>
+          <td class="borderBottom">Multi-Series Column 2D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSArea2D</td>
+          <td class="borderBottom">Multi-Series Area 2D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSLine2D</td>
+          <td class="borderBottom">Multi-Series Line Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSBar2D</td>
+          <td class="borderBottom">Multi-Series Bar 2D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">MSBar3D</td>
+         <td class="borderBottom">Multi-Series Bar 3D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">&nbsp;</td>
+         <td class="borderBottom">&nbsp;</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">StackedColumn2D</td>
+          <td class="borderBottom">Stacked Column 2D Chart </td>
+       </tr>
+       <tr>
+          <td class="borderBottom">StackedColumn3D</td>
+          <td class="borderBottom"> Stacked Column 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">StackedBar2D</td>
+          <td class="borderBottom"> Stacked Bar 2D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">StackedBar3D</td>
+         <td class="borderBottom">Stacked Bar 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">StackedArea2D</td>
+          <td class="borderBottom"> Stacked Area 2D Chart</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">MSStackedColumn2D</td>
+         <td class="borderBottom">Multi-Series Stacked Column 2D Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">&nbsp;</td>
+         <td class="borderBottom">&nbsp;</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">Bubble</td>
+         <td class="borderBottom">Multi-series Bubble Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">Scatter</td>
+         <td class="borderBottom">Multi-Series Scaller Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">&nbsp;</td>
+         <td class="borderBottom">&nbsp;</td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollColumn2D</td>
+         <td class="borderBottom">Multi-Series Column 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollLine2D</td>
+         <td class="borderBottom">Multi-Series Scroll Line 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollArea2D</td>
+         <td class="borderBottom">Multi-Series Scroll Area 2D Scroll Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollStackedColumn2D</td>
+         <td class="borderBottom">Scroll Stacked Column 2D Scroll Chart </td>
+       </tr>
+       
+       
+       <tr>
+         <td class="borderBottom">&nbsp;</td>
+         <td class="borderBottom">&nbsp;</td>
+       </tr>
+	   <tr>
+         <td class="borderBottom">MSCombi3D</td>
+         <td class="borderBottom">Combination Single Y-Axis 3D Chart</td>
+       </tr>
+       <tr>
+          <td class="borderBottom">MSCombi2D</td>
+          <td class="borderBottom">Combination Single Y-Axis Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">MSColumn3DLine</td>
+         <td class="borderBottom"><span>Combination Single Y-Axis Chart<br />
+(Column 3D + Line) </span></td>
+       </tr>
+       <tr>
+         <td class="borderBottom">MSCombiDY2D</td>
+         <td class="borderBottom">Combination Dual Y-axis 2D Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom"><span >MSColumn3DLineDY</span></td>
+         <td class="borderBottom"><span> Combination Dual Y-Axis Chart<br />
+(Column 3D + Line) </span></td>
+       </tr>
+       <tr>
+         <td class="borderBottom">StackedColumn3DLineDY</td>
+         <td class="borderBottom"> Stacked Combination Column 3D Line Dual Y-Axis Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollCombi2D</td>
+         <td class="borderBottom">Scroll Combination 2D Single Y-Axis Scroll Chart </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">ScrollCombiDY2D</td>
+         <td class="borderBottom">Scroll Combination Dual Y-Axis 2D Scroll Chart </td>
+       </tr>
+       
+       <tr>
+         <td class="borderBottom">MSStackedColumn2DLineDY</td>
+         <td class="borderBottom"><p><span>Combination</span> Multi-Series  Stacked Column  2D-Line Dual Y-Axis Chart</p>          </td>
+       </tr>
+       <tr>
+         <td class="borderBottom">&nbsp;</td>
+         <td class="borderBottom">&nbsp;</td>
+       </tr>
+       <tr>
+         <td>Grid</td>
+         <td>Single Series Grid Chart </td>
+       </tr>
+       
+       
+       
+       
+       
+       
+       
+    </table>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please note that Chart Type Names -&nbsp;Line, MSLine and MSColumnLine3D from previous version are change to Line2D, MSLine2D and MSColumn3DLine (respectively). The old Names ares still applicable, though depricated. We recommned to use the new Names.</td>
+  </tr>
+</table>
+</body>
+</html>

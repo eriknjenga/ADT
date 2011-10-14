@@ -1,0 +1,572 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><p class="pageHeader"><strong>How to Use Styles</strong></p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="text">To use the <span class="codeInline">Styles </span>feature 
+      in FusionCharts, you first need to define your styles in the <span class="codeInline">XML</span> 
+      data document. To define styles, the following <span class="codeInline">XML</span> 
+      is used:</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock"><p>&lt;chart&gt;</p>
+      <p>&lt;!-- Your data here --&gt;</p>
+      <p><strong>&lt;styles&gt;</strong><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;style 
+        name='MyFirstFontStyle' type='font' face='Verdana' size='12' color='FF0000' 
+        bold='1' bgColor='FFFFDD' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;style 
+        name='MyFirstAnimationStyle' type='animation' param='_xScale' start='0' 
+        duration='2' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;style 
+        name='MyFirstShadow' type='Shadow' color='CCCCCC' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/definition&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;application&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;apply 
+        toObject='Caption' styles='MyFirstFontStyle,MyFirstShadow' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;apply 
+        toObject='Canvas' styles='MyFirstAnimationStyle' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;apply 
+        toObject='DataPlot' styles='MyFirstShadow' /&gt;<br />
+        &lt;/application&gt;&nbsp;&nbsp;&nbsp; <br />
+        <strong>&lt;/styles&gt;</strong><br />
+        &lt;/chart&gt;</p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">As you can see above, all the style related elements and 
+        attributes appear under the <strong class="codeInline">&lt;styles&gt;</strong> 
+        parent element. It should effectively contain all your style related <span class="codeInline">XML</span> 
+        code. FusionCharts will not recognize any style definition outside the<span class="codeInline"> 
+    <strong>&lt;styles&gt;</strong> </span>parent element.</p>      
+      <p class="text">Children to<span class="codeInline"> <em class="codeInline">&lt;</em>styles<em class="codeInline">&gt;</em></span> 
+        element are <span class="codeInline"><em class="codeInline">&lt;</em>definition<em>&gt;</em></span> 
+        and <span class="codeInline"><em class="codeInline">&lt;</em>application<em class="codeInline">&gt;</em></span> 
+        elements. As the name suggests, <span class="codeInline">&lt;definition&gt; 
+        </span>element contains your custom styles definition for the chart while 
+        under <span class="codeInline">&lt;application&gt;</span> element, you 
+    apply your custom defined styles to different chart objects. </p>    <p class="text">Now, let's first get to the definition of styles.</p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><strong class="header">Defining your Styles</strong></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Cruising back through the above <span class="codeInline">XML</span> 
+        code, you'll see that we've defined three custom styles namely:</p>
+      <ul type="disc">
+        <li class="text"><span class="codeInline">MyFirstFontStyle,</span> which 
+          will later help us in setting font properties for text on the chart.</li>
+        <li class="text"><span class="codeInline">MyFirstAnimationStyle</span>, which will 
+          help us in animating a chart object, and</li>
+        <li class="text"><span class="codeInline">MyFirstShadow </span>that can 
+          render a shadow effect on any chart object.</li>
+      </ul>      <p class="highlightBlock">Each style has to be defined using the <span class="codeInline">&lt;style&gt;</span> 
+        element. Multiple style elements may be placed one after another under        <span class="codeInline">&lt;definition&gt;</span> element. So, if you 
+        wish to define five custom styles, you need to create five <span class="codeInline">&lt;style&gt;</span>      elements.</p>
+      <p class="text">Depending on the style type you are defining, each <span class="codeInline">&lt;style&gt;</span> 
+        element can have multiple attributes. In the above code example, each<span class="codeInline"> 
+        &lt;style&gt;</span> element has its own set of properties. However, following 
+        two attributes are common to all: </p>      <ol start="1" type="1">
+        <li class="codeInline">name </li>
+        <li class="codeInline">type. </li>
+      </ol>      <p class="text">Both the attributes are mandatory for each <span class="codeInline">style 
+      </span>definition. </p></td>
+  </tr>
+  
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Mandatory Attributes</span></td>
+  </tr>
+  <tr> 
+    <td><span class="textBold">Style Name</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text"><span class="codeInline">Name</span> attribute lets 
+      you assign your custom name for the style definition. For example, in the 
+      above code, we have named the font style as<span class="codeInline"> MyFirstFontStyle,</span> 
+      which could well have been <span class="codeInline">JohnFirstStyle</span> 
+      or <span class="codeInline">GlobalFont </span>or<span class="codeInline"> 
+      BigFont </span>etc. </span>      <p class="text">Format: <strong class="codeInline">name='stylename'</strong></p></td>
+  </tr>
+  
+  <tr> 
+    <td class="codeBlock"><p><strong>Example: </strong> <br />
+        &lt;style <strong>name='MyFirstFontStyle'</strong> type='font' face='Verdana' 
+        &hellip;/&gt;<br />
+        &lt;style <strong>name='MyFirstAnimationStyle'</strong> type='animation' 
+        &hellip;/&gt;<br />
+        &lt;style <strong>name='MyFirstShadow'</strong> type='Shadow' &hellip;/&gt;</p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">There are no restrictions on the style name, barring the 
+        pointers below:</p>      <ul type="disc">
+        <li class="text"><span class="codeInline">Style</span> name can only include 
+          alphabets and numbers. Punctuation marks (including underscore) shouldn't 
+          be used.</li>
+        <li class="text"><span class="codeInline">Style</span> name must be unique, 
+          i.e., two style definitions cannot have the same name as there will 
+          be a conflict between the two.</li>
+    </ul></td>
+  </tr>
+  
+  <tr> 
+    <td> <span class="textBold">Style Type</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Each style needs to be defined as to what <span class="codeInline">type</span> 
+        it is. The <span class="codeInline">type</span> defines what this style 
+        is going to do. FusionCharts v3 supports six style types:</p>
+      <ul type="disc">
+        <li class="codeInline">Font</li>
+        <li class="codeInline">Animation</li>
+        <li class="codeInline">Shadow</li>
+        <li class="codeInline">Glow</li>
+        <li class="codeInline">Blur</li>
+        <li class="codeInline">Bevel</li>
+      </ul>
+      <p class="text">So, the <span class="codeInline">type </span>attribute 
+        expects one of the above six values as its parameter. In our example, 
+        we've defined the first style type as <span class="codeInline">&quot;font&quot;</span>, 
+        second one as <span class="codeInline">"animation"</span> and third one 
+        as <span class="codeInline">"shadow",</span> which is self explanatory.      </p>      <span class="text">Format: <strong class="codeInline">type='parameter'</strong> 
+      (must be either<span class="codeInline"> 'Font' </span>or <span class="codeInline">'Animation'</span> 
+      or <span class="codeInline">'Shadow' </span>or <span class="codeInline">'Glow'</span> 
+      or <span class="codeInline">'Blur'</span> or <span class="codeInline">'Bevel'</span>)</span></td>
+  </tr>
+  
+  
+  <tr> 
+    <td class="codeBlock"><p><strong>Example:</strong> <br />
+        &lt;style name='MyFirstFontStyle' <strong>type='font'</strong> face='Verdana' 
+        &hellip;/&gt;<br />
+        &lt;style name='MyFirstAnimationStyle' <strong>type='animation'</strong> 
+        &hellip;/&gt;<br />
+        &lt;style name='MyFirstShadow' <strong>type='Shadow'</strong> &hellip;/&gt;</p></td>
+  </tr>
+  <tr> 
+    <td><span class="text">If you do not define a style type for a particular 
+      style, FusionCharts will ignore the style definition and log an error in 
+      the <span class="codeInline">Debug Window.</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><span class="header">Other Attributes</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">The rest of the attributes for a style element are dependent 
+        on its <span class="codeInline">Type</span>. For example, we can use face, 
+        size, color, bold etc. property for a <span class="codeInline">FONT</span> 
+        style type. However, the same is not valid for <span class="codeInline">ANIMATION</span> 
+        style type, as these parameters make no sense for an animation. Each style 
+        type has therefore its own set of attributes which you can specify which 
+        will be discussed next.</p>
+      <p class="text">Now, if you're already eager to apply the styles to chart 
+        objects, let's get to the application part of the story. </p></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header"><strong>Applying custom defined styles to chart objects</strong></span></td>
+  </tr>
+  <tr> 
+    <td> <p><span class="text">To apply your defined styles to chart objects, 
+        you first need to make sure that you've the list of chart objects present 
+        in each chart. This can be found here in the </span><span class="codeInline">"Chart 
+        XML Sheet"</span><span class="text"> for each chart. </span></p>
+      <p class="text">For example, we've the following chart objects for 2D Single 
+        Series Column Chart:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="98%" align="center" cellpadding="4" cellspacing="2" class="yellowBorderTable">
+        <tr class="lightYellowTr"> 
+          <td width="15%" valign="top"> <span class="textBold"> Object Name </span>          </td>
+          <td width="35%" valign="top"> <span class="textBold"> Description </span>          </td>
+          <td width="25%" valign="top"> <span class="textBold"> Features Supported 
+            </span> </td>
+          <td width="25%" valign="top"> <span class="textBold"> Animation Parameters 
+            Supported </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> BACKGROUND </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> BACKGROUND refers 
+            to the entire background of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            <LI>_xScale<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> CANVAS </span> </td>
+          <td width="35%" valign="top"> <span class="text"> In 2D Charts, CANVAS 
+            refers to the area in which the actual chart is plotted. It is represented 
+            by a bounded rectangle. In 3D charts, it refers to the 3D base on 
+            which the columns are built. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            <LI>_xScale<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> CAPTION </span> </td>
+          <td width="35%" valign="top"> <span class="text"> CAPTION refers to 
+            the heading of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> DATALABELS </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> DATALABELS refer to 
+            the x-axis labels of the data. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> DATAPLOT </span> </td>
+          <td width="35%" valign="top"> <span class="text"> DATAPLOT refers to 
+            the actual plot of the chart. For example, in Column 2D chart, columns 
+            are referred to as DATAPLOT. In Pie chart, it's the pies. In Bubble 
+            chart, it's the bubbles and so on. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            <LI>_xScale<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> DATAVALUES </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> DATAVALUES refer to 
+            the plot values i.e., value of each data (line, column, bar, pie etc.), 
+            which is displayed beside the data plot. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> DIVLINES </span> </td>
+          <td width="35%" valign="top"> <span class="text"> DIVLINES are horizontal 
+            or vertical lines running through the canvas. Each divisional line 
+            signifes a smaller unit of the entire axis thus aiding the users in 
+            interpreting the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_y<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> HGRID </span> </td>
+          <td width="35%" valign="top"> <span class="text"> HGRID refers to alternate 
+            color bands between two successive horizontal divisional lines. </span>          </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_y<BR>
+            <LI>_xScale<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> SUBCAPTION </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> SUBCAPTION refers 
+            to the sub-heading of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> TOOLTIP </span> </td>
+          <td width="35%" valign="top"> <span class="text"> TOOLTIP refers to 
+            the tool tip shown when mouse is hovered over the data plots. </span>          </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Font<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> TRENDLINES </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> TRENDLINES refer to 
+            horizontal/vertical lines spanning the chart canvas which aid in interpretation 
+            of data with respect to some pre-determined value. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_y<BR>
+            <LI>_xScale<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> TRENDVALUES </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> TRENDVALUES refer 
+            to the display values of trend-lines (if any). </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> VLINES </span> </td>
+          <td width="35%" valign="top"> <span class="text"> VLINES are vertical 
+            separator lines that help you separate blocks of data. These lines 
+            run through the height of the chart, thereby segregating data into 
+            different blocks. In case of bar charts, they are horizontal and run 
+            through the width of chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            <LI>_yScale<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> XAXISNAME </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> XAXISNAME refers to 
+            the x-axis title of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr> 
+          <td width="15%" valign="top"> <span class="text"> YAXISNAME </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> YAXISNAME refers to 
+            the y-axis title of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            </span> </td>
+        </tr>
+        <tr class="greyTr" > 
+          <td width="15%" valign="top"> <span class="text"> YAXISVALUES </span>          </td>
+          <td width="35%" valign="top"> <span class="text"> YAXISVALUES refers 
+            to the limit values or divisional line values, which are displayed 
+            along the y-axis of the chart. </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>Animation<BR>
+            <LI>Font<BR>
+            <LI>Shadow<BR>
+            <LI>Glow<BR>
+            <LI>Bevel<BR>
+            <LI>Blur<BR>
+            </span> </td>
+          <td width="25%" valign="top"> <span class="text"> 
+            <LI>_alpha<BR>
+            <LI>_x<BR>
+            <LI>_y<BR>
+            <LI>_rotation<BR>
+            </span> </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="highlightBlock">Each chart has a different list of Objects. 
+        So, you need to ensure that you're working with the right Object name 
+        for the given chart.</p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text"><span class="text">Now, the following </span><span class="codeInline">XML 
+        </span><span class="text">does the work of applying styles to different 
+        chart objects:</span></p></td>
+  </tr>
+  <tr> 
+    <td class="codeBlock"><p>&lt;application&gt;<br />
+        &nbsp;&nbsp; &lt;apply toObject='Caption' styles='MyFirstFontStyle,MyFirstShadow' 
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;apply toObject='Canvas' styles='MyFirstAnimationStyle' 
+        /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;apply toObject='DataPlot' styles='MyFirstShadow' 
+        /&gt;<br />
+        &lt;/application&gt;&nbsp;&nbsp; </p></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Each<span class="codeInline"> <em>&lt;</em>apply&gt; </span>element 
+        helps to apply multiple styles to one chart object e.g., in our code, 
+        we first apply the <span class="codeInline">MyFirstFontStyle</span> font 
+        style to <span class="codeInline">Caption</span> of the chart and then 
+        apply the shadow style <span class="codeInline">MyFirstShadow</span> to 
+        the same object. To apply multiple styles, we separate the names of the 
+        respective styles by a comma.</p>      <p class="text">Format: <span class="codeInline">&lt;apply toObject='Object' 
+        styles='Style1, Style2, Style3 ...' /&gt; </span></p>      <p class="text">You need to make sure of few things here:</p>      <ul type="disc">
+        <li class="text">To apply multiple styles to a chart object, you need 
+          to separate the style names using comma.<br />
+          e.g., <span class="codeInline">&lt;apply toObject='Caption' styles='<strong>MyFirstFontStyle,MyFirstShadow</strong>' 
+          /&gt;</span><br />
+        </li>
+        <li class="text">To apply a single style to multiple objects, you'll need 
+          to define<span class="codeInline"> &lt;apply&gt;</span> element for 
+          each object and then assign the style for it. <br />
+          e.g., <br />
+          <span class="codeInline">&lt;apply toObject='Caption' styles='<strong>MyFirstShadow'</strong> 
+          /&gt;<br />
+          &lt;apply toObject='DataPlot' styles=<strong>'MyFirstShadow</strong>' 
+          /&gt;<br />
+          </span><br />
+          You <strong>CANNOT</strong> separate the object list by comma and then 
+          assign a single style to it - the following will be INVALID:<br />
+          <span class="codeInline"><s>&lt;apply toObject='Caption,DataPlot' styles='MyFirstShadow' 
+          /&gt;</s></span></li>
+        </ul>      <ul type="disc">
+        <li class="text">The style name specified during application has been 
+          defined earlier in style definition and the spelling is correct, else, 
+          FusionCharts would ignore it and log the error in <span class="codeInline">Debug 
+          Window.</span></li>
+        </ul>      <p class="text">And now that you're familiar with style definition and 
+        application, we move on to see the list of parameters supported by each 
+        style type. We start with <span class="codeInline">FONT</span> style next.</p></td>
+  </tr>
+</table>
+</body>
+</html>

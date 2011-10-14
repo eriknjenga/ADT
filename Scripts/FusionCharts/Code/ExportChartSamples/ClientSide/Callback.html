@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>
+	FusionCharts Client-side Export Sample
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script language="JavaScript" src="../../FusionCharts/FusionChartsExportComponent.js"></script>
+	<script type="text/javascript">
+		//This event is raised when the chart has finished capture phase and passed the data to 
+		//Export Component for further processing
+		function FC_ExportReady(DOMId){
+			alert("The chart with DOM ID as " + DOMId + " has finished capture mode. It's now ready to be downloaded");
+		}		
+
+		//This event is raised when the chart has been successfully saved on user's disk (post click of button)
+		function myFN(objRtn){
+			if (objRtn.statusCode=="1"){
+				alert("The chart was successfully saved. Its DOM Id is " + objRtn.DOMId);
+			} else{
+				alert("There was an error saving the chart. Error message: " + objRtn.statusMessage + ". Its DOM Id is " + objRtn.DOMId);
+			}
+		}
+		
+	</script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	//Note that you necessarily need to set the registerWithJS attribute as 1, as JavaScript is used for client-
+	//side communication between the chart and FusionCharts Exporter Component.
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "500", "300", "0", "1");
+	myChart.setDataURL("Callback.xml");
+	myChart.render("chartdiv");
+   </script>
+
+	<!-- We also create a DIV to contain the FusionCharts client-side exporter component -->
+	<div id="fcexpDiv" align="center">FusionCharts Export Handler Component</div>
+	<script type="text/javascript">
+    //Render the export component in this
+	//Note: fcExporter1 is the DOM ID of the DIV and should be specified as value of exportHandler
+	//attribute of chart XML.
+    var myExportComponent = new FusionChartsExportObject("fcExporter1", "../../FusionCharts/FCExporter.swf");
+
+    //Render the exporter SWF in our DIV fcexpDiv
+    myExportComponent.Render("fcexpDiv");
+  </script>
+
+</body>
+</html>

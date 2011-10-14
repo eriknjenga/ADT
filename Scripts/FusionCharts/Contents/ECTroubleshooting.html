@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Exporting Charts as PDF or Images &gt; Troubleshooting </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">I am trying your Export Chart related examples provided in <em>Download Package &gt; Code &gt; ExportChartSamples</em> folder. None of them see to finish the final step. What is wrong? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Before trying the examples from our download package, you need to undertake the necessary setup steps as under:</p>
+      <ul>
+        <li>When running the server-side examples, make sure that you've copied-pasted the relevant export handlers (server-side) to your server. Next, in each example XML, provide the path to that handler and then try again.</li>
+        <li>When running client-side examples, make sure that you've copied-pasted the examples (along with ../FusionCharts folder) to your server (either localhost or remote). The reason why they would not work on local files ystem is that Adobe Flash Player blocks Flash to JavaScript communication on local file system for security reasons, which FusionCharts uses for client-side exporting. If you need to over-ride that for a specific folder, you'll need to visit <a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html" target="_blank">http://www.macromedia.com/support/documentation/en/flash player/help/settings_manager04.html</a> and then in that interface add the folder containing our examples to the list of allowed folder. </li>
+      </ul>
+    <p>If it still doesn't work, switch the debug mode of chart to on and it'll be able to guide as to what might be wrong. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">I have copied the server-side PHP or Ruby on Rails handlers, but they do not seem to generate images at all. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Make sure that you've GD library installed on your server in case of PHP, and RMagick in case of Ruby on Rails. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">My PHP/Ruby on Rails server-side handlers are unable to generate PDFs </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Make sure you've ZLib library installed on your server in case of PHP, and zlib in case of Ruby on Rails. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">I want to export the charts and save them on server without having to render the charts in browser. How can I do this?</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">This CANNOT be done. FusionCharts necessarily needs to render once in the browser, before any of the export handlers are called. This is because the charts are always generated at client-side. After that, it takes a snapshot to the client-side Export component or server-side Export scripts for generation of image/PDFs. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">When creating an instance of FusionCharts Export Component, I do not see the UI at all. Instead, it shows me the text that I filled in my container DIV. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Make sure of the following:</p>
+      <ul>
+        <li>You've Flash Player 10 installed. FusionCharts Export Component has been coded in Flash CS4 and needs Adobe Flash Player 10 to run. </li>
+        <li>You've included <span class="codeInline">FusionChartsExportObject.js</span> in your page (after <span class="codeInline">FusionCharts.js</span>)  </li>
+        <li>The constructor of <span class="codeInline">FusionChartsExportObject</span> correctly specified the path to <span class="codeInline">FCExporter.swf</span> </li>
+        <li>The DIV which you've specified in <span class="codeInline">Render(divId)</span> call actually exists. </li>
+        <li>The JavaScript code that you've written to initialize the Export Component doesn't have any bugs</li>
+      </ul>
+    <p>If nothing works, switch the <span class="codeInline">debugMode</span> of component to true (<a href="ECReferenceDebugJS.html">click here for details</a>), and it'll show what went wrong. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">When using some download tools (like DAP), I cannot download the image in case of server-side exports. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Yes- this is because they do not resend the POST data. So, you'll have to disable the same to allow download of chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Instead of saving on server, can I directly email the chart? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Not directly. But since we allow saving on server, you can write your own script to automatically email the saved image. This script can be placed in our server-side script, or externally. </td>
+  </tr>
+  <tr>
+    <td height="29" valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Instead of just exporting the charts to PDF, I also want my HTML content to be a part of the PDF. How can I achieve that? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Currently, the only way would be to use a print PDF driver (like say PDF995). Since FusionCharts export component does not have access to anything that is contained in your browser window, it cannot export that as a PDF. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">The charts in my PDF look a bit larger than my actual charts. Why?</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The PDFs rendered by FusionCharts Export Handler is 72 DPI in PDF. The PDF viewer that you are using must have been set to a different Display Resolution (pixel/inch setting). A higher value would show the chart bigger and blurred while a smaller value would reduce the chart size. Please set the Resolution to 72 to see the correct chart size.</td>
+  </tr>
+</table>
+</body>
+</html>

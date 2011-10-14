@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Grid Chart </h2></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">
+        
+           Let's create a grid chart that will visually depict the Weekly   Sales of a fictitious shop. The sample data that we intend to plot can be   tabularized as under: </td>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+        <tr>
+           <td valign="top" class="text">
+			  <table cellspacing="0" cellpadding="5" class="text"width="250px" style="border:1px solid #cccccc;">
+                    <tr style="border-bottom:1px solid #cccccc;">
+                       <td width="35%" height="24" class="textBold borderBottom">Week</td>
+                       <td width="65%" align="right" class="textBold borderBottom">Previous Month (sales) </td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 1 </td>
+                       <td align="right"class="borderBottom">$40800</td>
+                    </tr>
+                    <tr>
+                       <td height="24" class="borderBottom" >Week 2 </td>
+                       <td align="right" class="borderBottom">$31400</td>
+                    </tr>
+                    <tr>
+                       <td height="24"  class="borderBottom">Week 3 </td>
+                       <td align="right" class="borderBottom">$26700</td>
+                    </tr>
+                    <tr >
+                       <td height="24" class="borderBottom"  >Week 4 </td>
+                       <td align="right" class="borderBottom">$54400</td>
+                    </tr>
+                    <tr>
+                      <td height="24" class="borderBottom"  >Week 5 </td>
+                      <td align="right" class="borderBottom">$88544</td>
+                    </tr>
+                    <tr>
+                      <td height="24" class="borderBottom"  >Week 6 </td>
+                      <td align="right" class="borderBottom">$22544</td>
+                    </tr>
+                    <tr>
+                      <td height="24" >Week 7 </td>
+                      <td align="right" >$65548</td>
+                    </tr>
+           </table>			 </td>
+	  </tr>
+        <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+   <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts PHP Class to plot this data into a Grid chart: </td>
+  </tr>
+   <tr>
+      <td valign="top" class="text">&nbsp;</td>
+   </tr>
+   <tr class="codeBlock">
+    <td valign="top" class="codeBlock"><p>&lt;?php</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Include FusionCharts PHP Class</span><br />
+     &nbsp;&nbsp;&nbsp; include('../Class/FusionCharts_Gen.php');</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Create SSGrid chart Object </span><br />
+       &nbsp;&nbsp;&nbsp; $FC = new FusionCharts(&quot;grid&quot;,&quot;300&quot;,&quot;200&quot;); <br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # set the relative path of the swf file</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+       <br />
+       <span class="codeComment">
+      &nbsp;&nbsp;&nbsp; # set grid font and font size</span><br/>
+      &nbsp;&nbsp;&nbsp; $FC-&gt;setGridParams(&quot;baseFont=vardana;baseFontSize=12&quot;);<br />
+      <br />
+        
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Set grid value Percent on</span><br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;setGridParams(&quot;showPercentValues=1&quot;);<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Set alternet row back ground color</span><br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;setGridParams(&quot;alternateRowBgColor=EAECEF&quot;);<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # number item per page</span><br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;setGridParams(&quot;numberItemsPerPage=4&quot;);<br />
+        <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;</span><span class="codeComment"> # Add grid values and category names</span><br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;88544&quot;,&quot;label=Week 5&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;22544&quot;,&quot;label=Week 6&quot;);<br />
+&nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;65548&quot;,&quot;label=Week 7&quot;);<br />
+      </p>
+      <p>?&gt;<br />
+        &lt;html&gt;<br />
+        &nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;SSGrid with PHP Class&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+ &nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Render Grid</span><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $FC-&gt;renderChart();<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;?&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+        &lt;/html&gt;        <br />
+      </p>
+     </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+      <ul type="disc">
+        <li>We include       <span class="codeInline">FusionCharts_Gen.php</span> in the program. This file contains FusionCharts PHP Class codes. <br />
+           <br />
+        <span class="codeInline">include('../Class/FusionCharts_Gen.php');</span><br />
+        <br />
+        </li>
+        <li>We create       a Grid chart object.<br />
+           <br />
+            <span class="codeInline">$FC = new FusionCharts(&quot;grid&quot;,&quot;300&quot;,&quot;200&quot;); <br />
+            </span><br />
+        The       constructor of FusionCharts PHP Class is invoked and it initializes chart       type, chart width and chart height properties of the object.<br />
+        <br />
+        </li>
+        <li>Next, we set      relative path to the chart SWF files using <span class="codeInline">setSwfPath()</span> function. This is the path from which we load the chart SWF files. <br />
+           <br />
+          <span class="codeInline">$FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</span><br />
+          <br />
+        </li>
+        <li><span class="text">Hereby, we use </span><span class="codeInline"><strong>setGridParams()</strong></span><span class="text"> to set grid chart parameters(attributes) (Note that for Grid chart it is necessary to use this function instead of </span><span class="codeInline">setChartParam() </span><span class="text">or </span><span class="codeInline">setChartParams() </span><span class="text">. In the following line, we set font face and font size of the grid. The two attributes are separated by delimiters. </span><span class="codeInline"><br />
+                </span><br />
+                <span class="codeInline">$FC-&gt;<strong>setGridParams</strong>(&quot;baseFont=vardana;baseFontSize=12&quot;);</span><br />
+                <br />
+        </li>
+        <li>Then, we set to show the grid values as percentage. <br />
+            <br />
+            <span class="codeInline">$FC-&gt;<strong>setGridParams</strong>(&quot;showPercentValues=1&quot;);<br />
+  <br />
+        </span></li>
+        <li>Next, we set background color of alternate data rows. <br />
+            <br />
+            <span class="codeInline">$FC-&gt;<strong>setGridParams</strong>(&quot;alternateRowBgColor=EAECEF&quot;);</span><br />
+              <br />
+        </li>
+        <li>We now set number of data items that we want to display in one particular page. We set no. of items per page to four. In the following chart, the first page then displays four data and the next page displays the remaining three data items.<br />
+            <br />
+            <span class="codeInline">$FC-&gt;<strong>setGridParams</strong>(&quot;numberItemsPerPage=4&quot;);</span>          <br />
+            <br />
+        </li>
+        <li>Now, we provide chart data with <span class="codeInline">addChartData()</span> function. We pass the value first and then, the category name against each value as a parameter i.e., <span class="codeInline">label=Week 1</span>  etc. <br />
+           <br />
+           <span class="codeInline"> $FC-&gt;addChartData(&quot;40800&quot;,&quot;label=Week 1&quot;);<br />
+ $FC-&gt;addChartData(&quot;31400&quot;,&quot;label=Week 2&quot;);<br />
+ $FC-&gt;addChartData(&quot;26700&quot;,&quot;label=Week 3&quot;);<br />
+ $FC-&gt;addChartData(&quot;54400&quot;,&quot;label=Week 4&quot;);<br />
+ $FC-&gt;addChartData(&quot;88544&quot;,&quot;label=Week 5&quot;);<br />
+ $FC-&gt;addChartData(&quot;22544&quot;,&quot;label=Week 6&quot;);<br />
+ $FC-&gt;addChartData(&quot;65548&quot;,&quot;label=Week 7&quot;);<br />
+           </span><br />
+        </li>
+        <li>Finally, we include       <span class="codeInline">FusionCharts.js</span> - FusionCharts JavaScript Embedding Class and <br />
+           <br />
+        </li>
+        <li>Display       the chart using <span class="codeInline">renderChart()</span> function.<br />
+           <br />
+        <span class="codeInline">$FC-&gt;renderChart();</span></li>
+    </ul>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Here is the Grid chart displaying the first page with four data items that our FusionCharts PHP Class renders:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassGrid.jpg" width="301" height="201" class="imageBorder" /></td>
+  </tr>
+  
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To see the remaining data items that reside on the next page, we have to click on the arrow(button) lying at the bottom of first page. Then, we will see the next page as shown in the image below : </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassGrid2.jpg" width="299" height="199" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

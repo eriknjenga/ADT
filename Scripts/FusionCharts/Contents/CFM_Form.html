@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using FusionCharts with ColdFusion &gt; Charting Data from Forms </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In this section, we'll show you how to use FusionCharts with CFM to plot data collected in forms. </p>
+      <p>We'll build a simple restaurant sales example, where the user will enter the items sold by a restaurant in a given week. This data will be submitted in a form to the server. We'll acquire this data and plot in on a chart. For the sake of simplicity, we wouldn't do any processing on this data. However, your real life applications might process data before presenting it on the chart. </p>
+    <p><strong>Before you go further with this page, we recommend you to please see the previous section &quot;Basic Examples&quot; as we start off from concepts explained in that page. </strong></p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">The code examples contained in this page are present in<span class="codeInline"> Download Package &gt; Code &gt; CFM</span> &gt; <span class="codeInline">FormBased</span> folder. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Building the Form </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The form is contained in <span class="codeInline">Default.cfm</span> and looks as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_Form.gif" width="445" height="387" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">It's a very simple form which submits to <span class="codeInline">Chart.cfm</span>. As such, we wouldn't go into the code of this form. You can directly open the source from download and see it. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Requesting the data and Creating the Chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The work of requesting the data from submitted form and creating the chart is done in <span class="codeInline">Chart.cfm</span>, present in the same folder. It contains the following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p class="codeBlock">&lt;HTML&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts - Form Based Data Charting Example<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+&lt;/HEAD&gt;<br />
+&lt;cfinclude template=&quot;../Includes/FusionCharts.cfm&quot;&gt;<br />
+&lt;BODY&gt;<br />
+      <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!--- We first request the data from the form (Default.cfm) ---&gt;</span><br />
+        <br />
+&nbsp;&nbsp;&nbsp;&lt;cfset intSoups = Val(Form.Soups)&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset intSalads = Val(Form.Salads)&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset intSandwiches = Val(Form.Sandwiches)&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset intBeverages = Val(Form.Beverages)&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset intDesserts = Val(Form.Desserts)&gt;<br />
+  <br />
+  <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!---<br />
+  &nbsp;&nbsp;&nbsp;In this example, we're directly showing this data back on chart.<br />
+  &nbsp;&nbsp;&nbsp;In your apps, you can do the required processing and then show the <br />
+  &nbsp;&nbsp;&nbsp;relevant data only.<br />
+  <br />
+  &nbsp;&nbsp;&nbsp;Now that we've the data in variables, we need to convert this into XML.<br />
+  &nbsp;&nbsp;&nbsp;The simplest method to convert data into XML is using string concatenation. <br />
+  &nbsp;&nbsp;&nbsp;---&gt;</span></p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!--- Initialize &lt;chart&gt; element ---&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = &quot;&lt;chart caption='Sales by Product Category' subCaption='For this week' showPercentValues='1' pieSliceDepth='30' showBorder='1'&gt;&quot;&gt;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!--- Add all data ---&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;set label='Soups' value='&quot; &amp; intSoups &amp; &quot;' /&gt;&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;set label='Salads' value='&quot; &amp; intSalads &amp; &quot;' /&gt;&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;set label='Sandwiches' value='&quot; &amp; intSandwiches &amp; &quot;' /&gt;&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;set label='Beverages' value='&quot; &amp; intBeverages &amp; &quot;' /&gt;&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;set label='Desserts' value='&quot; &amp; intDesserts &amp; &quot;' /&gt;&quot;&gt;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp;&lt;!--- Close &lt;chart&gt; element ---&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;cfset strXML = strXML &amp; &quot;&lt;/chart&gt;&quot;&gt;<br />
+  <span class="codeComment"><br />
+&nbsp;&nbsp;&nbsp;&lt;!--- Create the chart - Pie 3D Chart with data from strXML ---&gt;</span><br />
+&nbsp;&nbsp;&nbsp;&lt;cfoutput&gt;#renderChart(&quot;../../FusionCharts/Pie3D.swf&quot;, &quot;&quot;, strXML, &quot;Sales&quot;, 500, 300, false, false)#&lt;/cfoutput&gt;<br />
+&lt;/BODY&gt;<br />
+&lt;/HTML&gt;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above code, we're doing the following:</p>
+      <ul>
+        <li>Including <span class="codeInline">FusionCharts.js</span> and<span class="codeInline"> FusionCharts.cfm</span> in this page.  </li>
+        <li>Requesting data from the submitted form and storing it in local variables</li>
+        <li>Creating an XML data document using string concatenation and storing it in <span class="codeInline">strXML</span> variable  </li>
+        <li>Creating a Pie 3D chart using <span class="codeInline">renderChart()</span> function and passing <span class="codeInline">strXML</span> as <span class="codeInline">dataXML</span> for the chart. </li>
+      </ul>
+    <p>When you finally run the code, you'll see a chart as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Code_FormChart.jpg" width="468" height="268" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

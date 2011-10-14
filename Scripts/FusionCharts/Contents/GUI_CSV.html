@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Plotting Charts from Delimiter-separated Data </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Using the Visual XML Generator tool, you can also plot charts from your data stored as delimiter separated data e.g., CSV (Comma Separated Values) or Tab separated Values. </p>
+    <p>Delimited data uses specific characters (delimiters) to separate its values. Any character may be used to separate the values, but the most common characters used are the comma, tab and space. For example, in a comma-separated values (CSV) file the data items are delimited using commas. Delimited data is divided into columns and rows. Each line is a row of data. The lines are separated by carriage return character.</p>
+    <p>For example, the following data is delimited by comma character and newline characters:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Jan,$17400<br />
+      Feb,$19800<br />
+      Mar,$21800<br />
+      Apr,$23800<br />
+      May,$29600<br />
+      Jun,$27600<br />
+      Jul,$31800<br />
+      Aug,$39700<br />
+      Sep,$37800<br />
+      Oct,$21900<br />
+      Nov,$32900<br />
+    Dec,$39800</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In the above data, there are two columns of data - month and sales figure. Each row represents a month and is separated by carriage return character.</p>
+    <p>The delimiter here is comma, as that separates two data items on the same row. A delimiter is a sequence of one or more characters used to specify the boundary between data columns in a given row. </p>
+    <p class="header">More examples of delimited data: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Jan;$17400<br />
+      Feb;$19800<br />
+      Mar;$21800<br />
+      Apr;$23800<br />
+      May;$29600<br />
+      Jun;$27600<br />
+      Jul;$31800<br />
+      Aug;$39700<br />
+      Sep;$37800<br />
+      Oct;$21900<br />
+      Nov;$32900<br />
+    Dec;$39800</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example of semi-colon separated data</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Jan $17400<br />
+      Feb $19800<br />
+      Mar $21800<br />
+      Apr $23800<br />
+      May $29600<br />
+      Jun $27600<br />
+      Jul $31800<br />
+      Aug $39700<br />
+      Sep $37800<br />
+      Oct $21900<br />
+      Nov $32900<br />
+    Dec $39800</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Example of space separated data</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can also have multiple columns of data in the same row. For example, in the data below, we've 7 columns of data in each row separated by comma. </p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">10/28/2006,23.300,23.540,22.900,23.080,16,383,998<br />
+      10/27/2006,23.300,23.540,22.900,23.110,17,027,760<br />
+      10/26/2006,23.100,23.500,22.890,23.370,14,095,750<br />
+      10/25/2006,23.265,23.310,22.800,23.070,19,890,630<br />
+      10/24/2006,23.420,23.560,23.180,23.280,15,415,720<br />
+      10/23/2006,23.430,23.930,23.370,23.600,12,736,720<br />
+      10/20/2006,23.360,23.650,22.970,23.540,20,828,490<br />
+      10/19/2006,23.700,23.701,23.050,23.120,39,415,240<br />
+      10/18/2006,24.680,24.950,24.180,24.700,18,208,730<br />
+      10/17/2006,24.330,24.720,24.220,24.540,21,782,780<br />
+      10/16/2006,24.090,24.730,24.000,24.620,20,307,960<br />
+    10/13/2006,23.880,24.331,23.710,23.950,16,910,650</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Qualifiers</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If your data contains the delimiter as a part of data, you'll need to use qualifiers to escape that character sequence. For example, if your data is :</p>
+      <p><em>Doe, Mary</em> $550 45 </p>
+    <p>and you want to separate it using commas, you'll have to use double quotes as qualifier as under in FusionCharts XML GUI:</p>
+    <p>&quot;Doe,Mary&quot;,&quot;$550&quot;,&quot;45&quot; </p>
+    <p>Note that all the data fields would have to use the qualifier now - and not just the field that contains the delimiter. </p>
+    <p>Let's now see how to build charts from delimiter separated data. Before that, we reiterate that in FusionCharts XML GUI, you'll have to:</p>
+    <ul>
+      <li>Use the same delimiter throughout your data</li>
+      <li>If you're using qualifiers for your data, the qualifier has to be applied to all columns and rows of data, irrespective of whether they contain escape characters or not. </li>
+    </ul>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Converting delimiter separated data into chart </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We'll now convert the following comma separated data into a chart. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">Jan,$17400<br />
+Feb,$19800<br />
+Mar,$21800<br />
+Apr,$23800<br />
+May,$29600<br />
+Jun,$27600<br />
+Jul,$31800<br />
+Aug,$39700<br />
+Sep,$37800<br />
+Oct,$21900<br />
+Nov,$32900<br />
+Dec,$39800</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">To do so, launch the XML Generator and select the second option &quot;<span class="codeInline">I want to copy-paste my data from spreadsheet / table..</span>.&quot; </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_4.jpg" width="478" height="179" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the text area that you now get, paste the CSV data. Also, select Comma as the delimiter and leave qualifier as none, as we do not have a qualifier in this data. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_CSV_1.jpg" width="600" height="442" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Now, you've two options to convert it into XML:</p>
+      <ol>
+        <li>You can directly convert this data into XML without making any changes to it.</li>
+        <li>Or, you can edit this data in the grid and then convert it to XML.</li>
+      </ol>
+    <p>To choose option 1, click on &quot;<span class="codeInline">Convert to XML</span>&quot; button. You'll instantly get the XML as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_12.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can now configure the chart properties or generate HTML from here as explained in earlier sections. </p>
+    <p>Going back to previous step, if you had wished to edit the data before conversion, you can click on &quot;<span class="codeInline">Edit and Convert</span>&quot; button. This lets you edit your data in a grid as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_6.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">After editing your data, you can now click on &quot;<span class="codeInline">Convert to XML</span>&quot; button to generate the XML and finally chart. </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../FusionCharts/Column3D.swf", "myChartId", "900", "300", "0", "0");
+	myChart.setDataXML("<chart caption='Monthly Sales Summary' subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$'><set label='January' value='17400' /><set label='February' value='19800' /><set label='March' value='21800' /><set label='April' value='23800' /><set label='May' value='29600' /><set label='June' value='27600' /><set label='July' value='31800' /><set label='August' value='39700' /><set label='September' value='37800' /><set label='October' value='21900' /><set label='November' value='32900' /><set label='December' value='39800' /></chart>");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

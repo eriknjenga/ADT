@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Full Chart as a hotspot</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Starting FusionCharts v3, you can also set 
+        the full chart as a single hotspot. This is useful, when you want to show 
+        a small thumbnail of the chart, which when clicked opens a detailed bigger 
+        chart. </p>
+      <p>To set the entire chart as a hotspot, just specify the target link in 
+        <span class="codeInline">clickURL</span> attribute of <span class="codeInline">&lt;chart&gt;</span> 
+        element as under:</p>
+      <p class="codeInline">&lt;chart ... clickURL='DetailedChart.html' ...&gt;</p>
+      <p>You can again specify the link in five ways:</p>
+      <ol>
+        <li>Simple link opening in same window</li>
+        <li>Simple link opening in new window</li>
+        <li>Link to another frame</li>
+        <li>Link opening in a new pop-up window</li>
+        <li>Existing JavaScript functions (on the same page) to be invoked as 
+          links</li>
+      </ol>
+      <p>If you set the entire chart as hotspot, the other links on the chart 
+        (individual links for data plot) wouldn't work. </p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">Example XML:</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart caption='Monthly Sales Summary' 
+      subcaption='For the year 2006' xAxisName='Month' yAxisName='Sales' numberPrefix='$' 
+      <strong>clickURL='n-http://www.infosoftglobal.com'</strong>&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jan' value='17400' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Feb' value='19800' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Mar' value='21800' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Apr' value='23800' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='May' value='29600' /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;set label='Jun' value='27600' /&gt;<br />
+      &lt;/chart&gt;</td>
+  </tr>
+</table>
+</body>
+</html>

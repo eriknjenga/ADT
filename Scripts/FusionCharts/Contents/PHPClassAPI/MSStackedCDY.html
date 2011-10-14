@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt; Creating Multi-series Stacked 2D Line Dual Y Chart </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>In this section we will show you how to   create a complex chart - Multi-series Stacked 2D Line Dual Y Chart.  Here we calculate the cost as Percentage of Revenue for three products A, B and C. </p>    </td>
+  </tr>
+  
+
+  <tr>
+     <td valign="top" class="text">Let's examine the following data for a multi-series Stacked 2D Line Dual Y chart.</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="text"><table width="53%" border="0" cellpadding="5" cellspacing="0" class="text" style="border:1px solid #cccccc">
+       <tr >
+         <td width="17%" class="borderBottom">&nbsp;<span class="text"><strong>Year</strong></span></td>
+         <td width="18%" class="borderBottom"><div align="center"><strong>Product A </strong></div></td>
+         <td width="18%" class="borderBottom"><div align="center"><strong>Product B  </strong></div></td>
+         <td width="20%" class="borderBottom"><div align="center"><strong>Product C </strong></div></td>
+         <td width="200" class="borderBottom"><div align="center"><strong>Cost as % of Revenue</strong></div></td>
+       </tr>
+       <tr>
+         <td  class="borderBottom">2001</td>
+         <td align="center" class="borderBottom">30</td>
+         <td align="center" class="borderBottom">30</td>
+         <td align="center" class="borderBottom">30</td>
+         <td align="center" class="borderBottom">57</td>
+       </tr>
+       <tr>
+         <td  class="borderBottom">2002</td>
+         <td align="center" class="borderBottom">26 </td>
+         <td align="center" class="borderBottom">26 </td>
+         <td align="center" class="borderBottom">26</td>
+         <td align="center" class="borderBottom">68</td>
+       </tr>
+       <tr>
+         <td  class="borderBottom">2003</td>
+         <td align="center" class="borderBottom"> 29 </td>
+         <td align="center" class="borderBottom"> 29</td>
+         <td align="center" class="borderBottom">29</td>
+         <td align="center" class="borderBottom">79</td>
+       </tr>
+       <tr>
+         <td  class="borderBottom">2004</td>
+         <td align="center" class="borderBottom"> 31 </td>
+         <td align="center" class="borderBottom"> 31</td>
+         <td align="center" class="borderBottom">31</td>
+         <td align="center" class="borderBottom">73</td>
+       </tr>
+       <tr>
+         <td  class="borderBottom">2005</td>
+         <td align="center" class="borderBottom"> 34 </td>
+         <td align="center" class="borderBottom"> 34 </td>
+         <td align="center" class="borderBottom">34</td>
+         <td align="center" class="borderBottom">80</td>
+       </tr>
+     </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The chart that would be created using this data would look like the image shown below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassMultiSeriesStCol2dLDY.jpg" width="451" height="351" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>Here we need to create:</p>
+      <ul>
+        <li>One primary dataset to stack up Revenue values for Product A(1) and Product A(2). The values would be scaled to the Primary Y Axis on the left. </li>
+        <li>Another promary dataset to show Revenue values for Product B. The values would be scaled to the Primary Y Axis on the left.</li>
+        <li>A linset  which would be automatically mapped to  Secondary  Y Axis. </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+     <td valign="top" class="highlightBlock" ><p><strong>Before you go further with this page, we recommend you to please see   the previous page &quot;Creating First Chart &quot; as we start off from concepts explained in   that page. </strong></p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Let's go through the code that builds this chart: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Include FusionCharts PHP Class</span><br />
+        &nbsp;&nbsp;&nbsp;
+include(&quot;../Class/FusionCharts_Gen.php&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Create Multiseries Stacked Column2D Line DY object using FusionCharts PHP Class </span><br />
+     &nbsp;&nbsp;&nbsp; $FC = new FusionCharts(&quot;MSStackedColumn2DLineDY&quot;,&quot;450&quot;,&quot;350&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Set the relative path of the swf file</span><br />
+     &nbsp;&nbsp;&nbsp; $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Define chart attributes</span><br />
+     &nbsp;&nbsp;&nbsp; $strParam=&quot;caption=Annual Revenue;rotateValues=1;xAxisName=Year;PYAxisName=Revenue;SYAXisName=Cost as %25 of Revenue;numberPrefix=$;numberSuffix=M;sNumberSuffix=%25;SYAxisMinValue=0;SYAxisMaxValue=100;showValues=0;useroundedges=1;showSum=1&quot;;</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Set chart attributes </span><br />
+     &nbsp;&nbsp;&nbsp; $FC-&gt;setChartParams($strParam);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add category names</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addCategory(&quot;2001&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addCategory(&quot;2002&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addCategory(&quot;2003&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addCategory(&quot;2004&quot;);<br />
+     &nbsp;&nbsp;&nbsp; $FC-&gt;addCategory(&quot;2005&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add Multi-series  Dataset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;createMSStDataset();<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add Multi-series dataset with in dataset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSStSubDataset(&quot;Product A&quot;, &quot;&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add set data for plotting the chart</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;30&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;26&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;29&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;31&quot;);<br />
+     &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;34&quot;);</p>
+      <p> <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add Multi-series dataset with in dataset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSStSubDataset(&quot;Product B&quot;, &quot;&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add set data for plotting the chart</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;30&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;26&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;29&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;31&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;34&quot;);<br />
+        <span class="codeComment"><br />
+       &nbsp;&nbsp;&nbsp; # Add Multi-series  Dataset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;createMSStDataset();<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add Multi-series dataset with in dataset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSStSubDataset(&quot;Product C&quot;, &quot;&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add set data for plotting the chart</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;30&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;26&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;29&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;31&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addChartData(&quot;34&quot;);<br />
+  <br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add Multi-series lineset for showing lines</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLineset(&quot;Cost as %25 of Revenue&quot;,&quot;lineThickness=4&quot;);<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp; # Add set data with in lineset</span><br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLinesetData(&quot;57&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLinesetData(&quot;68&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLinesetData(&quot;79&quot;);<br />
+       &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLinesetData(&quot;73&quot;);<br />
+     &nbsp;&nbsp;&nbsp; $FC-&gt;addMSLinesetData(&quot;80&quot;);</p>
+      <p>?&gt;</p>
+      <p>&lt;html&gt;<br />
+  &nbsp;&nbsp;&nbsp;&lt;head&gt;<br />
+  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &lt;title&gt;Multiseries Stacked Column2D Line DY Chart Using FusionCharts PHP Class&lt;/title&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;script language='javascript' src='../FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;<br />
+ &nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+  &nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Render Chart </span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        $FC-&gt;renderChart();<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        ?&gt;<br />
+      </p>
+      <p>&nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+        &lt;/html&gt;<br />
+    </p></td>
+  </tr>
+  <tr>
+     <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see in the above code, we're doing the following:</p>
+      <ul type="disc">
+        <li>We include <span class="codeInline">FusionCharts_Gen.php</span>.<br />
+           <br />
+        </li>
+        <li>We create       an object for Multiseries Stacked Column2D Line DY chart and set relative file path to the SWF file.<br />
+               <br />
+                  <span class="codeInline">$FC = new FusionCharts(&quot;MSStackedColumn2DLineDY&quot;,&quot;450&quot;,&quot;350&quot;);<br />
+                  $FC-&gt;setSWFPath(&quot;../FusionCharts/&quot;);<br />
+                  </span><br />
+        </li>
+        <li>We store       chart attributes in <span class="codeInline">$strParam</span> variable and pass it to <span class="codeInline"> setChartParams()</span> function. It       sets chart attributes.<br />
+           <br />
+</li>
+        <li>First, we add the category names separately using <span class="codeInline">addCategory()</span> function. <br />
+           <br />
+           <span class="codeInline">$FC-&gt;addCategory(&quot;2001&quot;);<br />
+ $FC-&gt;addCategory(&quot;2002&quot;);<br />
+ $FC-&gt;addCategory(&quot;2003&quot;);<br />
+ $FC-&gt;addCategory(&quot;2004&quot;);<br />
+$FC-&gt;addCategory(&quot;2005&quot;);</span><br />
+<br />
+        </li>
+        <li>Let us now create the  primary dataset and sub-datasets for Primary Y Axis.<br />
+            <br />
+          For this,  we first create a multi-series primary dataset using <span class="codeInline">createMSStDataset()</span>for multi-series stacked column 2D line DY chart. Please note that all multi-series primary datasets would be mapped to Primary Y Axis on the left. <br />
+  <br />
+  <span class="codeInline"> <strong>$FC-&gt;createMSStDataset()</strong>;<br />
+  </span><br />
+        </li>
+        <li>We add Multi-series sub-dataset within the primary dataset declared above. We use <span class="codeInline"><strong>addMSStSubDataset()</strong></span> to do the task<span class="codeInline">. </span>It takes two patrameters. First parameter takes the series name. The second parameter can take delimiter dataset attributes which we have kept blank in this example. <br />
+            <span class="codeInline"> <br />
+            <strong>$FC-&gt;addMSStSubDataset(&quot;Product A(1)&quot;, &quot;&quot;)</strong></span>;<br />
+            <br />
+        </li>
+        <li>We provide chart data specific to the above dataset. Remember to provide chart data just after the dataset is defined. <br />
+            <br />
+            <span class="codeInline">$FC-&gt;addChartData(&quot;30&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;26&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;29&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;31&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;34&quot;,&quot;&quot;,&quot;&quot;)</span>;<br />
+  <br />
+          Please note that as we have 5  categories, we have entered 5 values for the dataset 'Product A'.<br />
+  <br />
+        </li>
+        <li>Likewize, we  create anoher sub-dataset  for product A(1)  and provide the data values. <br />
+            <br />
+            <span class="codeInline"><strong>$FC-&gt;addMSStSubDataset(&quot;Product B&quot;, &quot;&quot;)</strong>;<br />
+              $FC-&gt;addChartData(&quot;30&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;26&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;29&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;31&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;34&quot;,&quot;&quot;,&quot;&quot;)</span>;<br />
+  <br />
+        </li>
+        <li>We again create another primary dataset and add add a sub-dataset for Product B and add respective data values.<br />
+            <br />
+            <span class="codeInline"><strong>$FC-&gt;createMSStDataset()</strong>;<br />
+            <br />
+            <strong> $FC-&gt;addMSStSubDataset(&quot;Product B&quot;, &quot;&quot;)</strong>;<br />
+            <br />
+              $FC-&gt;addChartData(&quot;30&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;26&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;29&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;31&quot;,&quot;&quot;,&quot;&quot;);<br />
+              $FC-&gt;addChartData(&quot;34&quot;,&quot;&quot;,&quot;&quot;);<br />
+            </span><br />
+            <br />
+        </li>
+        <li>Now, we create a lineset. All linesets would be automatically mapped to  Secondary Y Axis. You can create any number of linesets using this process.<br />
+            <br />
+            <span class="codeInline"><strong>$FC-&gt;addMSLineset(&quot;Cost as % of Revenue&quot;,&quot;lineThickness=4&quot;)</strong></span>;<br />
+            <br />
+        </li>
+        <li>Next, we add data to the lineset  using <span class="codeInline">addMSLinesetData().<br />
+          </span> <span class="codeInline"><strong><br />
+            $FC-&gt;addMSLinesetData(&quot;57&quot;,&quot;&quot;,&quot;&quot;);<br />
+            $FC-&gt;addMSLinesetData(&quot;68&quot;,&quot;&quot;,&quot;&quot;);<br />
+            $FC-&gt;addMSLinesetData(&quot;79&quot;,&quot;&quot;,&quot;&quot;);<br />
+            $FC-&gt;addMSLinesetData(&quot;73&quot;,&quot;&quot;,&quot;&quot;);<br />
+            $FC-&gt;addMSLinesetData(&quot;80&quot;,&quot;&quot;,&quot;&quot;);<br />
+          </strong></span><br />
+        </li>
+        <li>We add <span class="codeInline">FusionCharts.js</span>.<br />
+            <br />
+        </li>
+        <li> Finally, we render the chart.<br />
+            <br />
+            <span class="codeInline">$FC-&gt;renderChart()</span></li>
+      </ul>    </td>
+  </tr>
+  <tr>
+     <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">Please go through <a href="Functions.html">FusionCharts PHP Class API Reference</a> section to know more about the functions used in the above code. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">And the Multi-series Stacked 2D Line Dual Y chart is ready! </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="../Images/ClassImages/ClassMultiSeriesStCol2dLDY.jpg" width="451" height="351" class="imageBorder" /></td>
+  </tr>
+</table>
+</body>
+</html>

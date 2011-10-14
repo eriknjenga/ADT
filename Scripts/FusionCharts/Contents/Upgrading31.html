@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Upgrading to v3.1 from FusionCharts v3.0.x</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>This section is meant for users who have implemented v3.0.x of FusionCharts in their applications and are now upgrading   to FusionCharts v3.1.</p>
+      <p>All the features of FusionCharts v3.1 are backward compatible with FusionCharts v3.0.7, barring one - exporting charts as images/PDFs. So, if you're not using &quot;Export as image&quot; feature currently, you can just over-write your old chart SWF files with the new ones and the process is complete. However, if you do use the &quot;Export as image&quot; functionality and wish to use the new features of v3.1, please follow the steps below. </p>
+      <p>&nbsp;</p>      </td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Making use of new &quot;Export as Image/PDF&quot; functionality </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Since FusionCharts now allows export of charts at both server and client side, there have been substantial changes in implementation. If you're currently using v3.0.x with server-side saving set as on, you'll need to:</p>
+      <ul>
+        <li>Update your chart SWF files with the new v3.1 SWF files</li>
+        <li>Update your server-side image-saving scripts with the new FusionCharts  Export Handlers (server-side image saving scripts). </li>
+        <li>If you intend to save the charts on server, you'll have to configure the parameters in chart XML, as well as specify the temporary folder path in server-side FusionCharts Export Handlers.</li>
+        <li>To choose another export format for the image, you'll again have to change the  parameter in chart XML.</li>
+      </ul>
+    <p>If you intend to use the new client-side FusionCharts Exporter Component, please follow the instructions in the section &quot;Exporting as Image/PDF&quot; </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Making use of new JavaScript events/methods </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>If you intend to make use of the new JavaScript events or methods exposed in v3.1, you'll have to make necessary modifications in your code. Please see the section &quot;FusionCharts &amp; JavaScript&quot; to get more details on the new API.</p>
+    <p>Existing JavaScript implementations using <span class="codeInline">FC_Rendered</span> or <span class="codeInline">FC_Loaded</span>   events and <span class="codeInline">setDataXML</span>() and <span class="codeInline">setDataURL</span>() methods would continue to function without any problem. </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Making use of % sizing (initial) </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Starting FusionCharts v3.1, you can now specify your chart's width and height in % (during initialization only). This sets the chart size with respect to the parent container that contains it. Please note that dynamic sizing with respect to browser is still not possible i.e., if you resize your browser, the charts would NOT resize accordingly. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Using Rotated fonts </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">If you were FusionCharts in your Flash movies and using rotated fonts by embedding the fonts, you can now remove those embedded fonts. FusionCharts v3.1 now displays rotated text without need for embedded fonts.</td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" /></head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">JavaScript APIs exposed by the chart </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>All the charts in FusionCharts v3 suite expose the following JavaScript APIs. Click on a method name to see detailed usage information on the same.</p>
+      <p class="highlightBlock">Please note that the events are raised only when <span class="codeInline">registerWithJS</span> flag of the chart is set to 1. <br />
+        <br />
+      These APIs are NOT present in <span class="codeInline">FusionCharts.js</span> (FusionCharts JavaScript class). Rather, these APIs are in-built into the SWFs. So, you need to invoke them on the DOM object of the chart (i.e., on the object returned by <span class="codeInline">getChartFromID(DomID)</span> call). </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="text"><strong>API Method signature </strong></td>
+        <td width="55%" valign="top" class="text"><strong>Purpose</strong></td>
+        <td width='25%' valign='top' class="text"><strong>What it returns? </strong></td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="codeInline"><a href="JS_setDataURL.html">setDataURL(strDataURL:String)</a></td>
+        <td width="55%" valign="top" class="text"> Changes the data of the chart to the new specified URL. The URL has to be relative to the chart. </td>
+        <td width='25%' valign='top' class="text"> Nothing </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><a href="JS_setDataXML.html">setDataXML(strDataXML:String)</a></td>
+        <td width="55%" valign="top" class="text"><p>Changes the data of the chart to the specified XML string. </p>
+          <p>Note of caution: When specifying XML as string, please make sure that there are no conflicts in quotes between the JS function call and the quotation mark used to enclose attributes in XML string. </p></td>
+        <td width="25%" valign='top' class="text">Nothing</td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><a href="JS_print.html">print()</a></td>
+        <td width="55%" valign="top" class="text">Prints the chart </td>
+        <td width="25%" valign='top' class="text">Nothing</td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">exportChart(exportSettings: Object)</td>
+        <td width="55%" valign="top" class="text">Calls the export chart routine to save the chart as PDF/image. exportSettings object here contains over-riding parameters to over-ride the export parameters initially specified in XML. </td>
+        <td width="25%" valign='top' class="text">Nothing. But, in most cases, a callback function is invoked to convey status of export. </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><a href="JS_getXML.html">getXML()</a></td>
+        <td width="55%" valign="top" class="text">Returns the XML data of chart. </td>
+        <td width="25%" valign='top' class="text">XML data of chart as string </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><a href="JS_getXML.html">getChartAttribute(attrName: String) </a></td>
+        <td width="55%" valign="top" class="text">Returns the value of the attribute as specified in chart's XML data &gt; <span class="codeInline">&lt;chart&gt;</span> element </td>
+        <td width="25%" valign='top' class="text">Value of the attribute; or &quot;null&quot; if the attribute was empty or not found in XML </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">signature()</td>
+        <td valign="top" class="text">A string representing the signature of SWF. </td>
+        <td valign='top' class="text">For FusionCharts v3 charts, it's FusionCharts/3.1 </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">hasRendered()</td>
+        <td valign="top" class="text">A boolean value indicating whether the chart has rendered. </td>
+        <td valign='top' class="text">Boolean value indicating whether the chart has finished rendering </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline"><a href="ExportDataJS.html">getDataAsCSV()</a></td>
+        <td valign="top" class="text">Returns the data of chart as CSV string. The output CSV string can be configured using XML parameters. </td>
+        <td valign='top' class="text">String representing data of chart in CSV format. </td>
+      </tr>
+
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

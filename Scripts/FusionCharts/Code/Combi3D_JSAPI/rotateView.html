@@ -1,0 +1,35 @@
+<HTML>
+	<HEAD>
+	   <TITLE>FusionCharts &amp; JavaScript - Combi3D chart - Rotate Chart Example</TITLE> 
+	
+	   <SCRIPT LANGUAGE="Javascript" SRC="../../JSClass/FusionCharts.js"></SCRIPT>
+	   <SCRIPT LANGUAGE="JavaScript">
+		  function rotateBy(xAngle,yAngle)
+		  {
+			 //Get chart from its ID
+			 var chartToRotate = getChartFromId("chart1Id");
+			 chartToRotate.rotateView(xAngle,yAngle);
+		  }
+	   </SCRIPT>
+	
+	</HEAD>
+	<BODY>
+		<center>
+		<h2>FusionCharts and JavaScript - Combi3D chart - Rotate view</h2>
+		
+		<div id="chart1div">FusionCharts</div>
+		
+		<script type="text/javascript"> 
+			var chart1 = new FusionCharts("../FusionCharts/MSCombi3D.swf", "chart1Id", "400", "300", "0", "1"); 
+			chart1.setDataXML("<chart ><categories><category label='A' /></categories><dataset><set label='A' value='10' /></dataset><dataset><set label='B' value='11' /></dataset></chart>");
+			chart1.render("chart1div");
+		</script>
+
+		<strong>Rotate Chart To</strong><br />
+		xAngle Value: <input type="text" style="width:30px" id="xAngle" value="10"/><br />
+		yAngle Value: <input name="text" type="text" id="yAngle" style="width:30px" value="20"/><br />    
+		<input type="button" value="Rotate Chart" id="btnRotate" onClick="rotateBy(document.getElementById('xAngle').value,document.getElementById('yAngle').value);" />
+		
+		</center>
+	</BODY>
+</HTML>

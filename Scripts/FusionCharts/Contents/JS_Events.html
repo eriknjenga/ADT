@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">JavaScript events raised by the chart </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>All the charts in FusionCharts v3 suite can raise the following events. Please note that the events are raised only when <span class="codeInline">registerWithJS</span> flag of the chart is set to 1. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#f1f1f1">
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="text"><strong>Event Name </strong></td>
+        <td width="40%" valign="top" class="text"><strong>When is it raised? </strong></td>
+        <td width='50%' valign='top' class="text"><strong>What to use it for? </strong></td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td width="20%" valign="top" class="codeInline">FC_Loaded(DOMId)</td>
+        <td width="40%" valign="top" class="text"> When the chart SWF has finished downloading in the user's browser.</td>
+        <td width='50%' valign='top' class="text"> To hide any loader components that you might have on your page. </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">FC_Rendered(DOMId)</td>
+        <td valign="top" class="text">When the chart has finished rendering. This call is made only once per loaded chart SWF (even if new data is supplied to it via <span class="codeInline">setDataURL</span> or <span class="codeInline">setDataXML</span> method). </td>
+        <td valign='top' class="text">To invoke any further JavaScript methods on chart, or to change the data of chart. </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">FC_DataLoaded(DOMId)</td>
+        <td valign="top" class="text">When the data of the chart has finished loading - both in dataXML or dataURL method. </td>
+        <td valign='top' class="text">To further process data in any other components in your page. </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">FC_DataLoadError(DOMId)</td>
+        <td valign="top" class="text">When there was an error in loading data from the specified URL </td>
+        <td valign='top' class="text">To show an error message to user, or to take a corrective measure </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">FC_NoDataToDisplay(DOMId)</td>
+        <td valign="top" class="text">When the XML data loaded by chart didn't contain any data to display </td>
+        <td valign='top' class="text">To show an error message to user, or to take a corrective measure </td>
+      </tr>
+      <tr class='trLightBlueBg'>
+        <td valign="top" class="codeInline">FC_DataXMLInvalid(DOMId)</td>
+        <td valign="top" class="text">When the XML data loaded by chart was invalid (wrong XML structure) </td>
+        <td valign='top' class="text">To show an error message to user, or to take a corrective measure </td>
+      </tr>
+
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to track these events? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The events raised by FusionCharts are simple JavaScript functions that are invoked, and the DOMId of the invoking chart is passed to the function to help you identify the source. For example, the <span class="codeInline">FC_Rendered</span> event for a chart can be tracked using following code: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;HTML&gt;<br />
+      &lt;HEAD&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;TITLE&gt;FusionCharts &amp; JavaScript - Basic Example&lt;/TITLE&gt; <br />
+      &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;&lt;/SCRIPT&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;<br />
+      &nbsp;&nbsp;<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;//FC_Rendered method is called whenever a FusionCharts chart on the page<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//has finished initial rendering. To this function, the chart passes its <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//own DOM Id.</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function FC_Rendered(DOMId){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">//If it's our required chart</span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DOMId==&quot;chart1Id&quot;){<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">&nbsp;//Simply alert </span><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;window.alert(&quot;Look Ma! I am Column3D and I've finished loading and rendering.&quot;);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+      &nbsp;&nbsp;&nbsp;&lt;/SCRIPT&gt;<br />
+      &lt;/HEAD&gt;<br />
+      &lt;BODY&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;div id=&quot;chart1div&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FusionCharts<br />
+      &nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;script language=&quot;JavaScript&quot;&gt; <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;../../FusionCharts/Column3D.swf&quot;, &quot;<strong>chart1Id</strong>&quot;, &quot;400&quot;, &quot;300&quot;, &quot;0&quot;, <strong>&quot;1&quot;</strong>); <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;set label='A' value='10' /&gt;&lt;set label='B' value='11' /&gt;&lt;/chart&gt;&quot;);<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+      &nbsp;&nbsp;&nbsp;&lt;/script&gt;<br />
+      &lt;/BODY&gt;<br />
+      &lt;/HTML&gt;</td>
+  </tr>
+</table>
+</body>
+</html>

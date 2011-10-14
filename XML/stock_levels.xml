@@ -1,0 +1,39 @@
+<chart palette='2' caption='Vaccine Stock Inventory &' subCaption='Supply Adequacy Levels' showValues='0' divLineDecimalPrecision='1' limitsDecimalPrecision='1' PYAxisName='Doses (Thousands)' SYAxisName='Percentage' formatNumberScale='0'>
+<categories>
+<category label='Jan' />
+<category label='Feb' />
+<category label='Mar' />
+<category label='Apr' />
+<category label='May' />
+<category label='Jun' />
+<category label='Jul' />
+<category label='Aug' />
+<category label='Sep' />
+<category label='Oct' />
+<category label='Nov' />
+<category label='Dec' />
+</categories>
+
+<dataset lineThickness='3' seriesName='Stock' parentYAxis='P' renderAs='Line'>
+<set value='174' />
+<set value='197' />
+<set value='155' />
+<set value='15' />
+<set value='66' />
+<set value='85' />
+<set value='37' />
+<set value='10' />
+<set value='44' />
+<set value='322' />
+<set value='85' />
+<set value='37' />
+</dataset>
+
+<dataset seriesName="Stock Reserve">
+	</dataset>
+	<dataset seriesName="Stock Diluents">
+	</dataset>
+	<dataset seriesName="Stock Maximum">
+	</dataset>
+
+</chart>

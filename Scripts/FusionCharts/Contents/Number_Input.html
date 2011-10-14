@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Using formatted input numbers </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In some countries, commas are used as decimal separators and   dots as thousand separators. But, if you directly specify such numbers in FusionCharts XML, it will give an   error while converting to number. FusionCharts v3 introduces a smart way to let you specify numbers in your own format in XML. </p>
+      <p>Consider the XML below: </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">&lt;chart <strong>inThousandSeparator='.' inDecimalSeparator=','</strong> formatNumberScale='0'&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' <strong>value='420.315,43'</strong> /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' <strong>value='295.345,98'</strong> /&gt;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' <strong>value='523.323,76'</strong> /&gt; <br />
+    &lt;/chart&gt;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this XML, we're providing the numbers in the non-standard convention - i.e., we've used dot as the thousand separator and comma as the decimal separator (as followed in some European countries). Now, to make sure that FusionCharts reads these numbers in the right way, we convey our input decimal and thousand separator characters as under:</p>
+    <p class="codeInline">&lt;chart ... inThousandSeparator='.' inDecimalSeparator=',' ..&gt; </p>
+    <p>This tells FusionCharts that it should treat dot in the input numbers as thousands (instead of normal decimals) and comma as decimals. </p>
+    <p>When you now view this chart, you'll get the following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_Input1.jpg" width="307" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">You can see that FusionCharts has interpreted the numbers properly and automatically converted the numbers into the standard format. If you want to output the number again in the non-conventional format, you can use the following XML: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;chart inThousandSeparator='.' inDecimalSeparator=',' <strong>thousandSeparator='.' decimalSeparator=','</strong>  formatNumberScale='0'&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='John' value='420.315,43' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Mary' value='295.345,98' /&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;set label='Tom' value='523.323,76' /&gt; <br />
+    &lt;/chart&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the above XML we're specifying custom characters for both input and output formats. When you now see the chart, you'll get something as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/Number_Input2.jpg" width="307" height="210" /></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<script type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">JavaScript + setDataURL Method </h2></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>In this method, you provide the URL of XML data to FusionCharts using JavaScript   functions (present on the same page in which chart is present). The chart then sends a request for XML data to the specified URL, reads it,   parses it and then renders the charts accordingly. The following diagram would help you understand better:</p>
+      <p>(Click on the diagram below to see the animated feature tour on this process)</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p><a href='#'><img src="Images/JSURLMethod.jpg" alt="Click to see an animated feature tour on this process" width="600" height="329" border="0" onclick="MM_openBrWindow('FeatureTours/XMLMethods.html','xmlMethods','status=yes,scrollbars=yes,resizable=yes,width=775,height=580')"/></a></p>
+    <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>As you can see above, the following steps involved in this:</p>
+      <ol>
+        <li>Your server first sends the HTML content of the page and the chart SWF. Now, along with this, it also sends pre-defined JavaScript functions to update the chart. </li>
+        <li>Once the SWF is loaded, it registers itself with pre-defined JavaScript function <span class="codeInline">FC_Rendered</span>.</li>
+        <li>Your JavaScript functions now update the chart using setDataURL method, by passing the URL of XML Data Document. </li>
+        <li>The chart sends a request for the XML data, reads it, parses it and then renders.</li>
+      </ol>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">Sample Usage of JavaScript + setDataURL method</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p>&lt;SCRIPT LANGUAGE=&quot;Javascript&quot; SRC=&quot;../../FusionCharts/FusionCharts.js&quot;&gt;<br />
+        <span class="codeComment">//You need to include the above JS file, if you intend to embed the chart using JavaScript.        </span><br />
+&lt;/SCRIPT&gt;</p>
+      <p>&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt; 		<br />
+      <br />
+        function FC_Rendered(DOMId){<br />
+        &nbsp;&nbsp;&nbsp;<span class="codeComment">//This method is called whenever a FusionCharts chart is loaded.<br />
+&nbsp;&nbsp;&nbsp;//Check if it's the required chart using ID</span><br />
+&nbsp;&nbsp;&nbsp;if (DOMId==&quot;ChId1&quot;){<br />
+<span class="codeComment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Invoke updateChart() method to update chart with new data</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateChart();<br />
+&nbsp;&nbsp;&nbsp;}<br />
+        } <br />
+        <br />
+        function updateChart(){<br />
+        <span class="codeComment">&nbsp;&nbsp;&nbsp;//Get reference to chart object using Dom ID &quot;ChId1&quot; 			</span><br />
+&nbsp;&nbsp;&nbsp;var chartObj = getChartFromId(&quot;ChId1&quot;); <br />
+&nbsp;&nbsp;&nbsp;<span class="codeComment">//Update its XML Data	URL</span> <br />
+&nbsp;&nbsp;&nbsp;chartObj.setDataURL(&quot;Data.asp&quot;); <br />
+}<br />
+      &lt;/SCRIPT&gt;</p>
+      <p>&lt;BODY&gt;<br />
+        &lt;div id=&quot;chart1div&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;This text is replaced by the chart.<br />
+&lt;/div&gt;<br />
+&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;var chart1 = new FusionCharts(&quot;Column2D.swf&quot;, &quot;ChId1&quot;, &quot;600&quot;, &quot;400&quot;, &quot;0&quot;, &quot;1&quot;); <strong><br />
+</strong><span class="codeComment">&nbsp;&nbsp;&nbsp;//Start Chart with empty data  as we'll later update using JavaScript</span><strong> <br />
+</strong>&nbsp;&nbsp;&nbsp;chart1.setDataXML(&quot;&lt;chart&gt;&lt;/chart&gt;&quot;);<br />
+&nbsp;&nbsp;&nbsp;chart1.render(&quot;chart1div&quot;);<br />
+&lt;/script&gt;<br />
+    &lt;/BODY&gt;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>
+	FusionCharts Server-side Export Sample Using JavaScript
+	</title>
+	<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+	<script type="text/javascript">
+	function startExport(){
+		//Get reference to chart.
+		var chart = getChartFromId("myChartId");
+		//Now, we proceed with exporting only if chart has finished rendering.
+		if (chart.hasRendered()==true){
+			chart.exportChart();
+		}else{
+			alert("Please wait for the chart to finish rendering, before you can invoke exporting");
+		}
+	}
+	</script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+   	//Create the chart.
+	var myChart = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId", "600", "300", "0", "1");
+	myChart.setDataURL("ServerSideSimple.xml");
+	myChart.render("chartdiv");
+   </script>
+
+<BR/>
+<center><input type='button' value='Begin Chart Export' onClick="javascript:startExport();">
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<chart caption='月間販売' xAxisName='月' yAxisName='Units' decimals='0' formatNumberScale='0'>
+<set label='一月' value='462'/>
+<set label='二月' value='857'/>
+<set label='三月' value='671'/>
+<set label='四月' value='494'/>
+<set label='五月' value='761'/>
+<set label='六月' value='960'/>
+<set label='七月' value='629'/>
+<set label='八月' value='622'/>
+<set label='九月' value='376'/>
+<set label='十月' value='494'/>
+<set label='十一月' value='761'/>
+<set label='十二月' value='960'/>
+</chart>

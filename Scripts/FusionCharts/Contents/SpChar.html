@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+<style type="text/css">
+#imageTable , #imageTable tr td{ border:1px solid #94B0BE; }
+</style>
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Using Multi-lingual text in FusionCharts </span></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>&nbsp;</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>FusionCharts allows you to use multi-lingual (UTF-8) characters on the charts. Shown below is an example where we've used Arabic names on the chart:</p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/SpChar_1.jpg" width="460" height="210" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can use multi-lingual characters in all the charts in FusionCharts v3 suite. </p>
+      <p class="highlightBlock">FusionCharts supports only left-to-right languages as of now. It doesn't have native support for right-to-left languages like Hebrew. So, if you want to use Hebrew with FusionCharts, you'll have to programatically change the text sequence and then provide the data to FusionCharts. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">How to use multi-lingual characters? </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p>To use multi-lingual characters on the chart, you necessarily need to use UTF-8 encoded XML. More importantly, the XML file/stream<strong> does require a BOM stamp</strong> to be present as the very first 3 Bytes of the file. Hence, one must remember the two basic thumb rules :</p>
+      <ol>
+        <li>for <strong>dataURL </strong>method - the XML file/stream should be having the BOM stamp and </li>
+        <li>for <strong>dataXML </strong>method - the HTML/application file containing the XML as well as the chart SWF should have the BOM stamp. </li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock">What is BOM - Byte Order Mark. It is 'EF BB EF' - these 3 bytes in case of UTF-8 encoded files, the BOM being placed at the very begining of the file. It is an indicator that the file is containing UTF-8 encoded strings. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="highlightBlock"><strong>WARNING</strong> : Do not rely on specifying the encoding setting i.e. <span class="codeInline">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span> in the XML header region. <strong>This does not add the Byte Order Mark (BOM)</strong> to the XML file.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Please note that without the BOM stamp the chart would produce gibberish characters. Please compare the images below: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+	<table class="textBold" cellpadding="5" cellspacing="2" id="imageTable" >
+<tr>
+<td width="50%" class="blueTr">Standard (with BOM) </td>
+<td width="50%" class="blueTr">Gibberish (without BOM) </td>
+</tr>
+<tr>
+<td><img src="Images/multilanguages.jpg" width="398" height="296" class="imageBorder"></td>
+<td><img src="Images/nolanguage.jpg" width="394" height="294" class="imageBorder"></td>
+</tr>
+</table>
+	</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="pageHeader">How to add BOM ?</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">1. In static XML  </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">For the XML files which are generated one-time and remains static, you
+can manually insert a BOM mark. This method is applicable when data is
+retrieved from file using the <span class="code-inline">dataURL method</span>. All you have to do is make sure the file containing the XML
+data contains a BOM mark or specify one if it is absent. In order to
+specify a BOM mark, follow these steps:
+<ol>
+  <li>Open the file in question in a text-editor that supports
+    UTF-8 encoding with BOM stamp (Example &ndash; Windows Notepad).</li>
+  <li>Open the save menu and specify file name, file type,
+    encoding and BOM mark (if the option is available).</li>
+  <li>Save the file.</li>
+</ol>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td valign="top" class="text">The image below shows how this can be done in Windows Notepad. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/addBOM1.jpg" width="457" height="155" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">The image below shows how this can be done in Dreamweaver for mac.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/addBOM2.jpg" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">2. In dynamically generated XML using server-side script</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">
+      <p> Ideally, in most of the cases you would NOT use a physical data file. Instead you'll have  	your own server side scripts virtually relay the XML data document to the chart. Thus this would come outside the scope of manual maintenance. Rather, you must write some code in the server side script to add the BOM stamp. The method is best practised when UTF-8 encoded strings are retrieved from databases and smilar locations. The implementation can be done using either of the two  methods: </p>
+      <ol>
+        <li> <span style="text-decoration:underline;">Manually add BOM to the XML realyer script file</span> - just like adding BOM stamp to the static XML files you can also add the BOM stamp to the server side file which would be realying the dynamically generaeted XML. This needs to be done when the script file is created for the first time before you start coding in it.<br />
+          <br />
+</li>
+        <li> <span style="text-decoration:underline;">Write BOM using script</span> - In most cases the XML relayer script file might be created with ANSI encoded format. In this case, one needs to add the BOM using script at the very begining of the output stream. Moreover, when a server side script creates an XML file, it should add the BOM stamp as the very first 3 bytes of the file. </li>
+      </ol>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">We list below techniques to implement BOM stamp using major server side technologies. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using ASP.NET C# </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p class="prettyprint lang-c#"><span class="typ">Response</span><span class="pun">.</span><span class="typ">ContentType</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">&quot;text/xml; characterset=utf-8&quot; </span><span class="pun">;</span><span class="pln"><br />
+        </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">BinaryWrite</span><span class="pun">(</span><span class="kwd"> new</span><span class="pln"> byte</span><span class="pun">[]</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="lit">0xEF</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0xBB</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0xBF</span><span class="pln"> </span><span class="pun">} );</span></p>
+      <p class="codeComment"> // Now write your XML data to output stream </p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using ASP.NET VB </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p class="prettyprint lang-php"><span class="typ">Response</span><span class="pun">.</span><span class="typ">ContentType</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">&quot;text/xml&quot;</span><span class="pln"><br />
+          </span><span class="typ">Dim</span><span class="pln"> </span><span class="typ">UTFHeader</span><span class="pun">()</span><span class="pln"> </span><span class="typ">As</span><span class="pln"> </span><span class="typ">Byte</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{&amp;</span><span class="pln">HEF</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">HBB</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">HBF</span><span class="pun">}</span><span class="pln"><br />
+            </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">BinaryWrite</span><span class="pun">(</span><span class="typ">UTFHeader</span><span class="pun">)</span></p>
+      <p class="prettyprint lang-php"><span class="codeComment">' Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using PHP </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p class="prettyprint lang-php"><span class="pln">header</span><span class="pun"> ( </span><span class="str">'Content-type: text/xml' </span><span class="pun">);</span><span class="pln"><br />
+        echo pack</span><span class="pun"> ( </span><span class="str">&quot;C3&quot; </span><span class="pun">, </span><span class="lit">0xef</span><span class="pun">, </span><span class="lit">0xbb</span><span class="pun">, </span><span class="lit">0xbf</span><span class="pun"> );</span></p>
+      <p class="prettyprint lang-php"><span class="codeComment">// Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using ASP </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock"><p class="prettyprint lang-asp"><span class="typ">Response</span><span class="pun">.</span><span class="typ">AddHeader</span><span class="pln"> </span><span class="str">&quot;Content-Type&quot;</span><span class="pun">,</span><span class="pln"> </span><span class="str">&quot;text/xml;charset=UTF-8&quot;</span><span class="pln"><br />
+          </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">CodePage</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">65001</span><span class="str">&quot;</span><span class="pln"><br />
+            <br />
+              </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">BinaryWrite</span><span class="pun">( </span><span class="pln">chrb</span><span class="pun">(</span><span class="lit">239</span><span class="pun">) )</span><span class="pln"><br />
+                </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">BinaryWrite</span><span class="pun">(</span><span class="pln"> chrb</span><span class="pun">(</span><span class="lit">187</span><span class="pun">) )</span><span class="pln"><br />
+      </span><span class="typ">Response</span><span class="pun">.</span><span class="typ">BinaryWrite</span><span class="pun">(</span><span class="pln"> chrb</span><span class="pun">(</span><span class="lit">191</span><span class="pun">) )</span></p>
+      <p class="prettyprint lang-asp">'<span class="codeComment"> Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using JSP </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p class="prettyprint lang-java"><span class="pln">response</span><span class="pun">.</span><span class="pln">setContentType</span><span class="pun">( </span><span class="str">&quot;text/xml; charset=UTF-8&quot; </span><span class="pun">);</span><span class="pln"><br />
+          </span><span class="typ">OutputStream</span><span class="pln"> outs </span><span class="pun">=</span><span class="pln"> response</span><span class="pun">.</span><span class="pln">getOutputStream</span><span class="pun">();</span><span class="pln"><br />
+          outs</span><span class="pun">.</span><span class="pln">write</span><span class="pun">(</span><span class="kwd"> new</span><span class="pln"> </span><span class="kwd">byte</span><span class="pun">[]{(</span><span class="kwd">byte</span><span class="pun">)</span><span class="lit">0xEF</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">byte</span><span class="pun">)</span><span class="lit">0xBB</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">byte</span><span class="pun">)</span><span class="lit">0xBF</span><span class="pun">} );</span><span class="pln"><br />
+          </span>outs.flush();</p>
+      <p class="prettyprint lang-java"><span class="codeComment">// Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using ColdFusion </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p class="prettyprint lang-cfm"><span class="pln">context </span><span class="pun">=</span><span class="pln"> getPageContext</span><span class="pun">();</span><span class="pln"><br />
+        response </span><span class="pun">=</span><span class="pln"> context</span><span class="pun">.</span><span class="pln">getResponse</span><span class="pun">().</span><span class="pln">getResponse</span><span class="pun">();</span><span class="pln"><br />
+        </span><span class="kwd">out</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> response</span><span class="pun">.</span><span class="pln">getOutputStream</span><span class="pun">();</span><span class="pln"><br />
+        </span><span class="kwd"><br />
+        out</span><span class="pun">.</span><span class="pln">write</span><span class="pun">(</span><span class="lit">239</span><span class="pun">);</span><span class="pln"><br />
+        </span><span class="kwd">out</span><span class="pun">.</span><span class="pln">write</span><span class="pun">(</span><span class="lit">187</span><span class="pun">);</span><span class="pln"><br />
+          </span><span class="kwd">out</span><span class="pun">.</span><span class="pln">write</span><span class="pun">(</span><span class="lit">191</span><span class="pun">);</span></p>
+      <p class="prettyprint lang-cfm"><span class="codeComment">// Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><strong>Using ROR </strong></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="codeBlock">
+      <p>utf8_arr = [0xEF,0xBB,0xBF]<br />
+        utf8_str = utf8_arr.pack(&quot;c3&quot;)</p>
+      <p><span class="codeComment"># Now write your XML data to output stream </span></p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="header">3. While using dataXML method</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In many cases you might need to put the XML in the HTML/application file itself. We call this as dataXML method. Just like adding BOM stamp to a static XML files, in this case too you would need to save the file containing the chart SWF and XML with BOM stamp. This needs to be done when the script/HTML file is created for the first time before you start coding in it.</td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

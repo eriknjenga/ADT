@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Combination Chart XML</h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Combination charts are helpful when you want 
+        to plot multiple chart types on the same chart or use two different scales 
+        for two different axes. FusionCharts v3 offers two categories of Combination 
+        Chart:</p>
+      <ol>
+        <li><strong>Single Y Axis Combination Chart</strong>: In these charts, 
+          there is only one y-axis and all the data sets are plotted against this 
+          axis.</li>
+        <li><strong>Dual Y Axis Combination Chart</strong>: In these charts, there 
+          are two y-axes, which can represent different scales (e.g., revenue 
+          and quantity or visits and downloads etc.). The axis on the left of 
+          the chart is called primary axis and the one on right is called secondary 
+          axis. </li>
+      </ol>
+      <p>FusionCharts v3 has 2D and 3D charts for both the above categories. Shown 
+        below is a 2D Single Y Combination Chart.</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="ChartSS/Images/Combi_2D.jpg" width="596" height="397" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>In the above chart, all the data-series are 
+        plotted against the same (primary) y-axis. Different data-sets have different 
+        <span class="codeInline">renderAs </span>property to render the data-sets 
+        are columns, lines or areas. </p>
+      <p>The XML for the above chart looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock">&lt;chart caption='Business Results 2005 
+      v 2006' xAxisName='Month' yAxisName='Revenue' showValues='0' numberPrefix='$'&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;categories&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='Jan' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Feb' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Mar' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Apr' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='May' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jun' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jul' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Aug' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='Sep' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Oct' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Nov' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Dec' /&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/categories&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;dataset seriesName='2006'&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='27400' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29800'/&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='25800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='26800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29600' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='32600' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='31800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='36700' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='29700' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='31900' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='34800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='24800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;dataset 
+      seriesName='2005' renderAs='Area'&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='10000'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11500'/&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='12500'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='15000'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11000' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9800' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='11800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='19700' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='21700' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='21900' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='22900' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='20800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;dataset 
+      seriesName='2004' renderAs='Line'&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='7000'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='10500'/&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9500'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='10000'/&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9000' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='8800' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='9800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='15700' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='16700' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='14900' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='12900' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='8800' /&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;trendlines&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='22000' color='91C728' 
+      displayValue='Target' showOnTop='1'/&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/trendlines&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;styles&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='CanvasAnim' 
+      type='animation' param='_xScale' start='0' duration='1' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply 
+      toObject='Canvas' styles='CanvasAnim' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;&nbsp;&nbsp;&nbsp;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;/styles&gt;<BR> <BR> &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">An example of a 2D Dual Y Combination Chart:</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><img src="ChartSS/Images/Combi_DY_CP_AS.jpg" width="598" height="397" /></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">As you can see in the image above, we're plotting 
+      a monthly sales and quantity chart. On the x-axis, we've the month names. 
+      Now, we have two y-axis in this chart: <ul>
+        <li>The primary y axis (left) representing the Revenue figure. The columns 
+          in this chart is plotted against the primary y-axis. </li>
+        <li>The secondary y axis (right) representing the Quantity figure. The 
+          lines on this chart adheres to the secondary axis. </li>
+      </ul>
+      <p>For Dual Y Axis combination charts, it is necessary to provide atleast 
+        2 datasets - one for the primary axis and the other for the secondary 
+        axis. If you do not provide this, the chart would not render properly. 
+      </p>
+      <p>The XML for the above Dual Y Axis chart looks as under:</p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="codeBlock"> &lt;chart caption='Sales Volume' PYAxisName='Revenue' 
+      SYAxisName='Quantity' showvalues='0' numberPrefix='$'&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;categories&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jan' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='Feb' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Mar' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Apr' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='May' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='Jun' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Jul' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Aug' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Sep' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category 
+      label='Oct' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Nov' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;category label='Dec' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&lt;/categories&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;dataset 
+      seriesName='Revenue' parentYAxis='P'&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='1700000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='610000' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1420000' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1350000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='2140000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1210000' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1130000' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1560000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='2120000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='900000' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1320000' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='1010000' /&gt;<BR> &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;dataset seriesName='Quantity' parentYAxis='S'&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='340' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='120' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='280' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='270' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='430' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='240' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='230' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='310' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='430' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set 
+      value='180' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='260' 
+      /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;set value='200' /&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&lt;/dataset&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&lt;trendLines&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;line startValue='2100000' color='009933' 
+      displayvalue='Target' /&gt; <BR> &nbsp;&nbsp;&nbsp;&lt;/trendLines&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;styles&gt;<BR> <BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;definition&gt;<BR> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;style name='CanvasAnim' 
+      type='animation' param='_xScale' start='0' duration='1' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/definition&gt;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;application&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;apply 
+      toObject='Canvas' styles='CanvasAnim' /&gt;<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/application&gt;&nbsp;&nbsp;&nbsp;<BR> 
+      <BR> &nbsp;&nbsp;&nbsp;&lt;/styles&gt;<BR> &lt;/chart&gt;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Brief Explanation</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">The XML structure for a combination chart is 
+      very similar to that of multi-series chart. So, we won't be discussing it 
+      all over again- what we'll be discussing are the differences between them. 
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Single Y Axis Combination Charts</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>Single Y Axis Combination Charts allow you 
+        to plot multiple data-sets as different types of plots (columns, lines 
+        or areas), but against the same y-axis (primary). Since all the data-sets 
+        belong to the same primary axis, the number formatting properties do NOT 
+        change across them. </p>
+      <p>To select which data-set should be rendered as what plot type, you use 
+        the <span class="codeInline">renderAs</span> property as under:<br />
+        <span class="codeInline">&lt;dataset seriesName='2005' renderAs='Area'&gt;<br />
+        &lt;dataset seriesName='2004' renderAs='Line'&gt;<br />
+        &lt;dataset seriesName='2003' renderAs='Column'&gt; </span></p></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text">&nbsp;</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="header">Dual Y Axis Combination Charts</td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"> <p>In Dual Y Axis Combination Charts, you've 
+        two y-axes. Each y-axis can have it's own scale and number formatting 
+        properties. You can also explicity set y-axis lower and upper limits for 
+        both the axes.</p>
+      <p>You choose the axis for each dataset using the <span class="codeInline">parentYAxis</span> 
+        property of <span class="codeInline">&lt;dataset&gt;</span> element. This 
+        attribute can take a value of P or S. P denotes primary axis and S denotes 
+        secondary axis. Like, in our above example, we have the revenue dataset 
+        set on primary axis:</p>
+      <p class="codeInline">&lt;dataset seriesName='Revenue' parentYAxis='P'&gt;</p>
+      <p>and the Quantity dataset set on secondary axis:</p>
+      <p class="codeInline">&lt;dataset seriesName='Quantity' parentYAxis='S'&gt;</p>
+      <p class="highlightBlock">In Dual Y 3D Combination Charts, the column chart 
+        always plots on the primary axis and lines on the secondary. You can have 
+        more than one primary or secondary datasets but atleast one of each is 
+        required.</p>
+      <p>Each trend-line also needs to associated with an axis, against which 
+        it will be plotted. Example:</p>
+      <p class="codeInline">&lt;trendLines&gt;<br />
+        &nbsp;&nbsp;&nbsp;&lt;line parentYAxis='S' or 'P' ... startValue='324' 
+        .../&gt; <br />
+        &lt;/trendLines&gt; </p>
+      <p class="text">By default, they conform to the primary axis.</p>
+      </td>
+  </tr>
+</table>
+</body>
+</html>

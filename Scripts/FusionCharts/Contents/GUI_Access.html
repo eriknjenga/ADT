@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="Style.css" type="text/css" />
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><h2 class="pageHeader">Plotting charts from data in Microsoft Access </h2></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="text"><p>If you have your data store in Microsoft Access database, but you're not very comfortable with the idea of programming any script to retrieve this data and then plot charts, the XML Generator Utility brings you greate relief here. You can now plot charts from Access database without the need to know the ABC of any scripting/programming language. Let's see it in action.</p>
+    <p>We'll show you how to plot charts from the default Northwind Access database. We'll plot a chart showing the category wise sales for 1997. </p>
+    <p class="highlightBlock">The Northwind database is the default database provided with MS SQL Server and   MS Access. This database contains the sales data for a fictitious company called <em>Northwind Traders</em>, which imports and exports speciality foods from all   around the world. </p>
+    <p>Open the database in MS Access. Switch to the queries tab and run the default &quot;Category Sales for 1997&quot; query by double clicking on it. If you want to plot data from a table, instead of data returned by the query, still the same method (as discussed below) applies. </p>
+    <p class="highlightBlock">Queries are pre-built SQL commands that extract the required data from tables. We wouldn't discuss how to build SQL query here - you can see this in MS Access help. </p>
+    <p>When you run this query, you'll get the following output: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_1.gif" width="392" height="252" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can see that the query has returned category name and respective sales figure. To plot this data as a chart, we now need to copy-paste this data frm the table shown here to our XML Utility. Copy the required data by selecting the rows and then pressing Ctrl + C. </p>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_2.gif" width="386" height="249" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Now, we need to paste this data in our XML Generator Utility. Launch the XML Generator utility and select the second option &quot;<span class="codeInline">I want to copy/paste my data from spreadsheet / table</span>&quot;. </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Excel_4.jpg" width="478" height="179" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">In the text area that you now get, paste the data that's in your clipboard. It should look as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_3.jpg" width="600" height="451" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Along with the data, the header of our query has also been pasted. Manually remove this row of information, so that only data appears in this text box as under: </td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_4.gif" width="179" height="148" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>Also, from the Delimiter drop-down, select <span class="codeInline">Tab</span> as delimiter. </p>
+    <p>If your delimiter is different from Tab, you you need to judge your delimiter and then set it accordingly. Delimiter is the character that separates two different data items on a single row of data. For example, in our above data, our category name and respective sales value are separated by a <span class="codeInline">Tab</span> character. So, we select <span class="codeInline">Tab</span> as the delimiter. </p>
+    <p>Now, you've two options to convert it into XML:</p>
+    <ol>
+      <li>You can directly convert this data into XML without making any changes to it.</li>
+      <li>Or, you can edit this data in the grid and then convert it to XML.</li>
+    </ol>
+    <p>To choose option 1, click on &quot;<span class="codeInline">Convert to XML</span>&quot; button. You'll instantly get the XML as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_5.gif" width="292" height="188" class="imageBorder" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><p>You can now configure the chart properties or generate HTML from here as explained in earlier sections. </p>
+    <p>When you now create a column 3D chart from this data, it will look as under: </p></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text"><img src="Images/GUI_Access_6.jpg" width="600" height="171" /></td>
+  </tr>
+  <tr>
+    <td valign="top" class="text">Simple - isn't it? We just proved how easy it is to create charts from data contained in your Access database, without involving any programming. Here, we've just showed to create a single series chart. You can create multi-series or stacked charts in the same way. </td>
+  </tr>
+</table>
+</body>
+</html>

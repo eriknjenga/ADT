@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>FusionCharts Client-side Export Sample</title>
+<script language="JavaScript" src="../../FusionCharts/FusionCharts.js"></script>
+<script language="JavaScript" src="../../FusionCharts/FusionChartsExportComponent.js"></script>
+<script type="text/javascript">	
+	//Define a function, which will be invoked when user clicks the batch-export-initiate button
+	function initiateExport(){
+		myExportComponent.BeginExport();
+	}
+	//This event is raised when the chart has finished capture phase and passed the data to 
+	//Export Component for further processing
+	function FC_ExportReady(DOMId){
+		alert("The chart with DOM ID as " + DOMId + " has finished capture mode. It's now ready to be downloaded individually");
+	}		
+
+	//This event is raised when an individual chart has been successfully saved on user's disk (post click of button)
+	function FC_Exported(objRtn){
+		if (objRtn.statusCode=="1"){
+			alert("The chart was successfully saved. Its DOM Id is " + objRtn.DOMId);
+		} else{
+			alert("There was an error saving the chart. Error message: " + objRtn.statusMessage + ". Its DOM Id is " + objRtn.DOMId);
+		}
+	}
+	
+	//This event is invoked when the user clicked on Save-All button and all the charts were saved on user's disk
+	//as a single file.
+	function FC_BatchExported(objRtn){
+		if (objRtn.statusCode=="1"){
+			alert("The batch was exported and saved as a single file named '" + objRtn.fileName + "'. The charts processed were " + objRtn.DOMId);
+		}else{
+			alert("There was an error saving the chart. Error message: " + objRtn.statusMessage);
+		}
+	}
+  </script>
+</head>
+<body bgcolor="#ffffff">
+<table align='center'>
+<tr>
+  <td>
+  <div id="chart1div" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+    <script type="text/javascript">
+   //Build the chart. Make sure to have registerWithJS as 1
+	var myChart1 = new FusionCharts("../../FusionCharts/Column2D.swf", "myChartId1", "350", "300", "0", "1");
+	myChart1.setDataURL("SimpleExample.xml");
+	myChart1.render("chart1div");
+   </script>
+  </td>
+  <td>
+  <div id="chart2div" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+    <script type="text/javascript">
+   //Build the chart. Make sure to have registerWithJS as 1
+	var myChart2 = new FusionCharts("../../FusionCharts/Column3D.swf", "myChartId2", "350", "300", "0", "1");
+	myChart2.setDataURL("SimpleExample.xml");
+	myChart2.render("chart2div");
+   </script>
+  </td>
+</tr>
+<tr>
+  <td>
+  <div id="chart3div" align="center">The chart will appear within this DIV. This text will be replaced by the chart.</div>
+    <script type="text/javascript">
+   //Build the chart. Make sure to have registerWithJS as 1
+	var myChart3 = new FusionCharts("../../FusionCharts/Pie3D.swf", "myChartId3", "350", "300", "0", "1");
+	myChart3.setDataURL("SimpleExample.xml");
+	myChart3.render("chart3div");
+   </script>
+  </td>
+  <td align='center'>
+  	<input type='button' onClick="javascript:initiateExport();" value="Begin batch export" />
+	<BR /><BR />
+  	<!-- We also create a DIV to contain the FusionCharts batch exporter component -->
+    <div id="fcexpDiv" align="center">FusionCharts Export Handler Component</div></td>
+	<script type="text/javascript">
+	//Initialize Batch Exporter with DOM Id as fcBatchExporter
+    var myExportComponent = new FusionChartsExportObject("fcBatchExporter", "../../FusionCharts/FCExporter.swf");
+	
+	//Add the charts to queue. The charts are referred to by their DOM Id.
+	myExportComponent.sourceCharts = ['myChartId1','myChartId2','myChartId3'];
+	
+	//------ Export Component Attributes ------//
+	//Set the mode as full mode
+	myExportComponent.componentAttributes.fullMode='1';
+	//Set saving mode as both. This allows users to download individual charts/ as well as download all charts as a single file.
+	myExportComponent.componentAttributes.saveMode='both';
+	//Show allowed export format drop-down
+	myExportComponent.componentAttributes.showAllowedTypes = '1';
+	//Cosmetics	
+	//Width and height
+	myExportComponent.componentAttributes.width = '350';
+	myExportComponent.componentAttributes.height = '140';
+	//Message - caption of export component
+	myExportComponent.componentAttributes.showMessage = '1';
+	myExportComponent.componentAttributes.message = 'Click on button above to begin export of charts. Then save from here.';
+	//Render the exporter SWF in our DIV fcexpDiv
+    myExportComponent.Render("fcexpDiv");
+  </script>
+</tr>
+</body>
+</html>

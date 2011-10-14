@@ -1,0 +1,33 @@
+<HTML>
+	<HEAD>
+	   <TITLE>FusionCharts &amp; JavaScript -Combi3D chart -  View 3D Example</TITLE> 
+	
+	   <SCRIPT LANGUAGE="Javascript" SRC="../../JSClass/FusionCharts.js"></SCRIPT>
+	   <SCRIPT LANGUAGE="JavaScript">
+		  function view3D()
+		  {
+			 //Get chart from its ID
+			 var chartToView3D = getChartFromId("chart1Id");
+			 chartToView3D.view3D();
+		  }
+		</SCRIPT>
+	
+	</HEAD>
+	<BODY>
+	   <CENTER>
+	   <h2>FusionCharts and JavaScript - Combi3D chart - Back to last 3D Position</h2>
+	   <h5>Please drag the chart to another view, then set to 2D View mode and click on '3D View' button to get the desired result</h5> 
+	
+	   <div id="chart1div">FusionCharts</div>
+	   
+	   <script language="JavaScript"> 
+			  var chart1 = new FusionCharts("../FusionCharts/MSCombi3D.swf", "chart1Id", "400", "300", "0", "1"); 
+			  chart1.setDataXML("<chart ><categories><category label='A' /></categories><dataset><set label='A' value='10' /></dataset><dataset><set label='B' value='11' /></dataset></chart>");
+			  chart1.render("chart1div");
+	   </script>
+
+	   <input type='button' value='3D View' onClick='view3D();'>
+		
+	   </CENTER>
+	</BODY>
+</HTML>

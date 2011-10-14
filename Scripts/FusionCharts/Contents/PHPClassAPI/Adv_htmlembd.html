@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" type="text/css" href="../Style.css">
+</head>
+
+<body>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  
+  <tr> 
+    <td><h2 class="pageHeader">FusionCharts PHP Class API &gt;HTML Embedding  </h2></td>
+  </tr>
+  
+  <tr>
+     <td valign="top" class="text">
+        
+           Here, we  create a chart  using HTML embedding method . We don't need to include       <span class="codeInline">FusionCharts.js</span> - FusionCharts JavaScript Embedding Class. </td>
+  <tr>
+           <td valign="top" class="text">&nbsp;</td>
+        </tr>
+        
+   <tr>
+    <td valign="top" class="text">Let's see how to use FusionCharts PHP Class to create a chart using HTML embedding method: </td>
+  </tr>
+   <tr>
+      <td valign="top" class="text">&nbsp;</td>
+   </tr>
+   
+   <tr>
+    <td valign="top" class="codeBlock"><p>&lt;html&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;head&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;Render as HTML Using FusionCharts PHP Class&lt;/title&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;/head&gt;<br />
+&nbsp;&nbsp;&nbsp; &lt;body&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php <br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="codeComment">&nbsp; # Pass true to renderChart() function<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # to use HTML Embedding Method.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # This is helpful if you wish not use FusionCharts.js<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # or when rendering the chart using AJAX</span><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>&nbsp; $FC-&gt;renderChart(true);</strong><br />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ?&gt;</p>
+      <p> &nbsp;&nbsp;&nbsp; &lt;/body&gt;<br />
+      &lt;/html&gt;</p>
+      <p><br />
+      </p></td>
+  </tr>
+   <tr>
+     <td valign="top" class="text"><p>Let's analyze the steps involved in the above code:</p>
+       <ul>
+         <li>We don't use <span class="codeInline">FusionCharts.js</span> to embedd javascript.<br />
+           <br />
+         </li>
+         <li>Here, we render the chart as: <br />
+           <br />
+           <span class="codeInline">$FC-&gt;renderChart(true);</span><br />
+           <br />
+           The <span class="codeInline">renderChart</span>() function passes a parameter 'true'.This helps in using<span class="codeInline"> HTML  Embedding Method</span>. Passing this parameter 'true' helps us not to use <span class="codeInline">FusionCharts.js</span>.&nbsp; This also helps to render  chart using <span class="codeInline">AJAX</span>. <br />
+           <br />
+           <br />
+</li>
+     </ul></td>
+  </tr>
+  <tr><td></td></tr>
+</table>
+</body>
+</html>

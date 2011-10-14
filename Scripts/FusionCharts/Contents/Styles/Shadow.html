@@ -1,0 +1,320 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>FusionCharts v3 Documentation</title>
+<link rel="stylesheet" href="../Style.css" type="text/css" />
+</head>
+
+<body topMargin='10' leftMargin='10'>
+<table width="98%" border="0" cellspacing="0" cellpadding="3" align="center">
+  <tr> 
+    <td><span class="pageHeader">Shadow Style Type</span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">The <span class="codeInline">Shadow Style Type </span>helps 
+        you apply shadow effect to any of the chart objects. It extends the following 
+        configurable properties:</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="text"><p class="textBold">Properties</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p class="textBold">Description</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Distance</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              offset distance for the shadow (in pixels). The default value is 
+              4</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Angle</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              angle of the shadow. Valid values are 0 to 360&#730;. The default 
+              value is 45</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Color</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              color of the shadow in hex code (without #). The default value is 
+              CCCCCC</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Alpha</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              alpha transparency value for the shadow color. Valid values are 
+              0 to 100. For example, 25 sets a transparency value of 25%.</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of horizontal blur. Valid values are 0 to 255. The default 
+              value is 4. Values that are a power of 2 (such as 2, 4, 8, 16 and 
+              32) are optimized to render more quickly than other values.</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              amount of vertical blur. Valid values are 0 to 255. The default 
+              value is 4. Values that are a power of 2 (such as 2, 4, 8, 16 and 
+              32) are optimized to render more quickly than other values.</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Strength</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              strength of the imprint or spread. The higher the value, the more 
+              color is imprinted and the stronger the contrast between the shadow 
+              and the background. Valid values are from 0 to 255. The default 
+              is 1.</p></td>
+        </tr>
+        <tr> 
+          <td width="187" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Quality</p></td>
+          <td width="691" valign="top" bordercolor="f1f1f1" class="text"><p>The 
+              number of times to apply the shadow effect. Valid values are 0 to 
+              15. The default value is 1, which is equivalent to low quality. 
+              A value of 2 is medium quality, and a value of 3 is high quality. 
+              Shadow with lower values are rendered quicker</p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Setting Shadow distance and angle</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">The following code helps set the shadow distance and angle:</p>      <span class="codeInline">&lt;style name='MyFirstShadow' type='Shadow' 
+    <strong>distance='6' angle='45'</strong>/&gt;</span>      <p class="codeInline">&nbsp;</p></td>
+  </tr>
+  
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" class="codeInline"><p>Distance </p></td>
+          <td width="293" valign="top" class="codeInline"><p>distance=<span class="codeInline">'value 
+              in pixels' </span></p></td>
+          <td width="293" valign="top" class="codeInline"><p>distance=<span class="codeInline">'6'</span> 
+            </p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" class="codeInline"><p>Angle</p></td>
+          <td width="293" valign="top" class="codeInline"><p>angle=<span class="codeInline">'value 
+              between 0 to 360'</span></p></td>
+          <td width="293" valign="top" class="codeInline"><p>angle=<span class="codeInline">'45'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><p class="text">When applied on the columns of a 2D Column Chart, as under:</p>
+      <span class="codeInline">&lt;apply toObject='DataPlot' styles='MyFirstShadow' 
+      /&gt;, it gives the following output:</span></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_3.jpg" width="264" height="196" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can set any distance (in pixels) and any angle between 
+        0-360. </p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Setting shadow cosmetics</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">You can configure shadow color and alpha as under:<br />
+      <span class="codeInline">&lt;style name='MyFirstShadow' type='Shadow' color='FF5904' 
+      alpha='40' distance='6' angle='45' /&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Color 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>color=<span class="codeInline">'Hex 
+              value (without #)' </span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>color=<span class="codeInline">'FF5904' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Alpha</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>alpha=<span class="codeInline">'value 
+              (between 0 to 100)'</span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>alpha=<span class="codeInline">'40'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">The above code changes shadow color to orange <span class="codeInline">(FF5904)</span> 
+        with a transparency of 40% as under:</p></td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><img src="Images/Styles/style_4.jpg" width="259" height="195" class="imageBorder" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Configuring shadow blur</span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can configure the blur amount of shadow as under:</p>      <p class="text"><span class="codeInline">&lt;style name='MyFirstShadow' 
+    type='Shadow' distance='6' angle='45' blurX='16' blurY='16'/&gt;</span></p></td>
+  </tr>
+  
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX 
+            </p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX=<span class="codeInline">'value' 
+              </span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurX=<span class="codeInline">'16' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>Blurry</p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY=<span class="codeInline">'value'</span></p></td>
+          <td width="293" valign="top" bordercolor="f1f1f1" class="codeInline"><p>blurY=<span class="codeInline">'16'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><div align="center"><img src="Images/Styles/style_3.jpg" width="264" height="196" class="imageBorder" /></div></td>
+          <td><div align="center"><img src="Images/Styles/style_5.jpg" width="257" height="196" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">(Original shadow 
+              &ndash; without any blur)</span></div></td>
+          <td><div align="center"><span class="imageCaption">(With blurX and blurY 
+              as 16)</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><span class="header">Controlling strength and quality</span></td>
+  </tr>
+  <tr> 
+    <td><span class="text">The shadow's strength and quality can be controlled 
+      as under:<br />
+      <span class="codeInline">&lt;style name='MyFirstShadow' type='Shadow' distance='6' 
+      angle='45' quality='10'/&gt;</span></span></td>
+  </tr>
+  <tr> 
+    <td><p class="text">&nbsp;</p></td>
+  </tr>
+  <tr> 
+    <td><table border="1" cellpadding="3" cellspacing="0" bordercolor="f1f1f1">
+        <tr> 
+          <td width="293" valign="top" class="text"><p><strong>Property</strong></p></td>
+          <td width="293" valign="top" class="text"><p><strong>Format</strong></p></td>
+          <td width="293" valign="top" class="text"><p><strong>Example</strong></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" class="codeInline"><p>Quality </p></td>
+          <td width="293" valign="top" class="codeInline"><p>quality=<span class="codeInline">'value' 
+              </span></p></td>
+          <td width="293" valign="top" class="codeInline"><p>quality=<span class="codeInline">'10' 
+              </span></p></td>
+        </tr>
+        <tr> 
+          <td width="293" valign="top" class="codeInline"><p>Strength</p></td>
+          <td width="293" valign="top" class="codeInline"><p>strength=<span class="codeInline">'value'</span></p></td>
+          <td width="293" valign="top" class="codeInline"><p>strength=<span class="codeInline">'3'</span></p></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td><div align="center"><img src="Images/Styles/style_3.jpg" width="264" height="196" class="imageBorder" /></div></td>
+          <td><div align="center"><img src="Images/Styles/style_6.jpg" width="257" height="196" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">(With default quality)</span></div></td>
+          <td><div align="center"><span class="imageCaption">(With quality set 
+              as 10)</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><p class="text">You can also set the strength of the shadow as under:<br />
+        <span class="codeInline">&lt;style name='MyFirstShadow' type='Shadow' 
+        distance='6' angle='45' strength='3'/&gt;</span> <br>
+        <br>
+        with the following results:</p></td>
+  </tr>
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td><table width="95%" border="0" cellspacing="0" cellpadding="2">
+        <tr> 
+          <td width="52%"><div align="center"><img src="Images/Styles/style_3.jpg" width="264" height="196" class="imageBorder" /></div></td>
+          <td width="48%"><div align="center"><img src="Images/Styles/style_7.jpg" width="262" height="195" class="imageBorder" /></div></td>
+        </tr>
+        <tr> 
+          <td><div align="center"><span class="imageCaption">(With default strength)</span></div></td>
+          <td><div align="center"><span class="imageCaption">(With strength set 
+              as 3)</span></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><p class="text">Using a combination of the above discussed attributes, 
+        you can create shadow effects the way you like it! </p>      <p class="text">Let's now shift focus to Glow Style Type.</p></td>
+  </tr>
+</table>
+</body>
+</html>
