@@ -8,6 +8,6 @@ class Home_Controller extends MY_Controller {
  
 public function index()
 {
-echo "Default controller!!";
+echo "Default controllers!!";
 }
 }
