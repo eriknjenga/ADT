@@ -8,6 +8,7 @@ class Home_Controller extends MY_Controller {
  
 public function index()
 {
-echo "Default controller!!";
+	$data = array();
+$this->load->view("ADT_Offline_Template",$data);
 }
 }
