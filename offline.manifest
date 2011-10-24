@@ -1,6 +1,7 @@
 CACHE MANIFEST
 #This file outlines all resources that are to be cached by the browser!
 
-CACHE
+CACHE:
 offline.html
+offline2.html
 CSS/style.css 
