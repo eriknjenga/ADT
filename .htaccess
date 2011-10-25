@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+AddType text/cache-manifest .manifest
+=======
+>>>>>>> 9d73dc202a1bfeaa81e85474a0eeae4505eb6d1f
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /ADT
