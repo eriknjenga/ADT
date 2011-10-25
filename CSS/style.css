@@ -15,28 +15,36 @@ body {
     z-index: -200;
     margin: 0 auto 0 auto;
 }
-
-#top_ribbon {
-    height: 120px;
-    float: left;
-    width: 100%;
-    position: absolute;
-    background: rgba(243, 243, 243, .85);
-    border-bottom: 2px solid #E8E8E8;
-}
-
 #bottom_ribbon {
-    height: 105px;
+    height: 50px;
     width: 100%;
+    position:absolute;
     bottom: 0;
-    background: #3F3F38;
-    border-top: 1px solid #363631
+    background: #036;
+    border-top: 1px solid #363631; 
 }
-
+#footer_text{
+font-weight: 300;
+letter-spacing: 2px;
+margin: 0 auto;
+font-size: 16px;
+color: white;
+width: 90%;
+height: 30px;
+display: block;
+overflow: hidden; 
+text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+.error{ 
+	background-color:#F5F5F5;
+	color:#BE2E21;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1); 
+	font-weight: bold;
+}
 #wrapper {
     width: 100%;
     min-width: 980px;
-    margin: 0 auto;
+    margin: 0 auto; 
     height: 0 auto -120px auto !important;
 }
 
@@ -64,13 +72,10 @@ body {
 }
 
 #top-panel {
-    overflow: hidden;
-    margin: 40px 0 20px 0;
+	overflow:hidden;
+border-bottom:2px solid #C0C0C0;
 }
-
-#login {
-    float: right;
-}
+ 
 
 .login_link {
     width: 100px;
@@ -92,11 +97,10 @@ body {
 }
 
 .logo {
-    width: 250px;
+    width: 100px;
     height: 100px;
-    position: absolute;
-    border: 1px dashed black;
-    top: 0;
+    position: relative; 
+    background: url("../Images/coat_of_arms-resized.png") no-repeat;
 }
 
 #main_wrapper {
@@ -111,11 +115,21 @@ body {
 }
 
 #top_menu {
-    margin: 0 auto 0 auto;
-    overflow: hidden;
-    float: right;
+min-width:200px;
+height:100px; 
+position:absolute;
+top:0;
+right:0;
+margin-top:-5px;
 }
 
+#my_profile_link{
+	background-color: #00B831;
+}
+#my_profile_link:hover{
+	background-color: white;
+	cursor: pointer;
+}
 .top_menu_link {
     float: left;
     width: 115px;
@@ -128,7 +142,7 @@ body {
     font-weight: bold;
     display: block;
     text-align: center;
-    background: #2D2D2D;
+    background: #036;
     border: 1px solid rgba(0, 0, 0, 0.2);
     text-shadow: 0 1px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -172,17 +186,17 @@ body {
 }
 
 .banner_text {
-    font-weight: 700;
-    letter-spacing: -3px;
+    font-weight: 100;
+    letter-spacing: -1px;
     margin: 0;
-    font-size: 60px;
-    color: #5E92FF;
-    width: 500px;
-    height: 70px;
+    font-size: 24px;
+    color: #3F3F38;
+    width: 200px;
+    height: 30px;
     display: block;
     overflow: hidden;
     text-shadow: none;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px rgba(0, 0, 0, 0.1); 
 }
 
 input[type = email]:hover, input[type = password]:hover, input[type = text]:hover, input[type = url]:hover {
@@ -235,6 +249,8 @@ input[type =
     height: 32px;
     font-size: 15px;
 }
+ 
+
 
 .link-button:hover {
 	cursor:pointer;
@@ -325,6 +341,9 @@ background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
 -moz-user-select: none;
 user-select: none;
 cursor: default;
+}
+.button:hover{
+	border:1px solid black;
 }
 .submit-button {
 border: 1px solid #3079ED;

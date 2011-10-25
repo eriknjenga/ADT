@@ -1,5 +1,55 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html manifest="offline.manifest">
 	Test things
 	</html>
 	
+=======
+<html lang="en" manifest="offline.manifest">
+<head>
+<meta charset="UTF-8">
+<title>HTML5 Offline Form Demo</title>
+<!-- CSS Styles -->
+<link rel="stylesheet" href="CSS/style.css" />
+
+
+<!-- Main JS -->
+<script type="text/javascript" src="Scripts/offlineData.js"></script>
+</head>
+<body>
+
+<article role="main">
+ 
+    <header role="banner">
+    
+		<h1>Offline Form</h1> 
+		
+		<button type="button" class="left-header-button">Button</button>
+		<button type="button" class="right-header-button">Button</button> 
+		
+    </header> 
+    
+    <section>
+    
+    	<p>When offline, submitted data will be stored locally. When online, locally stored data will be resent to the server.</p>
+    
+		<input type="text" id="first-name" maxlength="75" autocorrect placeholder="Enter first name" />
+		<input type="text" id="last-name" maxlength="75" autocorrect placeholder="Enter last name" />
+		
+		<button type="submit" id="submit" class="oneup">Submit</button>
+		
+		<p>Locally stored items: <span id="local-count">0</span></p>
+		
+    </section>
+    
+    <footer>
+    
+    	<p>You are working: <span id="status" class="offline">Offline</span></p>
+    
+    </footer> 
+	
+</article>
+
+</body>
+</html>
+>>>>>>> 9d73dc202a1bfeaa81e85474a0eeae4505eb6d1f
