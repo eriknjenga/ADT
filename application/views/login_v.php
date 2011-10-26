@@ -98,9 +98,6 @@ user-select: none;
 
 <div id="main_wrapper"> 
 
-<div id="container">
-  <div id="content">
-<div id="center_content">
  
  
 
@@ -137,11 +134,7 @@ else if(isset($inactive)){
 </div>
 
 </div>  
-  <!-- end .content --></div>
-
-  <!-- end .container --></div>
  
-<!-- end inner wrapper --></div>
   <!--End Wrapper div--></div>
     <div id="bottom_ribbon">
         <div id="footer">
