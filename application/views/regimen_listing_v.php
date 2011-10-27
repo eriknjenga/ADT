@@ -1,8 +1,8 @@
 <script>
 	$(document).ready(function() {
 		$("#entry_form").dialog({
-			height : 500,
-			width : 750,
+			height : 600,
+			width : 300,
 			modal : true,
 			autoOpen : false
 		});
@@ -18,10 +18,10 @@
 		<th class="subsection-title" colspan="11">Regimens</th>
 		<tr>
 			<th>Regimen Code</th>
-			<th>Regimen Description</th>
+			<th>Description</th>
 			<th>Category</th>
 			<th>Line</th>
-			<th>Type of Service</th>
+			<th>Service Type</th>
 			<th>Remarks</th>
 			<th>Show</th>
 			<th>Action</th>
@@ -30,14 +30,14 @@
 foreach($regimens as $regimen){
 		?>
 		<tr>
-			<td><?php echo $regimen -> regimen_code;?></td>
-			<td><?php echo $regimen -> regimen_desc;?></td>
-			<td><?php echo $regimen -> category;?></td>
-			<td><?php echo $regimen -> line;?></td>
-			<td><?php echo $regimen -> type_of_service;?></td>
-			<td><?php echo $regimen -> remarks;?></td>
-			<td><?php echo $regimen -> enabled;?></td>
-			<td><a href="#" class="link">Edit</a> | <a href="#" class="link">Hide</a></td>
+			<td><?php echo $regimen -> Regimen_Code;?></td>
+			<td><?php echo $regimen -> Regimen_Desc;?></td>
+			<td><?php echo $regimen -> Regimen_Category->Name;?></td>
+			<td><?php echo $regimen -> Line;?></td>
+			<td><?php echo $regimen -> Regimen_Service_Type->Name;?></td>
+			<td><?php echo $regimen -> Remarks;?></td>
+			<td><?php echo $regimen -> Enabled;?></td>
+			<td><a href="#" class="link">Edit</a>  | <a href="#" class="link">Combinations</a></td>
 		</tr>
 		<?php }?>
 	</table>
@@ -47,55 +47,51 @@ foreach($regimens as $regimen){
 	echo form_open('regimen_management/save', $attributes);
 	echo validation_errors('<p class="error">', '</p>');
 	?>
-	<table>
-		<tr>
-			<td>Regimen Code</td>
-			<td>
-			<input type="text" class="input" id="regimen_code" name="regimen_code"/>
-			</td>
-		</tr>
-		<tr>
-			<td>Regimen Description</td>
-			<td>
-			<input type="text" class="input" id="regimen_desc" name="regimen_desc"/>
-			</td>
-		</tr>
-		<tr>
-			<td>Category</td>
-			<td>
-			<select class="input" id="category" name="category">
-				<option>option 1</option>
-				<option>option 2</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>Line</td>
-			<td>
-			<input type="text" class="input" id="line" name="line"/>
-			</td>
-		</tr>
-		<tr>
-			<td>Type of Service</td>
-			<td>
+	<label>
+<strong class="label">Regimen Code</strong>
+<input type="text" name="regimen_code" id="regimen_code" class="input">
+</label>
+
+	<label>
+<strong class="label">Description</strong>
+<input type="text" name="regimen_desc" id="regimen_desc" class="input">
+</label>
+
+	<label>
+<strong class="label">Category</strong> 
+		<select class="input" id="category" name="category">
+				<?php
+				foreach($regimen_categories as $regimen_category){?>
+					<option value="<?php echo $regimen_category->id; ?>"><?php echo $regimen_category->Name; ?></option>
+				<?php }
+				?>
+			</select>
+</label>
+
+	<label>
+<strong class="label">Line</strong>
+<input type="text" name="line" id="line" class="input">
+</label>
+
+	<label>
+<strong class="label">Type of Service</strong>
 			<select class="input" id="type_of_service" name="type_of_service">
-				<option>option 1</option>
-				<option>option 2</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>Remarks</td>
-			<td>
-			<input type="text" class="input" id="remarks" name="remarks"/>
-			</td>
-		</tr>
-		<tr>
-			<td>Show</td>
-			<td>
-			<input type="checkbox" class="input" id="show" name="show"/>
-			</td>
-		</tr>
-	</table>
-	<input type="submit" value="Save"/>
+				<?php
+				foreach($regimen_service_types as $regimen_service_type){?>
+					<option value="<?php echo $regimen_service_type->id; ?>"><?php echo $regimen_service_type->Name; ?></option>
+				<?php }
+				?>
+			</select>
+</label>
+	<label>
+<strong class="label">Remarks</strong>
+<textarea name="remarks" id="remarks" class="input"></textarea>
+</label>
+	<label>
+<strong class="label"><input type="checkbox" name="show" id="show" class="input"> Show</strong>
+
+</label>
+	<input type="submit" value="Save" class="submit-button"/>
 	</form>
 </div>
 </div>

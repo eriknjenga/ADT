@@ -2,17 +2,20 @@
 class Regimen extends Doctrine_Record {
 
 	public function setTableDefinition() {
-		$this -> hasColumn('regimen_code', 'varchar', 20);
-		$this -> hasColumn('regimen_desc', 'varchar', 50);
-		$this -> hasColumn('category', 'varchar', 30);
-		$this -> hasColumn('line', 'varchar', 4);
-		$this -> hasColumn('type_of_service', 'varchar', 20);
-		$this -> hasColumn('remarks', 'varchar', 30);
-		$this -> hasColumn('enabled', 'varchar', 4);
+		$this -> hasColumn('Regimen_Code', 'varchar', 20);
+		$this -> hasColumn('Regimen_Desc', 'varchar', 50);
+		$this -> hasColumn('Category', 'varchar', 30);
+		$this -> hasColumn('Line', 'varchar', 4);
+		$this -> hasColumn('Type_Of_Service', 'varchar', 20);
+		$this -> hasColumn('Remarks', 'varchar', 30);
+		$this -> hasColumn('Enabled', 'varchar', 4);
 	}
 
 	public function setUp() {
 		$this -> setTableName('regimen');
+		$this -> hasOne('Regimen_Category as Regimen_Category', array('local' => 'Category', 'foreign' => 'id'));
+		$this -> hasOne('Regimen_Service_Type as Regimen_Service_Type', array('local' => 'Type_Of_Service', 'foreign' => 'id'));
+		$this -> hasMany('Regimen_Drug as Drugs', array('local' => 'id', 'foreign' => 'Regimen'));
 	}
 
 	public function getAll() {

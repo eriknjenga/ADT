@@ -13,32 +13,25 @@ class genericname_management extends MY_Controller {
 	public function listing() {
 		$data = array();
 		$data['settings_view'] = "generic_listing_v";
-		$this->base_params($data);
-	}
-
-	public function add() {
-		//holds variable name of view to be displayed
-		$data['content_view'] = "genericname_add_v";
-
-		//view title
-		$data['title'] = "Add New Generic Name";
+		
 
 		$this -> base_params($data);
 	}
 
 	public function save() {
+
 		//call validation function
 		$valid = $this -> _submit_validate();
 		if ($valid == false) {
-			$data['content_view'] = "genericname_add_v";
+			$data['settings_view'] = "generic_listing_v";
 			$this -> base_params($data);
 		} else {
 			$drugname = $this -> input -> post("drugname");
 			$generic_name = new Generic_Name();
-			$generic_name -> name = $drugname;
+			$generic_name -> Name = $drugname;
 
 			$generic_name -> save();
-			redirect("genericname_management/add");
+			redirect("genericname_management/listing");
 		}
 
 	}
@@ -51,11 +44,14 @@ class genericname_management extends MY_Controller {
 	}
 
 	public function base_params($data) {
+		$data['styles'] = array("jquery-ui.css");
+		$data['scripts'] = array("jquery-ui.js");
 		$data['quick_link'] = "generic";
 		$data['title'] = "System Settings";
 		$data['content_view'] = "settings_v";
-		$data['banner_text'] = "System Settings"; 
-		$data['link'] = "settings"; 
+		$data['banner_text'] = "System Settings";
+		$data['link'] = "settings";
+		$data['generic_names'] = Generic_Name::getAll();
 		$this -> load -> view('template', $data);
 	}
 

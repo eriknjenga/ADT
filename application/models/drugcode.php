@@ -2,27 +2,37 @@
 class Drugcode extends Doctrine_Record {
 
 	public function setTableDefinition() {
-		$this -> hasColumn('drug', 'varchar', 100);
-		$this -> hasColumn('unit', 'varchar', 30);
-		$this -> hasColumn('pack_size', 'int', 4);
-		$this -> hasColumn('safety_quantity', 'int', 4);
-		$this -> hasColumn('generic_name', 'varchar', 100);
-		$this -> hasColumn('supported_by', 'varchar', 30);
-		$this -> hasColumn('none_arv', 'int', 1);
-		$this -> hasColumn('tb_drug', 'int', 1);
-		$this -> hasColumn('drug_in_use', 'int', 1);
-		$this -> hasColumn('comment', 'text');
-		$this -> hasColumn('dose', 'varchar', 20);
-		$this -> hasColumn('duration', 'int', 4);
-		$this -> hasColumn('quantity', 'int', 4);
+		$this -> hasColumn('Drug', 'varchar', 100);
+		$this -> hasColumn('Unit', 'varchar', 30);
+		$this -> hasColumn('Pack_Size', 'varchar', 100);
+		$this -> hasColumn('Safety_Quantity', 'varchar', 4);
+		$this -> hasColumn('Generic_Name', 'varchar', 100);
+		$this -> hasColumn('Supported_By', 'varchar', 30);
+		$this -> hasColumn('None_Arv', 'varchar', 1);
+		$this -> hasColumn('Tb_Drug', 'varchar', 1);
+		$this -> hasColumn('Drug_In_Use', 'varchar', 1);
+		$this -> hasColumn('Comment', 'varchar', 50);
+		$this -> hasColumn('Dose', 'varchar', 20);
+		$this -> hasColumn('Duration', 'varchar', 4);
+		$this -> hasColumn('Quantity', 'varchar', 4);
 	}
 
 	public function setUp() {
 		$this -> setTableName('drugcode');
+		$this -> hasOne('Generic_Name as Generic', array('local' => 'Generic_Name', 'foreign' => 'id'));
+		$this -> hasOne('Drug_Unit as Drug_Unit', array('local' => 'Unit', 'foreign' => 'id'));
+		$this -> hasOne('Supporter as Supporter', array('local' => 'Supported_By', 'foreign' => 'id'));
+		$this -> hasMany('Brand as Brands', array('local' => 'id', 'foreign' => 'Drug_Id'));
 	}
 
-	public function getDrugCodes() {
-		$query = Doctrine_Query::create() -> select("id,drug") -> from("Drugcode");
+	public function getAll() {
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By") -> from("Drugcode");
+		$drugsandcodes = $query -> execute();
+		return $drugsandcodes;
+	}
+
+	public function getBrands() {
+		$query = Doctrine_Query::create() -> select("id,Drug") -> from("Drugcode");
 		$drugsandcodes = $query -> execute();
 		return $drugsandcodes;
 	}
