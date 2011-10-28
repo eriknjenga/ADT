@@ -18,6 +18,7 @@ class User_Management extends MY_Controller {
 	}
 
 	public function authenticate() {
+		$data = array();
 		$validated = $this -> _submit_validate();
 		if ($validated) {
 			$username = $this -> input -> post("username");
@@ -42,6 +43,8 @@ class User_Management extends MY_Controller {
 				else {
 					$session_data = array('user_id' => $logged_in -> id, 'access_level' => $logged_in -> Access_Level, 'username' => $logged_in -> Username, 'full_name' => $logged_in -> Name, 'facility' => $logged_in -> Facility_Code);
 					$this -> session -> set_userdata($session_data);
+					
+		
 					redirect("home_controller");
 				}
 
@@ -60,6 +63,14 @@ class User_Management extends MY_Controller {
 		$this -> form_validation -> set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[12]');
 
 		return $this -> form_validation -> run();
+	}
+	
+	public function go_home($data){ 
+		$data['title'] = "System Home";
+		$data['content_view'] = "home_v";
+		$data['banner_text'] = "Dashboards";
+		$data['link'] = "home";
+		$this -> load -> view("template", $data);
 	}
 
 	public function base_params($data) {

@@ -12,6 +12,16 @@ class Home_Controller extends MY_Controller {
 		$data['content_view'] = "home_v";
 		$data['banner_text'] = "Dashboards";
 		$data['link'] = "home";
+		//Check if the user is a pharmacist. If so, update his/her local envirinment with current values
+		if ($this -> session -> userdata('access_level') == "3") {
+
+			$data['regimens'] = Regimen::getAll();
+			$data['supporters'] = Supporter::getAll();
+			$data['service_types'] = Regimen_Service_Type::getAll();
+			$data['sources'] = Patient_Source::getAll();
+
+		}
+
 		$this -> load -> view("template", $data);
 	}
 

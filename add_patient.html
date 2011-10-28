@@ -1,121 +1,295 @@
 <!DOCTYPE html>
-<html lang="en"> 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Add New Patient</title>
-<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
-<script type="text/javascript" src="Scripts/offlineData.js"></script>
-<style type="text/css">
-#signup_form{  
-border: 1px solid #E5E5E5;
-padding: 20px 25px 15px;
-width:500px;
-margin:0 auto;
-}
-#signup_form input[type="submit"] {
-margin: 0 1.5em 1.2em 0;
-height: 32px;
-font-size: 13px;
-}
-#signup_form label{
-display: block;
-margin: 0 auto 1.5em auto;
-width:300px;
- 
-}
-.label {
-font-weight: bold;
-margin: 0 0 .5em;
-display: block;
--webkit-user-select: none;
--moz-user-select: none; 
-}
-.remember-label {
-font-weight: normal;
-color: #666;
-line-height: 0;
-padding: 0 0 0 .4em;
--webkit-user-select: none;
--moz-user-select: none; 
-}
-#system_title{ 
-	position: absolute;
-	top: 50px;
-	left: 110px;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-	letter-spacing: 1px;
-}
-.logo { 
-	background: url("Images/coat_of_arms-resized.png") no-repeat;
-}
-.network{ 
-	text-align: left;
-	font-size: 16px;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-	letter-spacing: 1px; 
-	position:absolute;
-	right:0;
-	top:0;
-	color: #036;
-	border:2px solid #DDDDDD;
-	width:300px;
-	padding:5px;
-	
-	
-}
-.offline{
-	color: red;
-	width: 200px;
-	padding:0 10px;
-	font-weight: bolder;
-	
-}
-.online{
-	color: green;
-	width: 200px;
-	padding:0 10px;
-	font-weight: bolder;
-}
-</style>
-</head>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Add New Patient</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				//Dynamically load the list of supporters!
+				selectAll("supporter", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#support").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
 
-<body>
-<div id="wrapper">
-	
-	<div id="top-panel" style="margin:0px;">
+				});
+				//Dynamically load the list of patient sources
+				selectAll("patient_source", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#source").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
 
-		<div class="logo"> 
+				});
+				//Dynamically load the list of service types
+				selectAll("regimen_service_type", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#service").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+				});
+				//Dynamically change the regimens based on the service type!
+				$("#service").change(function() {
+					var value = $("#service option:selected").attr("value");
+					//Dynamically load the list of service types
+					selectServiceRegimen(value, function(transaction, results) {
+						// Handle the results
+						for(var i = 0; i < results.rows.length; i++) {
+							var row = results.rows.item(i);
+							$("#regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
+						}
+					});
+				});
+			});
 
-</div>
-<div class="network">Network Status: <span id="status" class="offline">Offline</span>
-	<p>Locally Saved Records: <span id="local-count"></span></p>
-</div>
-<div id="system_title">
-<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
- <span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span> 
-</div>
- 
-</div>
+		</script>
+		<style type="text/css">
+			#signup_form {
+				border: 1px solid #E5E5E5;
+				padding: 20px 0 15px 10px;
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			#inner_wrapper {
+				width: 97%;
+			}
+			#signup_form input[type="submit"] {
+				margin: 0 1.5em 1.2em 0;
+				height: 32px;
+				font-size: 13px;
+			}
+			#signup_form label {
+				display: block;
+				margin: 0 auto 1.5em auto;
+				width: 300px;
+			}
+			.label {
+				font-weight: bold;
+				margin: 0 0 .5em;
+				display: block;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+			}
+			.remember-label {
+				font-weight: normal;
+				color: #666;
+				line-height: 0;
+				padding: 0 0 0 .4em;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+			}
+			#system_title {
+				position: absolute;
+				top: 50px;
+				left: 110px;
+				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+				letter-spacing: 1px;
+			}
+			.logo {
+				background: url("Images/coat_of_arms-resized.png") no-repeat;
+			}
+			.network {
+				text-align: left;
+				font-size: 16px;
+				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+				letter-spacing: 1px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				color: #036;
+				border: 2px solid #DDDDDD;
+				width: 300px;
+				padding: 5px;
+			}
+			.offline {
+				color: red;
+				width: 200px;
+				padding: 0 10px;
+				font-weight: bolder;
+			}
+			.online {
+				color: green;
+				width: 200px;
+				padding: 0 10px;
+				font-weight: bolder;
+			}
+			.column {
+				position: relative;
+				margin: 5px;
+				overflow: hidden;
+				float: left;
+				width: 32%;
+			}
+			.two_comlumns {
+				overflow: hidden;
+				width: 300px;
+				margin: 0 auto;
+			}
+			.three_columns {
+				overflow: hidden;
+				width: 300px;
+				margin: 0 auto;
+				margin-bottom: 20px;
+			}
+			.three_columns .label {
+				float: left;
+				width: 90px;
+				margin-right: 20px;
+			}
+			.list {
+				float: right;
+				font-weight: bold;
+				color: #036;
+			}
+			.list_area {
+				float: right;
+				clear: right;
+			}
 
-<div id="inner_wrapper"> 
-
-
-<div id="main_wrapper"> 
-
-    	
-
-
-</div>  
- 
-  <!--End Wrapper div--></div>
-    <div id="bottom_ribbon">
-        <div id="footer">
- <div id="footer_text">
-	Government of Kenya &copy; 2011. All Rights Reserved
-	
-</div>
-
-    </div>
-    </div>
-</body>
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Locally Saved Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<div id="signup_form">
+						<div class="short_title" >
+							<h1 class="banner_text" style="width:auto;">New Patient Registration</h1>
+						</div>
+						<form id="add_patient_form" method="post" >
+							<div class="column">
+								<label> <strong class="label">Medical Record Number</strong>
+									<input type="text" name="medical_record_number" id="medical_record_number" value="">
+								</label>
+								<label> <strong class="label">Patient Number CCC</strong>
+									<input type="text"name="patient_number" id="patient_number">
+								</label>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label" >First Name</strong>
+										<input style="width:140px;" type="text"name="first_name" id="first_name">
+									</label>
+									<label style="width:140px; float:right;"> <strong class="label">Last Name</strong>
+										<input style="width:140px" type="text"name="last_name" id="last_name">
+									</label>
+								</div>
+								<label> <strong class="label">Other Name</strong>
+									<input type="text"name="other_name" id="other_name">
+								</label>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label" >Date of Birth</strong>
+										<input style="width:140px;" type="text"name="dob" id="dob">
+									</label>
+									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong>
+										<input style="width:140px" type="text"name="pob" id="pob">
+									</label>
+								</div>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label" >Gender</strong>
+										<select name="gender" id="gender">
+											<option value="1">Male</option><option value="1">Female</option>
+										</select> </label>
+									<label style="width:140px; float:right;"> <strong class="label">Pregnant?
+										<input  type="checkbox" name="pregnant" id="pregnant">
+										</strong> </label>
+								</div>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
+										<input style="width:140px;" type="text"name="weight" id="weight">
+									</label>
+									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
+										<input style="width:140px" type="text"name="height" id="height">
+									</label>
+								</div>
+								<label> <strong class="label">Body Surface Area (MSQ)</strong>
+									<input type="text" name="surface_area" id="surface_area" value="">
+								</label>
+								<label> <strong class="label">Patient's Phone Contact(s)</strong>
+									<input type="text" name="phone" id="phone" value="">
+								</label>
+								<label> <strong class="label">Patient's Physical Contact(s)</strong> 									<textarea name="physical" id="physical" value=""></textarea> </label>
+								<label> <strong class="label">Patient's Alternate Contact(s)</strong>
+									<input type="text" name="alternate" id="alternate" value="">
+								</label>
+							</div>
+							<div class="column">
+								<div class="three_columns">
+									<strong class="label">Does Patient have other Chronic illnesses</strong>
+									Yes
+									<input type="checkbox" name="other_illnesses" id="other_illnesses" value="">
+									<div class="list">
+										List Them
+									</div>
+									<textarea class="list_area" name="other_illnesses_listing" id="other_illnesses_listing"></textarea>
+								</div>
+								<label> <strong class="label">List Other Drugs Patient is Taking</strong> 									<textarea name="other_drugs" id="other_drugs"></textarea> </label>
+								<div class="three_columns">
+									<strong class="label">Does Patient have any Drugs Allergies/ADR</strong>
+									Yes
+									<input type="checkbox" name="other_allergies" id="other_allergies" value="">
+									<div class="list">
+										Allergies/ADR
+									</div>
+									<textarea class="list_area" name="other_allergies_listing" id="other_allergies_listing"></textarea>
+								</div>
+								<label> <strong class="label">Does Patient Have TB?</strong> Yes
+									<input type="radio" name="tb" id="tb" value="1">
+									No
+									<input type="radio" name="tb" id="tb" value="0" checked="">
+								</label>
+								<label> <strong class="label">Does Patient Smoke?</strong> Yes
+									<input type="radio" name="smoke" id="smoke" value="1">
+									No
+									<input type="radio" name="smoke" id="smoke" value="0" checked="">
+								</label>
+								<label> <strong class="label">Does Patient Drink Alcohol?</strong> Yes
+									<input type="radio" name="alcohol" id="alcohol" value="1">
+									No
+									<input type="radio" name="alcohol" id="alcohol" value="0" checked="">
+								</label>
+							</div>
+							<div class="column">
+								<label> <strong class="label">Date Patient Enrolled</strong>
+									<input type="text" name="enrolled" id="enrolled" value="">
+								</label>
+								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"></select> </label>
+								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"></select> </label>
+								<label> <strong class="label">Type of Service</strong> <select name="service" id="service"></select> </label>
+								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen"></select> </label>
+							</div>
+							<div id="submit"></div>
+						</form>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
 </html>

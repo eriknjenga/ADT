@@ -5,6 +5,7 @@ CACHE:
 add_patient.html
 CSS/style.css 
 Scripts/offlineData.js
+Scripts/offline_database.js
 Images/coat_of_arms-resized.png
 
  manifest="offline.manifest"
