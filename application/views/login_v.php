@@ -6,11 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $title;?></title>
 <link href="<?php echo base_url().'CSS/style.css'?>" type="text/css" rel="stylesheet"/>
-<link href="<?php echo base_url().'CSS/pagination.css'?>" type="text/css" rel="stylesheet"/>
-<link href="<?php echo base_url().'CSS/validator.css'?>" type="text/css" rel="stylesheet"/>
-<script src="<?php echo base_url().'Scripts/jquery.js'?>" type="text/javascript"></script>
-<script src="<?php echo base_url().'Scripts/validationEngine-en.js'?>" type="text/javascript"></script>
-<script src="<?php echo base_url().'Scripts/validator.js'?>" type="text/javascript"></script>
 
 <?php if(isset($script_urls)){
 foreach ($script_urls as $script_url){

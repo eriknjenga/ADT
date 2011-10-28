@@ -2,6 +2,9 @@ CACHE MANIFEST
 #This file outlines all resources that are to be cached by the browser!
 
 CACHE:
-offline.html
+add_patient.html
 CSS/style.css 
 Scripts/offlineData.js
+Images/coat_of_arms-resized.png
+
+ manifest="offline.manifest"

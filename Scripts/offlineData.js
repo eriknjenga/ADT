@@ -111,7 +111,8 @@ function loaded() {
 	document.querySelector('#local-count').innerHTML = length;
 
 	//if online
-	if (navigator.onLine) {
+	
+	if (navigator.onLine) { 
 	
 		//update connection status
 		var status = document.querySelector('#status');

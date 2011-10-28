@@ -38,7 +38,7 @@ class genericname_management extends MY_Controller {
 
 	private function _submit_validate() {
 		// validation rules
-		$this -> form_validation -> set_rules('drugname', 'Drug Name', 'trim|required|min_length[2]|max_length[100]');
+		$this -> form_validation -> set_rules('drugname', 'Generic Name', 'trim|required|min_length[2]|max_length[100]');
 
 		return $this -> form_validation -> run();
 	}
