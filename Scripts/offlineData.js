@@ -1,51 +1,60 @@
 //main function to be called on submit
 function processData() {
+	var form = $(this).attr("form");
+	if(form == "add_patient") {
+		var dump = Array;
+		$.each($("input, select, textarea"), function(i, v) {
+			var theTag = v.tagName;
+			var theElement = $(v);
+			var theValue = theElement.val();
+			dump[theElement.attr("name")] = theElement.attr("value"); 
+		});  
+		
+		alert(dump["tb"]);
+}
 
-	var firstName = document.querySelector('#first-name'),
-		lastName = document.querySelector('#last-name');
+var firstName = document.querySelector('#first-name'), lastName = document.querySelector('#last-name');
 
-	var formSubmitData = {
-	
-		'firstName' : firstName.value,
-		'lastName' : lastName.value
-	};
+var formSubmitData = {
 
-	var dataString = JSON.stringify(formSubmitData);
+	'firstName' : firstName.value,
+	'lastName' : lastName.value
+};
 
-	if (navigator.onLine) {
-		sendDataToServer(dataString);
-	}
-	else {
-		saveDataLocally(dataString);
-	}
-	
-	firstName.value = '';
-	lastName.value = '';
+var dataString = JSON.stringify(formSubmitData);
+
+if(navigator.onLine) {
+	sendDataToServer(dataString);
+} else {
+	saveDataLocally(dataString);
+}
+
+firstName.value = '';
+lastName.value = '';
 }
 
 //called on submit if device is online from processData()
 function sendDataToServer(dataString) {
 
 	var myRequest = new XMLHttpRequest();
-	
-	myRequest.onreadystatechange=function() {
-	
-  		if (myRequest.readyState == 4 && myRequest.status == 200) {
-  		
-    	    console.log('Sent to server: ' + dataString + '');
-    	    window.localStorage.removeItem(dataString);
-    	}
-    	else if (myRequest.readyState == 4 && myRequest.status != 200) {
-    	
+
+	myRequest.onreadystatechange = function() {
+
+		if(myRequest.readyState == 4 && myRequest.status == 200) {
+
+			console.log('Sent to server: ' + dataString + '');
+			window.localStorage.removeItem(dataString);
+		} else if(myRequest.readyState == 4 && myRequest.status != 200) {
+
 			console.log('Server request could not be completed');
 			saveDataLocally(dataString);
 		}
 	}
-	
 	//myRequest.open("GET", "", true);
 	//myRequest.send();
-	
-	alert('Sent to server: ' + dataString + ''); //remove this line as only for example
+
+	alert('Sent to server: ' + dataString + '');
+	//remove this line as only for example
 }
 
 //called on submit if device is offline from processData()
@@ -53,19 +62,19 @@ function saveDataLocally(dataString) {
 
 	var timeStamp = new Date();
 	timeStamp.getTime();
-	
+
 	try {
 		localStorage.setItem(timeStamp, dataString);
 		alert('Saved locally: ' + dataString + '');
 	} catch (e) {
-			
-		if (e == QUOTA_EXCEEDED_ERR) {
+
+		if(e == QUOTA_EXCEEDED_ERR) {
 			console.log('Quota exceeded!');
 		}
 	}
-	
+
 	console.log(dataString);
-	
+
 	var length = window.localStorage.length;
 	document.querySelector('#local-count').innerHTML = length;
 }
@@ -77,21 +86,20 @@ function sendLocalDataToServer() {
 	var status = document.querySelector('#status');
 	status.className = 'online';
 	status.innerHTML = 'Online';
-    
-    var i = 0,
-		dataString = '';
-			
-	while (i <= window.localStorage.length - 1) {	
-		
+
+	var i = 0, dataString = '';
+
+	while(i <= window.localStorage.length - 1) {
 		dataString = localStorage.key(i);
-		
-		if (dataString) {
+
+		if(dataString) {
 			sendDataToServer(localStorage.getItem(dataString));
 			window.localStorage.removeItem(dataString);
+		} else {
+			i++;
 		}
-		else { i++; }
-	} 
-	
+	}
+
 	document.querySelector('#local-count').innerHTML = window.localStorage.length;
 }
 
@@ -111,16 +119,16 @@ function loaded() {
 	document.querySelector('#local-count').innerHTML = length;
 
 	//if online
-	
-	if (navigator.onLine) { 
-	
+
+	if(navigator.onLine) {
+
 		//update connection status
 		var status = document.querySelector('#status');
 		status.className = 'online';
 		status.innerHTML = 'Online';
-		
+
 		//if local data exists, send try post to server
-		if (length !== 0) {
+		if(length !== 0) {
 			sendLocalDataToServer();
 		}
 	}
@@ -128,7 +136,7 @@ function loaded() {
 	//listen for connection changes
 	window.addEventListener('online', sendLocalDataToServer, false);
 	window.addEventListener('offline', notifyUserIsOffline, false);
-	
+
 	document.querySelector('#submit').addEventListener('click', processData, false);
 }
 

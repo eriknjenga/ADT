@@ -8,19 +8,7 @@
 		float: left;
 		margin-top: 50px;
 	}
-	legend {
-		font-weight: bold;
-		margin: 5px 0 .5em;
-		display: block;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		user-select: none;
-		color: #036;
-	}
-	fieldset {
-		margin-top: 20px;
-		border: 1px solid #DDD;!important;
-	}
+
 	input[type="checkbox"] {
 		float:right;
 	}

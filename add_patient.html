@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Add New Patient</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/offlineData.js"></script>
 		<script type="text/javascript" src="Scripts/jquery.js"></script>
 		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		 
 		<script type="text/javascript" src="Scripts/offline_database.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -50,6 +52,8 @@
 						}
 					});
 				});
+				$("#dob").datepicker({maxDate: "0D", changeMonth: true,changeYear: true });
+				$("#enrolled").datepicker({maxDate: "0D"});
 			});
 
 		</script>
@@ -63,11 +67,7 @@
 			#inner_wrapper {
 				width: 97%;
 			}
-			#signup_form input[type="submit"] {
-				margin: 0 1.5em 1.2em 0;
-				height: 32px;
-				font-size: 13px;
-			}
+ 
 			#signup_form label {
 				display: block;
 				margin: 0 auto 1.5em auto;
@@ -128,7 +128,7 @@
 				margin: 5px;
 				overflow: hidden;
 				float: left;
-				width: 32%;
+				width: 32%; 
 			}
 			.two_comlumns {
 				overflow: hidden;
@@ -154,6 +154,15 @@
 			.list_area {
 				float: right;
 				clear: right;
+			}
+			#submit_section{ 
+				overflow:hidden;
+				width:500px;
+				margin-top:500px; 
+				position: relative;
+			}
+			#add_patient_form{
+				overflow: hidden;
 			}
 
 		</style>
@@ -254,20 +263,15 @@
 									</div>
 									<textarea class="list_area" name="other_allergies_listing" id="other_allergies_listing"></textarea>
 								</div>
-								<label> <strong class="label">Does Patient Have TB?</strong> Yes
-									<input type="radio" name="tb" id="tb" value="1">
-									No
-									<input type="radio" name="tb" id="tb" value="0" checked="">
+								<label> <strong class="label">Does Patient Have TB?</strong>
+									<select name="tb" id="tb"><option value="0">No</option><option value="1">Yes</option></select>
+									
 								</label>
-								<label> <strong class="label">Does Patient Smoke?</strong> Yes
-									<input type="radio" name="smoke" id="smoke" value="1">
-									No
-									<input type="radio" name="smoke" id="smoke" value="0" checked="">
+								<label> <strong class="label">Does Patient Smoke?</strong> 
+									<select name="smoke" id="smoke"><option value="0">No</option><option value="1">Yes</option></select>
 								</label>
-								<label> <strong class="label">Does Patient Drink Alcohol?</strong> Yes
-									<input type="radio" name="alcohol" id="alcohol" value="1">
-									No
-									<input type="radio" name="alcohol" id="alcohol" value="0" checked="">
+								<label> <strong class="label">Does Patient Drink Alcohol?</strong> 
+									<select name="alcohol" id="alcohol"><option value="0">No</option><option value="1">Yes</option></select>
 								</label>
 							</div>
 							<div class="column">
@@ -279,7 +283,11 @@
 								<label> <strong class="label">Type of Service</strong> <select name="service" id="service"></select> </label>
 								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen"></select> </label>
 							</div>
-							<div id="submit"></div>
+							<div id="submit_section">
+								<input type="reset" class="submit-button" id="reset" value="Reset Page" style="width:200px;"/>
+								<input form="add_patient" class="submit-button" id="submit" value="Save Patient Details" style="width:200px;"/>
+								
+								</div>
 						</form>
 					</div>
 				</div>
