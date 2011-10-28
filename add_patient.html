@@ -39,6 +39,7 @@
 				});
 				//Dynamically change the regimens based on the service type!
 				$("#service").change(function() {
+					$("#regimen option").remove();
 					var value = $("#service option:selected").attr("value");
 					//Dynamically load the list of service types
 					selectServiceRegimen(value, function(transaction, results) {
