@@ -1,5 +1,5 @@
 <?php
-class Patient_Management extends MY_Controller {
+class Dispensement_Management extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 	}
@@ -10,7 +10,7 @@ class Patient_Management extends MY_Controller {
 
 	public function listing() {
 		$data = array();
-		$data['content_view'] = "patient_listing_v";  
+		$data['content_view'] = "dispensement_listing_v";  
 		$this -> base_params($data);
 	}
 
@@ -22,9 +22,9 @@ class Patient_Management extends MY_Controller {
 	}
 
 	public function base_params($data) { 
-		$data['title'] = "Patients"; 
-		$data['banner_text'] = "Facility Patients";
-		$data['link'] = "patients";
+		$data['title'] = "Drug Dispensements"; 
+		$data['banner_text'] = "Facility Dispensements";
+		$data['link'] = "dispensements";
 		$this -> load -> view('template', $data);
 	}
 

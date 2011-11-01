@@ -23,10 +23,12 @@ class Drugcode extends Doctrine_Record {
 		$this -> hasOne('Drug_Unit as Drug_Unit', array('local' => 'Unit', 'foreign' => 'id'));
 		$this -> hasOne('Supporter as Supporter', array('local' => 'Supported_By', 'foreign' => 'id'));
 		$this -> hasMany('Brand as Brands', array('local' => 'id', 'foreign' => 'Drug_Id'));
+		$this -> hasOne('Dose as Drug_Dose', array('local' => 'Dose', 'foreign' => 'id'));
+		
 	}
 
 	public function getAll() {
-		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By") -> from("Drugcode");
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Quantity,Duration,Dose") -> from("Drugcode");
 		$drugsandcodes = $query -> execute();
 		return $drugsandcodes;
 	}

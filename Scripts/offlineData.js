@@ -1,71 +1,65 @@
 //main function to be called on submit
 function processData() {
 	var form = $(this).attr("form");
+	var target = '';
+	var local_table = '';
+	var facility = "10";
 	if(form == "add_patient") {
+		target = "patient_management/save";
+		local_table = 'patient';
 		var dump = Array;
 		$.each($("input, select, textarea"), function(i, v) {
 			var theTag = v.tagName;
 			var theElement = $(v);
 			var theValue = theElement.val();
-			dump[theElement.attr("name")] = theElement.attr("value"); 
-		});  
-		
-		alert(dump["tb"]);
-}
+			dump[theElement.attr("name")] = theElement.attr("value");
+		});
+		var timestamp = new Date().getTime();
+		var sql = "INSERT INTO patient (medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, pob, gender, pregnant," +
+		 " weight, height, sa, phone, physical, alternate, other_illnesses, other_drugs, adr, tb, smoke, alcohol, date_enrolled, source, supported_by," + 
+		 " timestamp, facility_code, service, start_regimen) VALUES ('" + dump["medical_record_number"] + "', '" + dump["patient_number"] + "', '" + dump["first_name"] + "', '" + 
+		 dump["last_name"] + "', '" + dump["other_name"] + "', '" + dump["dob"] + "', '" + dump["pob"] + "', '" + dump["gender"] + "', '" + dump["pregnant"] + 
+		 "', '" + dump["weight"] + "', '" + dump["height"] + "', '" + dump["surface_area"] + "', '" + dump["phone"] + "', '" + dump["physical"] + "', '" + 
+		 dump["alternate"] + "', '" + dump["other_illnesses_listing"] + "', '" + dump["other_drugs"] + "', '" + dump["other_allergies_listing"] + "', '" + 
+		 dump["tb"] + "', '" + dump["smoke"] + "', '" + dump["alcohol"] + "', '" + dump["enrolled"] + "', '" + dump["source"] + "', '" + dump["support"] + 
+		 "', '" + timestamp + "','"+facility+"', '" + dump["service"] + "', '" + dump["regimen"] + "');";
 
-var firstName = document.querySelector('#first-name'), lastName = document.querySelector('#last-name');
+	}
+	var combined_object = {0:target, 1:sql, 2:timestamp, 3:local_table};
+	var saved_object = JSON.stringify(combined_object);
+	if(navigator.onLine) {
+		sendDataToServer(saved_object);
+	} else {
+		saveDataLocally(saved_object);
+	}
 
-var formSubmitData = {
-
-	'firstName' : firstName.value,
-	'lastName' : lastName.value
-};
-
-var dataString = JSON.stringify(formSubmitData);
-
-if(navigator.onLine) {
-	sendDataToServer(dataString);
-} else {
-	saveDataLocally(dataString);
-}
-
-firstName.value = '';
-lastName.value = '';
 }
 
 //called on submit if device is online from processData()
-function sendDataToServer(dataString) {
-
-	var myRequest = new XMLHttpRequest();
-
-	myRequest.onreadystatechange = function() {
-
-		if(myRequest.readyState == 4 && myRequest.status == 200) {
-
+function sendDataToServer(data) {
+	var separated_data = JSON.parse(data);
+	var dataString = separated_data[1];
+	var target = separated_data[0];
+	var local_timestamp = separated_data[2];
+	var local_table = separated_data[3];
+	$.post(target, {
+		sql : dataString
+	}, function(data_returned) {
 			console.log('Sent to server: ' + dataString + '');
-			window.localStorage.removeItem(dataString);
-		} else if(myRequest.readyState == 4 && myRequest.status != 200) {
-
-			console.log('Server request could not be completed');
-			saveDataLocally(dataString);
-		}
-	}
-	//myRequest.open("GET", "", true);
-	//myRequest.send();
-
-	alert('Sent to server: ' + dataString + '');
-	//remove this line as only for example
+			var sql = "delete from "+local_table+" where timestamp = '"+local_timestamp+"'";
+			executeStatement(sql);
+			window.localStorage.removeItem(local_timestamp); 
+	});
 }
 
 //called on submit if device is offline from processData()
-function saveDataLocally(dataString) {
-
-	var timeStamp = new Date();
-	timeStamp.getTime();
-
+function saveDataLocally(data) {
+	var separated_data = JSON.parse(data);
+	var sql = separated_data[1];
+	var timestamp = separated_data[2];
 	try {
-		localStorage.setItem(timeStamp, dataString);
-		alert('Saved locally: ' + dataString + '');
+		executeStatement(sql);
+		localStorage.setItem(timestamp, data);
 	} catch (e) {
 
 		if(e == QUOTA_EXCEEDED_ERR) {
@@ -73,7 +67,7 @@ function saveDataLocally(dataString) {
 		}
 	}
 
-	console.log(dataString);
+	console.log(sql);
 
 	var length = window.localStorage.length;
 	document.querySelector('#local-count').innerHTML = length;
@@ -88,15 +82,11 @@ function sendLocalDataToServer() {
 	status.innerHTML = 'Online';
 
 	var i = 0, dataString = '';
-
-	while(i <= window.localStorage.length - 1) {
+ 
+		for(i=0;i<=window.localStorage.length-1;i++){
 		dataString = localStorage.key(i);
-
 		if(dataString) {
-			sendDataToServer(localStorage.getItem(dataString));
-			window.localStorage.removeItem(dataString);
-		} else {
-			i++;
+			sendDataToServer(localStorage.getItem(dataString)); 
 		}
 	}
 
@@ -141,3 +131,5 @@ function loaded() {
 }
 
 window.addEventListener('load', loaded, true);
+
+

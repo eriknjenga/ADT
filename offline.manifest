@@ -11,4 +11,4 @@ Scripts/jquery.js
 Scripts/jquery-ui.js
 Images/coat_of_arms-resized.png
 
- manifest="offline.manifest"
+manifest="offline.manifest"

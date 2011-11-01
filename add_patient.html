@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  >
+<html lang="en"   >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Add New Patient</title>
@@ -51,7 +51,7 @@
 							$("#regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
 						}
 					});
-				});
+				}); 
 				$("#dob").datepicker({maxDate: "0D", changeMonth: true,changeYear: true });
 				$("#enrolled").datepicker({maxDate: "0D"});
 			});
