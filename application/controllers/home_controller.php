@@ -22,6 +22,10 @@ class Home_Controller extends MY_Controller {
 			$data['regimen_change_purpose'] = Regimen_Change_Purpose::getAll();
 			$data['visit_purpose'] = Visit_Purpose::getAll();
 			$data['opportunistic_infections'] = Opportunistic_Infection::getAll();
+			$data['regimen_drugs'] = Regimen_Drug::getAll();
+			$today = date('m/d/Y');   			
+			$timestamp = strtotime($today); 
+			$data['scheduled_patients'] = Patient_Appointment::getAllScheduled($timestamp);
 		}
 
 		$this -> load -> view("template", $data);

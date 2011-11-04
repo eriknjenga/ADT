@@ -15,7 +15,9 @@ $user_is_pharmacist=true;
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {
-initDatabase();<?php
+initDatabase();
+ 
+<?php
 if($user_is_pharmacist){
 foreach($regimens as $regimen){?>
 Populate("insert into regimen values(<?php echo $regimen->id;?>,'<?php echo $regimen->Regimen_Code;?>','<?php echo $regimen->Regimen_Desc;?>','<?php echo $regimen->Category;?>','<?php echo $regimen->Line;?>','<?php echo $regimen->Type_Of_Service;?>','<?php echo $regimen->Remarks;?>','<?php echo $regimen->Enabled;?>')");<?php }
@@ -40,6 +42,13 @@ Populate("insert into visit_purpose values(<?php echo $v_purpose->id;?>,'<?php e
 foreach($opportunistic_infections as $oi){
 ?>
 Populate("insert into opportunistic_infections values(<?php echo $oi->id;?>,'<?php echo $oi->Name;?>')");<?php }
+foreach($regimen_drugs as $regimen_drug){
+?>
+Populate("insert into regimen_drug values(<?php echo $regimen_drug->id;?>,'<?php echo $regimen_drug->Regimen;?>','<?php echo $regimen_drug->Drugcode;?>')");<?php } 
+foreach($scheduled_patients as $scheduled_patient){
+?>
+Populate("insert into scheduled_patients values(<?php echo $scheduled_patient->id;?>,'<?php echo $scheduled_patient->Patient_Object->First_Name." ".$scheduled_patient->Patient_Object->Other_Name." ".$scheduled_patient->Patient_Object->Last_Name;?>','<?php echo $scheduled_patient->id;?>','<?php echo $scheduled_patient->Current_Regimen;?>')");<?php } 
+ 
 }
 ?>});</script>
-Welcome to 127.0.0.1!
+Welcome to 127.0.0.1! 
