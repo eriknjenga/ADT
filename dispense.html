@@ -5,12 +5,21 @@
 		<title>Dispense Drugs</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/offlineData.js"></script>
 		<script type="text/javascript" src="Scripts/jquery.js"></script>
 		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				$("#dispense_form").validationEngine({
+					inlineValidation : false
+				});
+				$("#submit").click(function() {
+					$("#dispense_form").submit();
+				});
 				initDatabase();
 				//Add datepicker for the dispensing date
 				$("#dispensing_date").datepicker({
@@ -39,7 +48,7 @@
 					var appointment_date = $("#next_appointment_date");
 					var today = new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate());
 					var today_timestamp = today.getTime();
-					var appointment_timestamp = (1000 * 60 * 60 * 24 * days)+today_timestamp; 
+					var appointment_timestamp = (1000 * 60 * 60 * 24 * days) + today_timestamp;
 					appointment_date.datepicker("setDate", new Date(appointment_timestamp));
 
 				});
@@ -47,26 +56,27 @@
 				selectAll("patient", function(transaction, results) {
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
+
 						var row = results.rows.item(i);
 						$("#patient").append($("<option></option>").attr({
-							"value" : row['id'],
+							"value" : row['patient_number_ccc'],
 							"source" : "patient"
-						}).text(row['name']));
+						}).text(row['first_name'] + " " + row['other_name'] + " " + row['last_name'] + " (" + row['patient_number_ccc'] + ")"));
 					}
 
 				});
-				//Dynamically load the list of patients that are scheduled to come today
+				/*//Dynamically load the list of patients that are scheduled to come today
 				selectAll("scheduled_patients", function(transaction, results) {
-					// Handle the results
-					for(var i = 0; i < results.rows.length; i++) {
-						var row = results.rows.item(i);
-						$("#patient").append($("<option></option>").attr({
-							"value" : row['id'],
-							"source" : "scheduled_patients"
-						}).text(row['name']));
-					}
+				// Handle the results
+				for(var i = 0; i < results.rows.length; i++) {
+				var row = results.rows.item(i);
+				$("#patient").append($("<option></option>").attr({
+				"value" : row['id'],
+				"source" : "scheduled_patients"
+				}).text(row['name']));
+				}
 
-				});
+				});*/
 				//Dynamically load the list of purposes of visit
 				selectAll("visit_purpose", function(transaction, results) {
 					// Handle the results
@@ -98,16 +108,19 @@
 				});
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#patient").change(function() {
+					if($("#patient").attr("value")>0){
 					$("#last_regimen").attr("value", "");
 					var value = $("#patient option:selected").attr("value");
 					var source = $("#patient option:selected").attr("source");
 					//Retrieve the last regimen of the selected patient
 					selectPatientRegimen(source, value, function(transaction, results) {
 						// Handle the results
-						var row = results.rows.item(0);
-						$("#last_regimen").attr("value", row['regimen_desc']);
-
+						if(results.rows.length > 0) {
+							var row = results.rows.item(0);
+							$("#last_regimen").attr("value", row['regimen_desc']);
+						}
 					});
+				}
 				});
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
@@ -329,18 +342,24 @@
 						<div class="short_title" >
 							<h1 class="banner_text" style="width:auto;">Dispense Drugs</h1>
 						</div>
-						<form id="add_patient_form" method="post" >
+						<form id="dispense_form" method="post" >
 							<div class="column">
-								<label> <strong class="label">Select Patient</strong> <select id="patient" name="patient"></select> </label>
+								<label> <strong class="label">Select Patient</strong>
+									<select id="patient" name="patient" class="validate[required]">
+										<option></option>
+									</select> </label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label">Dispensing Date</strong>
 										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date">
 									</label>
-									<label style="width:140px; float:right;"> <strong class="label" >Purpose of Visit</strong> <select style="width:140px;" type="text"name="purpose" id="purpose"></select> </label>
+									<label style="width:140px; float:right;"> <strong class="label" >Purpose of Visit</strong>
+										<select style="width:140px;" type="text"name="purpose" id="purpose">
+											<option></option>
+										</select> </label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Current Height</strong>
-										<input style="width:140px;" type="text"name="height" id="height">
+										<input style="width:140px;" type="text"name="height" id="height" class="validate[required,length[2,50]]",>
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Current Weight</strong>
 										<input style="width:140px" type="text"name="weight" id="weight">

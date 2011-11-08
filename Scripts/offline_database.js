@@ -38,6 +38,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_drug(id INTEGER NOT NULL PRIMARY KEY, regimen TEXT, drugcode TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS scheduled_patients(id INTEGER NOT NULL PRIMARY KEY, name TEXT, universal_id TEXT, start_regimen TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, facility TEXT, current_regimen TEXT);', [], nullDataHandler, errorHandler);
 	});
 }
 
@@ -70,45 +71,45 @@ function nullDataHandler() {
 }
 
 function selectAll(table, dataSelectHandler) {
-	DEMODB.transaction(function(transaction) {
-		var sql = "select * from " + table;
-		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
-	});
+	var sql = "select * from " + table;
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 function selectServiceRegimen(service, dataSelectHandler) {
-	DEMODB.transaction(function(transaction) {
-		var sql = "select * from regimen where type_of_service = '" + service + "'";
-		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
-	});
+	var sql = "select * from regimen where type_of_service = '" + service + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 function selectPatientRegimen(source, id, dataSelectHandler) {
-	DEMODB.transaction(function(transaction) {
-		var sql = "select regimen_desc from " + source + ",regimen where " + source + ".id = '" + id + "' and " + source + ".start_regimen = regimen.id";
-		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
-	});
+	var sql = "select regimen_desc from " + source + ",regimen where " + source + ".id = '" + id + "' and " + source + ".start_regimen = regimen.id";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 function selectRegimenDrugs(regimen, dataSelectHandler) {
-	DEMODB.transaction(function(transaction) {
-		var sql = "select drugcode.id, drug from drugcode, regimen_drug where regimen_drug.regimen = '" + regimen + "' and drugcode.id = regimen_drug.drugcode";
-		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
-	});
+	var sql = "select drugcode.id, drug from drugcode, regimen_drug where regimen_drug.regimen = '" + regimen + "' and drugcode.id = regimen_drug.drugcode";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //This function is rather self-explanatory
 function selectSingleFilteredQuery(table, filterColumn, filterValue, dataSelectHandler) {
-	DEMODB.transaction(function(transaction) {
-		var sql = "select * from " + table + " where " + filterColumn + " = '" + filterValue + "'";
-		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
-	});
+	var sql = "select * from " + table + " where " + filterColumn + " = '" + filterValue + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //This function returns a list of all OI Medicines
 function selectOIMedicines(dataSelectHandler) {
+	var sql = "select drugcode.id, drug from drugcode, regimen_drug, regimen where regimen_drug.regimen = regimen.id and regimen.regimen_code = 'OI' and drugcode.id = regimen_drug.drugcode";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function returns a list of all OI Medicines
+function getScheduledPatients(dataSelectHandler) {
+	var sql = "select drugcode.id, drug from drugcode, regimen_drug, regimen where regimen_drug.regimen = regimen.id and regimen.regimen_code = 'OI' and drugcode.id = regimen_drug.drugcode";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
-		var sql = "select drugcode.id, drug from drugcode, regimen_drug, regimen where regimen_drug.regimen = regimen.id and regimen.regimen_code = 'OI' and drugcode.id = regimen_drug.drugcode"; 
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
 	});
 }

@@ -23,6 +23,10 @@ function processData() {
 				drugs_count++;
 			}
 		});
+		//If no drugs were dispensed, exit
+		if(drugs_count == 0){
+			return;
+		}
 		//Retrieve all form input elements and their values
 		var dump = retrieveFormValues();
 		//Call this function to do a special retrieve function for elements with several values
@@ -33,14 +37,20 @@ function processData() {
 		var indications = retrieveFormValues_Array('indication');
 		var pill_counts = retrieveFormValues_Array('pill_count');
 		var comments = retrieveFormValues_Array('comment');
-		var timestamp = new Date().getTime();
+		var next_appointment_sql = "";
 		
+		//Check if there is a date indicated for the next appointment. If there is, schedule it!
+		if($("#next_appointment_date").attr("value").length > 1) {
+			//The code below calculates the timestamp of the next appointment
+			var appointment_timestamp = $("#next_appointment_date").datepicker("getDate").getTime();
+			next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,current_regimen) values ('" + dump["patient"] + "','" + appointment_timestamp + "','" + facility + "','" + dump["current_regimen"] + "');";
+		}		
+
 		//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 		for(var i = 0; i < drugs_count; i++) {
-			var sql = "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" +brands[i] + "', '" + indications[i] + "', '" +pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "');";
-			
+			var sql = next_appointment_sql+"INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "');";
 		};
-
+		
 	}
 	var combined_object = {
 		0 : target,
@@ -51,8 +61,8 @@ function processData() {
 	var saved_object = JSON.stringify(combined_object);
 	//Regardless of whether the user is offline or online, save the data locally.
 	/*if(navigator.onLine) {
-	sendDataToServer(saved_object);
-	} else {*/
+	 sendDataToServer(saved_object);
+	 } else {*/
 	saveDataLocally(saved_object);
 	//}
 
@@ -73,8 +83,8 @@ function retrieveFormValues() {
 
 function retrieveFormValues_Array(name) {
 	var dump = Array;
-	var counter = 0; 
-	$.each($("input[name="+name+"], select[name="+name+"], select[name="+name+"]"), function(i, v) {
+	var counter = 0;
+	$.each($("input[name=" + name + "], select[name=" + name + "], select[name=" + name + "]"), function(i, v) {
 		var theTag = v.tagName;
 		var theElement = $(v);
 		var theValue = theElement.val();
@@ -97,7 +107,7 @@ function sendDataToServer(data) {
 		console.log('Sent to server: ' + dataString + '');
 		//We won't be deleting the local data after sending it to the database
 		/*var sql = "delete from " + local_table + " where timestamp = '" + local_timestamp + "'";
-		executeStatement(sql);*/
+		 executeStatement(sql);*/
 		window.localStorage.removeItem(local_timestamp);
 	});
 }
