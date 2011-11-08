@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  manifest="offline.manifest" >
+<html lang="en" >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Dispense Drugs</title>
@@ -12,6 +12,37 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
+				//Add datepicker for the dispensing date
+				$("#dispensing_date").datepicker({
+					changeMonth : true,
+					changeYear : true
+				});
+				//Add datepicker for the next appointment date
+				$("#next_appointment_date").datepicker({
+					changeMonth : true,
+					changeYear : true,
+					onSelect : function(dateText, inst) {
+						var base_date = new Date();
+						var today = new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate());
+						var today_timestamp = today.getTime();
+						var one_day = 1000 * 60 * 60 * 24;
+						var appointment_timestamp = $("#next_appointment_date").datepicker("getDate").getTime();
+						var difference = appointment_timestamp - today_timestamp;
+						var days_difference = difference / one_day;
+						$("#days_to_next").attr("value", days_difference);
+					}
+				});
+				//Add listener to the 'days_to_next' field so that the date picker can reflect the correct number of days!
+				$("#days_to_next").change(function() {
+					var days = $("#days_to_next").attr("value");
+					var base_date = new Date();
+					var appointment_date = $("#next_appointment_date");
+					var today = new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate());
+					var today_timestamp = today.getTime();
+					var appointment_timestamp = (1000 * 60 * 60 * 24 * days)+today_timestamp; 
+					appointment_date.datepicker("setDate", new Date(appointment_timestamp));
+
+				});
 				//Dynamically load the list of patients that reside offline
 				selectAll("patient", function(transaction, results) {
 					// Handle the results
@@ -49,9 +80,9 @@
 				selectAll("opportunistic_infections", function(transaction, results) {
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
-						var row = results.rows.item(i); 
+						var row = results.rows.item(i);
 						$.each($(".indication"), function(i, v) {
-							$(this).append($("<option></option>").attr("value", row['id']).text(row['name'])); 
+							$(this).append($("<option></option>").attr("value", row['id']).text(row['name']));
 						});
 					}
 
@@ -103,6 +134,9 @@
 						}
 
 					});
+					//In addition to the drugs in this regimen, load OI medicines too!
+					loadOIMedicine();
+
 				});
 				//Fill the whole drug row with details of the selected drug!
 				$(".drug").change(function() {
@@ -139,9 +173,23 @@
 					duration.attr("value", row['duration']);
 				});
 			}
+
+			function loadOIMedicine() {
+				//Dynamically load all opportunistic drugs
+				selectOIMedicines(function(transaction, results) {
+
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$.each($(".drug"), function(i, v) {
+
+							$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
+						});
+					}
+				});
+			}
 		</script>
 		<style type="text/css">
- 
 			#signup_form {
 				border: 1px solid #E5E5E5;
 				padding: 20px 0 15px 10px;
@@ -267,7 +315,7 @@
 				<div class="network">
 					Network Status: <span id="status" class="offline">Offline</span>
 					<p>
-						Locally Saved Records: <span id="local-count"></span>
+						Out-of-Sync Records: <span id="local-count"></span>
 					</p>
 				</div>
 				<div id="system_title">
@@ -284,9 +332,6 @@
 						<form id="add_patient_form" method="post" >
 							<div class="column">
 								<label> <strong class="label">Select Patient</strong> <select id="patient" name="patient"></select> </label>
-								<label> <strong class="label">or Enter Patient Number for Unscheduled Visit</strong>
-									<input type="text" name="unscheduled_patient" id="unscheduled_patient" value="">
-								</label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label">Dispensing Date</strong>
 										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date">
@@ -312,7 +357,10 @@
 								<label> <strong class="label">Last Regimen Dispensed</strong>
 									<input type="text"name="last_regimen" id="last_regimen">
 								</label>
-								<label> <strong class="label">Current Regimen</strong> <select type="text"name="current_regimen" id="current_regimen"></select> </label>
+								<label> <strong class="label">Current Regimen</strong>
+									<select type="text"name="current_regimen" id="current_regimen">
+										<option></option>
+									</select> </label>
 							</div>
 							<div class="column">
 								<fieldset>
@@ -361,7 +409,8 @@
 										<td>
 										<input type="text" name="soh" class="soh small_text" />
 										</td>
-										<td><select name="indication" class="indication" style="width: 100px;">
+										<td>
+										<select name="indication" class="indication" style="width: 100px;">
 											<option value="0">None</option>
 										</select></td>
 										<td>
@@ -378,7 +427,7 @@
 							</div>
 							<div id="submit_section">
 								<input type="reset" class="submit-button" id="reset" value="Reset Fields" style="width:200px;"/>
-								<input form="add_patient" class="submit-button" id="submit" value="Dispense Drugs" style="width:200px;"/>
+								<input form="dispense" class="submit-button" id="submit" value="Dispense Drugs" style="width:200px;"/>
 							</div>
 						</form>
 					</div>
