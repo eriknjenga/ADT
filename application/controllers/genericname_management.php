@@ -13,8 +13,8 @@ class genericname_management extends MY_Controller {
 	public function listing() {
 		$data = array();
 		$data['settings_view'] = "generic_listing_v";
-		
-
+		$data['generic_names'] = Generic_Name::getAllHydrated();
+		$this -> table -> set_heading(array('id', 'Name'));
 		$this -> base_params($data);
 	}
 
@@ -51,7 +51,7 @@ class genericname_management extends MY_Controller {
 		$data['content_view'] = "settings_v";
 		$data['banner_text'] = "System Settings";
 		$data['link'] = "settings";
-		$data['generic_names'] = Generic_Name::getAll();
+		
 		$this -> load -> view('template', $data);
 	}
 

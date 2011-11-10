@@ -14,22 +14,9 @@
 </script>
 <div id="view_content">
 	<a class="action_button" id="new_genericname">New Generic Name</a>
-		<?php echo validation_errors('<p class="error">', '</p>');?>
-	<table border="0" class="data-table">
-		<th class="subsection-title" colspan="11">Generic Names</th>
-		<tr>
-			<th>Generic Name</th>
-			<th>Action</th>
-		</tr>
-		<?php
-foreach($generic_names as $generic_name){
+		<?php echo validation_errors('<p class="error">', '</p>');
+		echo $this -> table -> generate($generic_names);
 		?>
-		<tr>
-			<td><?php echo $generic_name -> Name;?></td>
-			<td><a href="#" class="link">Edit</a></td>
-		</tr>
-		<?php }?>
-	</table>
 <div id="entry_form" title="New Generic Name">
 	<?php
 	$attributes = array('class' => 'input_form');

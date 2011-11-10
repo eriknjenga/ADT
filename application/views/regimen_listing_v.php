@@ -14,33 +14,9 @@
 </script>
 <div id="view_content">
 	<a class="action_button" id="new_regimen">New Regimen</a>
-	<table border="0" class="data-table">
-		<th class="subsection-title" colspan="11">Regimens</th>
-		<tr>
-			<th>Regimen Code</th>
-			<th>Description</th>
-			<th>Category</th>
-			<th>Line</th>
-			<th>Service Type</th>
-			<th>Remarks</th>
-			<th>Show</th>
-			<th>Action</th>
-		</tr>
-		<?php
-foreach($regimens as $regimen){
-		?>
-		<tr>
-			<td><?php echo $regimen -> Regimen_Code;?></td>
-			<td><?php echo $regimen -> Regimen_Desc;?></td>
-			<td><?php echo $regimen -> Regimen_Category->Name;?></td>
-			<td><?php echo $regimen -> Line;?></td>
-			<td><?php echo $regimen -> Regimen_Service_Type->Name;?></td>
-			<td><?php echo $regimen -> Remarks;?></td>
-			<td><?php echo $regimen -> Enabled;?></td>
-			<td><a href="#" class="link">Edit</a>  | <a href="#" class="link">Combinations</a></td>
-		</tr>
-		<?php }?>
-	</table>
+<?php
+echo $this -> table -> generate($regimens);
+?>
 <div id="entry_form" title="New Regimen">
 	<?php
 	$attributes = array('class' => 'input_form');

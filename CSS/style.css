@@ -310,28 +310,36 @@ input[type =
 /* Tables */
 
 table.data-table {
-	border: 1px solid #CCB;
+	border: 2px solid #DDD;
 	margin: 10px auto;
+	border-spacing: 0px;
 }
 table.data-table th {
-	border: 1px solid #DDD;
+	border: none;
 	color: #036;
 	text-align: center;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
 	letter-spacing: 1px;
 	background-color: #F5F5F5;
-}
-table.data-table tr {
-	border-bottom: 1px solid #DDD;
-}
+	border: 2px solid #DDD;
+	border-top:none;
+
+} 
 table.data-table td, table th {
-	padding: 5px;
+	padding: 10px;
 }
 table.data-table td {
-	border: 1px solid #DDD;
+	border:none;
+	border-left: 2px solid #DDD;
+	border-right: 2px solid #DDD;
+	height:30px;
+	margin:0px;
 }
-table.data-table tr.even td {
-	background: #FCFCFC;
+table.data-table tr.normal_row td {
+	background: white;
+}
+table.data-table tr.alternate_row td {
+	background: #D9D9D9;
 }
 #view_content {
 	overflow: hidden;

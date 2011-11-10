@@ -11,8 +11,10 @@ class Drugcode_management extends MY_Controller {
 	public function listing() {
 		$data = array();
 		$data['settings_view'] = "drugcode_listing_v";
-		$data['drugcodes'] = Drugcode::getAll();
+		$data['drugcodes'] = Drugcode::getAll(); 
+		$this -> table -> set_heading(array('id', 'Drug', 'Unit', 'Pack Size', 'Safety Quantity', 'Generic Name', 'Supported By','Quantity','Duration','Dose'));
 		$this -> base_params($data);
+		
 	}
 
 	public function add() {

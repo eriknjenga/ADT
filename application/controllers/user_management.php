@@ -17,6 +17,17 @@ class User_Management extends MY_Controller {
 		$this -> load -> view("login_v", $data);
 	}
 
+	public function listing() {
+		$users = Users::getAll();
+		$this -> table -> set_heading(array('id', 'Name', 'Username', 'Email Address', 'Phone Number', 'Access Level', 'Registered By'));
+		$data['users'] = $users;
+		$data['title'] = "System Users";
+		$data['content_view'] = "users_v";
+		$data['banner_text'] = "System Users";
+		$data['link'] = "users";
+		$this -> load -> view("template", $data);
+	}
+
 	public function authenticate() {
 		$data = array();
 		$validated = $this -> _submit_validate();
@@ -43,8 +54,7 @@ class User_Management extends MY_Controller {
 				else {
 					$session_data = array('user_id' => $logged_in -> id, 'access_level' => $logged_in -> Access_Level, 'username' => $logged_in -> Username, 'full_name' => $logged_in -> Name, 'facility' => $logged_in -> Facility_Code);
 					$this -> session -> set_userdata($session_data);
-					
-		
+
 					redirect("home_controller");
 				}
 
@@ -64,8 +74,8 @@ class User_Management extends MY_Controller {
 
 		return $this -> form_validation -> run();
 	}
-	
-	public function go_home($data){ 
+
+	public function go_home($data) {
 		$data['title'] = "System Home";
 		$data['content_view'] = "home_v";
 		$data['banner_text'] = "Dashboards";

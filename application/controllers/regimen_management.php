@@ -13,7 +13,8 @@ class Regimen_management extends MY_Controller {
 		$data['settings_view'] = "regimen_listing_v";
 		$data['styles'] = array("jquery-ui.css");
 		$data['scripts'] = array("jquery-ui.js");
-		$data['regimens'] = Regimen::getAll();
+		$data['regimens'] = Regimen::getAllHydrated(); 
+		$this -> table -> set_heading(array('id', 'Regimen_Code', 'Regimen_Desc','Line','Enabled' ,'Regimen_Category','Type_Of_Service'));
 		$data['regimen_categories'] = Regimen_Category::getAll();
 		$data['regimen_service_types'] = Regimen_Service_Type::getAll();
 		$this -> base_params($data);
