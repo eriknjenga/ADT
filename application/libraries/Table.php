@@ -282,7 +282,8 @@ class CI_Table {
 			$out .= $this->newline;
 			$out .= $this->template['heading_row_start'];
 			$out .= $this->newline;
-
+			//Hijack the code here and remove the first column since it is always an id column that we don't with to display.
+			unset($this->heading[0]);
 			foreach ($this->heading as $heading)
 			{
 				$temp = $this->template['heading_cell_start'];
@@ -296,7 +297,14 @@ class CI_Table {
 				}
 
 				$out .= $temp;
+				/*//Hijack the code here and prevent id columns from being shown
+				if($heading['data'] == "id"){
+					continue;
+				}
+				//Continue here with normal execution :-)
+				 * **/
 				$out .= isset($heading['data']) ? $heading['data'] : '';
+				 
 				$out .= $this->template['heading_cell_end'];
 			}
 
@@ -324,19 +332,24 @@ class CI_Table {
 				$name = (fmod($i++, 2)) ? '' : 'alt_';
 				//Hijack the code here and add an id variable to each table row
 				$row_id = $row['id']['data'];
-				$pimped_row = $this->_add_row_id($name,$row_id); 
+				$pimped_row = $this->_add_row_id($name,$row_id);  
 				$out .= $pimped_row;	
-			
 				
+			
+		
 				$out .= $this->newline;
-
+				$counter = 0;
 				foreach ($row as $cell)
 				{
-					 
+					//Hijack the code here. If we're on the firs row, skip it and proceed to the next one
+					if($counter == 0){
+						$counter++;
+						continue;
+					}
 					$temp = $this->template['cell_'.$name.'start'];
 
 					foreach ($cell as $key => $val)
-					{
+					{ 
 						if ($key != 'data')
 						{
 							$temp = str_replace('<td', "<td $key='$val'", $temp);
@@ -363,6 +376,7 @@ class CI_Table {
 					}
 
 					$out .= $this->template['cell_'.$name.'end'];
+					$counter++;
 				}
 
 				$out .= $this->template['row_'.$name.'end'];

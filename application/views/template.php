@@ -84,7 +84,7 @@ if ($link == "settings") {echo "top_menu_active";
 }
 ?>">Settings</a>
 <a href="<?php echo site_url("user_management/listing");?>" class="top_menu_link <?php
-if ($link == "resources") {echo "top_menu_active";
+if ($link == "users") {echo "top_menu_active";
 }
 ?>">Users</a>
 <a href="<?php echo site_url("disbursement_management");?>" class="top_menu_link <?php
