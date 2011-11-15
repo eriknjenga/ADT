@@ -1,5 +1,5 @@
 <?php
-class newuser_management extends MY_Controller{
+class Newuser_Management extends MY_Controller{
 	function __construct(){
 		parent::__construct();
 	}

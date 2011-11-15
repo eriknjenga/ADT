@@ -59,7 +59,7 @@ class brandname_management extends MY_Controller {
 		$data['title'] = "System Settings";
 		$data['content_view'] = "settings_v";
 		$data['banner_text'] = "System Settings";
-		$data['link'] = "settings";
+		$data['link'] = "settings_management";
 		
 		$this -> load -> view('template', $data);
 	}

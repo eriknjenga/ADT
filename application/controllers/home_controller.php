@@ -8,10 +8,25 @@ class Home_Controller extends MY_Controller {
 	}
 
 	public function index() {
-		$data['title'] = "System Home";
-		$data['content_view'] = "home_v";
-		$data['banner_text'] = "Dashboards";
-		$data['link'] = "home";
+
+		$this -> home();
+	}
+
+	public function home() {
+		//
+		$rights = User_Right::getRights($this -> session -> userdata('access_level'));
+		$menu_data = array();
+		$menus = array();
+		$counter = 0;
+		foreach ($rights as $right) {
+			$menu_data['menus'][$right -> Menu] = $right -> Access_Type;
+			$menus['menu_items'][$counter]['url'] = $right -> Menu_Item->Menu_Url;
+			$menus['menu_items'][$counter]['text'] = $right -> Menu_Item->Menu_Text;
+			$counter++;
+		} 
+		$this -> session -> set_userdata($menu_data);
+		$this -> session -> set_userdata($menus);
+
 		//Check if the user is a pharmacist. If so, update his/her local envirinment with current values
 		if ($this -> session -> userdata('access_level') == "3") {
 			$data['regimens'] = Regimen::getAll();
@@ -23,12 +38,17 @@ class Home_Controller extends MY_Controller {
 			$data['visit_purpose'] = Visit_Purpose::getAll();
 			$data['opportunistic_infections'] = Opportunistic_Infection::getAll();
 			$data['regimen_drugs'] = Regimen_Drug::getAll();
-			$today = date('m/d/Y');   			
-			$timestamp = strtotime($today); 
+			$today = date('m/d/Y');
+			$timestamp = strtotime($today);
 			$data['scheduled_patients'] = Patient_Appointment::getAllScheduled($timestamp);
 		}
-
+		$data['content_view'] = "corporate_home"; 
+		$data['title'] = "System Home";
+		$data['content_view'] = "home_v";
+		$data['banner_text'] = "Dashboards";
+		$data['link'] = "home";
 		$this -> load -> view("template", $data);
+
 	}
 
 }

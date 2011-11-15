@@ -1,10 +1,10 @@
 <?php
 if (!$this -> session -> userdata('user_id')) {
-	redirect("User_Management");
+	redirect("User_Management/login");
 }
 if (!isset($link)) {
 	$link = null;
-}
+} 
 $access_level = $this -> session -> userdata('access_level');
 $user_is_administrator = false;
 $user_is_nascop = false;
@@ -70,53 +70,28 @@ if (isset($styles)) {
 <div class="banner_text" style="font-size: 44px; height:50px; width:auto;"><?php echo $banner_text;?></div>
 </div>
  <div id="top_menu"> 
- 	
-<a href="<?php echo site_url();?>" class="first_link top_menu_link <?php
-if ($link == "home") {echo "top_menu_active";
-}
-	?>">Home</a>
 
-<?php 
-//Check if user is admin and show relevant menus
-if($user_is_administrator){?>
-<a href="<?php echo site_url("settings_management");?>" class="top_menu_link <?php
-if ($link == "settings") {echo "top_menu_active";
-}
-?>">Settings</a>
-<a href="<?php echo site_url("user_management/listing");?>" class="top_menu_link <?php
-if ($link == "users") {echo "top_menu_active";
-}
-?>">Users</a>
-<a href="<?php echo site_url("disbursement_management");?>" class="top_menu_link <?php
-if ($link == "support") {echo "top_menu_active";
-}
-?>">Facilities</a>
-<a href="<?php echo site_url("disbursement_management");?>" class="top_menu_link <?php
-if ($link == "clients") {echo "top_menu_active";
-}
-?>">Link 5</a>
-<?php }
-
-	else if($user_is_nascop){
-	//Add the relevant menu links here
-	}
-	else if($user_is_pharmacist){
+ 	<?php
+//Code to loop through all the menus available to this user!
+//Fet the current domain
+$menus = $this -> session -> userdata('menu_items');
+$current = $this->router->class;
+$counter = 0; 
 ?>
-	<a href="<?php echo site_url("patient_management");?>" class="top_menu_link <?php
-	if ($link == "patients") {echo "top_menu_active";
+ 	<a href="home_controller" class="top_menu_link  first_link <?php 	if ($current == "home_controller") {echo " top_menu_active ";
+	}?>">Home </a>
+<?php
+foreach($menus as $menu){?>
+	<a href = "<?php echo $menu['url'];?>" class="top_menu_link <?php
+	if ($current == $menu['url'] || $menu['url'] == $link) {echo " top_menu_active ";
 	}
-?>">Patients</a>
-<a href="<?php echo site_url("dispensement_management");?>" class="top_menu_link <?php
-if ($link == "dispensement") {echo "top_menu_active";
+?>"><?php echo $menu['text'];?>
+<?php
+$counter++;
 }
-	?>">Dispenses</a>
-<a href="<?php echo site_url("pharmacist_report_management");?>" class="top_menu_link <?php
-if ($link == "report") {echo "top_menu_active";
-}
-?>">Reports</a> 
-<?php }?>
-<a ref="#" class="top_menu_link" id="my_profile_link"><?php echo $this -> session -> userdata('full_name');?></a>
+	?>
 
+<a ref="#" class="top_menu_link" id="my_profile_link"><?php echo $this -> session -> userdata('full_name');?></a>
 
  </div>
 

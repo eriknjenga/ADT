@@ -328,7 +328,7 @@ table.data-table th {
 table.data-table td, table th {
 	padding: 10px;
 }
-table.data-table td {
+table.data-table td{
 	border:none;
 	border-left: 2px solid #DDD;
 	border-right: 2px solid #DDD;
@@ -339,19 +339,23 @@ table.data-table tr.normal_row td {
 	background: white;
 }
 table.data-table tr.alternate_row td {
-	background: #D9D9D9;
+	background: #F1F1F1;
 }
 #view_content {
 	overflow: hidden;
 }
 .link {
 	text-decoration: none;
-	color: #969696;
+	color: #ED5D3B;
 	font-weight: bold;
 	font-size: 12px;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+	letter-spacing: 1.5px;
+	margin-left:4px;
 }
 .link:hover {
-	color: #be2e21;
+	color: black;
+	cursor: pointer;
 }
 .label {
 	font-weight: bold;
