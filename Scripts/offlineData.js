@@ -14,6 +14,7 @@ function processData() {
 		var sql = "INSERT INTO patient (medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, pob, gender, pregnant," + " weight, height, sa, phone, physical, alternate, other_illnesses, other_drugs, adr, tb, smoke, alcohol, date_enrolled, source, supported_by," + " timestamp, facility_code, service, start_regimen) VALUES ('" + dump["medical_record_number"] + "', '" + dump["patient_number"] + "', '" + dump["first_name"] + "', '" + dump["last_name"] + "', '" + dump["other_name"] + "', '" + dump["dob"] + "', '" + dump["pob"] + "', '" + dump["gender"] + "', '" + dump["pregnant"] + "', '" + dump["weight"] + "', '" + dump["height"] + "', '" + dump["surface_area"] + "', '" + dump["phone"] + "', '" + dump["physical"] + "', '" + dump["alternate"] + "', '" + dump["other_illnesses_listing"] + "', '" + dump["other_drugs"] + "', '" + dump["other_allergies_listing"] + "', '" + dump["tb"] + "', '" + dump["smoke"] + "', '" + dump["alcohol"] + "', '" + dump["enrolled"] + "', '" + dump["source"] + "', '" + dump["support"] + "', '" + timestamp + "','" + facility + "', '" + dump["service"] + "', '" + dump["regimen"] + "');";
 
 	} else if(form == "dispense") {
+		var timestamp = new Date().getTime();
 		target = "dispensement_management/save";
 		local_table = 'patient_visit';
 		//Before going any further, first calculate the number of drugs being dispensed
@@ -30,7 +31,8 @@ function processData() {
 		//Retrieve all form input elements and their values
 		var dump = retrieveFormValues();
 		//Call this function to do a special retrieve function for elements with several values
-		var drugs = retrieveFormValues_Array('drug');
+		var drugs = retrieveFormValues_Array('drug'); 
+		alert(drugs[0]);
 		var batches = retrieveFormValues_Array('batch');
 		var doses = retrieveFormValues_Array('dose');
 		var brands = retrieveFormValues_Array('brand');
@@ -38,17 +40,19 @@ function processData() {
 		var pill_counts = retrieveFormValues_Array('pill_count');
 		var comments = retrieveFormValues_Array('comment');
 		var next_appointment_sql = "";
-		
+		var dispensing_date_timestamp = Date.parse(dump["dispensing_date"]);
 		//Check if there is a date indicated for the next appointment. If there is, schedule it!
 		if($("#next_appointment_date").attr("value").length > 1) {
 			//The code below calculates the timestamp of the next appointment
 			var appointment_timestamp = $("#next_appointment_date").datepicker("getDate").getTime();
 			next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,current_regimen) values ('" + dump["patient"] + "','" + appointment_timestamp + "','" + facility + "','" + dump["current_regimen"] + "');";
 		}		
-
+		var sql = next_appointment_sql;
 		//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 		for(var i = 0; i < drugs_count; i++) {
-			var sql = next_appointment_sql+"INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "');";
+			
+			sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '"+dump["dispensing_date"]+"', '"+dispensing_date_timestamp+"');";
+		
 		};
 		
 	}
@@ -75,6 +79,7 @@ function retrieveFormValues() {
 		var theTag = v.tagName;
 		var theElement = $(v);
 		var theValue = theElement.val();
+		
 		dump[theElement.attr("name")] = theElement.attr("value");
 
 	});
@@ -82,13 +87,13 @@ function retrieveFormValues() {
 }
 
 function retrieveFormValues_Array(name) {
-	var dump = Array;
+	var dump = new Array();
 	var counter = 0;
 	$.each($("input[name=" + name + "], select[name=" + name + "], select[name=" + name + "]"), function(i, v) {
 		var theTag = v.tagName;
 		var theElement = $(v);
-		var theValue = theElement.val();
-		dump[counter] = theElement.attr("value");
+		var theValue = theElement.val();  
+		dump[counter] = theElement.attr("value"); 
 		counter++;
 	});
 	return dump;
@@ -118,7 +123,13 @@ function saveDataLocally(data) {
 	var sql = separated_data[1];
 	var timestamp = separated_data[2];
 	try {
-		executeStatement(sql);
+		var queries = sql.split(";");
+		var no_of_queries = queries.length;
+		for(var x=0; x<no_of_queries; x++ ){
+			if(queries[x].length>0){
+			executeStatement(queries[x]);
+			}
+		}
 		localStorage.setItem(timestamp, data);
 	} catch (e) {
 

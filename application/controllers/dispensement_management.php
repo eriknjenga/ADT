@@ -17,7 +17,14 @@ class Dispensement_Management extends MY_Controller {
 	public function save() {
 		$this->load->database();
 		$sql = $this->input->post("sql");
-		$this->db->query($sql);
+		$queries = explode(";", $sql);
+		foreach($queries as $query){
+			if(strlen($query)>0){
+				$this->db->query($query);
+			}
+			
+		}
+		
 
 	}
 
