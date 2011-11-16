@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Dispense Drugs</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+			});
+
+		</script>
+		<style type="text/css">
+			#reports_container { 
+				width:90%;
+				margin:0 auto;
+				
+			}
+			.report {
+				display: block;
+				height:30px;
+				line-height: 30px;
+				background-color: #F1F1F1;
+				margin:2px;
+				font-size: 12px;
+				text-decoration: none;
+				font-weight: bold;
+				letter-spacing: 1px;
+				color:#036;
+				padding:2px;
+			}
+			.report:hover{
+				background-color: #E5E5E5;
+			}
+			.report_category{
+				border:2px solid #F1F1F1;
+				width:45%;
+				float:left;
+				margin:5px;
+				height:230px;
+				padding:5px;
+			}
+			.category_title{
+				letter-spacing: 2px;
+				font-weight: bold;
+				padding:2px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<div id="reports_container">
+						<div class="report_category">
+							<span class="category_title">Standard Reports</span>
+							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Enrolled in Period</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Started on ART in the Period</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Graph of Number of Patients Enrolled Per Month in a Given Year</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Cumulative Number of Patients to Date</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Receiving ART in the Last 3 Months (by Regimen)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Export Active Patients (by Regimen)</a>
+						</div>
+						<div class="report_category">
+							<span class="category_title">Visiting Patients</span>
+							<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Scheduled to Visit (on a Particular Date)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Started (on a Particular Date)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Visited for Refill (on a Particular Date)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Patients Booking Summary</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Patients Missing Appointments</a>
+						</div>
+						<div class="report_category">
+							<span class="category_title">Early Warning Indicators</span>
+							<a href="#" id="patients_enrolled_in_period" class="report">Active Patients who Have Changed Regimens(Between two Dates)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Starting (By Regimen)</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">HIV Early Warning Indicators</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Service Statistics (By Regimen)</a>
+						</div>
+						<div class="report_category">
+							<span class="category_title">Drug Inventory</span>
+							<a href="#" id="patients_enrolled_in_period" class="report">Drug Consumption Report</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Drug Stock on Hand Report</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">Short Dated Stocks &lt;6 Months to Expiry</a>
+							<a href="#" id="patients_enrolled_in_period" class="report">List of Expired Drugs</a>
+						</div>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>
