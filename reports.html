@@ -14,44 +14,62 @@
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-
+				$("#date_range_report").dialog({
+					autoOpen : false,
+					modal : true
+				});
+				//Add datepicker
+				$("#date_range_from").datepicker({
+					changeMonth : true,
+					changeYear : true
+				});
+				$("#date_range_to").datepicker({
+					changeMonth : true,
+					changeYear : true
+				});
+				$(".date_range_report").click(function() {
+					$("#selected_report").attr("value", $(this).attr("id"));
+					$("#date_range_report").dialog("open");
+				});
+				$("#generate_date_range_report").click(function () {
+					alert($("#selected_report").attr("value"));
+				});
 			});
 
 		</script>
 		<style type="text/css">
-			#reports_container { 
-				width:90%;
-				margin:0 auto;
-				
+			#reports_container {
+				width: 90%;
+				margin: 0 auto;
 			}
 			.report {
 				display: block;
-				height:30px;
+				height: 30px;
 				line-height: 30px;
 				background-color: #F1F1F1;
-				margin:2px;
+				margin: 2px;
 				font-size: 12px;
 				text-decoration: none;
 				font-weight: bold;
 				letter-spacing: 1px;
-				color:#036;
-				padding:2px;
+				color: #036;
+				padding: 2px;
 			}
-			.report:hover{
+			.report:hover {
 				background-color: #E5E5E5;
 			}
-			.report_category{
-				border:2px solid #F1F1F1;
-				width:45%;
-				float:left;
-				margin:5px;
-				height:230px;
-				padding:5px;
+			.report_category {
+				border: 2px solid #F1F1F1;
+				width: 45%;
+				float: left;
+				margin: 5px;
+				height: 230px;
+				padding: 5px;
 			}
-			.category_title{
+			.category_title {
 				letter-spacing: 2px;
 				font-weight: bold;
-				padding:2px;
+				padding: 2px;
 			}
 		</style>
 	</head>
@@ -75,8 +93,8 @@
 					<div id="reports_container">
 						<div class="report_category">
 							<span class="category_title">Standard Reports</span>
-							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Enrolled in Period</a>
-							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Started on ART in the Period</a>
+							<a href="#" id="patients_enrolled_in_period" class="report date_range_report">Number of Patients Enrolled in Period</a>
+							<a href="#" id="patients_enrolled_in_art" class="report date_range_picker">Number of Patients Started on ART in the Period</a>
 							<a href="#" id="patients_enrolled_in_period" class="report">Graph of Number of Patients Enrolled Per Month in a Given Year</a>
 							<a href="#" id="patients_enrolled_in_period" class="report">Cumulative Number of Patients to Date</a>
 							<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Receiving ART in the Last 3 Months (by Regimen)</a>
@@ -104,6 +122,16 @@
 							<a href="#" id="patients_enrolled_in_period" class="report">Short Dated Stocks &lt;6 Months to Expiry</a>
 							<a href="#" id="patients_enrolled_in_period" class="report">List of Expired Drugs</a>
 						</div>
+					</div>
+					<input type="hidden" id="selected_report" />
+					<div id="date_range_report" title="Select Date Range">
+						<label> <strong class="label">From: </strong>
+							<input type="text"name="date_range_from" id="date_range_from">
+						</label>
+						<label> <strong class="label">To: </strong>
+							<input type="text"name="date_range_to" id="date_range_to">
+						</label>
+						<button id="generate_date_range_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">Generate Report</button>
 					</div>
 				</div>
 				<!--End Wrapper div-->
