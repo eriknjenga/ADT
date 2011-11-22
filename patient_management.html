@@ -15,11 +15,30 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
+				$(".details").click(function() {
+					alert();
+				});
 				getPatients(0);
-				//Add a hover listener to all rows
+				$("#details_popup").dialog({
+					autoOpen: false
+				});
+
 			});
-			function hoverEvent(element) {
-				element.hover(function() {
+			function rebindListeners() {
+				//Add click listeners to the action links
+				$(".details").click(function() {
+					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
+					
+					$("#details_popup").dialog('open');
+				});
+				$(".edit").click(function() {
+					alert();
+				});
+				$(".history").click(function() {
+					alert();
+				});
+				//First add the hover listener to the passed element (table row)
+				$(".table_row").hover(function() {
 					//When hovered on, make the background color of the row darker and show the action links
 					$(this).addClass("hovered");
 					$(this).find(".actions_panel").css("visibility", "visible");
@@ -38,13 +57,9 @@
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
 						addTableRow(row);
-
-						/*$("#patient").append($("<option></option>").attr({
-						 "value" : row['patient_number_ccc'],
-						 "source" : "patient"
-						 }).text(row['first_name'] + " " + row['other_name'] + " " + row['last_name'] + " (" + row['patient_number_ccc'] + ")"));*/
 					}
-
+					//Call Function that rebinds all listeners to their respective elements
+					rebindListeners();
 				});
 			}
 
@@ -85,7 +100,6 @@
 				//Append the contents of the 'action_panel_parent' to this first td element
 				$($("#action_panel_parent").html()).appendTo(first_td);
 				//Append the created row to the table
-				hoverEvent(new_row);
 				new_row.insertAfter('#patients_table tr:last');
 			}
 		</script>
@@ -185,6 +199,10 @@
 							<a class="link edit">Edit</a>
 						</div>
 					</div>
+					<div id="details_popup" title="Patient Details">
+						
+					</div>
+					
 				</div>
 				<!--End Wrapper div-->
 			</div>
