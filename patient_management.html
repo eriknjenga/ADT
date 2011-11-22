@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patient Records</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				getPatients(0);
+				//Add a hover listener to all rows
+			});
+			function hoverEvent(element) {
+				element.hover(function() {
+					//When hovered on, make the background color of the row darker and show the action links
+					$(this).addClass("hovered");
+					$(this).find(".actions_panel").css("visibility", "visible");
+				}, function() {
+					//When hovered off, reset the background color and hide the action links
+					$(this).removeClass("hovered");
+					$(this).find(".actions_panel").css("visibility", "hidden");
+				});
+			}
+
+			function getPatients(offset) {
+				//Set the nimber of patients to show on one page
+				var limit = 10;
+				selectPagedPatients(offset, limit, function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						addTableRow(row);
+
+						/*$("#patient").append($("<option></option>").attr({
+						 "value" : row['patient_number_ccc'],
+						 "source" : "patient"
+						 }).text(row['first_name'] + " " + row['other_name'] + " " + row['last_name'] + " (" + row['patient_number_ccc'] + ")"));*/
+					}
+
+				});
+			}
+
+			function addTableRow(row) {
+				//define the keys for all the table columns that exist in the returned patient row.
+				var table_columns = new Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "phone");
+				//Create a new row element
+				var new_row = $(document.createElement('tr'));
+				//Create a new attribute for the row and add the mrn as the value of this attribute!
+				new_row.attr("patient_number", row["medical_record_number"]);
+				//add the class 'table_row' to the row that's just been created
+				new_row.attr("class", "table_row");
+				//Loop through the table columns, picking the relevant values from the row returned from the database
+				$.each(table_columns, function(key, value) {
+					var table_data = "";
+					//Check if a value exists for a particular table column
+					if(row[value]) {
+						table_data = "<td>" + row[value] + "</td>";
+					}
+					//if not, display N/A
+					else {
+						table_data = "<td>N/A</td>";
+					}
+					//add each table data created to the row
+					new_row.append(table_data);
+
+				});
+				//This section creates the record manipulation links to each row
+
+				//This gets the first td element of that row which will be used to add the action links
+				var first_td = new_row.find("td:first");
+				//Get the width of this td element in integer form (i.e. remove the .px part)
+				var width = first_td.css("width").replace("px", "");
+				//If the width is less than 200px, extend it to 200px so as to have a more uniform look
+				if(width < 200) {
+					first_td.css("width", "200px");
+				}
+				//Append the contents of the 'action_panel_parent' to this first td element
+				$($("#action_panel_parent").html()).appendTo(first_td);
+				//Append the created row to the table
+				hoverEvent(new_row);
+				new_row.insertAfter('#patients_table tr:last');
+			}
+		</script>
+		<style type="text/css">
+			.actions_panel {
+				width: 200px;
+				margin-top: 5px;
+			}
+			.hovered td {
+				background-color: #E5E5E5 !important;
+			}
+			#inner_wrapper {
+				width: 97%;
+			}
+			#signup_form label {
+				display: block;
+				margin: 0 auto 1.5em auto;
+				width: 300px;
+			}
+			#system_title {
+				position: absolute;
+				top: 50px;
+				left: 110px;
+				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+				letter-spacing: 1px;
+			}
+			.logo {
+				background: url("Images/coat_of_arms-resized.png") no-repeat;
+			}
+			.network {
+				text-align: left;
+				font-size: 16px;
+				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+				letter-spacing: 1px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				color: #036;
+				border: 2px solid #DDDDDD;
+				width: 300px;
+				padding: 5px;
+			}
+			.offline {
+				color: red;
+				width: 200px;
+				padding: 0 10px;
+				font-weight: bolder;
+			}
+			.online {
+				color: green;
+				width: 200px;
+				padding: 0 10px;
+				font-weight: bolder;
+			}
+			.column {
+				position: relative;
+				margin: 5px;
+				overflow: hidden;
+				float: left;
+				width: 45%;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<table class="data-table" id="patients_table">
+						<tr>
+							<th> Med. Record Number </th>
+							<th> CCC Number </th>
+							<th> First Name</th>
+							<th> Last Name</th>
+							<th> Other Name</th>
+							<th> DOB </th>
+							<th> Phone Number </th>
+						</tr>
+					</table>
+					<div id="action_panel_parent" style="display:none">
+						<div class="actions_panel" style="visibility:hidden" >
+							<a class="link details">Details</a>
+							<a class="link history">History</a>
+							<a class="link edit">Edit</a>
+						</div>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

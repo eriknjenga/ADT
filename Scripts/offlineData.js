@@ -198,7 +198,13 @@ function loaded() {
 	window.addEventListener('online', sendLocalDataToServer, false);
 	window.addEventListener('offline', notifyUserIsOffline, false);
 
-	document.querySelector('#submit').addEventListener('click', processData, false);
+	//
+	if(document.getElementById("submit") == null){
+		 
+	}
+	else{
+		document.querySelector('#submit').addEventListener('click', processData, false); 
+	} 
 }
 
 window.addEventListener('load', loaded, true);

@@ -107,10 +107,18 @@ function getScheduledPatients(dataSelectHandler) {
 	var sql = "select drugcode.id, drug from drugcode, regimen_drug, regimen where regimen_drug.regimen = regimen.id and regimen.regimen_code = 'OI' and drugcode.id = regimen_drug.drugcode";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //This function returns details of the last visit of the patient
-function getPatientLastVisit(patient_ccc,dataSelectHandler) {
+function getPatientLastVisit(patient_ccc, dataSelectHandler) {
 	var sql = "select drugcode.id, drug from drugcode, regimen_drug, regimen where regimen_drug.regimen = regimen.id and regimen.regimen_code = 'OI' and drugcode.id = regimen_drug.drugcode";
 	//SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function returns a list of patients based on the limits specified
+function selectPagedPatients(offset,limit, dataSelectHandler) {
+	var sql = "select medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, phone from patient limit "+offset+", "+limit+"";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
