@@ -117,6 +117,12 @@ function getPatientLastVisit(patient_ccc, dataSelectHandler) {
 //This function returns a list of patients based on the limits specified
 function selectPagedPatients(offset,limit, dataSelectHandler) {
 	var sql = "select medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, phone from patient limit "+offset+", "+limit+"";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function loads up the patient history (paginated of course)!
+function selectPagedPatientHistory(offset,limit, patient, dataSelectHandler) {
+	var sql = "select * from patient_visit limit "+offset+", "+limit+"";
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }

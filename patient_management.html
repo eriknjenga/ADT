@@ -20,7 +20,10 @@
 				});
 				getPatients(0);
 				$("#details_popup").dialog({
-					autoOpen: false
+					autoOpen : false
+				});
+				$("#history_popup").dialog({
+					autoOpen : false
 				});
 
 			});
@@ -28,14 +31,15 @@
 				//Add click listeners to the action links
 				$(".details").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					
 					$("#details_popup").dialog('open');
 				});
 				$(".edit").click(function() {
 					alert();
 				});
 				$(".history").click(function() {
-					alert();
+					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
+					getPatientHistory();
+					$("#history_popup").dialog('open');
 				});
 				//First add the hover listener to the passed element (table row)
 				$(".table_row").hover(function() {
@@ -47,6 +51,9 @@
 					$(this).removeClass("hovered");
 					$(this).find(".actions_panel").css("visibility", "hidden");
 				});
+			}
+			function getPatientHistory(){
+				
 			}
 
 			function getPatients(offset) {
@@ -199,10 +206,8 @@
 							<a class="link edit">Edit</a>
 						</div>
 					</div>
-					<div id="details_popup" title="Patient Details">
-						
-					</div>
-					
+					<div id="details_popup" title="Patient Details"></div>
+					<div id="history_popup" title="Patient History"></div>
 				</div>
 				<!--End Wrapper div-->
 			</div>

@@ -19,6 +19,7 @@ class Users extends Doctrine_Record {
 		$this -> hasMutator('Password', '_encrypt_password');
 		$this -> hasOne('Access_Level as Access', array('local' => 'Access_Level', 'foreign' => 'id'));
 		$this -> hasOne('Users as Creator', array('local' => 'Created_By', 'foreign' => 'id'));
+		$this -> hasOne('Menu as Menu_Item', array('local' => 'Menu', 'foreign' => 'id'));
 	}
 
 	protected function _encrypt_password($value) {
