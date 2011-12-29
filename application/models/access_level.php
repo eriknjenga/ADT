@@ -2,7 +2,8 @@
 class Access_Level extends Doctrine_Record {
 	public function setTableDefinition() {
 		$this -> hasColumn('Level_Name', 'varchar', 50);
-		$this -> hasColumn('Description', 'text');		
+		$this -> hasColumn('Description', 'text');	
+		$this -> hasColumn('Indicator', 'varchar', 100);	
 	}
 
 	public function setUp() {

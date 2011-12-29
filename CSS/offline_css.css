@@ -1,0 +1,129 @@
+.actions_panel {
+	width: 200px;
+	margin-top: 5px;
+}
+.hovered td {
+	background-color: #E5E5E5 !important;
+}
+#inner_wrapper {
+	width: 97%;
+}
+#signup_form label {
+	display: block;
+	margin: 0 auto 1.5em auto;
+	width: 300px;
+}
+#system_title {
+	position: absolute;
+	top: 50px;
+	left: 110px;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+	letter-spacing: 1px;
+}
+.logo {
+	background: url("../Images/coat_of_arms-resized.png") no-repeat;
+}
+.network {
+	text-align: left;
+	font-size: 16px;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+	letter-spacing: 1px;
+	position: absolute;
+	right: 0;
+	top: 60px;
+	color: #036;
+	border: 2px solid #DDDDDD;
+	width: 300px;
+	padding: 5px;
+}
+#top-panel {
+	height: 150px;
+}
+#inner_wrapper {
+	top: 150px;
+}
+.offline {
+	color: red;
+	width: 200px;
+	padding: 0 10px;
+	font-weight: bolder;
+}
+.online {
+	color: green;
+	width: 200px;
+	padding: 0 10px;
+	font-weight: bolder;
+}
+#signup_form {
+	border: 1px solid #E5E5E5;
+	padding: 20px 0 15px 10px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.label {
+	font-weight: bold;
+	margin: 0 0 .5em;
+	display: block;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+.remember-label {
+	font-weight: normal;
+	color: #666;
+	line-height: 0;
+	padding: 0 0 0 .4em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+.column {
+	position: relative;
+	margin: 5px;
+	overflow: hidden;
+	float: left;
+	width: 45%;
+}
+.two_comlumns {
+	overflow: hidden;
+	width: 300px;
+	margin: 0 auto;
+}
+.three_columns {
+	overflow: hidden;
+	width: 300px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+.three_columns .label {
+	float: left;
+	width: 90px;
+	margin-right: 20px;
+}
+.list {
+	float: right;
+	font-weight: bold;
+	color: #036;
+}
+.list_area {
+	float: right;
+	clear: right;
+}
+#submit_section {
+	overflow: hidden;
+	width: 500px;
+	margin-top: 500px;
+	position: relative;
+}
+#add_patient_form {
+	overflow: hidden;
+}
+#drugs_section {
+	overflow: hidden;
+	width: 99%;
+	margin: 0 auto;
+}
+.small_text {
+	width: 60px !important;
+	font-size: 11px !important;
+	padding: 0 !important;
+	text-align: center !important;
+}

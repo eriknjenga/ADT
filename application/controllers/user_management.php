@@ -54,7 +54,7 @@ class User_Management extends MY_Controller {
 				}
 				//looks good. Continue!
 				else {
-					$session_data = array('user_id' => $logged_in -> id, 'access_level' => $logged_in -> Access_Level, 'username' => $logged_in -> Username, 'full_name' => $logged_in -> Name, 'facility' => $logged_in -> Facility_Code);
+					$session_data = array('user_id' => $logged_in -> id,'user_indicator'=>$logged_in -> Access->Indicator, 'access_level' => $logged_in -> Access_Level, 'username' => $logged_in -> Username, 'full_name' => $logged_in -> Name, 'facility' => $logged_in -> Facility_Code);
 					$this -> session -> set_userdata($session_data);
 
 					redirect("home_controller");

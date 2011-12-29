@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Patient Records</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/offlineData.js"></script>
@@ -52,8 +53,9 @@
 					$(this).find(".actions_panel").css("visibility", "hidden");
 				});
 			}
-			function getPatientHistory(){
-				
+
+			function getPatientHistory() {
+
 			}
 
 			function getPatients(offset) {
@@ -110,66 +112,7 @@
 				new_row.insertAfter('#patients_table tr:last');
 			}
 		</script>
-		<style type="text/css">
-			.actions_panel {
-				width: 200px;
-				margin-top: 5px;
-			}
-			.hovered td {
-				background-color: #E5E5E5 !important;
-			}
-			#inner_wrapper {
-				width: 97%;
-			}
-			#signup_form label {
-				display: block;
-				margin: 0 auto 1.5em auto;
-				width: 300px;
-			}
-			#system_title {
-				position: absolute;
-				top: 50px;
-				left: 110px;
-				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-				letter-spacing: 1px;
-			}
-			.logo {
-				background: url("Images/coat_of_arms-resized.png") no-repeat;
-			}
-			.network {
-				text-align: left;
-				font-size: 16px;
-				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-				letter-spacing: 1px;
-				position: absolute;
-				right: 0;
-				top: 0;
-				color: #036;
-				border: 2px solid #DDDDDD;
-				width: 300px;
-				padding: 5px;
-			}
-			.offline {
-				color: red;
-				width: 200px;
-				padding: 0 10px;
-				font-weight: bolder;
-			}
-			.online {
-				color: green;
-				width: 200px;
-				padding: 0 10px;
-				font-weight: bolder;
-			}
-			.column {
-				position: relative;
-				margin: 5px;
-				overflow: hidden;
-				float: left;
-				width: 45%;
-			}
 
-		</style>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -185,9 +128,17 @@
 					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
 					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
 				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link">Patients</a>
+					<a href="dispensement_management.html" class="top_menu_link">Dispensements</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+				</div>
 			</div>
 			<div id="inner_wrapper">
 				<div id="main_wrapper">
+					<a class="action_button" href="add_patient.html" target="_blank">Add New Patient</a>
 					<table class="data-table" id="patients_table">
 						<tr>
 							<th> Med. Record Number </th>

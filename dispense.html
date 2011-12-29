@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Dispense Drugs</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/offlineData.js"></script>
@@ -71,12 +72,12 @@
 					//Check if an actual patient has been selected
 					if(patient_id.length > 0) {
 						/*selectPatientRegimen(source, value, function(transaction, results) {
-							// Handle the results
-							if(results.rows.length > 0) {
-								var row = results.rows.item(0);
-								$("#last_regimen").attr("value", row['regimen_desc']);
-							}
-						});*/
+						 // Handle the results
+						 if(results.rows.length > 0) {
+						 var row = results.rows.item(0);
+						 $("#last_regimen").attr("value", row['regimen_desc']);
+						 }
+						 });*/
 					}
 				});
 				/*//Dynamically load the list of patients that are scheduled to come today
@@ -138,7 +139,7 @@
 				});
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
-					
+
 					var regimen = $("#current_regimen option:selected").attr("value");
 					//Clear the drugs list first
 					$.each($(".drug"), function(i, v) {
@@ -146,7 +147,7 @@
 					});
 					//Dynamically load the list of drugs for this regimen
 					selectRegimenDrugs(regimen, function(transaction, results) {
-						
+
 						// Handle the results
 						for(var i = 0; i < results.rows.length; i++) {
 							var row = results.rows.item(i);
@@ -154,11 +155,11 @@
 								$.each($(".drug"), function(i, v) {
 									$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 									populateDrugRow($(this));
-									
+
 								});
 								continue;
 							}
-							 
+
 							$.each($(".drug"), function(i, v) {
 								$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 							});
@@ -183,7 +184,7 @@
 				});
 			});
 			function populateDrugRow(drug) {
-				
+
 				//First things first, retrieve the row where this drug exists
 				var row_element = drug.closest("tr");
 				//Secod thing, retrieve the respective containers in the row where the drug is
@@ -198,20 +199,20 @@
 
 				//Retrieve details about the selected drug from the database
 				selectSingleFilteredQuery("drugcode", "id", drug.attr("value"), function(transaction, results) {
-					
+
 					// Handle the results
 					var row = results.rows.item(0);
 					unit.attr("value", row['unit']);
 					dose.attr("value", row['dose']);
 					duration.attr("value", row['duration']);
-					
+
 				});
 			}
 
 			function loadOIMedicine() {
 				//Dynamically load all opportunistic drugs
 				selectOIMedicines(function(transaction, results) {
-					
+
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
@@ -223,124 +224,6 @@
 				});
 			}
 		</script>
-		<style type="text/css">
-			#signup_form {
-				border: 1px solid #E5E5E5;
-				padding: 20px 0 15px 10px;
-				margin: 0 auto;
-				overflow: hidden;
-			}
-			#inner_wrapper {
-				width: 97%;
-			}
-			#signup_form label {
-				display: block;
-				margin: 0 auto 1.5em auto;
-				width: 300px;
-			}
-			.label {
-				font-weight: bold;
-				margin: 0 0 .5em;
-				display: block;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-			}
-			.remember-label {
-				font-weight: normal;
-				color: #666;
-				line-height: 0;
-				padding: 0 0 0 .4em;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-			}
-			#system_title {
-				position: absolute;
-				top: 50px;
-				left: 110px;
-				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-				letter-spacing: 1px;
-			}
-			.logo {
-				background: url("Images/coat_of_arms-resized.png") no-repeat;
-			}
-			.network {
-				text-align: left;
-				font-size: 16px;
-				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-				letter-spacing: 1px;
-				position: absolute;
-				right: 0;
-				top: 0;
-				color: #036;
-				border: 2px solid #DDDDDD;
-				width: 300px;
-				padding: 5px;
-			}
-			.offline {
-				color: red;
-				width: 200px;
-				padding: 0 10px;
-				font-weight: bolder;
-			}
-			.online {
-				color: green;
-				width: 200px;
-				padding: 0 10px;
-				font-weight: bolder;
-			}
-			.column {
-				position: relative;
-				margin: 5px;
-				overflow: hidden;
-				float: left;
-				width: 45%;
-			}
-			.two_comlumns {
-				overflow: hidden;
-				width: 300px;
-				margin: 0 auto;
-			}
-			.three_columns {
-				overflow: hidden;
-				width: 300px;
-				margin: 0 auto;
-				margin-bottom: 20px;
-			}
-			.three_columns .label {
-				float: left;
-				width: 90px;
-				margin-right: 20px;
-			}
-			.list {
-				float: right;
-				font-weight: bold;
-				color: #036;
-			}
-			.list_area {
-				float: right;
-				clear: right;
-			}
-			#submit_section {
-				overflow: hidden;
-				width: 500px;
-				position: relative;
-			}
-			#add_patient_form {
-				overflow: hidden;
-			}
-			#drugs_section {
-				overflow: hidden;
-				width: 99%;
-				margin: 0 auto;
-			}
-			.small_text {
-				width: 60px !important;
-				font-size: 11px !important;
-				padding: 0 !important;
-				text-align: center !important;
-			}
-
-		</style>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -355,6 +238,13 @@
 				<div id="system_title">
 					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
 					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link">Patients</a>
+					<a href="dispensement_management.html" class="top_menu_link">Dispensements</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
 				</div>
 			</div>
 			<div id="inner_wrapper">

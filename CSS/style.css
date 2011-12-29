@@ -334,6 +334,7 @@ table.data-table td{
 	border-right: 2px solid #DDD;
 	height:30px;
 	margin:0px;
+	max-width: 350px;
 }
 table.data-table tr.normal_row td {
 	background: white;

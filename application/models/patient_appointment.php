@@ -5,7 +5,6 @@ class Patient_Appointment extends Doctrine_Record {
 		$this -> hasColumn('Patient', 'varchar', 25);
 		$this -> hasColumn('Appointment', 'varchar', 25);
 		$this -> hasColumn('Facility', 'varchar', 25);
-		$this -> hasColumn('Current_Regimen', 'varchar', 10);
 	}
 
 	public function setUp() {
@@ -15,6 +14,11 @@ class Patient_Appointment extends Doctrine_Record {
 
 	public function getAllScheduled($timestamp) {
 		$query = Doctrine_Query::create() -> select("*") -> from("Patient_Appointment")->where("Appointment = '$timestamp'");
+		$appointments = $query -> execute(); 
+		return $appointments;
+	}
+		public function getAll() {
+		$query = Doctrine_Query::create() -> select("*") -> from("Patient_Appointment");
 		$appointments = $query -> execute(); 
 		return $appointments;
 	}

@@ -28,7 +28,7 @@ class Drugcode extends Doctrine_Record {
 	}
 
 	public function getAll() {
-		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Quantity,Duration,Dose") -> from("Drugcode");
+		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode");
 		$drugsandcodes = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drugsandcodes;
 	}

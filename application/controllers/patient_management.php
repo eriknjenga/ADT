@@ -27,6 +27,26 @@ class Patient_Management extends MY_Controller {
 		$data['link'] = "patients";
 		$this -> load -> view('template', $data);
 	}
+	
+	public function create_timestamps(){
+		$visits = Patient_Visit::getAll();
+		foreach($visits as $visit){
+			$current_date = $visit->Dispensing_Date;
+			$changed_date = strtotime($current_date);
+			$visit->Dispensing_Date_Timestamp = $changed_date;
+			$visit->save(); 
+		}
+	}
+		public function create_appointment_timestamps(){
+		/*$appointments = Patient_Appointment::getAll();
+		foreach($appointments as $appointment){
+			$app_date = $appointment->Appointment;
+			$changed_date = strtotime($app_date);
+			//echo $app_date." currently becomes ".$changed_date." which was initially ".date("m/d/Y",$changed_date)."<br>";
+			$appointment->Appointment = $changed_date;
+			$appointment->save(); 
+		}*/
+	}
 
 }
 ?>
