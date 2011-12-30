@@ -16,6 +16,7 @@ body {
 	margin:0 auto;	
 	margin-top:100px;
 	border-top: 2px solid #036;
+	min-width: 980px;
 }
 #footer_text {
 	font-weight: 300;
@@ -48,13 +49,14 @@ body {
 	
 }
 #inner_wrapper {
-	width: 98%;
+	width: 97%;
 	margin: 0 auto;
-	padding: 15px;   
+	padding: 5px;   
 	overflow: hidden;
 	min-height: 590px;
 	position: relative;
-	top:100px; 
+	top:150px; 
+	min-width: 980px;
 }
 #sub_menu {
 	overflow: hidden;
@@ -74,10 +76,12 @@ body {
 	overflow: hidden;
 	border-bottom: 2px solid #C0C0C0;
 	width:100%;
-	height:100px;
+	height:130px;
 	position:fixed;
 	background: white;
 	z-index:5;
+	padding:5px;
+	min-width: 980px;
 }
 .logo {
 	width: 100px;
@@ -90,7 +94,7 @@ body {
 }
 #top_menu {
 	min-width: 200px;
-	height: 100px;
+	height: 60px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -156,8 +160,8 @@ body {
 .banner_text {
 	font-weight: 100;
 	letter-spacing: -1px;
-	margin: 0;
-	font-size: 24px;
+	margin: 0 0 10px 10px;
+	font-size: 28px;
 	color: #3F3F38;
 	width: 200px;
 	height: 30px;

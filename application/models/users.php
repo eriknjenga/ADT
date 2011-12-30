@@ -20,6 +20,7 @@ class Users extends Doctrine_Record {
 		$this -> hasOne('Access_Level as Access', array('local' => 'Access_Level', 'foreign' => 'id'));
 		$this -> hasOne('Users as Creator', array('local' => 'Created_By', 'foreign' => 'id'));
 		$this -> hasOne('Menu as Menu_Item', array('local' => 'Menu', 'foreign' => 'id'));
+		$this -> hasOne('Facilities as Facility', array('local' => 'Facility_Code', 'foreign' => 'facilitycode'));
 	}
 
 	protected function _encrypt_password($value) {

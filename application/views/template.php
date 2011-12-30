@@ -4,20 +4,21 @@ if (!$this -> session -> userdata('user_id')) {
 }
 if (!isset($link)) {
 	$link = null;
-} 
-$access_level = $this -> session -> userdata('access_level');
+}
+$access_level = $this -> session -> userdata('user_indicator');
 $user_is_administrator = false;
 $user_is_nascop = false;
 $user_is_pharmacist = false;
-if ($access_level == 1) {
+
+if ($access_level == "system_administrator") {
 	$user_is_administrator = true;
 }
-if ($access_level == 2) {
-	$user_is_nascop = true;
-}
-if ($access_level == 3) {
+if ($access_level == "pharmacist") {
 	$user_is_pharmacist = true;
 
+}
+if ($access_level == "nascop_staff") {
+	$user_is_nascop = true;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -26,7 +27,9 @@ if ($access_level == 3) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $title;?></title>
 <link href="<?php echo base_url().'CSS/style.css'?>" type="text/css" rel="stylesheet"/> 
+<link href="<?php echo base_url().'CSS/jquery-ui.css'?>" type="text/css" rel="stylesheet"/> 
 <script src="<?php echo base_url().'Scripts/jquery.js'?>" type="text/javascript"></script> 
+<script src="<?php echo base_url().'Scripts/jquery-ui.js'?>" type="text/javascript"></script> 
 
 <?php
 if ($user_is_pharmacist) {
@@ -66,20 +69,61 @@ if (isset($styles)) {
 		<div class="logo">
 			<a class="logo" href="<?php echo base_url();?>" ></a> 
 </div>
-<div id="system_title">
-<div class="banner_text" style="font-size: 44px; height:50px; width:auto;"><?php echo $banner_text;?></div>
-</div>
+<?php if ($user_is_pharmacist) {?>
+	<div id="synchronize">
+		<div id="loadingDiv"></div>
+		<div id="dataDiv" style="display: none;">
+		<span style="display: block; font-size: 12px; margin: 10px 5px;">Number of Local Patients: <span id="total_number_local"></span></span>
+		<span style="display: block; font-size: 12px; margin: 10px 5px;">Number of Patients Registered: <span id="total_number_registered"></span></span>
+		</div>
+		<a class="action_button" id="synchronize_button" href="synchronize_pharmacy">Synchronize Now</a>
+	</div>
+	<?php }?>
+
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+					<?php
+					if ($user_is_pharmacist) {?>
+						<style>
+							#facility_name {
+								color: green;
+								margin-top: 5px;
+								font-weight: bold;
+							}
+							#synchronize_button{
+								display: none;
+								width: 200px;
+								margin: 0;
+								height: 40px;
+								position: absolute;
+								top:3.5px;
+								left:30px;		
+								line-height: 40px;
+														
+							}
+							
+						</style>
+						<div id="facility_name">
+							
+							<span style="display: block; font-size: 14px;"><?php echo $this -> session -> userdata('facility_name');?></span>
+						</div>
+					<?php }?>
+				</div>
+				<div class="banner_text"><?php echo $banner_text;?></div>
  <div id="top_menu"> 
 
  	<?php
-//Code to loop through all the menus available to this user!
-//Fet the current domain
-$menus = $this -> session -> userdata('menu_items');
-$current = $this->router->class;
-$counter = 0; 
+	//Code to loop through all the menus available to this user!
+	//Fet the current domain
+	$menus = $this -> session -> userdata('menu_items');
+	$current = $this -> router -> class;
+	$counter = 0;
 ?>
- 	<a href="home_controller" class="top_menu_link  first_link <?php 	if ($current == "home_controller") {echo " top_menu_active ";
-	}?>">Home </a>
+ 	<a href="home_controller" class="top_menu_link  first_link <?php
+	if ($current == "home_controller") {echo " top_menu_active ";
+	}
+?>">Home </a>
 <?php
 foreach($menus as $menu){?>
 	<a href = "<?php echo $menu['url'];?>" class="top_menu_link <?php

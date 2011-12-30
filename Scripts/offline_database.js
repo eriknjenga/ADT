@@ -39,6 +39,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS scheduled_patients(id INTEGER NOT NULL PRIMARY KEY, name TEXT, universal_id TEXT, start_regimen TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, facility TEXT, current_regimen TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS environment_variables(id INTEGER NOT NULL PRIMARY KEY, machine_id TEXT, operator TEXT, facility_name TEXT, facility TEXT );', [], nullDataHandler, errorHandler);
 	});
 }
 
@@ -115,14 +116,49 @@ function getPatientLastVisit(patient_ccc, dataSelectHandler) {
 }
 
 //This function returns a list of patients based on the limits specified
-function selectPagedPatients(offset,limit, dataSelectHandler) {
-	var sql = "select medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, phone from patient limit "+offset+", "+limit+"";
+function selectPagedPatients(offset, limit, dataSelectHandler) {
+	var sql = "select medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, phone from patient limit " + offset + ", " + limit + "";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //This function loads up the patient history (paginated of course)!
-function selectPagedPatientHistory(offset,limit, patient, dataSelectHandler) {
-	var sql = "select * from patient_visit limit "+offset+", "+limit+"";
+function selectPagedPatientHistory(offset, limit, patient, dataSelectHandler) {
+	var sql = "select * from patient_visit limit " + offset + ", " + limit + "";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//Function to retrieve the environment Variables
+function selectEnvironmentVariables(dataSelectHandler) {
+	var sql = "select * from environment_variables";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//Function to save the facility details in the environment variables table.
+function createEnvironmentVariables(facility_code, facility_name) {
+	var sql = "insert into environment_variables (facility, facility_name) values('" + facility_code + "','" + facility_name + "')";
+	console.log(sql);
+	executeStatement(sql);
+}
+
+//Function to save the facility details in the environment variables table.
+function saveFacilityDetails(facility_code, facility_name) {
+	var sql = "update environment_variables set facility='" + facility_code + "', facility_name = '" + facility_name + "' where id = '1'";
+	console.log(sql);
+	executeStatement(sql);
+}
+
+//Function to save the environment variables in the environment variables table.
+function saveEnvironmentVariables(machine_code, operator) {
+	var sql = "update environment_variables set machine_id='" + machine_code + "', operator = '" + operator + "' where id = '1'";
+	console.log(sql);
+	executeStatement(sql);
+}
+
+//count the total number of records in a particular table
+function countTableRecords(table, dataSelectHandler) {
+	var sql = "select count(*) as total from "+table;
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }

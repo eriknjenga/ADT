@@ -40,7 +40,7 @@ class Home_Controller extends MY_Controller {
 		}
 		$data['title'] = "System Home";
 		$data['content_view'] = "home_v";
-		$data['banner_text'] = "Dashboards";
+		$data['banner_text'] = "System Home";
 		$data['link'] = "home";
 		$this -> load -> view("template", $data);
 

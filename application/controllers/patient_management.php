@@ -27,7 +27,10 @@ class Patient_Management extends MY_Controller {
 		$data['link'] = "patients";
 		$this -> load -> view('template', $data);
 	}
-	
+	public function check_patient_numbers($facility, $patient_number){
+		$total_patients = Patient::getPatientNumbers($facility);
+		echo $total_patients;
+	}
 	public function create_timestamps(){
 		$visits = Patient_Visit::getAll();
 		foreach($visits as $visit){

@@ -36,6 +36,10 @@ class Patient extends Doctrine_Record {
 	public function setUp() {
 		$this -> setTableName('patient');
 	}
- 
+ 	public function getPatientNumbers($facility) {
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Patients") -> from("patient")->where("Facility_Code = '$facility'");
+		$total = $query -> execute();
+		return $total[0]['Total_Patients'];
+	}
 
 }
