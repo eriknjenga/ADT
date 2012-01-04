@@ -24,7 +24,7 @@ class Drugcode extends Doctrine_Record {
 		$this -> hasOne('Supporter as Supporter', array('local' => 'Supported_By', 'foreign' => 'id'));
 		$this -> hasMany('Brand as Brands', array('local' => 'id', 'foreign' => 'Drug_Id'));
 		$this -> hasOne('Dose as Drug_Dose', array('local' => 'Dose', 'foreign' => 'id'));
-		
+
 	}
 
 	public function getAll() {
@@ -37,6 +37,17 @@ class Drugcode extends Doctrine_Record {
 		$query = Doctrine_Query::create() -> select("id,Drug") -> from("Drugcode");
 		$drugsandcodes = $query -> execute();
 		return $drugsandcodes;
+	}
+
+	public function getTotalNumber() {
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Drugs") -> from("Drugcode");
+		$total = $query -> execute();
+		return $total[0]['Total_Drugs'];
+	}
+		public function getPagedDrugs($offset, $items) {
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity") -> from("Drugcode") -> offset($offset) -> limit($items);
+		$drugs = $query -> execute();
+		return $drugs;
 	}
 
 }
