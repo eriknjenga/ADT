@@ -23,9 +23,22 @@ class Regimen extends Doctrine_Record {
 		$regimens = $query -> execute();
 		return $regimens;
 	}
-		public function getAllHydrated() {
-		$query = Doctrine_Query::create() -> select("r.Regimen_Code, r.Regimen_Desc,Line,Enabled,rc.Name as Regimen_Category, rst.Name as Regimen_Service_Type ") -> from("Regimen r")->leftJoin('r.Regimen_Category rc, r.Regimen_Service_Type rst');
+
+	public function getAllHydrated() {
+		$query = Doctrine_Query::create() -> select("r.Regimen_Code, r.Regimen_Desc,Line,Enabled,rc.Name as Regimen_Category, rst.Name as Regimen_Service_Type ") -> from("Regimen r") -> leftJoin('r.Regimen_Category rc, r.Regimen_Service_Type rst');
 		$regimens = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
+		return $regimens;
+	}
+
+	public function getTotalNumber() {
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Regimens") -> from("Regimen");
+		$total = $query -> execute();
+		return $total[0]['Total_Regimens'];
+	}
+
+	public function getPagedRegimens($offset, $items) {
+		$query = Doctrine_Query::create() -> select("Regimen_Code,Regimen_Desc,Category,Line,Type_Of_Service,Remarks,Enabled") -> from("Regimen") -> offset($offset) -> limit($items);
+		$regimens = $query -> execute();
 		return $regimens;
 	}
 

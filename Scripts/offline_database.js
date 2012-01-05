@@ -26,7 +26,7 @@ function initDatabase() {
 
 function createTables() {
 	DEMODB.transaction(function(transaction) {
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen(id INTEGER NOT NULL PRIMARY KEY, regimen_code TEXT NOT NULL,regimen_desc TEXT NOT NULL, category TEXT, line TEXT, type_of_service TEXT, remarks TEXT, enabled TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen(id INTEGER NOT NULL PRIMARY KEY, regimen_code TEXT,regimen_desc TEXT, category TEXT, line TEXT, type_of_service TEXT, remarks TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS supporter(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_service_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
@@ -54,6 +54,16 @@ function executeStatement(sql) {
 
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], nullDataHandler, errorHandler);
+	});
+}
+
+function executeStatementArray(sql_array) {
+
+	DEMODB.transaction(function(transaction) {
+		for(sql in sql_array) {
+			transaction.executeSql(sql_array[sql]);
+		}
+
 	});
 }
 
@@ -158,7 +168,7 @@ function saveEnvironmentVariables(machine_code, operator) {
 
 //count the total number of records in a particular table
 function countTableRecords(table, dataSelectHandler) {
-	var sql = "select count(*) as total from "+table;
+	var sql = "select count(*) as total from " + table;
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
