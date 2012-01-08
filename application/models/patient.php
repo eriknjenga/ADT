@@ -30,16 +30,25 @@ class Patient extends Doctrine_Record {
 		$this -> hasColumn('Facility_Code', 'varchar', 10);
 		$this -> hasColumn('Service', 'varchar', 5);
 		$this -> hasColumn('Start_Regimen', 'varchar', 5);
-		
+		$this -> hasColumn('Machine_Code', 'varchar', 10);
+
 	}
 
 	public function setUp() {
 		$this -> setTableName('patient');
 	}
- 	public function getPatientNumbers($facility) {
-		$query = Doctrine_Query::create() -> select("count(*) as Total_Patients") -> from("patient")->where("Facility_Code = '$facility'");
+
+	public function getPatientNumbers($facility) {
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Patients") -> from("patient") -> where("Facility_Code = '$facility'");
 		$total = $query -> execute();
 		return $total[0]['Total_Patients'];
+	}
+
+	public function getPagedPatients($offset, $items, $machine_code, $patient_ccc) {
+		$query = Doctrine_Query::create() -> select("*") -> from("Patient")->where("id > (select id from Patient where Patient_Number_CCC = '$patient_ccc') and Machine_Code = '$machine_code'") -> offset($offset) -> limit($items);
+		echo $query;
+		$patients = $query -> execute();
+		return $patients;
 	}
 
 }

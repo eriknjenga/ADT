@@ -1,19 +1,115 @@
 <script type="text/javascript">
 	initDatabase();
 	$(document).ready(function() {
+		//Create array to contain all json data returned
 		var total_drugs = 0;
 		var url = "";
 		var sync_div = "";
 		var sync_table = "";
+		json_array = [];
+
 		//Create a new queue for all the synchronization functions
-		var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs]);
+		var queue = new Queue([syncPatients]);
+		//var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
 		$("body").ajaxStop(function() {
 			queue.callNext();
+			if(json_array.length > 0) {
+				///alert(json_array.length);
+				savePatientDataLocally(json_array);
+				//console.log(json_array);
+			}
+
 		});
 	});
+	function syncPatients() {
+		var facility = "";
+		var machine_code = "";
+		//Retrieve the environment variables
+		selectEnvironmentVariables(function(transaction, results) {
+			var variables = results.rows.item(0);
+			machine_code = variables["machine_id"];
+			facility = variables["facility"];
+		});
+		countTableRecords("patient", function(transaction, results) {
+			var row = results.rows.item(0);
+			total_patients = row['total'];
+			//Create the url to be used in the ajax call
+			url = "patient_management/check_patient_numbers/" + facility + "/" + total_patients;
+			$.ajaxQueue({
+				url : url,
+				context : document.body,
+				success : function(data) {
+					//alert(data);
+					$("#total_patients_local").html(total_patients);
+					$("#total_patients_master").html(data);
+					var total_server_patients = data;
+					if(data != total_patients) {
+						//Get distinct machine ids that are in your system
+						getLastMachineCodeRecords(function(transaction, results) {
+							var machine_codes_string = "machine_codes=";
+							//Loop through all the returned machine codes
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i);
+								machine_codes_string += row['machine_code'] + ":" + row['patient_number_ccc'] + ",";
+							}
+							console.log(machine_codes_string);
+							//Make post request to get any new records. The data in the post request is the string with machine codes
+							url = "synchronize_pharmacy/getPatients"
+							var start_point = 0;
+							var batch_size = 500;
+							var progress_bar = "patients_progress";
+							var records_retrieved = 0;
+							//Create the progress bar
+							$.progress_bar("#patients_progress");
+							//create a variable to store the percentage progress completed
+							var percentage = 0;
+							//total_server_patients = 0;
+							//create a loop that will fetch records using predefined batch sizes untill all records have been retrieved
+							for( start_point = 0; start_point <= total_server_patients; start_point += batch_size) {
+							 //Create a new url appending the offset and limit at the end
+							 var new_url = url + "/" + start_point + "/" + batch_size;
+							 //Make the get request and pass the results to the callback passed in the arguments. Update the progressbar only if the ajax request completed successfully!
+
+							 $.ajaxQueue({
+							 url : new_url,
+							 type : "POST",
+							 data : machine_codes_string,
+							 context : document.body,
+							 success : function(data) {
+							 $.merge(json_array, jQuery.parseJSON(data));
+							 //Increment the total number of records retrieved with the size of the batch
+							 records_retrieved += batch_size;
+							 //if the total number of batches retrieved are greater than the total number expected, equate the total number retrieved to the total number expected
+							 if(records_retrieved > total_server_patients) {
+							 records_retrieved = total_server_patients;
+							 }
+							 //Calculate the percentage completion
+							 percentage = (records_retrieved / total_server_patients) * 100;
+							 //Update the progress bar
+							 $.progress_bar(progress_bar, 'update', percentage);
+							 //Update the value in the local_quantity_div to show that all records have now been retrieved.
+							 $("#total_patients_local").html(records_retrieved);
+
+							 }
+							 });
+
+							 }
+
+						});
+					}
+				}
+			});
+		});
+	}
+
+	function savePatientDataLocally(data) {
+		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code");
+		parseReturnedData(data, "patient", columns, true);
+	}
+
 	function syncDrugs() {
 		synchronizeData("drugcode", "synchronize_pharmacy/getTotalServerDrugs", "synchronize_pharmacy/getDrugs", "#total_drugs_local", "#total_drugs_master", "drugs_progress", "#drugs_sync_complete", saveDrugsLocally);
 	}
@@ -38,8 +134,19 @@
 		synchronizeData("regimen_drug", "synchronize_pharmacy/getTotalServerRegimenDrugs", "synchronize_pharmacy/getRegimenDrugs", "#total_regimen_drugs_local", "#total_regimen_drugs_master", "regimen_drugs_progress", "#regimen_drugs_sync_complete", saveRegimenDrugsLocally);
 	}
 
-	function synchronizeData(local_table_name, check_total_url, fetch_records_url, local_container, master_container, progress_bar, sync_complete, save_local_function, synchOrder) {
+	function syncServiceTypes() {
+		synchronizeData("regimen_service_type", "synchronize_pharmacy/getTotalServerRegimenServiceTypes", "synchronize_pharmacy/getRegimenServiceTypes", "#total_service_types_local", "#total_service_types_master", "service_types_progress", "#service_types_sync_complete", saveRegimenServiceTypesLocally);
+	}
 
+	function syncVisitPurposes() {
+		synchronizeData("visit_purpose", "synchronize_pharmacy/getTotalServerVisitPurposes", "synchronize_pharmacy/getVisitPurposes", "#total_visit_purposes_local", "#total_visit_purposes_master", "visit_purposes_progress", "#visit_purposes_sync_complete", saveVisitPurposesLocally);
+	}
+
+	function syncPatientStatuses() {
+		synchronizeData("patient_status", "synchronize_pharmacy/getTotalServerPatientStatuses", "synchronize_pharmacy/getPatientStatuses", "#total_patient_statuses_local", "#total_patient_statuses_master", "patient_statuses_progress", "#patient_statuses_sync_complete", savePatientStatusesLocally);
+	}
+
+	function synchronizeData(local_table_name, check_total_url, fetch_records_url, local_container, master_container, progress_bar, sync_complete, save_local_function, synchOrder) {
 		//assign the sync_div variable to the id of the div tag that will indicate that the sync is complete
 		sync_div = sync_complete;
 		//assign the sync_table variable to the id of the div tag that is being synchronized
@@ -49,17 +156,21 @@
 			var row = results.rows.item(0);
 			total_records = row['total'];
 			$(local_container).html(total_records);
-			$.get(check_total_url, function(data) {
-				$(master_container).html(data);
-				if(data != total_records) {
-					//This means that synchronization is neccessary. Delete all records in the local db before requesting new records
-					var delete_query = "delete from " + local_table_name;
-					executeStatement(delete_query);
-					getServerData(fetch_records_url, data, progress_bar, save_local_function, local_container);
-				} else {
+			$.ajaxQueue({
+				url : check_total_url,
+				context : document.body,
+				success : function(data) {
+					$(master_container).html(data);
+					if(data != total_records) {
+						//This means that synchronization is neccessary. Delete all records in the local db before requesting new records
+						var delete_query = "delete from " + local_table_name;
+						executeStatement(delete_query);
+						getServerData(fetch_records_url, data, progress_bar, save_local_function, local_container);
+					} else {
 
-					//Do something else when no synchronization is neccessary!
-					show_complete(sync_div, sync_table);
+						//Do something else when no synchronization is neccessary!
+						show_complete(sync_div, sync_table);
+					}
 				}
 			});
 		});
@@ -105,111 +216,86 @@
 	}
 
 	function saveDrugsLocally(data) {
-		//Retrieve the whole array of drugs from the returned json object
-		var drugs_array = jQuery.parseJSON(data);
-		//create an array to hold all the sql queries
-		var sql_queries = Array();
-		var counter = 0;
-		//Loop through all the drugs in this array to save their details
-		$.each(drugs_array, function() {
-			var drug_object = this;
-			//Create the insert query
-			var query = "insert into drugcode (id, drug, unit, pack_size, safety_quantity, generic_name, supported_by, dose, duration, quantity) values ('" + drug_object['id'] + "','" + drug_object['drug'] + "','" + drug_object['unit'] + "','" + drug_object['pack_size'] + "','" + drug_object['safety_quantity'] + "','" + drug_object['generic_name'] + "','" + drug_object['supported_by'] + "','" + drug_object['dose'] + "','" + drug_object['duration'] + "','" + drug_object['quantity'] + "')";
-			sql_queries[counter] = query;
-			counter++;
-		});
-		//Call the execute function that executes batches of queries that are stored in arrays
-		executeStatementArray(sql_queries);
+		var columns = Array("id", "drug", "unit", "pack_size", "safety_quantity", "generic_name", "supported_by", "dose", "duration", "quantity");
+		parseReturnedData(data, "drugcode", columns, false);
 	}
 
 	function saveOILocally(data) {
-		//Retrieve the whole array of ois from the returned json object
-		var ois_array = jQuery.parseJSON(data);
-		//create an array to hold all the sql queries
-		var sql_queries = Array();
-		var counter = 0;
-		//Loop through all the drugs in this array to save their details
-		$.each(ois_array, function() {
-			var oi_object = this;
-			//Create the insert query
-			var query = "insert into opportunistic_infections (id, name) values ('" + oi_object['id'] + "','" + oi_object['name'] + "')";
-			sql_queries[counter] = query;
-			counter++;
-		});
-		//Call the execute function that executes batches of queries that are stored in arrays
-		executeStatementArray(sql_queries);
+		var columns = Array("id", "name");
+		parseReturnedData(data, "opportunistic_infections", columns, false);
 	}
 
 	function savePatientSourcesLocally(data) {
-		//Retrieve the whole array of ois from the returned json object
-		var sources_array = jQuery.parseJSON(data);
-		//create an array to hold all the sql queries
-		var sql_queries = Array();
-		var counter = 0;
-		//Loop through all the drugs in this array to save their details
-		$.each(sources_array, function() {
-			var source_object = this;
-			//Create the insert query
-			var query = "insert into patient_source (id, name) values ('" + source_object['id'] + "','" + source_object['name'] + "')";
-			sql_queries[counter] = query;
-			counter++;
-		});
-		//Call the execute function that executes batches of queries that are stored in arrays
-		executeStatementArray(sql_queries);
+		var columns = Array("id", "name");
+		parseReturnedData(data, "patient_source", columns, false);
 	}
 
 	function saveRegimensLocally(data) {
-		//Retrieve the whole array of regimens from the returned json object
-		var regimens_array = jQuery.parseJSON(data);
-		//create an array to hold all the sql queries
-		var sql_queries = Array();
-		var counter = 0;
-		//Loop through all the regimens in this array to save their details
-		$.each(regimens_array, function() {
-			var regimen_object = this;
-			//Create the insert query
-			var query = "insert into regimen (id, regimen_code, regimen_desc, category, line, type_of_service, remarks) values ('" + regimen_object['id'] + "','" + regimen_object['regimen_code'] + "','" + regimen_object['regimen_desc'] + "','" + regimen_object['category'] + "','" + regimen_object['line'] + "','" + regimen_object['type_of_service'] + "','" + regimen_object['remarks'] + "')";
-			sql_queries[counter] = query;
-			counter++;
-		});
-		//Call the execute function that executes batches of queries that are stored in arrays
-		executeStatementArray(sql_queries);
+		var columns = Array("id", "regimen_code", "regimen_desc", "category", "line", "type_of_service", "remarks");
+		parseReturnedData(data, "regimen", columns, false);
 	}
 
 	function saveRegimenChangeReasonsLocally(data) {
-		//Retrieve the whole array of purposes from the returned json object
-		var purposes_array = jQuery.parseJSON(data);
-		//create an array to hold all the sql queries
-		var sql_queries = Array();
-		var counter = 0;
-		//Loop through all the purposes in this array to save their details
-		$.each(purposes_array, function() {
-			var purpose_object = this;
-			//Create the insert query
-			var query = "insert into regimen_change_purpose (id, name) values ('" + purpose_object['id'] + "','" + purpose_object['name'] + "')";
-			sql_queries[counter] = query;
-			counter++;
-		});
-		//Call the execute function that executes batches of queries that are stored in arrays
-		executeStatementArray(sql_queries);
+		var columns = Array("id", "name");
+		parseReturnedData(data, "regimen_change_purpose", columns, false);
 	}
 
 	function saveRegimenDrugsLocally(data) {
-		//Retrieve the whole array of regimen drugs from the returned json object
-		var regimen_drugs_array = jQuery.parseJSON(data);
+		var columns = Array("id", "regimen", "drugcode");
+		parseReturnedData(data, "regimen_drug", columns, false);
+	}
+
+	function saveRegimenServiceTypesLocally(data) {
+		var columns = Array("id", "name");
+		parseReturnedData(data, "regimen_service_type", columns, false);
+	}
+
+	function saveVisitPurposesLocally(data) {
+		var columns = Array("id", "name");
+		parseReturnedData(data, "visit_purpose", columns, false);
+	}
+
+	function savePatientStatusesLocally(data) {
+		var columns = Array("id", "name");
+		parseReturnedData(data, "patient_status", columns, false);
+	}
+
+	function parseReturnedData(data, table_name, columns_array, patient_data) {
+		//Retrieve the whole array of key-value pairs from the returned json object
+		if(patient_data) {
+			var json_data = data;
+		} else {
+			var json_data = jQuery.parseJSON(data);
+		}
 		//create an array to hold all the sql queries
 		var sql_queries = Array();
 		var counter = 0;
-		//Loop through all the combinations in this array to save their details
-		$.each(regimen_drugs_array, function() {
-			var regimen_drugs_object = this;
+		//Loop through all the table_rows in this array to save their details
+		$.each(json_data, function() {
+			var table_row = this;
 			//Create the insert query
-			var query = "insert into regimen_drug (id, regimen, drugcode) values ('" + regimen_drugs_object['id'] + "','" + regimen_drugs_object['regimen'] + "','" + regimen_drugs_object['drugcode'] + "')";
+			var query = "insert into " + table_name + " (";
+
+			for(column in columns_array) {
+				query += columns_array[column] + " ,";
+			}
+			query = query.substring(0, query.length - 1);
+			query += ") values (";
+			for(column in columns_array) {
+				if(table_row[columns_array[column]]) {
+					query += " '" + table_row[columns_array[column]].replace("'", "''") + "',";
+				} else {
+					query += " '" + table_row[columns_array[column]] + "',";
+				}
+			}
+			query = query.substring(0, query.length - 1);
+			query += ");";
 			sql_queries[counter] = query;
 			counter++;
 		});
 		//Call the execute function that executes batches of queries that are stored in arrays
 		executeStatementArray(sql_queries);
+
 	}
 
 	function show_complete(sync_div, sync_table) {
@@ -327,9 +413,56 @@
 			</canvas>
 		</div>
 	</div>
-	<div class="synchronize_table">
+	<div class="synchronize_table" id="regimen_service_type">
 		<div class="synchronize_table_title">
-			Patients
+			Service Types
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Service Types Locally: <span id="total_service_types_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Service Types in Server: <span id="total_service_types_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="service_types_sync_complete">Synchronization Complete!</span>
+			<canvas id="service_types_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="visit_purpose">
+		<div class="synchronize_table_title">
+			Visit Purposes
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Visit Purposes Locally: <span id="total_visit_purposes_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Visit Purposes in Server: <span id="total_visit_purposes_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="visit_purposes_sync_complete">Synchronization Complete!</span>
+			<canvas id="visit_purposes_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="patient_status">
+		<div class="synchronize_table_title">
+			Patient Status
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Patient Statuses Locally: <span id="total_patient_statuses_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Patient Statues in Server: <span id="total_patient_statuses_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="patient_statuses_sync_complete">Synchronization Complete!</span>
+			<canvas id="patient_statuses_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="patients">
+		<div class="synchronize_table_title">
+			Facility Patients
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Patients Saved Locally: <span id="total_patients_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drugs in Server: <span id="total_patients_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="patients_sync_complete">Synchronization Complete!</span>
+			<canvas id="patients_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
 		</div>
 	</div>
 	<div class="synchronize_table">
@@ -340,16 +473,6 @@
 	<div class="synchronize_table">
 		<div class="synchronize_table_title">
 			Patient Visits
-		</div>
-	</div>
-	<div class="synchronize_table">
-		<div class="synchronize_table_title">
-			Service Types
-		</div>
-	</div>
-	<div class="synchronize_table">
-		<div class="synchronize_table_title">
-			Visit Purposes
 		</div>
 	</div>
 </div>

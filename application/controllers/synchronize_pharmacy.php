@@ -55,6 +55,24 @@ class Synchronize_Pharmacy extends MY_Controller {
 		echo $number;
 	}
 
+	//Get the total Number of regimen service types in the server
+	public function getTotalServerRegimenServiceTypes() {
+		$number = Regimen_Service_Type::getTotalNumber();
+		echo $number;
+	}
+
+	//Get the total Number of visit purposes in the server
+	public function getTotalServerVisitPurposes() {
+		$number = Visit_Purpose::getTotalNumber();
+		echo $number;
+	}
+
+	//Get the total Number of patient_statuses in the server
+	public function getTotalServerPatientStatuses() {
+		$number = Patient_Status::getTotalNumber();
+		echo $number;
+	}
+
 	public function getDrugs($offset, $limit) {
 		$drugs = Drugcode::getPagedDrugs($offset, $limit);
 		$counter = 0;
@@ -120,11 +138,72 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$regimen_drugs_array = array();
 		foreach ($regimen_drugs as $regimen_drug) {
-			$regimen_drug_details = array("id" => $regimen_drug -> id, "regimen" => $regimen_drug -> Regimen,"drugcode" => $regimen_drug -> Drugcode);
+			$regimen_drug_details = array("id" => $regimen_drug -> id, "regimen" => $regimen_drug -> Regimen, "drugcode" => $regimen_drug -> Drugcode);
 			$regimen_drugs_array[$counter] = $regimen_drug_details;
 			$counter++;
 		}
 		echo json_encode($regimen_drugs_array);
+	}
+
+	public function getRegimenServiceTypes($offset, $limit) {
+		$service_types = Regimen_Service_Type::getPagedTypes($offset, $limit);
+		$counter = 0;
+		$service_types_array = array();
+		foreach ($service_types as $service_type) {
+			$service_type_details = array("id" => $service_type -> id, "name" => $service_type -> Name);
+			$service_types_array[$counter] = $service_type_details;
+			$counter++;
+		}
+		echo json_encode($service_types_array);
+	}
+
+	public function getVisitPurposes($offset, $limit) {
+		$visit_purposes = Visit_Purpose::getPagedPurposes($offset, $limit);
+		$counter = 0;
+		$visit_purposes_array = array();
+		foreach ($visit_purposes as $visit_purpose) {
+			$visit_purpose_details = array("id" => $visit_purpose -> id, "name" => $visit_purpose -> Name);
+			$visit_purposes_array[$counter] = $visit_purpose_details;
+			$counter++;
+		}
+		echo json_encode($visit_purposes_array);
+	}
+
+	public function getPatientStatuses($offset, $limit) {
+		$patient_statuses = Patient_Status::getPagedStatuses($offset, $limit);
+		$counter = 0;
+		$patient_statuses_array = array();
+		foreach ($patient_statuses as $patient_statuse) {
+			$patient_statuses_details = array("id" => $patient_statuse -> id, "name" => $patient_statuse -> Name);
+			$patient_statuses_array[$counter] = $patient_statuses_details;
+			$counter++;
+		}
+		echo json_encode($patient_statuses_array);
+	}
+
+	public function getPatients($offset, $limit) {
+		$machine_code_data = $this->input->post("machine_codes");
+		$split_data = explode(",", $machine_code_data);
+		foreach ($split_data as $data_element){
+			if(strlen($data_element)>0){
+				$separated_variables = explode(":", $data_element);
+				$machine_code = $separated_variables[0];
+				$patient_ccc = $separated_variables[1];
+				Patient::getPagedPatients($offset, $limit,$machine_code,$patient_ccc);
+			}
+		}
+		/*
+		$patients = Patient::getPagedPatients($offset, $limit);
+		$counter = 0;
+		$patients_array = array();
+		foreach ($patients as $patient) {
+			$patient_details = array("medical_record_number" => $patient -> Medical_Record_Number, "patient_number_ccc" => $patient -> Patient_Number_CCC, "first_name" => $patient -> First_Name, "last_name" => $patient -> Last_Name, "other_name" => $patient -> Other_Name, "dob" => $patient -> Dob, "pob" => $patient -> Pob, "gender" => $patient -> Gender, "pregnant" => $patient -> Pregnant, "weight" => $patient -> Weight, "height" => $patient -> Height, "sa" => $patient -> Sa, "phone" => $patient -> Phone, "physical" => $patient -> Physical, "alternate" => $patient -> Alternate, "other_illnesses" => $patient -> Other_Illnesses, "other_drugs" => $patient -> Other_Drugs, "adr" => $patient -> Adr, "tb" => $patient -> Tb, "smoke" => $patient -> Smoke, "alcohol" => $patient -> Alcohol, "date_enrolled" => $patient -> Date_Enrolled, "source" => $patient -> Source, "supported_by" => $patient -> Supported_By, "timestamp" => $patient -> Timestamp, "facility_code" => $patient -> Facility_Code, "service" => $patient -> Service, "start_regimen" => $patient -> Start_Regimen, "machine_code" => $patient -> Machine_Code);
+			$patients_array[$counter] = $patient_details;
+			$counter++;
+		}
+		echo json_encode($patients_array);
+		 * */
+		 
 	}
 
 }

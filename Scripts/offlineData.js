@@ -110,9 +110,6 @@ function sendDataToServer(data) {
 		sql : dataString
 	}, function(data_returned) {
 		console.log('Sent to server: ' + dataString + '');
-		//We won't be deleting the local data after sending it to the database
-		/*var sql = "delete from " + local_table + " where timestamp = '" + local_timestamp + "'";
-		 executeStatement(sql);*/
 		window.localStorage.removeItem(local_timestamp);
 	});
 }
