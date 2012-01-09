@@ -6,25 +6,98 @@
 		var url = "";
 		var sync_div = "";
 		var sync_table = "";
-		json_array = [];
+		patient_json_array = [];
+		patient_appointment_json_array = [];
+		patient_visit_json_array = [];
 
 		//Create a new queue for all the synchronization functions
-		var queue = new Queue([syncPatients]);
-		//var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses]);
+		var queue = new Queue([syncPatientVisits]);
+		//var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients,syncPatientAppointments]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
 		$("body").ajaxStop(function() {
 			queue.callNext();
-			if(json_array.length > 0) {
+			//If the patient array is full
+			if(patient_json_array.length > 0) {
 				///alert(json_array.length);
-				savePatientDataLocally(json_array);
+				savePatientDataLocally(patient_json_array);
+				patient_json_array = [];
+				//console.log(json_array);
+			}
+			if(patient_appointment_json_array.length > 0) {
+				///alert(json_array.length);
+				savePatientAppointmentDataLocally(patient_appointment_json_array);
+				patient_appointment_json_array = [];
+				//console.log(json_array);
+			}
+			if(patient_visit_json_array.length > 0) {
+				///alert(json_array.length);
+				savePatientVisitDataLocally(patient_visit_json_array);
+				patient_visit_json_array = [];
 				//console.log(json_array);
 			}
 
 		});
 	});
 	function syncPatients() {
+		var check_total_records_url = "synchronize_pharmacy/check_patient_numbers/";
+		var table = "patient";
+		var total_local_records_container = "#total_patients_local";
+		var total_master_records_container = "#total_patients_master";
+		var get_data_url = "synchronize_pharmacy/getPatients/";
+		var progress_bar = "patients_progress";
+		var sync_complete_container = "#patients_sync_complete";
+		var table_name = "#patient";
+		getLastMachineCodeRecords(function(transaction, results) {
+			var post_data = "machine_codes=";
+			for(var i = 0; i < results.rows.length; i++) {
+				var row = results.rows.item(i);
+				post_data += row['machine_code'] + ":" + row['patient_number_ccc'] + ",";
+			}
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_json_array);
+		});
+	}
+
+	function syncPatientAppointments() {
+		var check_total_records_url = "synchronize_pharmacy/check_patient_appointment_numbers/";
+		var table = "patient_appointment";
+		var total_local_records_container = "#total_appointments_local";
+		var total_master_records_container = "#total_appointments_master";
+		var get_data_url = "synchronize_pharmacy/getPatientAppointments/";
+		var progress_bar = "appointments_progress";
+		var sync_complete_container = "#appointments_sync_complete";
+		var table_name = "#patient_appointment";
+		getLastAppointmentData(function(transaction, results) {
+			var post_data = "machine_codes=";
+			for(var i = 0; i < results.rows.length; i++) {
+				var row = results.rows.item(i);
+				post_data += row['machine_code'] + ":" + row['patient'] + ":" + row['appointment'] + ",";
+			}
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_appointment_json_array);
+		});
+	}
+
+	function syncPatientVisits() {
+		var check_total_records_url = "synchronize_pharmacy/check_patient_visit_numbers/";
+		var table = "patient_visit";
+		var total_local_records_container = "#total_visits_local";
+		var total_master_records_container = "#total_visits_master";
+		var get_data_url = "synchronize_pharmacy/getPatientVisits/";
+		var progress_bar = "visits_progress";
+		var sync_complete_container = "#visits_sync_complete";
+		var table_name = "#patient_visit";
+		getLastVisitData(function(transaction, results) {
+			var post_data = "machine_codes=";
+			for(var i = 0; i < results.rows.length; i++) {
+				var row = results.rows.item(i);
+				post_data += row['machine_code'] + ":" + row['patient_id'] + ":" + row['dispensing_date'] + ",";
+			}
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_visit_json_array);
+		});
+	}
+
+	function advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, json_data_array) {
 		var facility = "";
 		var machine_code = "";
 		//Retrieve the environment variables
@@ -33,81 +106,80 @@
 			machine_code = variables["machine_id"];
 			facility = variables["facility"];
 		});
-		countTableRecords("patient", function(transaction, results) {
+		countTableRecords(table, function(transaction, results) {
 			var row = results.rows.item(0);
-			total_patients = row['total'];
+			total_local_records = row['total'];
 			//Create the url to be used in the ajax call
-			url = "patient_management/check_patient_numbers/" + facility + "/" + total_patients;
+			url = check_total_records_url + facility;
 			$.ajaxQueue({
 				url : url,
 				context : document.body,
 				success : function(data) {
-					//alert(data);
-					$("#total_patients_local").html(total_patients);
-					$("#total_patients_master").html(data);
-					var total_server_patients = data;
-					if(data != total_patients) {
-						//Get distinct machine ids that are in your system
-						getLastMachineCodeRecords(function(transaction, results) {
-							var machine_codes_string = "machine_codes=";
-							//Loop through all the returned machine codes
-							for(var i = 0; i < results.rows.length; i++) {
-								var row = results.rows.item(i);
-								machine_codes_string += row['machine_code'] + ":" + row['patient_number_ccc'] + ",";
-							}
-							console.log(machine_codes_string);
-							//Make post request to get any new records. The data in the post request is the string with machine codes
-							url = "synchronize_pharmacy/getPatients"
-							var start_point = 0;
-							var batch_size = 500;
-							var progress_bar = "patients_progress";
-							var records_retrieved = 0;
-							//Create the progress bar
-							$.progress_bar("#patients_progress");
-							//create a variable to store the percentage progress completed
-							var percentage = 0;
-							//total_server_patients = 0;
-							//create a loop that will fetch records using predefined batch sizes untill all records have been retrieved
-							for( start_point = 0; start_point <= total_server_patients; start_point += batch_size) {
-							 //Create a new url appending the offset and limit at the end
-							 var new_url = url + "/" + start_point + "/" + batch_size;
-							 //Make the get request and pass the results to the callback passed in the arguments. Update the progressbar only if the ajax request completed successfully!
+					var total_server_records = data;
+					$(total_local_records_container).html(total_local_records);
+					$(total_master_records_container).html(total_server_records);
 
-							 $.ajaxQueue({
-							 url : new_url,
-							 type : "POST",
-							 data : machine_codes_string,
-							 context : document.body,
-							 success : function(data) {
-							 $.merge(json_array, jQuery.parseJSON(data));
-							 //Increment the total number of records retrieved with the size of the batch
-							 records_retrieved += batch_size;
-							 //if the total number of batches retrieved are greater than the total number expected, equate the total number retrieved to the total number expected
-							 if(records_retrieved > total_server_patients) {
-							 records_retrieved = total_server_patients;
-							 }
-							 //Calculate the percentage completion
-							 percentage = (records_retrieved / total_server_patients) * 100;
-							 //Update the progress bar
-							 $.progress_bar(progress_bar, 'update', percentage);
-							 //Update the value in the local_quantity_div to show that all records have now been retrieved.
-							 $("#total_patients_local").html(records_retrieved);
-
-							 }
-							 });
-
-							 }
-
-						});
+					if(total_server_records != total_local_records) {
+						//Make post request to get any new records. The data in the post request is the string with machine codes
+						url = get_data_url + facility;
+						var start_point = 0;
+						var batch_size = 500;
+						var records_retrieved = total_local_records;
+						//create a variable to store the percentage progress completed
+						var percentage = 0;
+						//total_server_patients = 0;
+						//Get the number of records required
+						var total_required = total_server_records - total_local_records;
+						//create a loop that will fetch records using predefined batch sizes untill all records have been retrieved
+						for( start_point = 0; start_point <= total_required; start_point += batch_size) {
+							//Create a new url appending the offset and limit at the end
+							var new_url = url + "/" + start_point + "/" + batch_size;
+							//Make the get request and pass the results to the callback passed in the arguments. Update the progressbar only if the ajax request completed successfully!
+							$.ajaxQueue({
+								url : new_url,
+								type : "POST",
+								data : post_data,
+								context : document.body,
+								success : function(data) {
+									$.merge(json_data_array, jQuery.parseJSON(data));
+									//Increment the total number of records retrieved with the size of the batch
+									records_retrieved += batch_size;
+									//if the total number of batches retrieved are greater than the total number expected, equate the total number retrieved to the total number expected
+									if(records_retrieved > total_required) {
+										records_retrieved = total_required;
+									}
+									//Calculate the percentage completion
+									percentage = (records_retrieved / total_required) * 100;
+									//Update the progress bar
+									$.progress_bar(progress_bar, 'update', percentage);
+									//Update the value in the local_quantity_div to show that all records have now been retrieved.
+									$(total_local_records_container).html(records_retrieved + total_local_records);
+								}
+							});
+						}
 					}
 				}
 			});
+		});
+		//Create callback that calls the show_complete function when all ajax calls have been completed
+		$("body").ajaxStop(function() {
+			show_complete(sync_complete_container, table_name);
 		});
 	}
 
 	function savePatientDataLocally(data) {
 		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code");
 		parseReturnedData(data, "patient", columns, true);
+	}
+
+	function savePatientAppointmentDataLocally(data) {
+		var columns = Array("patient", "machine_code", "appointment");
+		parseReturnedData(data, "patient_appointment", columns, true);
+	}
+
+	function savePatientVisitDataLocally(data) {
+		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity");
+		parseReturnedData(data, "patient_visit", columns, true);
 	}
 
 	function syncDrugs() {
@@ -452,7 +524,7 @@
 			</canvas>
 		</div>
 	</div>
-	<div class="synchronize_table" id="patients">
+	<div class="synchronize_table" id="patient">
 		<div class="synchronize_table_title">
 			Facility Patients
 		</div>
@@ -465,14 +537,30 @@
 			</canvas>
 		</div>
 	</div>
-	<div class="synchronize_table">
+	<div class="synchronize_table" id="patient_appointment">
 		<div class="synchronize_table_title">
 			Patient Appointments
 		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Appointments Saved Locally: <span id="total_appointments_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Appointments in Server: <span id="total_appointments_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="appointments_sync_complete">Synchronization Complete!</span>
+			<canvas id="appointments_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
 	</div>
-	<div class="synchronize_table">
+	<div class="synchronize_table" id="patient_visit">
 		<div class="synchronize_table_title">
 			Patient Visits
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Visits Saved Locally: <span id="total_visits_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Visits in Server: <span id="total_visits_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="visits_sync_complete">Synchronization Complete!</span>
+			<canvas id="visits_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
 		</div>
 	</div>
 </div>

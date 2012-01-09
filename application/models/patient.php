@@ -39,15 +39,20 @@ class Patient extends Doctrine_Record {
 	}
 
 	public function getPatientNumbers($facility) {
-		$query = Doctrine_Query::create() -> select("count(*) as Total_Patients") -> from("patient") -> where("Facility_Code = '$facility'");
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Patients") -> from("Patient") -> where("Facility_Code = '$facility'");
 		$total = $query -> execute();
 		return $total[0]['Total_Patients'];
 	}
 
-	public function getPagedPatients($offset, $items, $machine_code, $patient_ccc) {
-		$query = Doctrine_Query::create() -> select("*") -> from("Patient")->where("id > (select id from Patient where Patient_Number_CCC = '$patient_ccc') and Machine_Code = '$machine_code'") -> offset($offset) -> limit($items);
-		echo $query;
-		$patients = $query -> execute();
+	public function getPagedPatients($offset, $items, $machine_code, $patient_ccc, $facility) {
+		$query = Doctrine_Query::create() -> select("p.*") -> from("Patient p") -> leftJoin("Patient p2") -> where("p2.Patient_Number_CCC = '$patient_ccc' and p2.Machine_Code = '$machine_code' and p2.Facility_Code='$facility' and p.id>p2.id and p.Facility_Code='$facility'") -> offset($offset) -> limit($items);
+		$patients = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
+		return $patients;
+	}
+
+	public function getPagedFacilityPatients($offset, $items, $facility) {
+		$query = Doctrine_Query::create() -> select("*") -> from("Patient") -> where("Facility_Code='$facility'") -> offset($offset) -> limit($items);
+		$patients = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $patients;
 	}
 

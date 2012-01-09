@@ -37,8 +37,8 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drugcode(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, unit TEXT, pack_size TEXT, safety_quantity TEXT, generic_name TEXT, supported_by TEXT,dose TEXT, duration TEXT, quantity TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_drug(id INTEGER NOT NULL PRIMARY KEY, regimen TEXT, drugcode TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS scheduled_patients(id INTEGER NOT NULL PRIMARY KEY, name TEXT, universal_id TEXT, start_regimen TEXT);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, facility TEXT, current_regimen TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT, machine_code TEXT, quantity TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS environment_variables(id INTEGER NOT NULL PRIMARY KEY, machine_id TEXT, operator TEXT, facility_name TEXT, facility TEXT );', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 	});
@@ -60,7 +60,7 @@ function executeStatement(sql) {
 
 function executeStatementArray(sql_array) {
 	DEMODB.transaction(function(transaction) {
-		for(sql in sql_array) {
+		for(sql in sql_array) { 
 			transaction.executeSql(sql_array[sql]);
 		}
 	});
@@ -132,31 +132,31 @@ function selectPagedPatients(offset, limit, dataSelectHandler) {
 
 //This function loads up the patient history (paginated of course)!
 function selectPagedPatientHistory(offset, limit, patient, dataSelectHandler) {
-	var sql = "select * from patient_visit limit " + offset + ", " + limit + ""; 
+	var sql = "select * from patient_visit limit " + offset + ", " + limit + "";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //Function to retrieve the environment Variables
 function selectEnvironmentVariables(dataSelectHandler) {
-	var sql = "select * from environment_variables"; 
+	var sql = "select * from environment_variables";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //Function to save the facility details in the environment variables table.
 function createEnvironmentVariables(facility_code, facility_name) {
-	var sql = "insert into environment_variables (facility, facility_name) values('" + facility_code + "','" + facility_name + "')"; 
+	var sql = "insert into environment_variables (facility, facility_name) values('" + facility_code + "','" + facility_name + "')";
 	executeStatement(sql);
 }
 
 //Function to save the facility details in the environment variables table.
 function saveFacilityDetails(facility_code, facility_name) {
-	var sql = "update environment_variables set facility='" + facility_code + "', facility_name = '" + facility_name + "' where id = '1'"; 
+	var sql = "update environment_variables set facility='" + facility_code + "', facility_name = '" + facility_name + "' where id = '1'";
 	executeStatement(sql);
 }
 
 //Function to save the environment variables in the environment variables table.
 function saveEnvironmentVariables(machine_code, operator) {
-	var sql = "update environment_variables set machine_id='" + machine_code + "', operator = '" + operator + "' where id = '1'"; 
+	var sql = "update environment_variables set machine_id='" + machine_code + "', operator = '" + operator + "' where id = '1'";
 	executeStatement(sql);
 }
 
@@ -168,16 +168,26 @@ function countTableRecords(table, dataSelectHandler) {
 
 //Get unique machine ids from a particular table
 function getMachineCodes(table, dataSelectHandler) {
-	var sql = "select distinct machine_code from " + table; 
+	var sql = "select distinct machine_code from " + table;
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //Get the last record for a particular machine_code in the patients recordset
 function getLastMachineCodeRecords(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient_number_ccc from patient group by machine_code"; 
+	var sql = "SELECT machine_code,patient_number_ccc from patient group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+//Get the latest record from the patient appointment table grouped by the machine code
+function getLastAppointmentData(dataSelectHandler) {
+	var sql = "SELECT machine_code,patient, appointment from patient_appointment group by machine_code";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+//Get the latest record from the patient visit table grouped by the machine code
+function getLastVisitData(dataSelectHandler) {
+	var sql = "SELECT machine_code,patient_id, dispensing_date from patient_visit group by machine_code";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);

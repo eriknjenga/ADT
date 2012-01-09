@@ -73,6 +73,24 @@ class Synchronize_Pharmacy extends MY_Controller {
 		echo $number;
 	}
 
+	//Get total number of patients for a facility
+	public function check_patient_numbers($facility) {
+		$total_patients = Patient::getPatientNumbers($facility);
+		echo $total_patients;
+	}
+
+	//Get total number of patient appointments for a facility
+	public function check_patient_appointment_numbers($facility) {
+		$total_patients = Patient_Appointment::getTotalAppointments($facility);
+		echo $total_patients;
+	}
+
+	//Get total number of patient visits for a facility
+	public function check_patient_visit_numbers($facility) {
+		$total_patients = Patient_Visit::getTotalVisits($facility);
+		echo $total_patients;
+	}
+
 	public function getDrugs($offset, $limit) {
 		$drugs = Drugcode::getPagedDrugs($offset, $limit);
 		$counter = 0;
@@ -181,29 +199,110 @@ class Synchronize_Pharmacy extends MY_Controller {
 		echo json_encode($patient_statuses_array);
 	}
 
-	public function getPatients($offset, $limit) {
-		$machine_code_data = $this->input->post("machine_codes");
-		$split_data = explode(",", $machine_code_data);
-		foreach ($split_data as $data_element){
-			if(strlen($data_element)>0){
-				$separated_variables = explode(":", $data_element);
-				$machine_code = $separated_variables[0];
-				$patient_ccc = $separated_variables[1];
-				Patient::getPagedPatients($offset, $limit,$machine_code,$patient_ccc);
+	public function getPatients($facility, $offset, $limit) {
+		$aggregated_object = array();
+		//Retrieve the machine code data from the data passed
+		$machine_code_data = $this -> input -> post("machine_codes");
+		//Check if the client has returned any machine code data. If not, retrieve all relevant data for that facility
+		if (strlen($machine_code_data) == 0) {
+			$aggregated_object = Patient::getPagedFacilityPatients($offset, $limit, $facility);
+		} else {
+			//Split the machine codes to separate all the discrete sets
+			$split_data = explode(",", $machine_code_data);
+			//Loop through each individual machine code set and retrieve it's data
+			foreach ($split_data as $data_element) {
+				if (strlen($data_element) > 0) {
+					//Separate the machine code and the patient_number_ccc
+					$separated_variables = explode(":", $data_element);
+					$machine_code = $separated_variables[0];
+					$patient_ccc = $separated_variables[1];
+					//Get all new patients since the last synchronization
+					$patients_data = Patient::getPagedPatients($offset, $limit, $machine_code, $patient_ccc, $facility);
+					//Append the results to the array that will be sent back to the client machine
+					$aggregated_object += $patients_data;
+				}
 			}
 		}
-		/*
-		$patients = Patient::getPagedPatients($offset, $limit);
 		$counter = 0;
 		$patients_array = array();
-		foreach ($patients as $patient) {
-			$patient_details = array("medical_record_number" => $patient -> Medical_Record_Number, "patient_number_ccc" => $patient -> Patient_Number_CCC, "first_name" => $patient -> First_Name, "last_name" => $patient -> Last_Name, "other_name" => $patient -> Other_Name, "dob" => $patient -> Dob, "pob" => $patient -> Pob, "gender" => $patient -> Gender, "pregnant" => $patient -> Pregnant, "weight" => $patient -> Weight, "height" => $patient -> Height, "sa" => $patient -> Sa, "phone" => $patient -> Phone, "physical" => $patient -> Physical, "alternate" => $patient -> Alternate, "other_illnesses" => $patient -> Other_Illnesses, "other_drugs" => $patient -> Other_Drugs, "adr" => $patient -> Adr, "tb" => $patient -> Tb, "smoke" => $patient -> Smoke, "alcohol" => $patient -> Alcohol, "date_enrolled" => $patient -> Date_Enrolled, "source" => $patient -> Source, "supported_by" => $patient -> Supported_By, "timestamp" => $patient -> Timestamp, "facility_code" => $patient -> Facility_Code, "service" => $patient -> Service, "start_regimen" => $patient -> Start_Regimen, "machine_code" => $patient -> Machine_Code);
+		foreach ($aggregated_object as $patient) {
+			$patient_details = array("medical_record_number" => $patient['Medical_Record_Number'], "patient_number_ccc" => $patient['Patient_Number_CCC'], "first_name" => $patient['First_Name'], "last_name" => $patient['Last_Name'], "other_name" => $patient['Other_Name'], "dob" => $patient['Dob'], "pob" => $patient['Pob'], "gender" => $patient['Gender'], "pregnant" => $patient['Pregnant'], "weight" => $patient['Weight'], "height" => $patient['Height'], "sa" => $patient['Sa'], "phone" => $patient['Phone'], "physical" => $patient['Physical'], "alternate" => $patient['Alternate'], "other_illnesses" => $patient['Other_Illnesses'], "other_drugs" => $patient['Other_Drugs'], "adr" => $patient['Adr'], "tb" => $patient['Tb'], "smoke" => $patient['Smoke'], "alcohol" => $patient['Alcohol'], "date_enrolled" => $patient['Date_Enrolled'], "source" => $patient['Source'], "supported_by" => $patient['Supported_By'], "timestamp" => $patient['Timestamp'], "facility_code" => $patient['Facility_Code'], "service" => $patient['Service'], "start_regimen" => $patient['Start_Regimen'], "machine_code" => $patient['Machine_Code']);
 			$patients_array[$counter] = $patient_details;
 			$counter++;
 		}
 		echo json_encode($patients_array);
-		 * */
-		 
+	}
+
+	public function getPatientAppointments($facility, $offset, $limit) {
+		$aggregated_object = array();
+		//Retrieve the machine code data from the data passed
+		$machine_code_data = $this -> input -> post("machine_codes");
+		//Check if the client has returned any machine code data. If not, retrieve all relevant data for that facility
+		if (strlen($machine_code_data) == 0) {
+			$aggregated_object = Patient_Appointment::getPagedFacilityPatientAppointments($offset, $limit, $facility);
+		} else {
+			//Split the machine codes to separate all the discrete sets
+			$split_data = explode(",", $machine_code_data);
+			//Loop through each individual machine code set and retrieve it's data
+			foreach ($split_data as $data_element) {
+				if (strlen($data_element) > 0) {
+					//Separate the machine code and the patient_number_ccc
+					$separated_variables = explode(":", $data_element);
+					$machine_code = $separated_variables[0];
+					$patient_ccc = $separated_variables[1];
+					$appointment = $separated_variables[2];
+					//Get all new patients since the last synchronization
+					$patient_appointments_data = Patient_Appointment::getPagedPatientAppointments($offset, $limit, $machine_code, $patient_ccc, $facility, $appointment);
+					//Append the results to the array that will be sent back to the client machine
+					$aggregated_object += $patient_appointments_data;
+				}
+			}
+		}
+		$counter = 0;
+		$patient_appointments_array = array();
+		foreach ($aggregated_object as $patient_appointment) {
+			$patient_appointment_details = array("patient" => $patient_appointment['Patient'], "appointment" => $patient_appointment['Appointment'], "machine_code" => $patient_appointment['Machine_Code']);
+			$patient_appointments_array[$counter] = $patient_appointment_details;
+			$counter++;
+		}
+		echo json_encode($patient_appointments_array);
+
+	}
+
+	public function getPatientVisits($facility, $offset, $limit) {
+		$aggregated_object = array();
+		//Retrieve the machine code data from the data passed
+		$machine_code_data = $this -> input -> post("machine_codes");
+		//Check if the client has returned any machine code data. If not, retrieve all relevant data for that facility
+		if (strlen($machine_code_data) == 0) {
+			$aggregated_object = Patient_Visit::getPagedFacilityPatientVisits($offset, $limit, $facility);
+		} else {
+			//Split the machine codes to separate all the discrete sets
+			$split_data = explode(",", $machine_code_data);
+			//Loop through each individual machine code set and retrieve it's data
+			foreach ($split_data as $data_element) {
+				if (strlen($data_element) > 0) {
+					//Separate the machine code and the patient_number_ccc
+					$separated_variables = explode(":", $data_element);
+					$machine_code = $separated_variables[0];
+					$patient_ccc = $separated_variables[1];
+					$date = $separated_variables[2];
+					//Get all new patients since the last synchronization
+					$patient_visits_data = Patient_Visit::getPagedPatientVisits($offset, $limit, $machine_code, $patient_ccc, $facility, $date);
+					//Append the results to the array that will be sent back to the client machine
+					$aggregated_object += $patient_visits_data;
+				}
+			}
+		}
+		$counter = 0;
+		$patient_visits_array = array();
+		foreach ($aggregated_object as $patient_visit) {
+			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "Facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code']);
+			$patient_visits_array[$counter] = $patient_visit_details;
+			$counter++;
+		}
+		echo json_encode($patient_visits_array);
+
 	}
 
 }
