@@ -46,8 +46,9 @@ class Patient_Visit extends Doctrine_Record {
 		return $total[0]['Total_Visits'];
 	}
 
-	public function getPagedPatientVisits($offset, $items, $machine_code, $patient_ccc, $facility, $date) {
-		$query = Doctrine_Query::create() -> select("pv.*") -> from("Patient_Visit pv") -> leftJoin("Patient_Visit pv2") -> where("pv2.Patient_Id = '$patient_ccc' and pv2.Machine_Code = '$machine_code' and pv2.Dispensing_Date = '$date' and pv2.Facility='$facility' and  pv.id>pv2.id and pv.Facility='$facility'") -> offset($offset) -> limit($items);
+	public function getPagedPatientVisits($offset, $items, $machine_code, $patient_ccc, $facility, $date,$drug) {
+		$query = Doctrine_Query::create() -> select("pv.*") -> from("Patient_Visit pv") -> leftJoin("Patient_Visit pv2") -> where("pv2.Patient_Id = '$patient_ccc' and pv2.Machine_Code = '$machine_code' and pv2.Dispensing_Date = '$date' and pv2.Facility='$facility' and pv2.Drug_Id = '$drug' and  pv.id>pv2.id and pv.Facility='$facility'") -> offset($offset) -> limit($items);
+		//echo $query->getSQL();
 		$patient_visits = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $patient_visits;
 	}

@@ -287,8 +287,9 @@ class Synchronize_Pharmacy extends MY_Controller {
 					$machine_code = $separated_variables[0];
 					$patient_ccc = $separated_variables[1];
 					$date = $separated_variables[2];
+					$drug = $separated_variables[3];
 					//Get all new patients since the last synchronization
-					$patient_visits_data = Patient_Visit::getPagedPatientVisits($offset, $limit, $machine_code, $patient_ccc, $facility, $date);
+					$patient_visits_data = Patient_Visit::getPagedPatientVisits($offset, $limit, $machine_code, $patient_ccc, $facility, $date,$drug);
 					//Append the results to the array that will be sent back to the client machine
 					$aggregated_object += $patient_visits_data;
 				}
@@ -297,7 +298,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$patient_visits_array = array();
 		foreach ($aggregated_object as $patient_visit) {
-			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "Facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code']);
+			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code']);
 			$patient_visits_array[$counter] = $patient_visit_details;
 			$counter++;
 		}

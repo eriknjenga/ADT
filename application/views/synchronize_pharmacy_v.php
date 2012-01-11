@@ -6,38 +6,16 @@
 		var url = "";
 		var sync_div = "";
 		var sync_table = "";
-		patient_json_array = [];
-		patient_appointment_json_array = [];
-		patient_visit_json_array = [];
 
 		//Create a new queue for all the synchronization functions
-		var queue = new Queue([syncPatientVisits]);
-		//var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients,syncPatientAppointments]);
+		//var queue = new Queue([syncPatientVisits]);
+		var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients, syncPatientAppointments, syncPatientVisits]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
 		$("body").ajaxStop(function() {
-			queue.callNext();
-			//If the patient array is full
-			if(patient_json_array.length > 0) {
-				///alert(json_array.length);
-				savePatientDataLocally(patient_json_array);
-				patient_json_array = [];
-				//console.log(json_array);
-			}
-			if(patient_appointment_json_array.length > 0) {
-				///alert(json_array.length);
-				savePatientAppointmentDataLocally(patient_appointment_json_array);
-				patient_appointment_json_array = [];
-				//console.log(json_array);
-			}
-			if(patient_visit_json_array.length > 0) {
-				///alert(json_array.length);
-				savePatientVisitDataLocally(patient_visit_json_array);
-				patient_visit_json_array = [];
-				//console.log(json_array);
-			}
 
+			queue.callNext();
 		});
 	});
 	function syncPatients() {
@@ -55,7 +33,7 @@
 				var row = results.rows.item(i);
 				post_data += row['machine_code'] + ":" + row['patient_number_ccc'] + ",";
 			}
-			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_json_array);
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, savePatientDataLocally);
 		});
 	}
 
@@ -74,11 +52,12 @@
 				var row = results.rows.item(i);
 				post_data += row['machine_code'] + ":" + row['patient'] + ":" + row['appointment'] + ",";
 			}
-			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_appointment_json_array);
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, savePatientAppointmentDataLocally);
 		});
 	}
 
 	function syncPatientVisits() {
+
 		var check_total_records_url = "synchronize_pharmacy/check_patient_visit_numbers/";
 		var table = "patient_visit";
 		var total_local_records_container = "#total_visits_local";
@@ -88,16 +67,18 @@
 		var sync_complete_container = "#visits_sync_complete";
 		var table_name = "#patient_visit";
 		getLastVisitData(function(transaction, results) {
+
 			var post_data = "machine_codes=";
 			for(var i = 0; i < results.rows.length; i++) {
 				var row = results.rows.item(i);
-				post_data += row['machine_code'] + ":" + row['patient_id'] + ":" + row['dispensing_date'] + ",";
+				post_data += row['machine_code'] + ":" + row['patient_id'] + ":" + row['dispensing_date'] + ":" + row['drug_id'] + ",";
 			}
-			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, patient_visit_json_array);
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, savePatientVisitDataLocally);
 		});
 	}
 
-	function advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, json_data_array) {
+	function advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, save_locally_function) {
+
 		var facility = "";
 		var machine_code = "";
 		//Retrieve the environment variables
@@ -118,7 +99,6 @@
 					var total_server_records = data;
 					$(total_local_records_container).html(total_local_records);
 					$(total_master_records_container).html(total_server_records);
-
 					if(total_server_records != total_local_records) {
 						//Make post request to get any new records. The data in the post request is the string with machine codes
 						url = get_data_url + facility;
@@ -130,6 +110,7 @@
 						//total_server_patients = 0;
 						//Get the number of records required
 						var total_required = total_server_records - total_local_records;
+						//total_required = 41420;
 						//create a loop that will fetch records using predefined batch sizes untill all records have been retrieved
 						for( start_point = 0; start_point <= total_required; start_point += batch_size) {
 							//Create a new url appending the offset and limit at the end
@@ -141,7 +122,8 @@
 								data : post_data,
 								context : document.body,
 								success : function(data) {
-									$.merge(json_data_array, jQuery.parseJSON(data));
+									//Pass the returned data to the function specified to save this data locally
+									save_locally_function(data);
 									//Increment the total number of records retrieved with the size of the batch
 									records_retrieved += batch_size;
 									//if the total number of batches retrieved are greater than the total number expected, equate the total number retrieved to the total number expected
@@ -169,17 +151,18 @@
 
 	function savePatientDataLocally(data) {
 		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code");
-		parseReturnedData(data, "patient", columns, true);
+		parseReturnedData(data, "patient", columns, false);
 	}
 
 	function savePatientAppointmentDataLocally(data) {
 		var columns = Array("patient", "machine_code", "appointment");
-		parseReturnedData(data, "patient_appointment", columns, true);
+		parseReturnedData(data, "patient_appointment", columns, false);
 	}
 
 	function savePatientVisitDataLocally(data) {
 		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity");
-		parseReturnedData(data, "patient_visit", columns, true);
+		//console.log(data);
+		parseReturnedData(data, "patient_visit", columns, false);
 	}
 
 	function syncDrugs() {
@@ -355,7 +338,8 @@
 			query += ") values (";
 			for(column in columns_array) {
 				if(table_row[columns_array[column]]) {
-					query += " '" + table_row[columns_array[column]].replace("'", "''") + "',";
+					//Use regexp in the replace function to replace all occurences of a quote to sqlite-friendly text
+					query += " '" + table_row[columns_array[column]].replace(/\'/g, "''") + "',";
 				} else {
 					query += " '" + table_row[columns_array[column]] + "',";
 				}

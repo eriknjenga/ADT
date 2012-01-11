@@ -3,10 +3,10 @@ function initDatabase() {
 		if(!window.openDatabase) {
 			alert('Databases are not supported in this browser.');
 		} else {
-			var shortName = 'ADT_Local_Database';
+			var shortName = 'ADT_Database';
 			var version = '1.0';
 			var displayName = 'ADT LocalDatabase';
-			var maxSize = 10000000;
+			var maxSize = 1000000000;
 			//  bytes
 			DEMODB = openDatabase(shortName, version, displayName, maxSize);
 			createTables();
@@ -60,10 +60,17 @@ function executeStatement(sql) {
 
 function executeStatementArray(sql_array) {
 	DEMODB.transaction(function(transaction) {
-		for(sql in sql_array) { 
-			transaction.executeSql(sql_array[sql]);
+		for(sql in sql_array) {
+			 
+			 transaction.executeSql(sql_array[sql]);
 		}
-	});
+	},transactionCallback, transactionErrorCallback);
+}
+function transactionCallback(transaction){
+	console.log(transaction);
+}
+function transactionErrorCallback(transaction){
+	console.log(transaction); 
 }
 
 function errorHandler(transaction, error) {
@@ -184,8 +191,8 @@ function getLastAppointmentData(dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 //Get the latest record from the patient visit table grouped by the machine code
-function getLastVisitData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient_id, dispensing_date from patient_visit group by machine_code";
+function getLastVisitData(dataSelectHandler) { 
+	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id from patient_visit group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
