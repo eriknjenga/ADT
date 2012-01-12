@@ -14,7 +14,7 @@ body {
 	position: relative;
 	bottom: 0;
 	margin:0 auto;	
-	margin-top:100px;
+	margin-top:150px;
 	border-top: 2px solid #036;
 	min-width: 980px;
 }
@@ -44,16 +44,15 @@ body {
 #footer {
 	width: 95%;
 	margin: 20px 2% 0 2%;
-	text-align: center;
-	float: right; 
+	text-align: center; 
 	
 }
 #inner_wrapper {
 	width: 97%;
 	margin: 0 auto;
 	padding: 5px;   
-	overflow: hidden;
-	min-height: 590px;
+	overflow: visible;
+	min-height: 500px;
 	position: relative;
 	top:150px; 
 	min-width: 980px;

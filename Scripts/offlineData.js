@@ -168,6 +168,20 @@ function notifyUserIsOffline() {
 	status.className = 'offline';
 	status.innerHTML = 'Offline';
 }
+//This function is to get the 'get' parameters passed in the url
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
 
 //called when DOM has fully loaded
 function loaded() {

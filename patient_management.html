@@ -14,19 +14,33 @@
 		<script type="text/javascript" src="Scripts/validator.js"></script>
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
+			total_patients = 0;
 			$(document).ready(function() {
 				initDatabase();
+				getTotalPatients();
+				getPatients(0);
 				$(".details").click(function() {
 					alert();
 				});
-				getPatients(0);
 				$("#details_popup").dialog({
 					autoOpen : false
 				});
 				$("#history_popup").dialog({
 					autoOpen : false
 				});
-
+				$(".next").click(function() {
+					var offset = $("#next_offset_holder").attr("value");
+					getPatients(offset);
+				});
+				$(".previous").click(function() {
+					var offset = $("#previous_offset_holder").attr("value");
+					getPatients(offset);
+				});
+				$("#search").click(function() {
+					var search_term = $("#search_term").attr("value");
+					getTotalSearchedPatients(search_term);
+					getPatients(0);
+				});
 			});
 			function rebindListeners() {
 				//Add click listeners to the action links
@@ -37,6 +51,12 @@
 				$(".edit").click(function() {
 					alert();
 				});
+				$(".dispense").click(function() {
+					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
+					var url = "dispense.html?patient_number="+patient_medical_record_number; 
+					window.location.href = url;
+				});
+				
 				$(".history").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
 					getPatientHistory();
@@ -54,33 +74,72 @@
 				});
 			}
 
-			function getPatientHistory() {
+			function getTotalPatients() {
+				countTableRecords("patient", function(transaction, results) {
+					var row = results.rows.item(0);
+					total_patients = row['total'];
+				});
+			}
 
+			function getTotalSearchedPatients(search_term) {
+				countSearchedPatientRecords(search_term, function(transaction, results) {
+					var row = results.rows.item(0);
+					total_patients = row['total'];
+				});
 			}
 
 			function getPatients(offset) {
+				//Get the search term entered
+				var search_term = $("#search_term").attr("value");
 				//Set the nimber of patients to show on one page
-				var limit = 10;
-				selectPagedPatients(offset, limit, function(transaction, results) {
+				var limit = 5;
+
+				var next_offset = parseInt(offset, 10) + parseInt(limit, 10);
+
+				var previous_offset = 0;
+				if(offset == 0) {
+					previous_offset = 0;
+				} else if(offset > limit) {
+					previous_offset = parseInt(offset, 10) - parseInt(limit, 10);
+				}
+
+				var type = "";
+				selectPagedPatients(search_term, offset, limit, function(transaction, results) {
+					if(next_offset > total_patients) {
+						next_offset = total_patients;
+					}
+					$("#next_offset_holder").attr("value", next_offset);
+					$("#previous_offset_holder").attr("value", previous_offset);
+					$.each($(".records_counter"), function(key, value) {
+						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b>";
+						$(this).html(record_text);
+					});
+					$("#patients_table").find("tr:gt(0)").remove();
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
-						addTableRow(row);
+						if(i % 2 == 0) {
+							type = "normal_row";
+						} else {
+							type = "alternate_row";
+						}
+						addTableRow(row, type);
 					}
 					//Call Function that rebinds all listeners to their respective elements
 					rebindListeners();
 				});
 			}
 
-			function addTableRow(row) {
+			function addTableRow(row, type) {
 				//define the keys for all the table columns that exist in the returned patient row.
-				var table_columns = new Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "phone");
+				var table_columns = new Array("patient_number_ccc", "first_name", "last_name", "other_name", "dob", "phone");
 				//Create a new row element
 				var new_row = $(document.createElement('tr'));
+				new_row.addClass(type);
 				//Create a new attribute for the row and add the mrn as the value of this attribute!
-				new_row.attr("patient_number", row["medical_record_number"]);
+				new_row.attr("patient_number", row["patient_number_ccc"]);
 				//add the class 'table_row' to the row that's just been created
-				new_row.attr("class", "table_row");
+				new_row.addClass("table_row");
 				//Loop through the table columns, picking the relevant values from the row returned from the database
 				$.each(table_columns, function(key, value) {
 					var table_data = "";
@@ -102,9 +161,9 @@
 				var first_td = new_row.find("td:first");
 				//Get the width of this td element in integer form (i.e. remove the .px part)
 				var width = first_td.css("width").replace("px", "");
-				//If the width is less than 200px, extend it to 200px so as to have a more uniform look
-				if(width < 200) {
-					first_td.css("width", "200px");
+				//If the width is less than 250px, extend it to 200px so as to have a more uniform look
+				if(width < 250) {
+					first_td.css("width", "250px");
 				}
 				//Append the contents of the 'action_panel_parent' to this first td element
 				$($("#action_panel_parent").html()).appendTo(first_td);
@@ -112,7 +171,69 @@
 				new_row.insertAfter('#patients_table tr:last');
 			}
 		</script>
-
+		<style type="text/css">
+			.pagination {
+				margin: 0 auto;
+				overflow: hidden;
+				width: 70%;
+			}
+			.pagination a {
+				display: block;
+				float: left;
+				background-color: #00A5F0;
+				border-radius: 5px;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				font-size: 12px;
+				font-weight: bold;
+				text-align: center;
+				color: #fff;
+				height: 36px;
+				line-height: 36px;
+				width: 50%;
+				border: 1px solid rgba(0, 0, 0, .2);
+				box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+				-moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+				-webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+				text-shadow: 0 -1px rgba(0, 0, 0, .2);
+			}
+			.pagination.flip a {
+				width: 338px;
+				float: right;
+			}
+			.pagination.flip a:hover, #pagination.infinite a:hover {
+				opacity: .9;
+				box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff, 0 0 0 30px rgba(255, 255, 255, .21) inset;
+			}
+			.pagination.flip a:active, #pagination.infinite a:active {
+				box-shadow: 0 0 0 30px rgba(0, 0, 0, .21) inset, 0 1px 2px rgba(0, 0, 0, .2) inset, 0 1px #fff;
+				-moz-box-shadow: 0 0 0 30px rgba(0, 0, 0, .21) inset, 0 1px 2px rgba(0, 0, 0, .2) inset, 0 1px #fff;
+				-webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, .21) inset, 0 1px 2px rgba(0, 0, 0, .2) inset, 0 1px #fff;
+			}
+			.pagination.flip a.previous {
+				float: left;
+			}
+			.pagination a.disabled, #pagination a.disabled:hover, #pagination a.disabled:active {
+				opacity: .2;
+				cursor: default;
+				box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+				-moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+				-webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
+			}
+			.records_counter {
+				width: 200px;
+				margin: 0 auto;
+			}
+			.search_box {
+				float: right;
+				width: 100%;
+				position: relative;
+				top: -20px;
+			}
+			.search_box label {
+				float: right;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -138,36 +259,54 @@
 			</div>
 			<div id="inner_wrapper">
 				<div id="main_wrapper">
-					<a class="action_button" href="add_patient.html" target="_blank">Add New Patient</a>
-					<table class="data-table" id="patients_table">
-						<tr>
-							<th> Med. Record Number </th>
-							<th> CCC Number </th>
-							<th> First Name</th>
-							<th> Last Name</th>
-							<th> Other Name</th>
-							<th> DOB </th>
-							<th> Phone Number </th>
-						</tr>
-					</table>
-					<div id="action_panel_parent" style="display:none">
-						<div class="actions_panel" style="visibility:hidden" >
-							<a class="link details">Details</a>
-							<a class="link history">History</a>
-							<a class="link edit">Edit</a>
-						</div>
+					<input type="hidden" id="next_offset_holder" />
+					<input type="hidden" id="previous_offset_holder" />
+					<a class="action_button" href="add_patient.html" target="_blank" style="margin-top:10px;">Add New Patient</a>
+					<div class="search_box">
+						<input type="submit" class="submit-button" id="search" value="Search" style="width:200px;"/>
+						<label> <strong class="label">Search Term</strong>
+							<input type="text"name="search_term" id="search_term" style="width:300px;">
+						</label>
 					</div>
-					<div id="details_popup" title="Patient Details"></div>
-					<div id="history_popup" title="Patient History"></div>
-				</div>
-				<!--End Wrapper div-->
-			</div>
-			<div id="bottom_ribbon">
-				<div id="footer">
-					<div id="footer_text">
-						Government of Kenya &copy; 2011. All Rights Reserved
+					<div class="pagination flip">
+						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
+						<div class="records_counter"/>
 					</div>
 				</div>
+				<table class="data-table" id="patients_table">
+					<tr>
+						<th>Patient CCC Number </th>
+						<th> First Name</th>
+						<th> Last Name</th>
+						<th> Other Name</th>
+						<th> DOB </th>
+						<th> Phone Number </th>
+					</tr>
+				</table>
+				<div class="pagination flip">
+					<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
+					<div class="records_counter"/>
+				</div>
 			</div>
+			<div id="action_panel_parent" style="display:none">
+				<div class="actions_panel" style="visibility:hidden" >
+					<a class="link dispense">Dispense</a>
+					<a class="link history">History</a>
+					<a class="link details">Details</a>
+					<a class="link edit">Edit</a>
+				</div>
+			</div>
+			<div id="details_popup" title="Patient Details"></div>
+			<div id="history_popup" title="Patient History"></div>
+		</div>
+		<!--End Wrapper div-->
+		</div>
+		<div id="bottom_ribbon">
+			<div id="footer">
+				<div id="footer_text">
+					Government of Kenya &copy; 2011. All Rights Reserved
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

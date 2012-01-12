@@ -15,13 +15,16 @@
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
+				var $_GET = getQueryParams(document.location.search);
+				patient_number = $_GET['patient_number'];
+				initDatabase();
+				getLastVisitData();
 				$("#dispense_form").validationEngine({
 					inlineValidation : false
 				});
 				$("#submit").click(function() {
 					$("#dispense_form").submit();
 				});
-				initDatabase();
 				//Add datepicker for the dispensing date
 				$("#dispensing_date").datepicker({
 					changeMonth : true,
@@ -53,45 +56,13 @@
 					appointment_date.datepicker("setDate", new Date(appointment_timestamp));
 
 				});
-				//Dynamically load the list of patients that reside offline
-				selectAll("patient", function(transaction, results) {
+				//Get basic getails of the selected patient
+				getPatientDetails(patient_number, function(transaction, results) {
 					// Handle the results
-					for(var i = 0; i < results.rows.length; i++) {
-
-						var row = results.rows.item(i);
-						$("#patient").append($("<option></option>").attr({
-							"value" : row['patient_number_ccc'],
-							"source" : "patient"
-						}).text(row['first_name'] + " " + row['other_name'] + " " + row['last_name'] + " (" + row['patient_number_ccc'] + ")"));
-					}
-
+					var row = results.rows.item(0);
+					$("#patient").attr("value", patient_number);
+					$("#patient_details").text(row['first_name'] + " " + row['other_name'] + " " + row["last_name"]);
 				});
-				//Add a listener to display details of the last regimen taken by a patient
-				$("#patient").change(function() {
-					var patient_id = $(this).attr("value");
-					//Check if an actual patient has been selected
-					if(patient_id.length > 0) {
-						/*selectPatientRegimen(source, value, function(transaction, results) {
-						 // Handle the results
-						 if(results.rows.length > 0) {
-						 var row = results.rows.item(0);
-						 $("#last_regimen").attr("value", row['regimen_desc']);
-						 }
-						 });*/
-					}
-				});
-				/*//Dynamically load the list of patients that are scheduled to come today
-				selectAll("scheduled_patients", function(transaction, results) {
-				// Handle the results
-				for(var i = 0; i < results.rows.length; i++) {
-				var row = results.rows.item(i);
-				$("#patient").append($("<option></option>").attr({
-				"value" : row['id'],
-				"source" : "scheduled_patients"
-				}).text(row['name']));
-				}
-
-				});*/
 				//Dynamically load the list of purposes of visit
 				selectAll("visit_purpose", function(transaction, results) {
 					// Handle the results
@@ -121,22 +92,22 @@
 					}
 
 				});
-				//Dynamically change the list of drugs once a current regimen is selected
+				/*//Dynamically change the list of drugs once a current regimen is selected
 				$("#patient").change(function() {
-					if($("#patient").attr("value").length > 0) {
-						$("#last_regimen").attr("value", "");
-						var value = $("#patient option:selected").attr("value");
-						var source = $("#patient option:selected").attr("source");
-						//Retrieve the last regimen of the selected patient
-						selectPatientRegimen(source, value, function(transaction, results) {
-							// Handle the results
-							if(results.rows.length > 0) {
-								var row = results.rows.item(0);
-								$("#last_regimen").attr("value", row['regimen_desc']);
-							}
-						});
-					}
+				if($("#patient").attr("value").length > 0) {
+				$("#last_regimen").attr("value", "");
+				var value = $("#patient option:selected").attr("value");
+				var source = $("#patient option:selected").attr("source");
+				//Retrieve the last regimen of the selected patient
+				selectPatientRegimen(source, value, function(transaction, results) {
+				// Handle the results
+				if(results.rows.length > 0) {
+				var row = results.rows.item(0);
+				$("#last_regimen").attr("value", row['regimen_desc']);
+				}
 				});
+				}
+				});*/
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
 
@@ -183,6 +154,30 @@
 					return false;
 				});
 			});
+			//Function to get details of the last visit made by this patient
+			function getLastVisitData() {
+				//Retrieve details of the last regimen taken by a patient
+				selectPatientRegimen("patient", patient_number, function(transaction, results) {
+					// Handle the results
+					if(results.rows.length > 0) {
+						var row = results.rows.item(0);
+						//Display the Last Regimen Taken
+						$("#last_regimen").attr("value", row['regimen_desc']);
+						var last_visit_date = row['dispensing_date'];
+						$("#last_visit_date").attr("value",last_visit_date);
+						//Retrieve drugs dispensed during the last visit
+						selectLastVisitDetails(patient_number, last_visit_date, function(transaction, results) {
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i); 
+								var append_html = "<tr><td>"+row['drug']+"</td><td>"+row['quantity']+"</td></tr>";
+								$("#last_visit_data").append($(append_html));
+							}
+						});
+					}
+
+				});
+			}
+
 			function populateDrugRow(drug) {
 
 				//First things first, retrieve the row where this drug exists
@@ -255,10 +250,9 @@
 						</div>
 						<form id="dispense_form" method="post" >
 							<div class="column">
-								<label> <strong class="label">Select Patient</strong>
-									<select id="patient" name="patient" class="validate[required]">
-										<option></option>
-									</select> </label>
+								<label> <strong class="label">Patient (<span id="patient_details"></span>)</strong>
+									<input readonly="" id="patient" name="patient" class="validate[required]"/>
+								</label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label">Dispensing Date</strong>
 										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date">
@@ -285,10 +279,10 @@
 									</label>
 								</div>
 								<label> <strong class="label">Last Regimen Dispensed</strong>
-									<input type="text"name="last_regimen" id="last_regimen">
+									<input type="text"name="last_regimen" id="last_regimen" readonly="">
 								</label>
 								<label> <strong class="label">Current Regimen</strong>
-									<select type="text"name="current_regimen" id="current_regimen">
+									<select type="text"name="current_regimen" id="current_regimen" style="width:300px">
 										<option></option>
 									</select> </label>
 							</div>
@@ -297,6 +291,13 @@
 									<legend>
 										Previous Regimen Information goes here
 									</legend>
+									<label> <strong class="label">Last Visit Date</strong>
+										<input readonly="" id="last_visit_date" name="last_visit_date"/>
+									</label>
+									<table class="data-table" id="last_visit_data">
+										<th>Drug Dispensed</th>
+										<th>Quantity Dispensed</th>
+									</table>
 								</fieldset>
 							</div>
 							<div id="drugs_section">

@@ -61,16 +61,18 @@ function executeStatement(sql) {
 function executeStatementArray(sql_array) {
 	DEMODB.transaction(function(transaction) {
 		for(sql in sql_array) {
-			 
-			 transaction.executeSql(sql_array[sql]);
+
+			transaction.executeSql(sql_array[sql]);
 		}
-	},transactionCallback, transactionErrorCallback);
+	}, transactionCallback, transactionErrorCallback);
 }
-function transactionCallback(transaction){
+
+function transactionCallback(transaction) {
 	console.log(transaction);
 }
-function transactionErrorCallback(transaction){
-	console.log(transaction); 
+
+function transactionErrorCallback(transaction) {
+	console.log(transaction);
 }
 
 function errorHandler(transaction, error) {
@@ -96,9 +98,14 @@ function selectServiceRegimen(service, dataSelectHandler) {
 	var sql = "select * from regimen where type_of_service = '" + service + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-
+//Get the last regimen dispensed. Along with the date of that visit
 function selectPatientRegimen(source, id, dataSelectHandler) {
-	var sql = "select regimen_desc from " + source + ",regimen where " + source + ".id = '" + id + "' and " + source + ".start_regimen = regimen.id";
+	var sql = "select regimen_desc,dispensing_date from patient_visit pv,regimen r where pv.patient_id = '" + id + "' and pv.regimen = r.id order by pv.id desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+//Retrieve the drugs that were issued during that last visit
+function selectLastVisitDetails(patient, date, dataSelectHandler) {
+	var sql = "select d.drug,pv.quantity from patient_visit pv,drugcode d where pv.patient_id = '" + patient + "' and pv.dispensing_date = '"+date+"' and pv.drug_id = d.id order by pv.id desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -132,8 +139,12 @@ function getPatientLastVisit(patient_ccc, dataSelectHandler) {
 }
 
 //This function returns a list of patients based on the limits specified
-function selectPagedPatients(offset, limit, dataSelectHandler) {
-	var sql = "select medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, phone from patient limit " + offset + ", " + limit + "";
+function selectPagedPatients(search_term, offset, limit, dataSelectHandler) {
+	var where_clause = "";
+	if(search_term.length > 0) {
+		where_clause = "where medical_record_number like '%" + search_term + "%' or patient_number_ccc like '%" + search_term + "%' or  first_name like '%" + search_term + "%' or  last_name like '%" + search_term + "%' or  other_name like '%" + search_term + "%' or  dob like '%" + search_term + "%' or  pob like '%" + search_term + "%' or  phone like '%" + search_term + "%' or  physical like '%" + search_term + "%' or  alternate like '%" + search_term + "%' or  other_illnesses  like '%" + search_term + "%' or other_drugs like '%" + search_term + "%' or  date_enrolled like '%" + search_term + "%'";
+	}
+	var sql = "select patient_number_ccc, first_name, last_name, other_name, dob, phone from patient " + where_clause + " limit " + offset + ", " + limit + "";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -190,11 +201,23 @@ function getLastAppointmentData(dataSelectHandler) {
 	var sql = "SELECT machine_code,patient, appointment from patient_appointment group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //Get the latest record from the patient visit table grouped by the machine code
-function getLastVisitData(dataSelectHandler) { 
+function getLastVisitData(dataSelectHandler) {
 	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id from patient_visit group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+//count the total number of records in a search result
+function countSearchedPatientRecords(search_term, dataSelectHandler) {
+	var sql = "select count(*) as total from patient where medical_record_number like '%" + search_term + "%' or patient_number_ccc like '%" + search_term + "%' or  first_name like '%" + search_term + "%' or  last_name like '%" + search_term + "%' or  other_name like '%" + search_term + "%' or  dob like '%" + search_term + "%' or  pob like '%" + search_term + "%' or  phone like '%" + search_term + "%' or  physical like '%" + search_term + "%' or  alternate like '%" + search_term + "%' or  other_illnesses  like '%" + search_term + "%' or other_drugs like '%" + search_term + "%' or  date_enrolled like '%" + search_term + "%'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+//This function returns a list of patients based on the limits specified
+function getPatientDetails(patient_number, dataSelectHandler) {
+	var sql = "select patient_number_ccc, first_name, last_name, other_name from patient where patient_number_ccc = '"+patient_number+"'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
