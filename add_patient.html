@@ -14,7 +14,7 @@
 			$(document).ready(function() {
 				initDatabase();
 				//Dynamically load the list of supporters!
-				selectAll("supporter", function(transaction, results) {
+				selectAll("supporter", function(transaction, results) { 
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
@@ -188,8 +188,8 @@
 								</label>
 								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"></select> </label>
 								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"></select> </label>
-								<label> <strong class="label">Type of Service</strong> <select name="service" id="service"></select> </label>
-								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen"></select> </label>
+								<label> <strong class="label">Type of Service</strong> <select name="service" id="service"><option></option></select> </label>
+								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen" style="width:300px"></select> </label>
 							</div>
 							<div id="submit_section">
 								<input type="reset" class="submit-button" id="reset" value="Reset Page" style="width:200px;"/>

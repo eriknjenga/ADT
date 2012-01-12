@@ -10,7 +10,9 @@ function initDatabase() {
 			//  bytes
 			DEMODB = openDatabase(shortName, version, displayName, maxSize);
 			createTables();
-			//selectAll();
+			Populate("delete from supporter");
+			Populate("insert into supporter (name) values ('GOK')");
+			Populate("insert into supporter (name) values ('PEPFAR')");
 		}
 	} catch(e) {
 
@@ -45,7 +47,6 @@ function createTables() {
 }
 
 function Populate(sql) {
-
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], nullDataHandler, errorHandler);
 	});
@@ -100,7 +101,7 @@ function selectServiceRegimen(service, dataSelectHandler) {
 }
 //Get the last regimen dispensed. Along with the date of that visit
 function selectPatientRegimen(source, id, dataSelectHandler) {
-	var sql = "select regimen_desc,dispensing_date from patient_visit pv,regimen r where pv.patient_id = '" + id + "' and pv.regimen = r.id order by pv.id desc";
+	var sql = "select r.id,regimen_desc,dispensing_date from patient_visit pv,regimen r where pv.patient_id = '" + id + "' and pv.regimen = r.id order by pv.id desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 //Retrieve the drugs that were issued during that last visit

@@ -27,8 +27,10 @@
 				});
 				//Add datepicker for the dispensing date
 				$("#dispensing_date").datepicker({
+					defaultDate : new Date(),
 					changeMonth : true,
 					changeYear : true
+
 				});
 				//Add datepicker for the next appointment date
 				$("#next_appointment_date").datepicker({
@@ -110,15 +112,27 @@
 				});*/
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
-
 					var regimen = $("#current_regimen option:selected").attr("value");
+					var last_regimen = $("#last_regimen").attr("regimen_id");
+					//If the previous regimen and the one currently chosen are different, display the regimen change reason dropdown list
+					if(regimen != last_regimen) {
+						//Retrieve all the regimen change reasons
+						$("#regimen_change_reason").children('option').remove();
+						selectAll("regimen_change_purpose", function(transaction, results) {
+							// Handle the results
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i);
+								$("#regimen_change_reason").append($("<option></option>").attr("value", row['id']).text(row['name']));
+							}
+						});
+						$("#regimen_change_reason_container").css("display", "block");
+					}
 					//Clear the drugs list first
 					$.each($(".drug"), function(i, v) {
 						$(this).children('option').remove();
 					});
 					//Dynamically load the list of drugs for this regimen
 					selectRegimenDrugs(regimen, function(transaction, results) {
-
 						// Handle the results
 						for(var i = 0; i < results.rows.length; i++) {
 							var row = results.rows.item(i);
@@ -126,20 +140,16 @@
 								$.each($(".drug"), function(i, v) {
 									$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 									populateDrugRow($(this));
-
 								});
 								continue;
 							}
-
 							$.each($(".drug"), function(i, v) {
 								$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 							});
 						}
-
 					});
 					//In addition to the drugs in this regimen, load OI medicines too!
 					loadOIMedicine();
-
 				});
 				//Fill the whole drug row with details of the selected drug!
 				$(".drug").change(function() {
@@ -163,13 +173,14 @@
 						var row = results.rows.item(0);
 						//Display the Last Regimen Taken
 						$("#last_regimen").attr("value", row['regimen_desc']);
+						$("#last_regimen").attr("regimen_id", row['id']);
 						var last_visit_date = row['dispensing_date'];
-						$("#last_visit_date").attr("value",last_visit_date);
+						$("#last_visit_date").attr("value", last_visit_date);
 						//Retrieve drugs dispensed during the last visit
 						selectLastVisitDetails(patient_number, last_visit_date, function(transaction, results) {
 							for(var i = 0; i < results.rows.length; i++) {
-								var row = results.rows.item(i); 
-								var append_html = "<tr><td>"+row['drug']+"</td><td>"+row['quantity']+"</td></tr>";
+								var row = results.rows.item(i);
+								var append_html = "<tr><td>" + row['drug'] + "</td><td>" + row['quantity'] + "</td></tr>";
 								$("#last_visit_data").append($(append_html));
 							}
 						});
@@ -264,7 +275,7 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Current Height</strong>
-										<input style="width:140px;" type="text"name="height" id="height" class="validate[required,length[2,50]]",>
+										<input style="width:140px;" type="text"name="height" id="height">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Current Weight</strong>
 										<input style="width:140px" type="text"name="weight" id="weight">
@@ -279,10 +290,14 @@
 									</label>
 								</div>
 								<label> <strong class="label">Last Regimen Dispensed</strong>
-									<input type="text"name="last_regimen" id="last_regimen" readonly="">
+									<input type="text"name="last_regimen" regimen_id="0" id="last_regimen" readonly="">
 								</label>
 								<label> <strong class="label">Current Regimen</strong>
 									<select type="text"name="current_regimen" id="current_regimen" style="width:300px">
+										<option></option>
+									</select> </label>
+								<label style="display:none" id="regimen_change_reason_container"> <strong class="label">Regimen Change Reason</strong>
+									<select type="text"name="regimen_change_reason" id="regimen_change_reason" style="width:300px">
 										<option></option>
 									</select> </label>
 							</div>

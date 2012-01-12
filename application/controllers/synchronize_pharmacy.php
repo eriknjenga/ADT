@@ -132,7 +132,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$regimens_array = array();
 		foreach ($regimens as $regimen) {
-			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Regimen_Service_Type -> Name, "remarks" => $regimen -> Remarks);
+			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Type_Of_Service, "remarks" => $regimen -> Remarks);
 			$regimens_array[$counter] = $regimen_details;
 			$counter++;
 		}
