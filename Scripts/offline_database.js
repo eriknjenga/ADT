@@ -99,14 +99,16 @@ function selectServiceRegimen(service, dataSelectHandler) {
 	var sql = "select * from regimen where type_of_service = '" + service + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //Get the last regimen dispensed. Along with the date of that visit
 function selectPatientRegimen(source, id, dataSelectHandler) {
 	var sql = "select r.id,regimen_desc,dispensing_date from patient_visit pv,regimen r where pv.patient_id = '" + id + "' and pv.regimen = r.id order by pv.id desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //Retrieve the drugs that were issued during that last visit
 function selectLastVisitDetails(patient, date, dataSelectHandler) {
-	var sql = "select d.drug,pv.quantity from patient_visit pv,drugcode d where pv.patient_id = '" + patient + "' and pv.dispensing_date = '"+date+"' and pv.drug_id = d.id order by pv.id desc";
+	var sql = "select d.drug,pv.quantity from patient_visit pv,drugcode d where pv.patient_id = '" + patient + "' and pv.dispensing_date = '" + date + "' and pv.drug_id = d.id order by pv.id desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -145,7 +147,7 @@ function selectPagedPatients(search_term, offset, limit, dataSelectHandler) {
 	if(search_term.length > 0) {
 		where_clause = "where medical_record_number like '%" + search_term + "%' or patient_number_ccc like '%" + search_term + "%' or  first_name like '%" + search_term + "%' or  last_name like '%" + search_term + "%' or  other_name like '%" + search_term + "%' or  dob like '%" + search_term + "%' or  pob like '%" + search_term + "%' or  phone like '%" + search_term + "%' or  physical like '%" + search_term + "%' or  alternate like '%" + search_term + "%' or  other_illnesses  like '%" + search_term + "%' or other_drugs like '%" + search_term + "%' or  date_enrolled like '%" + search_term + "%'";
 	}
-	var sql = "select patient_number_ccc, first_name, last_name, other_name, dob, phone from patient " + where_clause + " limit " + offset + ", " + limit + "";
+	var sql = "select patient_number_ccc, first_name, last_name, other_name, dob, phone from patient " + where_clause + " order by id desc limit " + offset + ", " + limit + "";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -208,14 +210,29 @@ function getLastVisitData(dataSelectHandler) {
 	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id from patient_visit group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //count the total number of records in a search result
 function countSearchedPatientRecords(search_term, dataSelectHandler) {
 	var sql = "select count(*) as total from patient where medical_record_number like '%" + search_term + "%' or patient_number_ccc like '%" + search_term + "%' or  first_name like '%" + search_term + "%' or  last_name like '%" + search_term + "%' or  other_name like '%" + search_term + "%' or  dob like '%" + search_term + "%' or  pob like '%" + search_term + "%' or  phone like '%" + search_term + "%' or  physical like '%" + search_term + "%' or  alternate like '%" + search_term + "%' or  other_illnesses  like '%" + search_term + "%' or other_drugs like '%" + search_term + "%' or  date_enrolled like '%" + search_term + "%'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //This function returns a list of patients based on the limits specified
 function getPatientDetails(patient_number, dataSelectHandler) {
-	var sql = "select patient_number_ccc, first_name, last_name, other_name from patient where patient_number_ccc = '"+patient_number+"'";
+	var sql = "select patient_number_ccc, first_name, last_name, other_name from patient where patient_number_ccc = '" + patient_number + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function returns a list of patient visits based on the limits specified
+function getPatientHistory(patient_number, offset, limit, dataSelectHandler) {
+	var sql = "select patient_id as patient_number_ccc, dispensing_date, v.name as visit_purpose, r.regimen_desc, current_weight, current_height, user from patient_visit pv, visit_purpose v, regimen r where patient_id = '" + patient_number + "' and pv.visit_purpose = v.id and pv.regimen = r.id group by dispensing_date order by pv.id desc limit " + offset + ", " + limit + "";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//Function to retrieve the details of a particular patient visit!
+function getPatientVisitDetails(patient_number, visit_date, dataSelectHandler) {
+	var sql = "select pv.*, d.drug as drug_name, r.regimen_desc as regimen_desc, vp.name as visit_purpose_name from patient_visit pv left join drugcode d, regimen r, visit_purpose vp on pv.drug_id = d.id and pv.regimen = r.id and pv.visit_purpose = vp.id WHERE patient_id = '"+patient_number+"' AND dispensing_date = '"+visit_date+"'";
+	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

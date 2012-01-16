@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patient History</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				patient_number = $_GET['patient_number'];
+				$("#visit_details_container").dialog({
+					autoOpen : false,
+					width : 800,
+					height : 500,
+					modal : true
+				});
+
+				//Get basic getails of the selected patient
+				getPatientDetails(patient_number, function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#patient_name").text("History of " + row['first_name'] + " " + row['other_name'] + " " + row["last_name"] + " (" + patient_number + ")");
+				});
+				patientHistory(0, patient_number);
+			});
+			function patientHistory(offset, patient) {
+				//Get the search term entered
+				//Set the nimber of patients to show on one page
+				var limit = 20;
+
+				var next_offset = parseInt(offset, 10) + parseInt(limit, 10);
+
+				var previous_offset = 0;
+				if(offset == 0) {
+					previous_offset = 0;
+				} else if(offset > limit) {
+					previous_offset = parseInt(offset, 10) - parseInt(limit, 10);
+				}
+
+				var type = "";
+				getPatientHistory(patient, offset, limit, function(transaction, results) {
+
+					$("#next_offset_holder").attr("value", next_offset);
+					$("#previous_offset_holder").attr("value", previous_offset);
+					$("#patients_table").find("tr:gt(0)").remove();
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						if(i % 2 == 0) {
+							type = "normal_row";
+						} else {
+							type = "alternate_row";
+						}
+						addTableRow(row, type);
+					}
+					//Call Function that rebinds all listeners to their respective elements
+					rebindListeners();
+					$("#server_process").css("display", "none");
+				});
+			}
+
+			function addTableRow(row, type) {
+				//define the keys for all the table columns that exist in the returned patient row.
+				var table_columns = new Array("dispensing_date", "visit_purpose", "regimen_desc", "current_weight", "current_height", "user");
+				//Create a new row element
+				var new_row = $(document.createElement('tr'));
+				new_row.addClass(type);
+				//Create a new attribute for the row and add the ccc as the value of this attribute!
+				new_row.attr("patient_number", row["patient_number_ccc"]);
+				//Create a new attribute to hold the visiting date of the patient
+				new_row.attr("visit_date", row["dispensing_date"]);
+				//add the class 'table_row' to the row that's just been created
+				new_row.addClass("table_row");
+				//Loop through the table columns, picking the relevant values from the row returned from the database
+				$.each(table_columns, function(key, value) {
+					var table_data = "";
+					//Check if a value exists for a particular table column
+					if(row[value]) {
+						table_data = "<td>" + row[value] + "</td>";
+					}
+					//if not, display N/A
+					else {
+						table_data = "<td>N/A</td>";
+					}
+					//add each table data created to the row
+					new_row.append(table_data);
+
+				});
+				//This section creates the record manipulation links to each row
+
+				//This gets the first td element of that row which will be used to add the action links
+				var first_td = new_row.find("td:first");
+				//Get the width of this td element in integer form (i.e. remove the .px part)
+				var width = first_td.css("width").replace("px", "");
+				//If the width is less than 250px, extend it to 200px so as to have a more uniform look
+				if(width < 250) {
+					first_td.css("width", "250px");
+				}
+				//Append the contents of the 'action_panel_parent' to this first td element
+				$($("#action_panel_parent").html()).appendTo(first_td);
+				//Append the created row to the table
+				new_row.insertAfter('#patient_history_table tr:last');
+			}
+
+			function addVisitDrugRow(row, type) {
+				//define the keys for all the table columns that exist in the returned patient row.
+				var table_columns = new Array("drug_name", "batch_number", "pill_count", "quantity", "dose", "comment");
+				//Create a new row element
+				var new_row = $(document.createElement('tr'));
+				new_row.addClass(type);
+				new_row.addClass("table_row");
+				//Loop through the table columns, picking the relevant values from the row returned from the database
+				$.each(table_columns, function(key, value) {
+					var table_data = "";
+					//Check if a value exists for a particular table column
+					if(row[value]) {
+						table_data = "<td>" + row[value] + "</td>";
+					}
+					//if not, display N/A
+					else {
+						table_data = "<td>N/A</td>";
+					}
+					//add each table data created to the row
+					new_row.append(table_data);
+
+				});
+				//Append the created row to the table
+				new_row.insertAfter('#visit_details_table tr:last');
+			}
+
+			function rebindListeners() {
+				//Add click listeners to the action links
+				$(".details").click(function() {
+					var patient_number = $(this).closest("tr").attr("patient_number");
+					var visit_date = $(this).closest("tr").attr("visit_date");
+					getVisitDetails(patient_number, visit_date);
+				});
+				//First add the hover listener to the passed element (table row)
+				$(".table_row").hover(function() {
+					//When hovered on, make the background color of the row darker and show the action links
+					$(this).addClass("hovered");
+					$(this).find(".actions_panel").css("visibility", "visible");
+				}, function() {
+					//When hovered off, reset the background color and hide the action links
+					$(this).removeClass("hovered");
+					$(this).find(".actions_panel").css("visibility", "hidden");
+				});
+			}
+
+			function getVisitDetails(patient_number, visit_date) {
+				$("#visit_details_container").dialog('open');
+				$("#visit_details_table").css("display", "none");
+				$("#visit_general_details").css("display", "none");
+				getPatientVisitDetails(patient_number, visit_date, function(transaction, results) {
+					$("#visit_details_table").find("tr:gt(0)").remove();
+					var first_row = results.rows.item(0);
+					if(first_row != null) {
+						$("#visit_date").text(first_row['dispensing_date']);
+						$("#visit_purpose").text(first_row['visit_purpose_name']);
+						$("#visit_regimen").text(first_row['regimen_desc']);
+						$("#visit_weight").text(first_row['current_weight']);
+						$("#visit_height").text(first_row['current_height']);
+						$("#visit_user").text(first_row['user']);
+					}
+
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						if(i % 2 == 0) {
+							type = "normal_row";
+						} else {
+							type = "alternate_row";
+						}
+						addVisitDrugRow(row, type);
+					}
+					$("#visit_details_table").css("display", "table");
+					$("#visit_general_details").css("display", "table");
+					$("#visit_details_container").css("width", "auto");
+					$("#visit_details_container").css("height", "auto");
+					$("#visit_details_progress").css("display", "none");
+
+				});
+			}
+		</script>
+		<style type="text/css">
+			#patient_history {
+				width: 90%;
+				margin: 10px auto;
+				min-height: 500px;
+			}
+			#patient_name {
+				text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+				letter-spacing: 1px;
+				font-weight: bold;
+				font-size: 24px;
+				width: 800px;
+				border-bottom: 2px solid #C0C0C0;
+				color: black;
+				margin: 0 auto;
+				text-align: center
+			}
+			#server_process {
+				width: 100px;
+				height: 55px;
+				margin: 0 auto;
+				background: url("Images/spinner.gif") no-repeat;
+			}
+			#visit_details_progress {
+				width: 100px;
+				height: 55px;
+				margin: 0 auto;
+				background: url("Images/spinner.gif") no-repeat;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link">Patients</a>
+					<a href="dispensement_management.html" class="top_menu_link">Dispensements</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<input type="hidden" id="next_offset_holder" />
+					<input type="hidden" id="previous_offset_holder" />
+					<div id="patient_history">
+						<div id="patient_name"></div>
+						<div class="records_counter"></div>
+						<table class="data-table" id="patient_history_table">
+							<tr>
+								<th>Visit Date </th>
+								<th>Visit Purpose</th>
+								<th>Regimen</th>
+								<th>Weight Recorded</th>
+								<th>Height Recorded</th>
+								<th>Served By</th>
+							</tr>
+						</table>
+						<div id="server_process"></div>
+						<div id="visit_details_container" title="Visit Details">
+							<div id="visit_details_progress"></div>
+							<div id="visit_details_box">
+								<table class="data-table" id="visit_general_details">
+									<caption>General Visit Information</caption>
+									<tr>
+										<td><b>Visit Date</b></td><td id="visit_date"></td>
+									</tr>
+									<tr>
+										<td><b>Visit Purpose</b></td><td id="visit_purpose"></td>
+									</tr>
+									<tr>
+										<td><b>Regimen</b></td><td id="visit_regimen"></td>
+									</tr>
+									<tr>
+										<td><b>Weight Recorded</b></td><td id="visit_weight"></td>
+									</tr>
+									<tr>
+										<td><b>Height Recorded</b></td><td id="visit_height"></td>
+									</tr>
+									<tr>
+										<td><b>Served By</b></td><td id="visit_user"></td>
+									</tr>
+								</table>
+								<table class="data-table" id="visit_details_table">
+									<caption>Drugs Dispensed</caption>
+									<tr>
+										<th>Drug Name</th>
+										<th>Batch No.</th>
+										<th>Pill Count</th>
+										<th>Qty.</th>
+										<th>Dose</th>
+										<th>Comment</th>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div id="action_panel_parent" style="display:none">
+						<div class="actions_panel" style="visibility:hidden" >
+							<a class="link details">View Visit Details</a>
+						</div>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

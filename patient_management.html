@@ -59,8 +59,8 @@
 				
 				$(".history").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					getPatientHistory();
-					$("#history_popup").dialog('open');
+					var url = "history.html?patient_number="+patient_medical_record_number; 
+					window.location.href = url;
 				});
 				//First add the hover listener to the passed element (table row)
 				$(".table_row").hover(function() {
@@ -270,7 +270,7 @@
 					</div>
 					<div class="pagination flip">
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
-						<div class="records_counter"/>
+						<div class="records_counter">
 					</div>
 				</div>
 				<table class="data-table" id="patients_table">
