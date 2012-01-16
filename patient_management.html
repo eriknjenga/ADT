@@ -53,13 +53,13 @@
 				});
 				$(".dispense").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "dispense.html?patient_number="+patient_medical_record_number; 
+					var url = "dispense.html?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				});
-				
+
 				$(".history").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "history.html?patient_number="+patient_medical_record_number; 
+					var url = "history.html?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				});
 				//First add the hover listener to the passed element (table row)
@@ -89,10 +89,12 @@
 			}
 
 			function getPatients(offset) {
+				$("#patient_listing_progress").css("display", "block");
+				$("#patients_table").css("display", "none");
 				//Get the search term entered
 				var search_term = $("#search_term").attr("value");
 				//Set the nimber of patients to show on one page
-				var limit = 5;
+				var limit = 15;
 
 				var next_offset = parseInt(offset, 10) + parseInt(limit, 10);
 
@@ -127,6 +129,8 @@
 					}
 					//Call Function that rebinds all listeners to their respective elements
 					rebindListeners();
+					$("#patient_listing_progress").css("display", "none");
+					$("#patients_table").css("display", "table");
 				});
 			}
 
@@ -233,6 +237,13 @@
 			.search_box label {
 				float: right;
 			}
+			#patient_listing_progress {
+				width: 100px;
+				height: 55px;
+				margin: 0 auto;
+				background: url("Images/spinner.gif") no-repeat;
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -252,7 +263,6 @@
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
 					<a href="patient_management.html" class="top_menu_link">Patients</a>
-					<a href="dispensement_management.html" class="top_menu_link">Dispensements</a>
 					<a href="reports.html" class="top_menu_link">Reports</a>
 					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
 				</div>
@@ -270,36 +280,36 @@
 					</div>
 					<div class="pagination flip">
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
-						<div class="records_counter">
+						<div class="records_counter"></div>
+					</div>
+					<div id="patient_listing_progress"></div>
+					<table class="data-table" id="patients_table">
+						<tr>
+							<th>Patient CCC Number </th>
+							<th> First Name</th>
+							<th> Last Name</th>
+							<th> Other Name</th>
+							<th> DOB </th>
+							<th> Phone Number </th>
+						</tr>
+					</table>
+					<div class="pagination flip">
+						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
+						<div class="records_counter"/>
 					</div>
 				</div>
-				<table class="data-table" id="patients_table">
-					<tr>
-						<th>Patient CCC Number </th>
-						<th> First Name</th>
-						<th> Last Name</th>
-						<th> Other Name</th>
-						<th> DOB </th>
-						<th> Phone Number </th>
-					</tr>
-				</table>
-				<div class="pagination flip">
-					<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
-					<div class="records_counter"/>
+				<div id="action_panel_parent" style="display:none">
+					<div class="actions_panel" style="visibility:hidden" >
+						<a class="link dispense">Dispense</a>
+						<a class="link history">History</a>
+						<a class="link details">Details</a>
+						<a class="link edit">Edit</a>
+					</div>
 				</div>
+				<div id="details_popup" title="Patient Details"></div>
+				<div id="history_popup" title="Patient History"></div>
 			</div>
-			<div id="action_panel_parent" style="display:none">
-				<div class="actions_panel" style="visibility:hidden" >
-					<a class="link dispense">Dispense</a>
-					<a class="link history">History</a>
-					<a class="link details">Details</a>
-					<a class="link edit">Edit</a>
-				</div>
-			</div>
-			<div id="details_popup" title="Patient Details"></div>
-			<div id="history_popup" title="Patient History"></div>
-		</div>
-		<!--End Wrapper div-->
+			<!--End Wrapper div-->
 		</div>
 		<div id="bottom_ribbon">
 			<div id="footer">
