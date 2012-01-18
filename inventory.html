@@ -2,7 +2,7 @@
 <html lang="en" >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Patient Records</title>
+		<title>My Inventory</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
@@ -14,11 +14,11 @@
 		<script type="text/javascript" src="Scripts/validator.js"></script>
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
-			total_patients = 0;
+			total_drugs = 0;
 			$(document).ready(function() {
 				initDatabase();
-				getTotalPatients();
-				getPatients(0);
+				getTotalDrugs();
+				getDrugs(0);
 				$(".details").click(function() {
 					alert();
 				});
@@ -30,16 +30,16 @@
 				});
 				$(".next").click(function() {
 					var offset = $("#next_offset_holder").attr("value");
-					getPatients(offset);
+					getDrugs(offset);
 				});
 				$(".previous").click(function() {
 					var offset = $("#previous_offset_holder").attr("value");
-					getPatients(offset);
+					getDrugs(offset);
 				});
 				$("#search").click(function() {
 					var search_term = $("#search_term").attr("value");
-					getTotalSearchedPatients(search_term);
-					getPatients(0);
+					getTotalSearchedDrugs(search_term);
+					getDrugs(0);
 				});
 			});
 			function rebindListeners() {
@@ -74,23 +74,23 @@
 				});
 			}
 
-			function getTotalPatients() {
-				countTableRecords("patient", function(transaction, results) {
+			function getTotalDrugs() {
+				countTableRecords("drugcode", function(transaction, results) {
 					var row = results.rows.item(0);
-					total_patients = row['total'];
+					total_drugs = row['total'];
 				});
 			}
 
-			function getTotalSearchedPatients(search_term) {
-				countSearchedPatientRecords(search_term, function(transaction, results) {
+			function getTotalSearchedDrugs(search_term) {
+				countSearchedDrugRecords(search_term, function(transaction, results) {
 					var row = results.rows.item(0);
-					total_patients = row['total'];
+					total_drugs = row['total'];
 				});
 			}
 
-			function getPatients(offset) {
-				$("#patient_listing_progress").css("display", "block");
-				$("#patients_table").css("display", "none");
+			function getDrugs(offset) {
+				$("#drug_listing_progress").css("display", "block");
+				$("#drugs_table").css("display", "none");
 				//Get the search term entered
 				var search_term = $("#search_term").attr("value");
 				//Set the nimber of patients to show on one page
@@ -106,7 +106,7 @@
 				}
 
 				var type = "";
-				selectPagedPatients(search_term, offset, limit, function(transaction, results) {
+				selectPagedDrugs(search_term, offset, limit, function(transaction, results) {
 					if(next_offset > total_patients) {
 						next_offset = total_patients;
 					}
@@ -116,7 +116,7 @@
 						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b>";
 						$(this).html(record_text);
 					});
-					$("#patients_table").find("tr:gt(0)").remove();
+					$("#drugs_table").find("tr:gt(0)").remove();
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
@@ -129,8 +129,8 @@
 					}
 					//Call Function that rebinds all listeners to their respective elements
 					rebindListeners();
-					$("#patient_listing_progress").css("display", "none");
-					$("#patients_table").css("display", "table");
+					$("#drug_listing_progress").css("display", "none");
+					$("#drugs_table").css("display", "table");
 				});
 			}
 
@@ -141,7 +141,7 @@
 				var new_row = $(document.createElement('tr'));
 				new_row.addClass(type);
 				//Create a new attribute for the row and add the mrn as the value of this attribute!
-				new_row.attr("patient_number", row["patient_number_ccc"]);
+				new_row.attr("drug_id", row["id"]);
 				//add the class 'table_row' to the row that's just been created
 				new_row.addClass("table_row");
 				//Loop through the table columns, picking the relevant values from the row returned from the database
@@ -172,7 +172,7 @@
 				//Append the contents of the 'action_panel_parent' to this first td element
 				$($("#action_panel_parent").html()).appendTo(first_td);
 				//Append the created row to the table
-				new_row.insertAfter('#patients_table tr:last');
+				new_row.insertAfter('#drugs_table tr:last');
 			}
 		</script>
 		<style type="text/css">
@@ -262,8 +262,8 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a>
-					<a href="inventory.html" class="top_menu_link">Inventory</a>
+					<a href="patient_management.html" class="top_menu_link ">Patients</a>
+					<a href="inventory.html" class="top_menu_link top_menu_active">Inventory</a>
 					<a href="reports.html" class="top_menu_link">Reports</a>
 					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
 				</div>
@@ -286,12 +286,11 @@
 					<div id="patient_listing_progress"></div>
 					<table class="data-table" id="patients_table">
 						<tr>
-							<th>Patient CCC Number </th>
-							<th> First Name</th>
-							<th> Last Name</th>
-							<th> Other Name</th>
-							<th> DOB </th>
-							<th> Phone Number </th>
+							<th>Commodity</th>
+							<th>Generic Name</th>
+							<th>Pack Size</th>
+							<th>Supported By</th>
+							<th>Dose</th> 
 						</tr>
 					</table>
 					<div class="pagination flip">

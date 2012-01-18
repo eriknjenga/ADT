@@ -94,22 +94,6 @@
 					}
 
 				});
-				/*//Dynamically change the list of drugs once a current regimen is selected
-				$("#patient").change(function() {
-				if($("#patient").attr("value").length > 0) {
-				$("#last_regimen").attr("value", "");
-				var value = $("#patient option:selected").attr("value");
-				var source = $("#patient option:selected").attr("source");
-				//Retrieve the last regimen of the selected patient
-				selectPatientRegimen(source, value, function(transaction, results) {
-				// Handle the results
-				if(results.rows.length > 0) {
-				var row = results.rows.item(0);
-				$("#last_regimen").attr("value", row['regimen_desc']);
-				}
-				});
-				}
-				});*/
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
 					var regimen = $("#current_regimen option:selected").attr("value");
@@ -247,7 +231,8 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link">Patients</a> 
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a> 
+					<a href="inventory.html" class="top_menu_link">Inventory</a>
 					<a href="reports.html" class="top_menu_link">Reports</a>
 					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
 				</div>
