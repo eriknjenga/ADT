@@ -235,6 +235,20 @@ function getPatientVisitDetails(patient_number, visit_date, dataSelectHandler) {
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+//count the total number of records in a search result
+function countSearchedDrugRecords(search_term, dataSelectHandler) {
+	var sql = "select count(*) as total from drugcode where drug like '%" + search_term + "%' or generic_name like '%" + search_term + "%'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+//This function returns a list of drugs based on the limits specified
+function selectPagedDrugs(search_term, offset, limit, dataSelectHandler) {
+	var where_clause = "";
+	if(search_term.length > 0) {
+		where_clause = "where drug like '%" + search_term + "%' or generic_name like '%" + search_term + "%'";
+	}
+	var sql = "select id, drug, generic_name, pack_size, supported_by, dose from drugcode " + where_clause + " order by id asc limit " + offset + ", " + limit + "";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
 
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {

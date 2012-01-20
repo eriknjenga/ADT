@@ -44,22 +44,14 @@
 			});
 			function rebindListeners() {
 				//Add click listeners to the action links
-				$(".details").click(function() {
-					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					$("#details_popup").dialog('open');
-				});
-				$(".edit").click(function() {
-					alert();
-				});
-				$(".dispense").click(function() {
-					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "dispense.html?patient_number=" + patient_medical_record_number;
+				$(".manage_stock").click(function() {
+					var drug = $(this).closest("tr").attr("drug_id");
+					var url = "manage_stock.html?drug=" + drug;
 					window.location.href = url;
 				});
-
-				$(".history").click(function() {
-					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "history.html?patient_number=" + patient_medical_record_number;
+				$(".bin_card").click(function() {
+					var drug = $(this).closest("tr").attr("drug_id");
+					var url = "bin_card.html?drug=" + drug;
 					window.location.href = url;
 				});
 				//First add the hover listener to the passed element (table row)
@@ -107,13 +99,13 @@
 
 				var type = "";
 				selectPagedDrugs(search_term, offset, limit, function(transaction, results) {
-					if(next_offset > total_patients) {
-						next_offset = total_patients;
+					if(next_offset > total_drugs) {
+						next_offset = total_drugs;
 					}
 					$("#next_offset_holder").attr("value", next_offset);
 					$("#previous_offset_holder").attr("value", previous_offset);
 					$.each($(".records_counter"), function(key, value) {
-						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b>";
+						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_drugs + "</b>";
 						$(this).html(record_text);
 					});
 					$("#drugs_table").find("tr:gt(0)").remove();
@@ -135,8 +127,8 @@
 			}
 
 			function addTableRow(row, type) {
-				//define the keys for all the table columns that exist in the returned patient row.
-				var table_columns = new Array("patient_number_ccc", "first_name", "last_name", "other_name", "dob", "phone");
+				//define the keys for all the table columns that exist in the returned drug row
+				var table_columns = new Array("drug", "generic_name", "pack_size", "supported_by", "dose");
 				//Create a new row element
 				var new_row = $(document.createElement('tr'));
 				new_row.addClass(type);
@@ -237,7 +229,7 @@
 			.search_box label {
 				float: right;
 			}
-			#patient_listing_progress {
+			#drug_listing_progress {
 				width: 100px;
 				height: 55px;
 				margin: 0 auto;
@@ -272,7 +264,6 @@
 				<div id="main_wrapper">
 					<input type="hidden" id="next_offset_holder" />
 					<input type="hidden" id="previous_offset_holder" />
-					<a class="action_button" href="add_patient.html" style="margin-top:10px;">Add New Patient</a>
 					<div class="search_box">
 						<input type="submit" class="submit-button" id="search" value="Search" style="width:200px;"/>
 						<label> <strong class="label">Search Term</strong>
@@ -283,8 +274,8 @@
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
 						<div class="records_counter"></div>
 					</div>
-					<div id="patient_listing_progress"></div>
-					<table class="data-table" id="patients_table">
+					<div id="drug_listing_progress"></div>
+					<table class="data-table" id="drugs_table">
 						<tr>
 							<th>Commodity</th>
 							<th>Generic Name</th>
@@ -300,10 +291,8 @@
 				</div>
 				<div id="action_panel_parent" style="display:none">
 					<div class="actions_panel" style="visibility:hidden" >
-						<a class="link dispense">Dispense</a>
-						<a class="link history">History</a>
-						<a class="link details">Details</a>
-						<a class="link edit">Edit</a>
+						<a class="link manage_stock">Manage Stock</a>
+						<a class="link bin_card">View Bin Card</a>
 					</div>
 				</div>
 				<div id="details_popup" title="Patient Details"></div>
