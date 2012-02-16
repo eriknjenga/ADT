@@ -24,6 +24,12 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$number = Drugcode::getTotalNumber();
 		echo $number;
 	}
+	
+	//Get the total Number of drug units in the server
+	public function getTotalServerDrugUnits() {
+		$number = Drug_Unit::getTotalNumber();
+		echo $number;
+	}
 
 	//Get the total Number of drugs in the server
 	public function getTotalServerOIs() {
@@ -101,6 +107,17 @@ class Synchronize_Pharmacy extends MY_Controller {
 			$counter++;
 		}
 		echo json_encode($drugs_array);
+	}
+	public function getDrugUnits($offset, $limit) {
+		$drug_units = Drug_Unit::getPagedDrugUnits($offset, $limit);
+		$counter = 0;
+		$drug_units_array = array();
+		foreach ($drug_units as $unit) {
+			$drug_unit_details = array("id" => $unit -> id, "name" => $unit -> Name);
+			$drug_units_array[$counter] = $drug_unit_details;
+			$counter++;
+		}
+		echo json_encode($drug_units_array);
 	}
 
 	public function getOIs($offset, $limit) {

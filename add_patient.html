@@ -6,15 +6,24 @@
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/offlineData.js"></script>
 		<script type="text/javascript" src="Scripts/jquery.js"></script>
 		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
 		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
+				$("#add_patient_form").validationEngine({
+					inlineValidation : false
+				});
+				$("#submit").click(function() {
+					$("#add_patient_form").submit();
+				});
 				//Dynamically load the list of supporters!
-				selectAll("supporter", function(transaction, results) { 
+				selectAll("supporter", function(transaction, results) {
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
@@ -80,7 +89,7 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a> 
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a>
 					<a href="inventory.html" class="top_menu_link">Inventory</a>
 					<a href="reports.html" class="top_menu_link">Reports</a>
 					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
@@ -98,14 +107,14 @@
 									<input type="text" name="medical_record_number" id="medical_record_number" value="">
 								</label>
 								<label> <strong class="label">Patient Number CCC</strong>
-									<input type="text"name="patient_number" id="patient_number">
+									<input type="text"name="patient_number" id="patient_number" class="validate[required]">
 								</label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >First Name</strong>
-										<input style="width:140px;" type="text"name="first_name" id="first_name">
+										<input style="width:140px;" type="text"name="first_name" id="first_name" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Last Name</strong>
-										<input style="width:140px" type="text"name="last_name" id="last_name">
+										<input style="width:140px" type="text"name="last_name" id="last_name" class="validate[required]">
 									</label>
 								</div>
 								<label> <strong class="label">Other Name</strong>
@@ -113,7 +122,7 @@
 								</label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Date of Birth</strong>
-										<input style="width:140px;" type="text"name="dob" id="dob">
+										<input style="width:140px;" type="text"name="dob" id="dob" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong>
 										<input style="width:140px" type="text"name="pob" id="pob">
@@ -125,17 +134,16 @@
 											<option value="1">Male</option><option value="2">Female</option>
 										</select> </label>
 									<label style="width:140px; float:right;"> <strong class="label">Pregnant?</br> </strong>
-											<select name="pregnant" id="pregnant">
+										<select name="pregnant" id="pregnant">
 											<option value="0">No</option><option value="1">Yes</option>
-										</select> 
-										 </label>
+										</select> </label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
-										<input style="width:140px;" type="text"name="weight" id="weight">
+										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
-										<input style="width:140px" type="text"name="height" id="height">
+										<input style="width:140px" type="text"name="height" id="height" class="validate[required]">
 									</label>
 								</div>
 								<label> <strong class="label">Body Surface Area (MSQ)</strong>
@@ -188,7 +196,10 @@
 								</label>
 								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"></select> </label>
 								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"></select> </label>
-								<label> <strong class="label">Type of Service</strong> <select name="service" id="service"><option></option></select> </label>
+								<label> <strong class="label">Type of Service</strong>
+									<select name="service" id="service">
+										<option></option>
+									</select> </label>
 								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen" style="width:300px"></select> </label>
 							</div>
 							<div id="submit_section">

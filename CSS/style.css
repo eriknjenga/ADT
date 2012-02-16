@@ -5,7 +5,7 @@ body {
 	padding: 0;
 	font: 13px     / 1.231 arial, helvetica, clean, sans-serif;
 	line-height: 1;
-	font-size: 100%;
+	font-size: 80%;
 	vertical-align: baseline;
 }
 #bottom_ribbon {
@@ -78,7 +78,6 @@ body {
 	position: fixed;
 	background: white;
 	z-index: 5;
-	padding: 5px;
 	min-width: 980px;
 }
 .logo {
@@ -227,6 +226,7 @@ input[type =
 	background-image: linear-gradient(top,#46EB59,#36D148);
 }
 .action_button {
+	 
 	width: 150px;
 	height: 15px;
 	line-height: 15px;
@@ -333,7 +333,7 @@ table.data-table th {
 	border-top: none;
 }
 table.data-table td, table th {
-	padding: 10px;
+	padding: 4px;
 }
 table.data-table td {
 	border: none;

@@ -13,6 +13,30 @@ function initDatabase() {
 			Populate("delete from supporter");
 			Populate("insert into supporter (name) values ('GOK')");
 			Populate("insert into supporter (name) values ('PEPFAR')");
+			Populate("delete from drug_source");
+			Populate("insert into drug_source (name) values ('Main Store')");
+			Populate("insert into drug_source (name) values ('Kenya Pharma')");
+			Populate("insert into drug_source (name) values ('Outpatient')");
+			Populate("insert into drug_source (name) values ('CCC Internal Adjustment')");
+			Populate("insert into drug_source (name) values ('Donation')");
+			Populate("delete from drug_destination");
+			Populate("insert into drug_destination (name) values ('Outpatient Pharmacy')");
+			Populate("insert into drug_destination (name) values ('Maternity Ward')");
+			Populate("insert into drug_destination (name) values ('MCH Clinic')");
+			Populate("insert into drug_destination (name) values ('CCC Internal Adjustment')");
+			Populate("delete from transaction_type");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Received From','Drug Received Report','1')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Balance Forward','Balance Forwarded','1')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Returns From (+)','Returns by Clients','1')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Adjustment (+)','Adjustments','1')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Dispensed to Patients','Dispensed to Patients','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Issued To','Drug Issue Report','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Adjustment (-)','Adjustments','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Returns To','Returns to Suppliers','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Losses (-)','Losses','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Expired (-)','Expiry Report','0')");
+			Populate("insert into transaction_type (name,report_title,effect) values ('Starting Stock/Physical Count','Physical Count','1')");
+
 		}
 	} catch(e) {
 
@@ -43,6 +67,11 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS environment_variables(id INTEGER NOT NULL PRIMARY KEY, machine_id TEXT, operator TEXT, facility_name TEXT, facility TEXT );', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_destination(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT NOT NULL, unit TEXT NOT NULL, transaction_date TEXT NOT NULL, batch_number TEXT NOT NULL, transaction_type TEXT NOT NULL, source TEXT NOT NULL, destination TEXT NOT NULL, expiry_date TEXT NOT NULL, pack_size TEXT NOT NULL, packs TEXT NOT NULL, unit_cost TEXT NOT NULL, quantity TEXT NOT NULL, amount TEXT NOT NULL, remarks TEXT NOT NULL, operator TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 	});
 }
 
@@ -231,15 +260,17 @@ function getPatientHistory(patient_number, offset, limit, dataSelectHandler) {
 
 //Function to retrieve the details of a particular patient visit!
 function getPatientVisitDetails(patient_number, visit_date, dataSelectHandler) {
-	var sql = "select pv.*, d.drug as drug_name, r.regimen_desc as regimen_desc, vp.name as visit_purpose_name from patient_visit pv left join drugcode d, regimen r, visit_purpose vp on pv.drug_id = d.id and pv.regimen = r.id and pv.visit_purpose = vp.id WHERE patient_id = '"+patient_number+"' AND dispensing_date = '"+visit_date+"'";
+	var sql = "select pv.*, d.drug as drug_name, r.regimen_desc as regimen_desc, vp.name as visit_purpose_name from patient_visit pv left join drugcode d, regimen r, visit_purpose vp on pv.drug_id = d.id and pv.regimen = r.id and pv.visit_purpose = vp.id WHERE patient_id = '" + patient_number + "' AND dispensing_date = '" + visit_date + "'";
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //count the total number of records in a search result
 function countSearchedDrugRecords(search_term, dataSelectHandler) {
 	var sql = "select count(*) as total from drugcode where drug like '%" + search_term + "%' or generic_name like '%" + search_term + "%'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //This function returns a list of drugs based on the limits specified
 function selectPagedDrugs(search_term, offset, limit, dataSelectHandler) {
 	var where_clause = "";

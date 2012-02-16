@@ -72,7 +72,6 @@
 						var row = results.rows.item(i);
 						$("#purpose").append($("<option></option>").attr("value", row['id']).text(row['name']));
 					}
-
 				});
 				//Dynamically load the list of opportunistic infections
 				selectAll("opportunistic_infections", function(transaction, results) {
@@ -250,10 +249,10 @@
 								</label>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label">Dispensing Date</strong>
-										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date">
+										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label" >Purpose of Visit</strong>
-										<select style="width:140px;" type="text"name="purpose" id="purpose">
+										<select style="width:140px;" type="text"name="purpose" id="purpose" class="validate[required]">
 											<option></option>
 										</select> </label>
 								</div>
@@ -277,7 +276,7 @@
 									<input type="text"name="last_regimen" regimen_id="0" id="last_regimen" readonly="">
 								</label>
 								<label> <strong class="label">Current Regimen</strong>
-									<select type="text"name="current_regimen" id="current_regimen" style="width:300px">
+									<select type="text"name="current_regimen" id="current_regimen" style="width:300px" class="validate[required]">
 										<option></option>
 									</select> </label>
 								<label style="display:none" id="regimen_change_reason_container"> <strong class="label">Regimen Change Reason</strong>
@@ -318,7 +317,7 @@
 										<th>Add New</th>
 									</tr>
 									<tr drug_row="0">
-										<td><select name="drug" class="drug"  style="width: 150px;"></select></td>
+										<td><select name="drug" class="drug"  style="max-width: 70px;"></select></td>
 										<td>
 										<input type="text" name="unit" class="unit small_text" />
 										</td>
@@ -340,7 +339,7 @@
 										<input type="text" name="soh" class="soh small_text" />
 										</td>
 										<td>
-										<select name="indication" class="indication" style="width: 100px;">
+										<select name="indication" class="indication" style="max-width: 70px;">
 											<option value="0">None</option>
 										</select></td>
 										<td>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>New Stock</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				//Add datepicker for the transaction date
+				$("#transaction_date").datepicker({
+					defaultDate : new Date()
+				});
+				//Dynamically load the list of transaction types
+				selectAll("transaction_type", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#transaction_type").append($("<option></option>").attr("value", row['id']).attr("type", row['effect']).text(row['name']));
+					}
+				});
+				//Dynamically load the list of commodity sources
+				selectAll("drug_source", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#source").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+				});
+				//Dynamically load the list of commodity destinations
+				selectAll("drug_destination", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#destination").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+				});
+				//Dynamically load the list of commodities
+				selectAll("drugcode", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$(".drug").append($("<option></option>").attr("value", row['id']).text(row['drug']));
+					}
+				});
+
+				$(".add").click(function() {
+					var cloned_object = $('#drugs_table tr:last').clone(true);
+					var drug_row = cloned_object.attr("drug_row");
+					var next_drug_row = parseInt(drug_row) + 1;
+					cloned_object.attr("drug_row", next_drug_row);
+					cloned_object.insertAfter('#drugs_table tr:last');
+					return false;
+				});
+			});
+
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link ">Patients</a>
+					<a href="inventory.html" class="top_menu_link top_menu_active">Inventory</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<div id="signup_form">
+						<div class="short_title" >
+							<h1 class="banner_text" style="width:auto;">Commodity Transaction Entry Form</h1>
+						</div>
+						<form id="dispense_form" method="post" >
+							<div>
+								<label> <strong class="label">Transaction Date</strong>
+									<input   type="text"name="transaction_date" id="transaction_date">
+								</label>
+								<label> <strong class="label">Transaction Type</strong> <select type="text"name="transaction_type" id="transaction_type" style="width:300px"></select> </label>
+								<label> <strong class="label">Ref./Order Number</strong>
+									<input   type="text"name="reference_number" id="reference_number">
+								</label>
+								<label> <strong class="label">Source</strong>
+									<select type="text"name="source" id="source" style="width:300px">
+										<option></option>
+									</select> </label>
+								<label> <strong class="label">Destination</strong>
+									<select type="text"name="destination" id="destination" style="width:300px">
+										<option></option>
+									</select> </label>
+							</div>
+							<div id="drugs_section">
+								<table border="0" class="data-table" id="drugs_table">
+									<th class="subsection-title" colspan="13">Select Drugs</th>
+									<tr>
+										<th>Drug</th>
+										<th>Unit</th>
+										<th>Batch No.</th>
+										<th>Expr. Date</th>
+										<th>Pack Size</th>
+										<th>Quantity</th>
+										<th>Unit Cost</th>
+										<th>Total</th>
+										<th>Comment</th>
+										<th>Add New</th>
+									</tr>
+									<tr drug_row="0">
+										<td><select name="drug" class="drug"  style="max-width: 70px;"></select></td>
+										<td>
+										<input type="text" name="unit" class="unit small_text" />
+										</td>
+										<td>
+										<input type="text" name="batch" class="batch small_text" />
+										</td>
+										<td>
+										<input type="text" name="expiry" class="expiry small_text" />
+										</td>
+										<td>
+										<input type="text" name="pack_size" class="pack_size small_text" />
+										</td>
+										<td>
+										<input type="text" name="quantity" class="quantity small_text" />
+										</td>
+										<td>
+										<input type="text" name="unit_cost" class="unit_cost small_text" />
+										</td>
+										<td>
+										<input type="text" name="amount" class="amount small_text" />
+										</td>
+										<td>
+										<input type="text" name="comment" class="comment small_text" />
+										</td>
+										<td>
+										<input type="button" class="add button" value="Add"/>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div id="submit_section">
+								<input type="reset" class="submit-button" id="reset" value="Reset Fields" style="width:200px;"/>
+								<input form="dispense" class="submit-button" id="submit" value="Save Stock" style="width:200px;"/>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

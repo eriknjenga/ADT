@@ -8,13 +8,12 @@
 		var sync_table = "";
 
 		//Create a new queue for all the synchronization functions
-		//var queue = new Queue([syncPatientVisits]);
-		var queue = new Queue([syncDrugs, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients, syncPatientAppointments, syncPatientVisits]);
+		//var queue = new Queue([syncDrugUnits]);
+		var queue = new Queue([syncDrugs,syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients, syncPatientAppointments, syncPatientVisits]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
 		$("body").ajaxStop(function() {
-
 			queue.callNext();
 		});
 	});
@@ -169,6 +168,10 @@
 		synchronizeData("drugcode", "synchronize_pharmacy/getTotalServerDrugs", "synchronize_pharmacy/getDrugs", "#total_drugs_local", "#total_drugs_master", "drugs_progress", "#drugs_sync_complete", saveDrugsLocally);
 	}
 
+	function syncDrugUnits() {
+		synchronizeData("drug_unit", "synchronize_pharmacy/getTotalServerDrugUnits", "synchronize_pharmacy/getDrugUnits", "#total_drug_units_local", "#total_drug_units_master", "drug_units_progress", "#drug_units_sync_complete", saveDrugUnitsLocally);
+	}
+
 	function syncOIs() {
 		synchronizeData("opportunistic_infections", "synchronize_pharmacy/getTotalServerOIs", "synchronize_pharmacy/getOIs", "#total_ois_local", "#total_ois_master", "ois_progress", "#ois_sync_complete", saveOILocally);
 	}
@@ -273,6 +276,11 @@
 	function saveDrugsLocally(data) {
 		var columns = Array("id", "drug", "unit", "pack_size", "safety_quantity", "generic_name", "supported_by", "dose", "duration", "quantity");
 		parseReturnedData(data, "drugcode", columns, false);
+	}
+
+	function saveDrugUnitsLocally(data) {
+		var columns = Array("id", "name");
+		parseReturnedData(data, "drug_unit", columns, false);
 	}
 
 	function saveOILocally(data) {
@@ -400,6 +408,19 @@
 			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drugs in Server: <span id="total_drugs_master"></span></span>
 			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="drugs_sync_complete">Synchronization Complete!</span>
 			<canvas id="drugs_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="drug_unit">
+		<div class="synchronize_table_title">
+			Drug Units
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drug Units Locally: <span id="total_drug_units_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drug Units in Server: <span id="total_drug_units_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="drug_units_sync_complete">Synchronization Complete!</span>
+			<canvas id="drug_units_progress" class="canvas" width="500" height="150">
 				Progressbar Can't Be shown.
 			</canvas>
 		</div>
