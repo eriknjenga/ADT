@@ -69,7 +69,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_destination(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT NOT NULL, unit TEXT NOT NULL, transaction_date TEXT NOT NULL, batch_number TEXT NOT NULL, transaction_type TEXT NOT NULL, source TEXT NOT NULL, destination TEXT NOT NULL, expiry_date TEXT NOT NULL, pack_size TEXT NOT NULL, packs TEXT NOT NULL, unit_cost TEXT NOT NULL, quantity TEXT NOT NULL, amount TEXT NOT NULL, remarks TEXT NOT NULL, operator TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 	});
@@ -278,6 +278,18 @@ function selectPagedDrugs(search_term, offset, limit, dataSelectHandler) {
 		where_clause = "where drug like '%" + search_term + "%' or generic_name like '%" + search_term + "%'";
 	}
 	var sql = "select id, drug, generic_name, pack_size, supported_by, dose from drugcode " + where_clause + " order by id asc limit " + offset + ", " + limit + "";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function returns the details of a drug given its id
+function getDrugsDetails(id, dataSelectHandler) {
+	var sql = "select d.*,du.name as drug_unit from drugcode d, drug_unit du where d.id = '" + id + "' and d.unit = du.id";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//This function returns the bin card of a drug given its id
+function getDrugBinCard(id, dataSelectHandler) {
+	var sql = "select * from drug_stock_movement d, where d.drug = '" + drug + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

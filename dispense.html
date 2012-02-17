@@ -19,12 +19,6 @@
 				patient_number = $_GET['patient_number'];
 				initDatabase();
 				getLastVisitData();
-				$("#dispense_form").validationEngine({
-					inlineValidation : false
-				});
-				$("#submit").click(function() {
-					$("#dispense_form").submit();
-				});
 				//Add datepicker for the dispensing date
 				$("#dispensing_date").datepicker({
 					defaultDate : new Date(),
@@ -356,7 +350,7 @@
 							</div>
 							<div id="submit_section">
 								<input type="reset" class="submit-button" id="reset" value="Reset Fields" style="width:200px;"/>
-								<input form="dispense" class="submit-button" id="submit" value="Dispense Drugs" style="width:200px;"/>
+								<input form="dispense_form" class="submit-button" id="submit" value="Dispense Drugs" style="width:200px;"/>
 							</div>
 						</form>
 					</div>

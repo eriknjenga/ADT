@@ -16,9 +16,20 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
+
 				//Add datepicker for the transaction date
 				$("#transaction_date").datepicker({
 					defaultDate : new Date()
+				});
+				//Add datepicker for the expiry date
+				$("#expiry_date").datepicker({
+					defaultDate : new Date(),
+					changeYear : true,
+					changeMonth : true
+				});
+				//Check if number of packs has changed and automatically calculate the total
+				$(".pack").keyup(function() {
+					updateCommodityQuantity($(this));
 				});
 				//Dynamically load the list of transaction types
 				selectAll("transaction_type", function(transaction, results) {
@@ -58,11 +69,76 @@
 					var drug_row = cloned_object.attr("drug_row");
 					var next_drug_row = parseInt(drug_row) + 1;
 					cloned_object.attr("drug_row", next_drug_row);
+					var batch_id = "batch_" + next_drug_row;
+					var quantity_id = "quantity_" + next_drug_row;
+					var expiry_id = "expiry_date_" + next_drug_row;
+					var batch = cloned_object.find(".batch");
+					var quantity = cloned_object.find(".quantity");
+					var expiry_date = cloned_object.find(".expiry");
+					batch.attr("id", batch_id);
+					quantity.attr("id", quantity_id);
+					expiry_date.attr("id", expiry_id);
+					var expiry_selector = "#" + expiry_id;
+
+					$(expiry_selector).datepicker({
+						defaultDate : new Date(),
+						changeYear : true,
+						changeMonth : true
+					});
 					cloned_object.insertAfter('#drugs_table tr:last');
+					refreshDatePickers();
 					return false;
 				});
+				//Fill some of the text boxes with details of the selected drug
+				$(".drug").change(function() {
+					
+					populateDrugRow($(this));
+				});
 			});
+			function updateCommodityQuantity(pack_object) {
+				var packs = pack_object.attr("value");
+				var pack_size = pack_object.closest("tr").find(".pack_size").attr("value");
+				var quantity_holder = pack_object.closest("tr").find(".quantity"); 
+				if(!isNaN(pack_size) && pack_size.length > 0 && !isNaN(packs) && packs.length > 0) {
+					quantity_holder.attr("value", packs * pack_size);
+				}
+			}
 
+			function populateDrugRow(drug) {
+
+				//First things first, retrieve the row where this drug exists
+				var row_element = drug.closest("tr");
+				var row_id = row_element.attr("row_id");
+
+				//Secod thing, retrieve the respective containers in the row where the drug is
+				var unit = row_element.find(".unit");
+				var pack_size = row_element.find(".pack_size");
+				var pack = row_element.find(".pack")
+
+				//Retrieve details about the selected drug from the database
+				getDrugsDetails(drug.attr("value"), function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					unit.attr("value", row['drug_unit']);
+
+					pack_size.attr("value", row['pack_size']);
+					//After all is done, recalculate the quantity
+					updateCommodityQuantity(pack);
+				});		
+				
+			}
+
+			function refreshDatePickers() {
+				var counter = 0;
+				$('.expiry').each(function() {
+					var new_id = "date_" + counter;
+					$(this).attr("id", new_id);
+					$(this).datepicker("destroy");
+					$(this).not('.hasDatePicker').datepicker();
+					counter++;
+
+				});
+			}
 		</script>
 	</head>
 	<body>
@@ -93,14 +169,14 @@
 						<div class="short_title" >
 							<h1 class="banner_text" style="width:auto;">Commodity Transaction Entry Form</h1>
 						</div>
-						<form id="dispense_form" method="post" >
+						<form id="stock_form" method="post" >
 							<div>
 								<label> <strong class="label">Transaction Date</strong>
-									<input   type="text"name="transaction_date" id="transaction_date">
+									<input   type="text"name="transaction_date" id="transaction_date" class="validate[required]">
 								</label>
 								<label> <strong class="label">Transaction Type</strong> <select type="text"name="transaction_type" id="transaction_type" style="width:300px"></select> </label>
 								<label> <strong class="label">Ref./Order Number</strong>
-									<input   type="text"name="reference_number" id="reference_number">
+									<input   type="text"name="reference_number" id="reference_number" class="validate[required]">
 								</label>
 								<label> <strong class="label">Source</strong>
 									<select type="text"name="source" id="source" style="width:300px">
@@ -117,31 +193,38 @@
 									<tr>
 										<th>Drug</th>
 										<th>Unit</th>
+										<th>Pack Size</th>
 										<th>Batch No.</th>
 										<th>Expr. Date</th>
-										<th>Pack Size</th>
+										<th>Packs</th>
 										<th>Quantity</th>
 										<th>Unit Cost</th>
 										<th>Total</th>
 										<th>Comment</th>
 										<th>Add New</th>
 									</tr>
-									<tr drug_row="0">
-										<td><select name="drug" class="drug"  style="max-width: 70px;"></select></td>
+									<tr drug_row="1">
+										<td>
+										<select name="drug" class="drug"  style="max-width: 70px;">
+											<option>Select Commodity</option>
+										</select></td>
 										<td>
 										<input type="text" name="unit" class="unit small_text" />
-										</td>
-										<td>
-										<input type="text" name="batch" class="batch small_text" />
-										</td>
-										<td>
-										<input type="text" name="expiry" class="expiry small_text" />
 										</td>
 										<td>
 										<input type="text" name="pack_size" class="pack_size small_text" />
 										</td>
 										<td>
-										<input type="text" name="quantity" class="quantity small_text" />
+										<input type="text" name="batch" class="batch small_text validate[required]"   id="batch_1"/>
+										</td>
+										<td>
+										<input type="text" name="expiry" class="expiry small_text" id="expiry_date"/>
+										</td>
+										<td>
+										<input type="text" name="pack" class="pack small_text validate[required]" id="quantity_1" />
+										</td>
+										<td>
+										<input type="text" name="quantity" class="quantity small_text" readonly=""/>
 										</td>
 										<td>
 										<input type="text" name="unit_cost" class="unit_cost small_text" />
@@ -160,7 +243,7 @@
 							</div>
 							<div id="submit_section">
 								<input type="reset" class="submit-button" id="reset" value="Reset Fields" style="width:200px;"/>
-								<input form="dispense" class="submit-button" id="submit" value="Save Stock" style="width:200px;"/>
+								<input form="stock_form" class="submit-button" id="submit" value="Save Stock" style="width:200px;"/>
 							</div>
 						</form>
 					</div>

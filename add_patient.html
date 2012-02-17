@@ -16,12 +16,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
-				$("#add_patient_form").validationEngine({
-					inlineValidation : false
-				});
-				$("#submit").click(function() {
-					$("#add_patient_form").submit();
-				});
+ 
 				//Dynamically load the list of supporters!
 				selectAll("supporter", function(transaction, results) {
 					// Handle the results
@@ -204,7 +199,7 @@
 							</div>
 							<div id="submit_section">
 								<input type="reset" class="submit-button" id="reset" value="Reset Page" style="width:200px;"/>
-								<input form="add_patient" class="submit-button" id="submit" value="Save Patient Details" style="width:200px;"/>
+								<input form="add_patient_form" class="submit-button" id="submit" value="Save Patient Details" style="width:200px;"/>
 							</div>
 						</form>
 					</div>
