@@ -69,7 +69,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_destination(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 	});
@@ -290,6 +290,11 @@ function getDrugsDetails(id, dataSelectHandler) {
 //This function returns the bin card of a drug given its id
 function getDrugBinCard(id, dataSelectHandler) {
 	var sql = "select * from drug_stock_movement d, where d.drug = '" + drug + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugTransactions(id, dataSelectHandler) {
+	var sql = "select t.name as trans_type,d.drug,d.pack_size,ds.* from drug_stock_movement ds,drugcode d,transaction_type t where ds.drug = '" + id + "' and ds.drug = d.id and ds.transaction_type = t.id";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

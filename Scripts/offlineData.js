@@ -92,7 +92,7 @@ function processData() {
 				
 				//After getting the number of drugs being recorded, create a unique entry (sql statement) for each in the database in this loop
 				for(var i = 0; i < drugs_count; i++) {
-					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','"+user+"');";
+					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator, order_number) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','"+user+"','"+dump["reference_number"]+"');";
 					executeStatement(sql);			
 				};
 				return;

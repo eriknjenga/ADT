@@ -18,18 +18,23 @@
 				initDatabase();
 				var $_GET = getQueryParams(document.location.search);
 				var drug = $_GET['drug'];
-				//Get the drug details first 
+				//Get the drug details first
 				getDrugsDetails(drug, function(transaction, results) {
 					// Handle the results
 					var row = results.rows.item(0);
-					console.log(row);
 					$("#drug_name").text(row['drug']);
 					$("#drug_unit").text(row['drug_unit']);
 					var pack_size = row['pack_size'];
 					var drug_unit = row['drug_unit'];
-
-					 
-
+				});
+				//Get details about the drug batches
+				getDrugTransactions(drug, function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						var row_string = "<tr><td>" + row['order_number'] + "</td><td>" + row['transaction_date'] + "</td><td>" + row['trans_type'] + "</td><td>" + row['batch_number'] + "</td><td>" + row['expiry_date'] + "</td><td>" + row['pack_size'] + "</td><td>" + row['packs'] + "</td><td>" + row['quantity'] + "</td><td>" + row['unit_cost'] + "</td><td>" + row['amount'] + "</td></tr>";
+						$("#transactions").append($(row_string));
+					}
 				});
 			});
 
@@ -60,17 +65,27 @@
 			<div id="inner_wrapper">
 				<div id="main_wrapper" >
 					<div style="width:950px; padding:5px; overflow: hidden; margin: 0 auto;">
-					<table class="data-table" style="width:400px; float: left">
-						<caption>Commodity Information</caption>
-						<tr><td><b>Commodity: </b></td><td id="drug_name"></td></tr>
-						<tr><td><b>Unit: </b></td><td id="drug_unit"></td></tr>
-					</table>
-					<table class="data-table" style="width:500px; float: right">
-						<caption>Batch Information</caption> 
-					</table>
+						<table class="data-table" style="width:400px; float: left">
+							<caption>
+								Commodity Information
+							</caption>
+							<tr>
+								<td><b>Commodity: </b></td><td id="drug_name"></td>
+							</tr>
+							<tr>
+								<td><b>Unit: </b></td><td id="drug_unit"></td>
+							</tr>
+						</table>
+						<table class="data-table" style="width:500px; float: right">
+							<caption>
+								Batch Information
+							</caption>
+						</table>
 					</div>
-					<table class="data-table" style="width:90%; margin:0 auto;">
-						<caption>Transaction Information</caption> 
+					<table class="data-table" id="transactions" style="width:90%; margin:0 auto;">
+						<caption>
+							Transaction Information
+						</caption>
 						<tr>
 							<th>Ref./Order Number</th>
 							<th>Transaction Date</th>
