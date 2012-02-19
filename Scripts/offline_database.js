@@ -298,6 +298,20 @@ function getDrugTransactions(id, dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+function getExpectedPatients(appointment_date, dataSelectHandler) {
+	var sql = "select distinct pa.patient, p.first_name, p.other_name, p.last_name, p.gender,p.dob  from patient_appointment pa, patient p where pa.appointment = '" + appointment_date + "' and pa.patient = p.patient_number_ccc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function advancedGetLastPatientRegimen(patient, dataSelectHandler) {
+	var sql = "select case when 1=1 then '" + patient + "' end as passed_patient, patient_id,r.id,regimen_desc,dispensing_date,pv.id from patient_visit pv,regimen r where pv.patient_id = '" + patient + "' and pv.regimen = r.id  union all select case when 1=1 then '" + patient + "' end as passed_patient,'','','','','' where NOT EXISTS (select case when 1=1 then '" + patient + "' end as passed_patient, patient_id,r.id,regimen_desc,dispensing_date,pv.id from patient_visit pv,regimen r where pv.patient_id = '" + patient + "' and pv.regimen = r.id) order by pv.id desc limit 2";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getRefillPatients(dispensing_date, dataSelectHandler) {
+	var sql = "select distinct p.patient_number_ccc, t.name as service_type, s.name as supported_by, p.first_name, p.other_name, p.dob, pv.current_weight, p.gender,r.regimen_desc  from patient_visit pv left join patient p left join supporter s,regimen_service_type t on p.supported_by = s.id and p.service = t.id, regimen r on pv.patient_id = p.patient_number_ccc and pv.regimen = r.id where pv.dispensing_date = '"+dispensing_date+"' and pv.visit_purpose = '2'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Routine Refill Patients</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var date = $_GET['date'];
+				$("#date_of_appointment").text(date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				getRefillPatients(date, function(transaction, results) {
+					// Handle the results
+					var gender = Array("", "M", "F");
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+ 					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['service_type'] + "</td><td>" + parent_row['supported_by'] + "</td><td>" + parent_row['first_name'] + "</td><td>"+parent_row['other_name'] + "</td><td>"+ getAge(parent_row['dob']) + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['regimen_desc'] + "</td><td>" + parent_row['current_weight'] + "</td></tr>";
+					$("#patient_listing").append($(row_string));
+					}
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td th {
+				padding: 10px;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Listing of Patients Who Visited for Routine Refill on <span id="date_of_appointment"></span></h4>
+		<table   id="patient_listing">
+			<tr>
+				<th> Patient Number </th>
+				<th> Type of Service </th>
+				<th> Client Supported by </th>
+				<th> First Name </th>
+				<th> Surname </th>
+				<th> Current Age </th>
+				<th> Sex</th>
+				<th> Regimen </th>
+				<th> Current Weight </th>
+			</tr>
+		</table>
+	</body>
+</html>

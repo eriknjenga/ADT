@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Scheduled Patients</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var date = $_GET['date'];
+				$("#date_of_appointment").text(date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				getExpectedPatients(date, function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						var patient_id = parent_row['patient'];
+						var gender = Array("", "M", "F");
+						localStorage.setItem(patient_id, JSON.stringify(parent_row));
+						//Get the last regimen information for this patient
+						advancedGetLastPatientRegimen(patient_id, function(transaction, results) {
+							var row = results.rows.item(0);
+							patient_number = row['passed_patient'];
+							var retrievedObject = localStorage.getItem(patient_number); 
+							var parent_row = JSON.parse(retrievedObject); 
+							//If the regimen is returned,
+							if(row['regimen_desc']) {
+								var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + getAge(parent_row['dob']) + "</td><td>" + row['regimen_desc'] + "</td></tr>";
+								$("#patient_listing").append($(row_string));
+							} else { 
+								var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + getAge(parent_row['dob']) + "</td><td>None</td></tr>";
+								$("#patient_listing").append($(row_string));
+							}
+
+						});
+					}
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing{
+				margin:0 auto;
+				border-top:1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td th{
+				padding:10px;
+			} 
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Listing of Patients Expected to Visit On <span id="date_of_appointment"></span></h4>
+		<table   id="patient_listing">
+			<tr>
+				<th> Patient Number </th>
+				<th> First Name </th>
+				<th> Surname </th>
+				<th> Sex </th>
+				<th> Age </th>
+				<th> Last Regimen </th>
+			</tr>
+		</table>
+	</body>
+</html>

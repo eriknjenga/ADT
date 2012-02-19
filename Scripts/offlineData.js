@@ -53,10 +53,8 @@ function processData() {
 				var next_appointment_sql = "";
 				var dispensing_date_timestamp = Date.parse(dump["dispensing_date"]);
 				//Check if there is a date indicated for the next appointment. If there is, schedule it!
-				if($("#next_appointment_date").attr("value").length > 1) {
-					//The code below calculates the timestamp of the next appointment
-					var appointment_timestamp = $("#next_appointment_date").datepicker("getDate").getTime();
-					next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,machine_code) values ('" + dump["patient"] + "','" + appointment_timestamp + "','" + facility + "','" + machine_code + "');";
+				if($("#next_appointment_date").attr("value").length > 1) { 
+					next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,machine_code) values ('" + dump["patient"] + "','" + dump["next_appointment_date"] + "','" + facility + "','" + machine_code + "');";
 				}
 				var sql = next_appointment_sql;
 				//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
