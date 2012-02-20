@@ -30,7 +30,8 @@ class Patient extends Doctrine_Record {
 		$this -> hasColumn('Facility_Code', 'varchar', 10);
 		$this -> hasColumn('Service', 'varchar', 5);
 		$this -> hasColumn('Start_Regimen', 'varchar', 5);
-		$this -> hasColumn('Machine_Code', 'varchar', 10);
+		$this -> hasColumn('Machine_Code', 'varchar', 5);
+		$this -> hasColumn('Current_Status', 'varchar', 10);
 
 	}
 
