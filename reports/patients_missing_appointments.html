@@ -21,14 +21,20 @@
 					var row = results.rows.item(0);
 					$("#facility_name").text(row['facility_name']);
 				});
-				getRefillPatients(date, function(transaction, results) {
-					// Handle the results
-					var gender = Array("", "M", "F");
+				var gender = Array("", "M", "F");
+				getMissedAppointments(start_date, end_date, function(transaction, results) {
 					for(var i = 0; i < results.rows.length; i++) {
 						var parent_row = results.rows.item(i);
- 					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['service_type'] + "</td><td>" + parent_row['supported_by'] + "</td><td>" + parent_row['first_name'] + "</td><td>"+parent_row['other_name'] + "</td><td>"+ getAge(parent_row['dob']) + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['regimen_desc'] + "</td><td>" + parent_row['current_weight'] + "</td></tr>";
-					$("#patient_listing").append($(row_string));
+						
+						var appointment = new Date(parent_row['appointment']);
+						var today = new Date();
+						var timeDiff = Math.abs(today.getTime() - appointment.getTime());
+						var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
+						
+						var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['last_name'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['physical'] + "</td><td>" + parent_row['appointment'] + "</td><td>" + diffDays + "</td></tr>";
+						$("#patient_listing").append($(row_string));
 					}
+
 				});
 			});
 			function getQueryParams(qs) {
@@ -77,7 +83,7 @@
 				<th> Sex </th>
 				<th> Address </th>
 				<th> Appointment Date </th>
-				<th> Late by (days)</th> 
+				<th> Late by (days)</th>
 			</tr>
 		</table>
 	</body>
