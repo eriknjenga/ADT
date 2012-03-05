@@ -52,6 +52,20 @@
 					appointment_date.datepicker("setDate", new Date(appointment_timestamp));
 
 				});
+				//Add listener to the drug batch selecter to prepopulate the expiry date
+				$(".batch").change(function() {
+					
+					var row_element = $(this).closest("tr");
+					var expiry_date = row_element.find(".expiry");
+					var drug = row_element.find(".drug").attr("value"); 
+					//Get basic getails of the selected patient
+					getBatchExpiry(drug,$(this).attr("value"), function(transaction, results) {
+						// Handle the results
+						var row = results.rows.item(0);
+						expiry_date.attr("value", row['expiry_date']); 
+					}); 
+
+				});
 				//Get basic getails of the selected patient
 				getPatientDetails(patient_number, function(transaction, results) {
 					// Handle the results
@@ -188,7 +202,16 @@
 					unit.attr("value", row['unit']);
 					dose.attr("value", row['dose']);
 					duration.attr("value", row['duration']);
-
+					batch.children('option').remove();
+					expiry.attr("value","");
+					//Retrieve all the batch numbers for this drug
+					getDrugBatches(drug.attr("value"), function(transaction, results) {
+						for(var i = 0; i < results.rows.length; i++) {
+							var row = results.rows.item(i);
+							batch.append($("<option></option>").attr("value", row['batch_number']).text(row['batch_number']));
+						}
+						batch.change();
+					});
 				});
 			}
 
@@ -224,7 +247,7 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a> 
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a>
 					<a href="inventory.html" class="top_menu_link">Inventory</a>
 					<a href="reports.html" class="top_menu_link">Reports</a>
 					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>

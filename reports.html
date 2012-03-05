@@ -19,6 +19,10 @@
 					autoOpen : false,
 					modal : true
 				});
+				$("#donor_date_range_report").dialog({
+					autoOpen : false,
+					modal : true
+				});
 				$("#single_date").dialog({
 					autoOpen : false,
 					modal : true
@@ -39,10 +43,28 @@
 					changeYear : true,
 					dateFormat : 'yy-mm-dd'
 				});
+
+				$("#donor_date_range_from").datepicker({
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : 'yy-mm-dd'
+				});
+				$("#donor_date_range_to").datepicker({
+					changeMonth : true,
+					changeYear : true,
+					dateFormat : 'yy-mm-dd'
+				});
+
 				$(".date_range_report").click(function() {
 					$("#selected_report").attr("value", $(this).attr("id"));
 					$("#date_range_report").dialog("open");
 				});
+
+				$(".donor_date_range_report").click(function() {
+					$("#selected_report").attr("value", $(this).attr("id"));
+					$("#donor_date_range_report").dialog("open");
+				});
+
 				$(".single_date_report").click(function() {
 					$("#selected_report").attr("value", $(this).attr("id"));
 					$("#single_date").dialog("open");
@@ -58,6 +80,14 @@
 					var report = $("#selected_report").attr("value") + ".html";
 					var selected_date = $("#single_date_filter").attr("value");
 					var report_url = "reports/" + report + "?date=" + selected_date;
+					window.location = report_url;
+				});
+				$("#donor_generate_date_range_report").click(function() {
+					var report = $("#selected_report").attr("value") + ".html";
+					var from = $("#donor_date_range_from").attr("value");
+					var to = $("#donor_date_range_to").attr("value");
+					var donor = $("#donor").attr("value");
+					var report_url = "reports/" + report + "?start_date=" + from + "&end_date=" + to+"&donor="+donor;
 					window.location = report_url;
 				});
 			});
@@ -134,7 +164,7 @@
 						<div class="reports_panel">
 							<div class="report_category">
 								<span class="category_title">Standard Reports</span>
-								<a href="#" id="patients_enrolled_in_period" class="report date_range_report">Number of Patients Enrolled in Period</a>
+								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report active_report">Number of Patients Enrolled in Period</a>
 								<a href="#" id="patients_enrolled_in_art" class="report date_range_picker">Number of Patients Started on ART in the Period</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">Graph of Number of Patients Enrolled Per Month in a Given Year</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">Cumulative Number of Patients to Date</a>
@@ -176,6 +206,21 @@
 							<input type="text"name="date_range_to" id="date_range_to">
 						</label>
 						<button id="generate_date_range_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">
+							Generate Report
+						</button>
+					</div>
+					<div id="donor_date_range_report" title="Select Date Range and Donor">
+						<label> <strong class="label">Select Donor: </strong>
+							<select name="donor" id="donor">
+								<option value="0">All Donors</option><option value="1">GOK</option><option value="2">PEPFAR</option>
+							</select> </label>
+						<label> <strong class="label">From: </strong>
+							<input type="text"name="donor_date_range_from" id="donor_date_range_from">
+						</label>
+						<label> <strong class="label">To: </strong>
+							<input type="text"name="donor_date_range_to" id="donor_date_range_to">
+						</label>
+						<button id="donor_generate_date_range_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">
 							Generate Report
 						</button>
 					</div>

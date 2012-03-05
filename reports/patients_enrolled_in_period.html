@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Enrolled in Period</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				var gender = Array("", "M", "F");
+				getMissedAppointments(start_date, end_date, function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+
+						var appointment = new Date(parent_row['appointment']);
+						var today = new Date();
+						var timeDiff = Math.abs(today.getTime() - appointment.getTime());
+						var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+						var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['last_name'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['physical'] + "</td><td>" + parent_row['appointment'] + "</td><td>" + diffDays + "</td></tr>";
+						$("#patient_listing").append($(row_string));
+					}
+
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td th {
+				padding: 10px;
+			}
+			#top_enrollments_panel {
+				border: 1px solid black;
+				width: 900px;
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			.category_title {
+				font-weight: bold;
+				color: #003366;
+				text-align: center;
+				text-decoration: underline;
+				font-size: 16px;
+				letter-spacing: 2px;
+			}
+			.category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			.sub_category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			table {
+				margin: 0 auto;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Patients Who Enrolled in The Period From <span id="start_date"></span> to <span id="end_date"></span></h4>
+		<div id="top_enrollments_panel">
+			<div id="adult_enrollments" class="category">
+				<div class="category_title">
+					Adults
+				</div>
+				<div id="adult_male_enrollments" class="sub_category">
+					<div class="category_title">
+						Male
+					</div>
+					<table>
+						<tr>
+							<th>ART</th>
+							<th>PEP</th>
+							<th>OI</th>
+						</tr>
+						<tr>
+							<td id="adult_male_art">ART</td>
+							<td id="adult_male_pep">PEP</td>
+							<td id="adult_male_oi">OI</td>
+						</tr>
+					</table>
+				</div>
+				<div id="adult_female_enrollments" class="sub_category">
+					<div class="category_title">
+						Female
+					</div>
+					<table>
+						<tr>
+							<th>ART</th>
+							<th>PEP</th>
+							<th>PMTCT</th>
+							<th>OI</th>
+						</tr>
+						<tr>
+							<td id="adult_female_art">ART</td>
+							<td id="adult_female_pep">PEP</td>
+							<td id="adult_female_pmtct">PMTCT</td>
+							<td id="adult_female_oi">OI</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div id="child_enrollments" class="category">
+				<div class="category_title">
+					Children
+				</div>
+				<div id="child_male_enrollments" class="sub_category">
+					<div class="category_title">
+						Male
+					</div>
+					<table>
+						<tr>
+							<th>ART</th>
+							<th>PEP</th>
+							<th>PMTCT</th>
+							<th>OI</th>
+						</tr>
+						<tr>
+							<td id="child_male_art">ART</td>
+							<td id="child_male_pep">PEP</td>
+							<td id="child_male_pmtct">PMTCT</td>
+							<td id="child_male_oi">OI</td>
+						</tr>
+					</table>
+				</div>
+				<div id="child_female_enrollments" class="sub_category">
+					<div class="category_title">
+						Female
+					</div>
+					<table>
+						<tr>
+							<th>ART</th>
+							<th>PEP</th>
+							<th>PMTCT</th>
+							<th>OI</th>
+						</tr>
+												<tr>
+							<td id="child_female_art">ART</td>
+							<td id="child_female_pep">PEP</td>
+							<td id="child_female_pmtct">PMTCT</td>
+							<td id="child_female_oi">OI</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

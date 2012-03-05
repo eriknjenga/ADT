@@ -314,7 +314,17 @@ function getRefillPatients(dispensing_date, dataSelectHandler) {
 }
 
 function getMissedAppointments(start_date, end_date, dataSelectHandler) {
-	var sql = "select pa.appointment, pa.patient, p.last_name,p.first_name,p.gender,p.physical from patient_appointment pa,patient p where pa.appointment not in (select distinct dispensing_date from patient_visit pv where pv.patient_id = pa.patient ) and strftime('%Y-%m-%d',pa.appointment) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"') and pa.patient = p.patient_number_ccc and p.current_status = '1'";
+	var sql = "select pa.appointment, pa.patient, p.last_name,p.first_name,p.gender,p.physical from patient_appointment pa,patient p where pa.appointment not in (select distinct dispensing_date from patient_visit pv where pv.patient_id = pa.patient ) and strftime('%Y-%m-%d',pa.appointment) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') and pa.patient = p.patient_number_ccc and p.current_status = '1'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugBatches(drug, dataSelectHandler) {
+	var sql = "select distinct batch_number from drug_stock_movement where drug = '" + drug + "' order by id desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getBatchExpiry(drug,batch, dataSelectHandler) {
+	var sql = "select distinct expiry_date from drug_stock_movement where drug = '" + drug + "' and batch_number = '"+batch+"' order by id desc"; 
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
