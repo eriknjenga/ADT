@@ -3,7 +3,7 @@ function initDatabase() {
 		if(!window.openDatabase) {
 			alert('Databases are not supported in this browser.');
 		} else {
-			var shortName = 'ADT_Database';
+			var shortName = 'ADT_Database2';
 			var version = '1.0';
 			var displayName = 'ADT LocalDatabase';
 			var maxSize = 1000000000;
@@ -213,6 +213,12 @@ function saveEnvironmentVariables(machine_code, operator) {
 //count the total number of records in a particular table
 function countTableRecords(table, dataSelectHandler) {
 	var sql = "select count(*) as total from " + table;
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+//count the total number of records in a particular table
+function countPatientRecords(facility, dataSelectHandler) {
+	var sql = "select count(*) as total from patient where facility_code = " + facility;
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

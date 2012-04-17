@@ -98,10 +98,9 @@ if ($user_is_pharmacist) {
 			var variables = results.rows.item(0);
 			machine_code = variables["machine_id"];
 			facility = variables["facility"];
-		});
-		//get my total_patients
+					//get my total_patients
 		var total_patients = null;
-		countTableRecords("patient", function(transaction, results){
+		countPatientRecords(facility, function(transaction, results){
 			var row = results.rows.item(0);
 			total_patients = row['total']; 
 			//Create the url to be used in the ajax call
@@ -116,6 +115,8 @@ if ($user_is_pharmacist) {
   				}
 		});
 		});
+		});
+
 		$('#loadingDiv').ajaxStart(function() {
         	$(this).show('slow', function() {});
     	}).ajaxStop(function() {
