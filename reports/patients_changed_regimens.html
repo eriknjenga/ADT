@@ -24,7 +24,7 @@
 				});
 				var gender = Array("", "M", "F");
 				var grand_total=0;
-				getAllRegimens(start_date, end_date,function(transaction, results){
+				/*getAllRegimens(start_date, end_date,function(transaction, results){
 					for(var i = 0; i < results.rows.length; i++) {	
 						var parent_row = results.rows.item(i);	
 						var regimen_name = parent_row['regimen'];
@@ -57,7 +57,7 @@
 						row_string+="<td>0</td></tr>";
 						
 						$("#drug_listing").append($(row_string));
-				});
+				});*/
 			});
 			function getQueryParams(qs) {
 				qs = qs.split("+").join(" ");
@@ -101,14 +101,7 @@
 				overflow: hidden;
 				margin-bottom:20px;
 			}
-			#bottom_enrollments_panel {
-				border: 1px solid black;
-				width: 900px;
-				margin: 0 auto;
-				overflow: hidden;
-				margin-bottom:20px;
-				padding-bottom:20px;
-			}
+			
 			.category_title {
 				font-weight: bold;
 				color: #003366;
@@ -131,124 +124,22 @@
 				margin: 0 auto;
 			}
 			td{
-				width: 60px;
+				width: 120px;
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Patients Who Enrolled in The Period From <span id="start_date"></span> to <span id="end_date"></span></h4>
+		<h4 style="text-align: center">Patients who have changed regimens From <span id="start_date"></span> to <span id="end_date"></span></h4>
 		<div id="top_enrollments_panel">
-			<div id="adult_enrollments" class="category">
-				<div class="category_title">
-					Adults
-				</div>
-				<div id="adult_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_male_art">ART</td>
-							<td id="adult_male_pep">PEP</td>
-							<td id="adult_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="adult_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_female_art">ART</td>
-							<td id="adult_female_pep">PEP</td>
-							<td id="adult_female_pmtct">PMTCT</td>
-							<td id="adult_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div id="child_enrollments" class="category">
-				<div class="category_title">
-					Children
-				</div>
-				<div id="child_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="child_male_art">ART</td>
-							<td id="child_male_pep">PEP</td>
-							<td id="child_male_pmtct">PMTCT</td>
-							<td id="child_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="child_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-												<tr>
-							<td id="child_female_art">ART</td>
-							<td id="child_female_pep">PEP</td>
-							<td id="child_female_pmtct">PMTCT</td>
-							<td id="child_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div id="bottom_enrollments_panel">
-			<table id="drug_listing">
+			<table id="changed_patients">
 				<tr>
-					<td colspan="3"></td>
-					<td colspan="4">Adult</td>
-					<td colspan="4">Children</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td colspan="2">Total</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>			
+					<td>From Regimen</td>
+					<td>To Regimen</td>
+					<td>ART number</td>
+					<td>First Name</td>
+					<td>Surname</td>
+					<td>Type of Service</td>
+					<td>Date of change</td>
+					<td>Reason for change</td>
 				</tr>
 			</table>
 		</div>

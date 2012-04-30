@@ -94,14 +94,7 @@
 			#patient_listing td th {
 				padding: 10px;
 			}
-			#top_enrollments_panel {
-				border: 1px solid black;
-				width: 900px;
-				margin: 0 auto;
-				overflow: hidden;
-				margin-bottom:20px;
-			}
-			#bottom_enrollments_panel {
+			.panel {
 				border: 1px solid black;
 				width: 900px;
 				margin: 0 auto;
@@ -131,126 +124,66 @@
 				margin: 0 auto;
 			}
 			td{
-				width: 60px;
+				width: 200px;
+			}
+			h4{
+				/*padding-left: 50px;
+				padding-right: 50px;*/
+				margin: 0 auto;
+				width: 900px;
+				margin-bottom: 10px;
+			}
+			hr{
+				margin: 0 auto;
+				width: 900px;
+				margin-bottom: 10px;
+				margin-top: 10px;
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Patients Who Enrolled in The Period From <span id="start_date"></span> to <span id="end_date"></span></h4>
-		<div id="top_enrollments_panel">
-			<div id="adult_enrollments" class="category">
-				<div class="category_title">
-					Adults
-				</div>
-				<div id="adult_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_male_art">ART</td>
-							<td id="adult_male_pep">PEP</td>
-							<td id="adult_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="adult_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_female_art">ART</td>
-							<td id="adult_female_pep">PEP</td>
-							<td id="adult_female_pmtct">PMTCT</td>
-							<td id="adult_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div id="child_enrollments" class="category">
-				<div class="category_title">
-					Children
-				</div>
-				<div id="child_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="child_male_art">ART</td>
-							<td id="child_male_pep">PEP</td>
-							<td id="child_male_pmtct">PMTCT</td>
-							<td id="child_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="child_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-												<tr>
-							<td id="child_female_art">ART</td>
-							<td id="child_female_pep">PEP</td>
-							<td id="child_female_pmtct">PMTCT</td>
-							<td id="child_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div id="bottom_enrollments_panel">
-			<table id="drug_listing">
+		<h4 style="text-align: center">HIV drugs early warning indicators between <span id="start_date"></span> and <span id="end_date"></span></h4>
+		<hr />
+		<h4>Percentage of Patients Starting on First Line</h4>
+		<div class="panel">
+			<table>
 				<tr>
-					<td colspan="3"></td>
-					<td colspan="4">Adult</td>
-					<td colspan="4">Children</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td colspan="2">Total</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>			
+					<td>Patient initiated on First Line</td>
+					<td>Total Patients starting  ART </td>
+					<td>Percentage Started on First Line(%)</td>
+					<td>Percentage Started on Other Regimens(%)</td>
 				</tr>
 			</table>
 		</div>
+		<h4>Patients Retention on First Line </h4>
+		<div class="panel">
+			<table>
+				<tr>
+					<td>Current  No Of  Patients</td>
+					<td>Total Patients minus Trasfers</td>
+					<td>% Not Changed</td>
+				</tr>
+			</table>	
+		</div>
+		<h4>Patients Picking Drugs On Time</h4>
+		<div class="panel">
+			<table>
+				<tr>
+					<td>Patient Picked Drugs On Time</td>
+					<td>Total Patients ON ARV</td>
+					<td>% Patient Picking  Drugs On Time</td>
+				</tr>
+			</table>
+		</div>
+		<h4>Report on Patients who have Lost to follow-up</h4>
+		<div class="panel">
+			<table>
+				<tr>
+					<td>No Of Patients Lost to </td>
+					<td>Total Started Patients on ART</td>
+					<td>Percentage of Lost to follow </td>
+				</tr>
+			</table>	
+		</div>
+		
 	</body>
 </html>

@@ -94,14 +94,7 @@
 			#patient_listing td th {
 				padding: 10px;
 			}
-			#top_enrollments_panel {
-				border: 1px solid black;
-				width: 900px;
-				margin: 0 auto;
-				overflow: hidden;
-				margin-bottom:20px;
-			}
-			#bottom_enrollments_panel {
+			.panel {
 				border: 1px solid black;
 				width: 900px;
 				margin: 0 auto;
@@ -131,124 +124,74 @@
 				margin: 0 auto;
 			}
 			td{
-				width: 60px;
+				width: 200px;
+				padding: 5px;
+			}
+			h4{
+				/*padding-left: 50px;
+				padding-right: 50px;*/
+				margin: 0 auto;
+				width: 900px;
+				margin-bottom: 10px;
+			}
+			hr{
+				margin: 0 auto;
+				width: 900px;
+				margin-bottom: 10px;
+				margin-top: 10px;
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Patients Who Enrolled in The Period From <span id="start_date"></span> to <span id="end_date"></span></h4>
-		<div id="top_enrollments_panel">
-			<div id="adult_enrollments" class="category">
-				<div class="category_title">
-					Adults
-				</div>
-				<div id="adult_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_male_art">ART</td>
-							<td id="adult_male_pep">PEP</td>
-							<td id="adult_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="adult_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="adult_female_art">ART</td>
-							<td id="adult_female_pep">PEP</td>
-							<td id="adult_female_pmtct">PMTCT</td>
-							<td id="adult_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div id="child_enrollments" class="category">
-				<div class="category_title">
-					Children
-				</div>
-				<div id="child_male_enrollments" class="sub_category">
-					<div class="category_title">
-						Male
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-						<tr>
-							<td id="child_male_art">ART</td>
-							<td id="child_male_pep">PEP</td>
-							<td id="child_male_pmtct">PMTCT</td>
-							<td id="child_male_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-				<div id="child_female_enrollments" class="sub_category">
-					<div class="category_title">
-						Female
-					</div>
-					<table>
-						<tr>
-							<th>ART</th>
-							<th>PEP</th>
-							<th>PMTCT</th>
-							<th>OI</th>
-						</tr>
-												<tr>
-							<td id="child_female_art">ART</td>
-							<td id="child_female_pep">PEP</td>
-							<td id="child_female_pmtct">PMTCT</td>
-							<td id="child_female_oi">OI</td>
-						</tr>
-					</table>
-				</div>
-			</div>
+		<h4 style="text-align: center">Cumulative patients enrolled by their services between <span id="start_date"></span> and <span id="end_date"></span></h4>
+		<hr />
+		<div class="panel">
+			<table>
+					<tr>
+						<td>ART patients summary</td>
+						<td>OI patients summary</td>
+						<td>PMTCT patients summary</td>
+						<td>PEP patients summary</td>
+					</tr>
+					<tr>
+						<td>Male ART:</td>
+						<td>Male OI:</td>
+						<td>Male PMTCT:</td>
+						<td>Male PEP:</td>
+					</tr>
+					<tr>
+						<td>Female ART:</td>			
+						<td>Female OI:</td>
+						<td>Female PMTCT:</td>
+						<td>Female PEP:</td>				
+						
+					</tr>
+					<tr>
+						<td>Child male ART:</td>	
+						<td>Child male OI:</td>
+						<td>Child male PMTCT:</td>
+						<td>Child male PEP:</td>				
+					</tr>
+					<tr>
+						<td>Child female ART:</td>
+						<td>Child female OI:</td>
+						<td>Child femalePMTCT:</td>		
+						<td>Child female PEP:</td>
+					</tr>
+					<tr>
+						<td colspan="3"></td>
+							
+						<td>Total Patients:</td>
+					</tr>
+			</table>
 		</div>
-		<div id="bottom_enrollments_panel">
-			<table id="drug_listing">
+		<hr />
+		<div class="panel">
+			<table>
 				<tr>
-					<td colspan="3"></td>
-					<td colspan="4">Adult</td>
-					<td colspan="4">Children</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td colspan="2">Total</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-					<td colspan="2">Male</td>
-					<td colspan="2">Female</td>
-				</tr>
-				<tr>
-					<td ></td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>
-					<td >N</td>
-					<td >%</td>			
+					<td>Regimen Name</td>
+					<td>Active patients </td>
+					<td>New patients</td>
+					<td>Total patients</td>
 				</tr>
 			</table>
 		</div>

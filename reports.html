@@ -59,7 +59,6 @@
 					$("#selected_report").attr("value", $(this).attr("id"));
 					$("#date_range_report").dialog("open");
 				});
-
 				$(".donor_date_range_report").click(function() {
 					$("#selected_report").attr("value", $(this).attr("id"));
 					$("#donor_date_range_report").dialog("open");
@@ -165,28 +164,28 @@
 							<div class="report_category">
 								<span class="category_title">Standard Reports</span>
 								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report active_report">Number of Patients Enrolled in Period</a>
-								<a href="#" id="patients_enrolled_in_art" class="report date_range_picker">Number of Patients Started on ART in the Period</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Graph of Number of Patients Enrolled Per Month in a Given Year</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Cumulative Number of Patients to Date</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Number of Patients Receiving ART in the Last 3 Months (by Regimen)</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Export Active Patients (by Regimen)</a>
+								<a href="#" id="patients_enrolled_in_art" class="report donor_date_range_report">Number of Patients Started on ART in the Period</a>
+								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report">Graph of Number of Patients Enrolled Per Month in a Given Year</a>
+								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report">Cumulative Number of Patients to Date</a>
+								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report">Number of Patients Receiving ART in the Last 3 Months (by Regimen)</a>
+								<a href="#" id="patients_enrolled_in_period" class="report donor_date_range_report">Export Active Patients (by Regimen)</a>
 							</div>
 							<div class="report_category">
 								<span class="category_title">Visiting Patients</span>
 								<a href="#" id="patients_scheduled_to_visit" class="report active_report single_date_report">List of Patients Scheduled to Visit (on a Particular Date)</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Started (on a Particular Date)</a>
 								<a href="#" id="patients_visitied_for_refill" class="report active_report single_date_report">List of Patients Visited for Refill (on a Particular Date)</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Patients Booking Summary</a>
+								<a href="reports/patients_booking_summary.html" id="patients_booking_summary" class="report active_report">Patients Booking Summary</a>
 								<a href="#" id="patients_missing_appointments" class="report active_report date_range_report">Patients Missing Appointments</a>
 							</div>
 						</div>
 						<div class="reports_panel">
 							<div class="report_category">
 								<span class="category_title">Early Warning Indicators</span>
-								<a href="#" id="patients_enrolled_in_period" class="report">Active Patients who Have Changed Regimens(Between two Dates)</a>
+								<a href="#" id="patients_changed_regimens" class="report donor_date_range_report">Active Patients who Have Changed Regimens(Between two Dates)</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">List of Patients Starting (By Regimen)</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">HIV Early Warning Indicators</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Service Statistics (By Regimen)</a>
+								<a href="#" id="early_warning_inidicator" class="report donor_date_range_report">HIV Early Warning Indicators</a>
+								<a href="#" id="service_statistics" class="report donor_date_range_report">Service Statistics (By Regimen)</a>
 							</div>
 							<div class="report_category">
 								<span class="category_title">Drug Inventory</span>

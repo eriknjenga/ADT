@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>Patients enrolled in ART</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Enrolled in Period</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				getDatabaseData(start_date, end_date,function(transaction, results) {
+					
+					for(var i = 0; i < results.rows.length; i++) {						
+						var parent_row = results.rows.item(i);
+						console.log(parent_row);
+						var first_name = parent_row['first_name'];
+						var last_name = parent_row['last_name'];
+
+						var row_string = first_name+" " + last_name+"<br>" ;
+						$("#patient_names").append(row_string);
+					}
+
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+		</script>
+	</head>
+	<body>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Number of Patients Started on ART in the period from <span id="start_date"></span> to <span id="end_date"></span></h4>
+		<div id="patient_names"></div>
+	</body>
+</html>

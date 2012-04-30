@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<title>Patient's booking summary</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Enrolled in Period</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				var table="patient_visit";
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				var gender = Array("", "M", "F");
+				var grand_total=0;
+				getAppointmentSummary(function(transaction, results){
+					for(var i = 0; i < results.rows.length; i++) {	
+						var parent_row = results.rows.item(i);	
+						var appointment = parent_row['appointment'];
+						var patients = parent_row['patients'];
+						
+						var row_string="<tr><td>"+appointment+"</td>";
+						row_string+="<td>"+patients+"</td></tr>";
+						
+						$("#appointment_listing").append($(row_string));
+					}
+					
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<body>
+		<style>
+			#appointment_listing {
+				margin: 0 auto;
+				border-top:1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#appointment_listing td th {
+				padding: 10px;
+			}
+			
+			#panel {
+				width: 900px;
+				margin: 0 auto;
+				overflow: hidden;
+				margin-bottom:20px;
+				padding-bottom:20px;
+				margin-top:20px;
+				padding-top:20px;
+			}
+			.category_title {
+				font-weight: bold;
+				color: #003366;
+				text-align: center;
+				text-decoration: underline;
+				font-size: 16px;
+				letter-spacing: 2px;
+			}
+			.category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			.sub_category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			table {
+				margin: 0 auto;
+			}
+			td{
+				width: 120px;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Appointment summary dates</h4>
+		<div id="panel">
+			<table id="appointment_listing">
+				<tr>
+					<td>Date</td>
+					<td>No. of Patients</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

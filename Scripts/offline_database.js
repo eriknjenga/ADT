@@ -333,7 +333,23 @@ function getBatchExpiry(drug,batch, dataSelectHandler) {
 	var sql = "select distinct expiry_date from drug_stock_movement where drug = '" + drug + "' and batch_number = '"+batch+"' order by id desc"; 
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-
+function getDatabaseData(start_date, end_date,dataSelectHandler){
+	var sql = "select * from patient where strftime('%Y-%m-%d',patient.date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')"; 
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getRegimenTotals(id,table, start_date, end_date, dataSelectHandler) {
+	var sql = "select count('"+id+"') from " + table + " where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getAllRegimens(start_date, end_date,dataSelectHandler){
+	var sql = "select regimen as id, (select regimen_desc from regimen where id=patient_visit.regimen ) AS regimen,count(distinct patient_id) AS total from patient_visit where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"') group by id";
+	//console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getAppointmentSummary(dataSelectHandler){
+	var sql = "SELECT distinct appointment,count(distinct patient) as patients FROM `patient_appointment` group by appointment order by appointment desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);
