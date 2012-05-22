@@ -341,9 +341,69 @@ function getRegimenTotals(id,table, start_date, end_date, dataSelectHandler) {
 	var sql = "select count('"+id+"') from " + table + " where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-function getAllRegimens(start_date, end_date,dataSelectHandler){
-	var sql = "select regimen as id, (select regimen_desc from regimen where id=patient_visit.regimen ) AS regimen,count(distinct patient_id) AS total from patient_visit where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"') group by id";
-	//console.log(sql);
+function getPatientsEnrolledPeriod(start_date, end_date,dataSelectHandler){
+	
+	var sql="SELECT "+
+				"regimen.regimen_desc regimen,"+
+				"count(start_regimen) total,"+
+				"(SELECT count(start_regimen) FROM patient where date('now')-dob>=15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) adult_male,"+
+				"(SELECT count(start_regimen) FROM patient where date('now')-dob>=15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) adult_female,"+
+				"(SELECT count(start_regimen) FROM patient where date('now')-dob<15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) child_male,"+
+				"(SELECT count(start_regimen) FROM patient where date('now')-dob<15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) child_female "+	 
+			"FROM "+ 
+				"patient,"+
+				"regimen "+
+			"WHERE "+ 
+				"patient.start_regimen = regimen.id "+ 
+				"AND "+ 
+				"strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') "+ 
+				"AND strftime('%Y-%m-%d','"+end_date+"')"+ 
+			"GROUP BY "+ 
+				"start_regimen "+ 
+			"ORDER BY "+ 
+				"regimen.regimen_desc "+ 
+			"ASC";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getPatientsEnrolledPeriodSummary(symbol,service,gender,start_date, end_date,dataSelectHandler){	
+	var sql="SELECT count(service) as total FROM patient where date('now')-dob"+symbol+" AND service='"+service+"' AND gender='"+gender+"' AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPatientsEnrolledPeriod1(start_date, end_date,dataSelectHandler){
+	
+	var sql="SELECT "+
+				"regimen.regimen_desc regimen,"+
+				"count(start_regimen) total,"+
+				"(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob>=15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) adult_male,"+
+				"(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob>=15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) adult_female,"+
+				"(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob<15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) child_male,"+
+				"(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob<15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')) child_female "+	 
+			"FROM "+ 
+				"patient,"+
+				"regimen "+
+			"WHERE "+ 
+				"patient.start_regimen = regimen.id "+ 
+				"AND "+ 
+				"strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') "+ 
+				"AND strftime('%Y-%m-%d','"+end_date+"') "+ 
+				"AND service=1 "+ 
+			"GROUP BY "+ 
+				"start_regimen "+ 
+			"ORDER BY "+ 
+				"regimen.regimen_desc "+ 
+			"ASC";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getPatientsEnrolledPeriodSummary1(symbol,gender,start_date, end_date,dataSelectHandler){	
+	var sql="SELECT count(service) as total FROM patient where date('now')-dob"+symbol+" AND service=1 AND gender='"+gender+"' AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"')";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function patientListing_dateStarted(start_date,dataSelectHandler){
+	var sql="SELECT * from patient where date_enrolled='"+start_date+"'";
+	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 function getAppointmentSummary(dataSelectHandler){

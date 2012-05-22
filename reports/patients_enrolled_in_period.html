@@ -22,43 +22,139 @@
 					var row = results.rows.item(0);
 					$("#facility_name").text(row['facility_name']);
 				});
+				
+				/*populating values in the upper part of the report*/
+				var totals=0;
+				for (var i=0; i < 2; i++) {	//first loop for >=15 and second loop for <15
+					var count=1; //to increment the cell id where the values are to be displayed
+					  if(i==0){
+					  	var symbol=">=15";
+					  	for (var service=1; service < 6; service++) {//adult male
+					  		if(service==3)
+					  			continue; //because there is no PMTCT for adult males
+							getPatientsEnrolledPeriodSummary(symbol,service,1,start_date, end_date,function(transaction, results){ //numerical value in the method argument is the gender;1-male,2-female
+								totals=parseInt($("#all_totals").text()); //retrieve the current total value
+								for(var i = 0; i < results.rows.length; i++) {				
+									var parent_row = results.rows.item(i);	
+									var total = parent_row['total'];
+									totals+=total;
+									$("#cell"+count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);	//display the current total value		
+					  		});
+					  		
+						}	
+						for (var service=1; service < 6; service++) { //adult female
+							getPatientsEnrolledPeriodSummary(symbol,service,2,start_date, end_date,function(transaction, results){
+								totals=parseInt($("#all_totals").text());
+								for(var i = 0; i < results.rows.length; i++) {				
+									var parent_row = results.rows.item(i);	
+									var total = parent_row['total'];
+									totals+=total;
+									$("#cell"+count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);			
+					  		});
+						}
+					  }
+					  else{
+					  	var symbol="<15";
+					  	for (var service=1; service < 6; service++) { //male children
+							getPatientsEnrolledPeriodSummary(symbol,service,1,start_date, end_date,function(transaction, results){
+								totals=parseInt($("#all_totals").text());
+					  			for(var i = 0; i < results.rows.length; i++) {	
+									var parent_row = results.rows.item(i);	
+									var total = parent_row['total'];
+									totals+=total;
+									$("#cell"+count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+					  		});
+						}	
+					  	for (var service=1; service < 6; service++) {//female children			  		
+							getPatientsEnrolledPeriodSummary(symbol,service,2,start_date, end_date,function(transaction, results){
+								totals=parseInt($("#all_totals").text());
+					  			for(var i = 0; i < results.rows.length; i++) {	
+									var parent_row = results.rows.item(i);	
+									var total = parent_row['total'];		
+									totals+=total;
+									$("#cell"+count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+					  		});
+						}	
+					  }
+				};
+				
+				/*populating values in the lower part of the report*/
 				var gender = Array("", "M", "F");
 				var grand_total=0;
-				getAllRegimens(start_date, end_date,function(transaction, results){
+				var adult_male_total=0;
+				var adult_female_total=0;
+				var child_male_total=0;
+				var child_female_total=0;
+				getPatientsEnrolledPeriod(start_date, end_date,function(transaction, results){
 					for(var i = 0; i < results.rows.length; i++) {	
-						var parent_row = results.rows.item(i);	
+						var parent_row = results.rows.item(i);
+						//store retrieved values from the local database in variables	
 						var regimen_name = parent_row['regimen'];
 						var total = parent_row['total'];
+						var adult_male = parent_row['adult_male'];
+						var adult_female = parent_row['adult_female'];
+						var child_male = parent_row['child_male'];
+						var child_female = parent_row['child_female'];
+						
+						//calculate the totals
 						grand_total+=total;
+						adult_male_total+=adult_male;
+						adult_female_total+=adult_female;
+						child_male_total+=child_male;
+						child_female_total+=child_female;
+						
+						//concatenate the values in a string(row_string) that represent a row in an existing table
 						var row_string="<tr><td>"+regimen_name+"</td>";
 						row_string+="<td>"+total+"</td>";
 						row_string+="<td>0</td>";
+						row_string+="<td>"+adult_male+"</td>";
 						row_string+="<td>0</td>";
+						row_string+="<td>"+adult_female+"</td>";
 						row_string+="<td>0</td>";
+						row_string+="<td>"+child_male+"</td>";
 						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
+						row_string+="<td>"+child_female+"</td>";
 						row_string+="<td>0</td></tr>";
 						
+						//append the row in the existing table
 						$("#drug_listing").append($(row_string));
 					}
+					//concatenate the totals in a string(row_string) that represent a row in an existing table
 					var row_string="<tr><td>Grand Total</td>";
 						row_string+="<td>"+grand_total+"</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td>";
-						row_string+="<td>0</td></tr>";
+						row_string+="<td>100%</td>";
+						row_string+="<td>"+adult_male_total+"</td>";
+						row_string+="<td>100%</td>";
+						row_string+="<td>"+adult_female_total+"</td>";
+						row_string+="<td>100%</td>";
+						row_string+="<td>"+child_male_total+"</td>";
+						row_string+="<td>100%</td>";
+						row_string+="<td>"+child_female_total+"</td>";
+						row_string+="<td>100%</td></tr>";
 						
+						//append the row in the existing table
 						$("#drug_listing").append($(row_string));
 				});
+				
+				
 			});
+			
+			function percentage(){
+				//$('tr').children('td:first').text(parseInt(25));
+				//console.log("variable:"+td);
+			}
 			function getQueryParams(qs) {
 				qs = qs.split("+").join(" ");
 				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
@@ -132,6 +228,10 @@
 			}
 			td{
 				width: 60px;
+				text-align: center;
+			}
+			th{
+				text-decoration:underline;
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
@@ -147,14 +247,16 @@
 					</div>
 					<table>
 						<tr>
+							<th>Descritption</th>
 							<th>ART</th>
 							<th>PEP</th>
 							<th>OI</th>
 						</tr>
 						<tr>
-							<td id="adult_male_art">ART</td>
-							<td id="adult_male_pep">PEP</td>
-							<td id="adult_male_oi">OI</td>
+							<td id="all_totals">0</td>
+							<td id="cell1">ART</td>
+							<td id="cell2">PEP</td>
+							<td id="cell3">OI</td>
 						</tr>
 					</table>
 				</div>
@@ -170,10 +272,10 @@
 							<th>OI</th>
 						</tr>
 						<tr>
-							<td id="adult_female_art">ART</td>
-							<td id="adult_female_pep">PEP</td>
-							<td id="adult_female_pmtct">PMTCT</td>
-							<td id="adult_female_oi">OI</td>
+							<td id="cell4">ART</td>
+							<td id="cell5">PEP</td>
+							<td id="cell6">PMTCT</td>
+							<td id="cell7">OI</td>
 						</tr>
 					</table>
 				</div>
@@ -194,10 +296,10 @@
 							<th>OI</th>
 						</tr>
 						<tr>
-							<td id="child_male_art">ART</td>
-							<td id="child_male_pep">PEP</td>
-							<td id="child_male_pmtct">PMTCT</td>
-							<td id="child_male_oi">OI</td>
+							<td id="cell8">ART</td>
+							<td id="cell9">PEP</td>
+							<td id="cell10">PMTCT</td>
+							<td id="cell11">OI</td>
 						</tr>
 					</table>
 				</div>
@@ -213,16 +315,17 @@
 							<th>OI</th>
 						</tr>
 												<tr>
-							<td id="child_female_art">ART</td>
-							<td id="child_female_pep">PEP</td>
-							<td id="child_female_pmtct">PMTCT</td>
-							<td id="child_female_oi">OI</td>
+							<td id="cell12">ART</td>
+							<td id="cell13">PEP</td>
+							<td id="cell14">PMTCT</td>
+							<td id="cell15">OI</td>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
 		<div id="bottom_enrollments_panel">
+			<p style="color: blue;">Breakdown of patients enrolled by regimen</p> 
 			<table id="drug_listing">
 				<tr>
 					<td colspan="3"></td>

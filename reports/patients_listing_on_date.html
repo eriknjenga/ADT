@@ -1,0 +1,130 @@
+<html>
+	<head>
+		<title>Cumulative number of patients</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Enrolled in Period</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['date'];
+				$("#start_date").text(start_date);
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				
+				patientListing_dateStarted(start_date,function(transaction, results){ 
+					for(var i = 0; i < results.rows.length; i++) {				
+						var parent_row = results.rows.item(i);	
+						var total = parent_row['total'];
+						var row_string="<tr><td>"+parent_row['patient_number_ccc']+"</td>";
+						row_string+="<td>"+parent_row['service']+"</td>";
+						row_string+="<td>"+parent_row['supported_by']+"</td>";
+						row_string+="<td>"+parent_row['first_name']+"</td>";
+						row_string+="<td>"+parent_row['last_name']+"</td>";
+						row_string+="<td>"+parent_row['other_name']+"</td>";
+						row_string+="<td>"+parent_row['gender']+"</td>";
+						row_string+="<td>"+parent_row['start_regimen']+"</td>";
+						row_string+="<td>"+parent_row['weight']+"</td></tr>";
+						
+						$("#patient_listing").append($(row_string));
+					}
+		  		});
+			});	
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td th {
+				padding: 10px;
+			}
+			#result_values {
+				border: 1px solid black;
+				width: 900px;
+				margin: 0 auto;
+				overflow: hidden;
+				margin-bottom:20px;
+			}
+			
+			.category_title {
+				font-weight: bold;
+				color: #003366;
+				text-align: center;
+				text-decoration: underline;
+				font-size: 16px;
+				letter-spacing: 2px;
+			}
+			.category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			.sub_category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			table {
+				margin: 0 auto;
+			}
+			td{
+				width: 60px;
+				text-align: left;
+			}
+			th{
+				text-decoration:underline;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Listing of patients who started on <span id="start_date"></span> </h4>
+		<div id="result_values">
+			<table id="patient_listing">
+				<tr>
+					<th>ART number</th>
+					<th>Type of Service</th>
+					<th>Client supported by</th>
+					<th>First Name</th>
+					<th>Surname</th>
+					<th>Other name</th>
+					<th>Gender</th>
+					<th>Regimen</th>
+					<th>Weight</th>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
