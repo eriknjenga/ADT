@@ -6,7 +6,8 @@ class Patient_Visit extends Doctrine_Record {
 		$this -> hasColumn('Visit_Purpose', 'varchar', 10);
 		$this -> hasColumn('Current_Height', 'varchar', 10);
 		$this -> hasColumn('Current_Weight', 'varchar', 10);
-		$this -> hasColumn('Regimen', 'varchar', 10);
+		$this -> hasColumn('Regimen', 'varchar', 100);
+		$this -> hasColumn('Last_Regimen', 'varchar', 100);
 		$this -> hasColumn('Regimen_Change_Reason', 'varchar', 10);
 		$this -> hasColumn('Drug_Id', 'varchar', 10);
 		$this -> hasColumn('Batch_Number', 'varchar', 10);

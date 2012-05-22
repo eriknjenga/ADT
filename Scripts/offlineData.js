@@ -55,11 +55,12 @@ function processData() {
 				//Check if there is a date indicated for the next appointment. If there is, schedule it!
 				if($("#next_appointment_date").attr("value").length > 1) { 
 					next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,machine_code) values ('" + dump["patient"] + "','" + dump["next_appointment_date"] + "','" + facility + "','" + machine_code + "');";
+					 
 				}
 				var sql = next_appointment_sql;
 				//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 				for(var i = 0; i < drugs_count; i++) {
-					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "');";
+					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen,last_regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "','" + dump["last_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "');";
 				};
 
 			} else if(form == "stock_form") {

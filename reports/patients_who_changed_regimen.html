@@ -2,7 +2,7 @@
 <html lang="en" >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Patients Missing Appointments in Period</title>
+		<title>Patients Changing Regimens</title>
 		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
 		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="../Scripts/jquery.js"></script>
@@ -22,17 +22,11 @@
 					$("#facility_name").text(row['facility_name']);
 				});
 				var gender = Array("", "M", "F");
-				getMissedAppointments(start_date, end_date, function(transaction, results) {
+				getChangedRegimens(start_date, end_date, function(transaction, results) {
 					var counter = 0;
 					for(var i = 0; i < results.rows.length; i++) {
 						var parent_row = results.rows.item(i);
-
-						var appointment = new Date(parent_row['appointment']);
-						var today = new Date();
-						var timeDiff = Math.abs(today.getTime() - appointment.getTime());
-						var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
-
-						var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['physical'] + "</td><td>" + parent_row['appointment'] + "</td><td>" + diffDays + "</td></tr>";
+						var row_string = "<tr><td>" + parent_row['last_regimen'] + "</td><td>" + parent_row['current_regimen'] + "</td><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + parent_row['service'] + "</td><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['regimen_change_reason'] + "</td></tr>";
 						$("#patient_listing").append($(row_string));
 						counter++;
 					}
@@ -46,21 +40,7 @@
 					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
 				}
 				return params;
-			}
-
-			function getAge(dateString) {
-				var today = new Date();
-				var birthDate = new Date(dateString);
-				var age = today.getFullYear() - birthDate.getFullYear();
-				var m = today.getMonth() - birthDate.getMonth();
-				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-					age--;
-				}
-				if(isNaN(age)) {
-					return "N/A";
-				}
-				return age;
-			}
+			} 
 		</script>
 	</head>
 	<body>
@@ -83,20 +63,21 @@
 			}
 		</style>
 		<h3 class="report_title" id="facility_name" style="text-align: center"></h3>
-		<h4 class="report_title" style="text-align: center">Patients who did not report in the Period
+		<h4 class="report_title" style="text-align: center">Patients who have changed regimens in the period
 		<br/>
 		<br/>
 		Between <span id="start_date"></span> and <span id="end_date"></span></h4>
 		<h5 class="report_title" style="text-align: center">Total Count: <span id="total_count"></span></h5>
 		<table   id="patient_listing">
 			<tr>
-				<th> ART ID </th>
-				<th> Surname </th>
+				<th> From Regimen </th>
+				<th> To Regimen </th>
+				<th> ART Number </th>
 				<th> First Name </th>
-				<th> Sex </th>
-				<th> Address </th>
-				<th> Appointment Date </th>
-				<th> Late by (days)</th>
+				<th> Surname </th>
+				<th> Service </th>
+				<th> Date of Change </th>
+				<th> Reason for Change</th>
 			</tr>
 		</table>
 	</body>

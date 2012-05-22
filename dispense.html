@@ -39,6 +39,7 @@
 						var difference = appointment_timestamp - today_timestamp;
 						var days_difference = difference / one_day;
 						$("#days_to_next").attr("value", days_difference);
+						retrieveAppointedPatients();
 					}
 				});
 				//Add listener to the 'days_to_next' field so that the date picker can reflect the correct number of days!
@@ -50,21 +51,19 @@
 					var today_timestamp = today.getTime();
 					var appointment_timestamp = (1000 * 60 * 60 * 24 * days) + today_timestamp;
 					appointment_date.datepicker("setDate", new Date(appointment_timestamp));
-
+					retrieveAppointedPatients();
 				});
 				//Add listener to the drug batch selecter to prepopulate the expiry date
 				$(".batch").change(function() {
-					
 					var row_element = $(this).closest("tr");
 					var expiry_date = row_element.find(".expiry");
-					var drug = row_element.find(".drug").attr("value"); 
+					var drug = row_element.find(".drug").attr("value");
 					//Get basic getails of the selected patient
-					getBatchExpiry(drug,$(this).attr("value"), function(transaction, results) {
+					getBatchExpiry(drug, $(this).attr("value"), function(transaction, results) {
 						// Handle the results
 						var row = results.rows.item(0);
-						expiry_date.attr("value", row['expiry_date']); 
-					}); 
-
+						expiry_date.attr("value", row['expiry_date']);
+					});
 				});
 				//Get basic getails of the selected patient
 				getPatientDetails(patient_number, function(transaction, results) {
@@ -104,7 +103,7 @@
 				//Dynamically change the list of drugs once a current regimen is selected
 				$("#current_regimen").change(function() {
 					var regimen = $("#current_regimen option:selected").attr("value");
-					var last_regimen = $("#last_regimen").attr("regimen_id");
+					var last_regimen = $("#last_regimen_disp").attr("regimen_id");
 					//If the previous regimen and the one currently chosen are different, display the regimen change reason dropdown list
 					if(regimen != last_regimen) {
 						//Retrieve all the regimen change reasons
@@ -163,10 +162,13 @@
 					if(results.rows.length > 0) {
 						var row = results.rows.item(0);
 						//Display the Last Regimen Taken
-						$("#last_regimen").attr("value", row['regimen_desc']);
-						$("#last_regimen").attr("regimen_id", row['id']);
+						$("#last_regimen_disp").attr("value", row['regimen_desc']);
+						$("#last_regimen_disp").attr("regimen_id", row['id']);
+						$("#last_regimen").attr("value", row['id']);
 						var last_visit_date = row['dispensing_date'];
 						$("#last_visit_date").attr("value", last_visit_date);
+						$("#height").attr("value", row['current_height']);
+						$("#weight").attr("value", row['current_weight']);
 						//Retrieve drugs dispensed during the last visit
 						selectLastVisitDetails(patient_number, last_visit_date, function(transaction, results) {
 							for(var i = 0; i < results.rows.length; i++) {
@@ -174,6 +176,23 @@
 								var append_html = "<tr><td>" + row['drug'] + "</td><td>" + row['quantity'] + "</td></tr>";
 								$("#last_visit_data").append($(append_html));
 							}
+						});
+						getLastPatientAppointment(patient_number, function(transaction, results) {
+							// Handle the results
+							var row = results.rows.item(0);
+							var today = new Date();
+							var appointment_date =$.datepicker.parseDate('yy-mm-dd', row['appointment']);
+							var timeDiff = today.getTime() - appointment_date.getTime();
+							var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
+							if(diffDays>0){
+								var html = "<span style='color:#ED5D3B;'>Late by <b>"+diffDays+"</b> days.</span>";								
+							}
+							else{
+								var html = "<span style='color:#009905'>Not Due for <b>"+Math.abs(diffDays)+"</b> days.</span>";
+							}
+							
+							$("#days_late").append(html);
+							$("#last_appointment_date").attr("value", row['appointment']);
 						});
 					}
 
@@ -203,7 +222,7 @@
 					dose.attr("value", row['dose']);
 					duration.attr("value", row['duration']);
 					batch.children('option').remove();
-					expiry.attr("value","");
+					expiry.attr("value", "");
 					//Retrieve all the batch numbers for this drug
 					getDrugBatches(drug.attr("value"), function(transaction, results) {
 						for(var i = 0; i < results.rows.length; i++) {
@@ -227,6 +246,27 @@
 							$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 						});
 					}
+				});
+			}
+
+			function retrieveAppointedPatients() {
+				$("#scheduled_patients").html("");
+				$('#scheduled_patients').slideUp('slow', function() {
+					// Animation complete.
+				});
+				var next_appointment_date = $("#next_appointment_date").attr("value");
+				var date_object = new Date(next_appointment_date);
+				formatted_date = $.datepicker.formatDate('yy-mm-dd', date_object);
+				//Get number of appointments on this date
+				getTotalPatientAppointments(formatted_date, function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					var all_appointments_link = "<a class='link' target='_blank' href='reports/patients_scheduled_to_visit.html?date=" + formatted_date + "'>View appointments</a>";
+					var html = "Patients Scheduled on Date: <b>" + row['total_appointments'] + "</b>. " + all_appointments_link;
+					$("#scheduled_patients").append(html);
+					$('#scheduled_patients').slideDown('slow', function() {
+						// Animation complete.
+					});
 				});
 			}
 		</script>
@@ -289,8 +329,10 @@
 										<input style="width:140px" type="text"name="next_appointment_date" id="next_appointment_date">
 									</label>
 								</div>
+								<label id="scheduled_patients" class="message information close" style="display:none"></label>
 								<label> <strong class="label">Last Regimen Dispensed</strong>
-									<input type="text"name="last_regimen" regimen_id="0" id="last_regimen" readonly="">
+									<input type="text"name="last_regimen_disp" regimen_id="0" id="last_regimen_disp" readonly="">
+									<input type="hidden" name="last_regimen" regimen_id="0" id="last_regimen">
 								</label>
 								<label> <strong class="label">Current Regimen</strong>
 									<select type="text"name="current_regimen" id="current_regimen" style="width:300px" class="validate[required]">
@@ -304,9 +346,12 @@
 							<div class="column">
 								<fieldset>
 									<legend>
-										Previous Regimen Information goes here
+										Previous Patient Information
 									</legend>
-									<label> <strong class="label">Last Visit Date</strong>
+									<label> <strong class="label">Appointment Date</strong>
+										<input readonly="" id="last_appointment_date" name="last_appointment_date"/>
+									</label><label id="days_late"> </label>
+									<label> <strong class="label">Previous Visit Date</strong>
 										<input readonly="" id="last_visit_date" name="last_visit_date"/>
 									</label>
 									<table class="data-table" id="last_visit_data">

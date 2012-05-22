@@ -19,6 +19,12 @@
 				initDatabase();
 				getTotalDrugs();
 				getDrugs(0);
+				$('#search_term').bind('keypress', function(e) {
+					var code = (e.keyCode ? e.keyCode : e.which);
+					if(code == 13) {//Enter keycode
+						$("#search").click();
+					}
+				});
 				$(".details").click(function() {
 					alert();
 				});
@@ -105,7 +111,10 @@
 					$("#next_offset_holder").attr("value", next_offset);
 					$("#previous_offset_holder").attr("value", previous_offset);
 					$.each($(".records_counter"), function(key, value) {
-						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_drugs + "</b>";
+						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_drugs + "</b> ";
+						if(search_term.length > 0) {
+							record_text += "<span style='color:red;'>(Search Term '" + search_term + "')</span>";
+						}
 						$(this).html(record_text);
 					});
 					$("#drugs_table").find("tr:gt(0)").remove();
@@ -217,13 +226,13 @@
 				-webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
 			}
 			.records_counter {
-				width: 200px;
+				width: 150px;
 				margin: 0 auto;
 			}
 			.search_box {
 				float: right;
 				width: 100%;
-				position: relative; 
+				position: relative;
 			}
 			.search_box label {
 				float: right;
@@ -281,7 +290,7 @@
 							<th>Generic Name</th>
 							<th>Pack Size</th>
 							<th>Supported By</th>
-							<th>Dose</th> 
+							<th>Dose</th>
 						</tr>
 					</table>
 					<div class="pagination flip">
@@ -290,7 +299,7 @@
 					</div>
 				</div>
 				<div id="action_panel_parent" style="display:none">
-					<div class="actions_panel" style="visibility:hidden" > 
+					<div class="actions_panel" style="visibility:hidden" >
 						<a class="link bin_card">View Bin Card</a>
 					</div>
 				</div>

@@ -415,3 +415,48 @@ fieldset {
 	margin-top: 20px;
 	border: 1px solid #DDD;!important;
 }
+/*NOTIFICATION MESSAGES*/
+.message {
+	display:block;
+	padding:10px 20px;
+	margin-bottom:15px;
+}
+
+.message p {
+	width:auto;
+	margin-bottom:0;
+	margin-left:60px;
+}
+
+.message h2 {
+	margin-left:60px;
+	margin-bottom:5px;
+}
+
+.warning { 
+	border:1px solid #f1aa2d;
+} 
+
+.message p {
+	color:#555;
+}
+
+.message h2 {
+	color:#333;
+}
+
+.error { 
+	border:1px solid #c44509;
+}
+
+.success { 
+	border:1px solid #739f1d;
+}
+
+.information { 
+	border:1px solid #688fdc;
+}
+
+.message:hover {
+	cursor:pointer;
+}

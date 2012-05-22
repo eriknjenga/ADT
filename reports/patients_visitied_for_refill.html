@@ -22,11 +22,14 @@
 				getRefillPatients(date, function(transaction, results) {
 					// Handle the results
 					var gender = Array("", "M", "F");
+					var counter = 0;
 					for(var i = 0; i < results.rows.length; i++) {
-						var parent_row = results.rows.item(i);
+					var parent_row = results.rows.item(i);
  					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['service_type'] + "</td><td>" + parent_row['supported_by'] + "</td><td>" + parent_row['first_name'] + "</td><td>"+parent_row['other_name'] + "</td><td>"+ getAge(parent_row['dob']) + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['regimen_desc'] + "</td><td>" + parent_row['current_weight'] + "</td></tr>";
 					$("#patient_listing").append($(row_string));
+					counter++;
 					}
+					$("#total_count").text(counter);
 				});
 			});
 			function getQueryParams(qs) {
@@ -58,15 +61,24 @@
 			#patient_listing {
 				margin: 0 auto;
 				border-top: 1px solid #B9B9B9;
-				font-size: 12px;
+				font-size: 9px;
 				letter-spacing: 1px;
 			}
-			#patient_listing td th {
-				padding: 10px;
+			#patient_listing td, th {
+			 	letter-spacing: 1px;
+			 	padding:5px;
+			 	font-family: Times;
+				
+			}
+			.report_title{
+				color: red;
+				letter-spacing: 1px;
+				padding:5px;
 			}
 		</style>
-		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Listing of Patients Who Visited for Routine Refill on <span id="date_of_appointment"></span></h4>
+		<h3 class="report_title" id="facility_name" style="text-align: center"></h3>
+		<h4 class="report_title" style="text-align: center">Listing of Patients Who Visited for Routine Refill on <span id="date_of_appointment"></span></h4>
+		<h5 class="report_title" style="text-align: center">Total Count: <span id="total_count"></span></h5>
 		<table   id="patient_listing">
 			<tr>
 				<th> Patient Number </th>
