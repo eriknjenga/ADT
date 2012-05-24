@@ -72,7 +72,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-	});
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS transactions_temp(migration_id INTEGER NOT NULL PRIMARY KEY, PatientTranNo int(6) DEFAULT NULL, ARTID TEXT(12) DEFAULT NULL, DateofVisit TEXT(10) DEFAULT NULL, Drugname TEXT(49) DEFAULT NULL, BrandName TEXT(20) DEFAULT NULL, TransactionCode int(2) DEFAULT NULL, unit TEXT(7) DEFAULT NULL,  ARVQty TEXT(12) DEFAULT NULL,  Dose TEXT(18) DEFAULT NULL,  duration TEXT(10) DEFAULT NULL,  Regimen TEXT(4) DEFAULT NULL,  LastRegimen TEXT(4) DEFAULT NULL,  Comment TEXT(153) DEFAULT NULL,  Operator TEXT(8) DEFAULT NULL,  Indication TEXT(5) DEFAULT NULL,  Weight TEXT(13) DEFAULT NULL,  pillCount TEXT(5) DEFAULT NULL,  Adherence TEXT(1) DEFAULT NULL,  DaysLate TEXT(10) DEFAULT NULL,  ReasonsForChange TEXT(26) DEFAULT NULL,  RefOrderNo TEXT(10) DEFAULT NULL,  BatchNo TEXT(13) DEFAULT NULL,  ExpiryDate TEXT(10) DEFAULT NULL,);', [], nullDataHandler, errorHandler);	});
 }
 
 function Populate(sql) {
@@ -407,6 +407,10 @@ function patientListing_dateStarted(start_date,dataSelectHandler){
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 function getAppointmentSummary(dataSelectHandler){
+	var sql = "SELECT distinct appointment,count(distinct patient) as patients FROM `patient_appointment` group by appointment order by appointment desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getExpiredDrugs(dataSelectHandler){
 	var sql = "SELECT distinct appointment,count(distinct patient) as patients FROM `patient_appointment` group by appointment order by appointment desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
