@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Enrolled in Period</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				var table = "patient_visit";
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				/*populating values in the upper part of the report*/
+				var totals = 0;
+				for(var i = 0; i < 2; i++) {//first loop for >=15 and second loop for <15
+					var count = 1;
+					//to increment the cell id where the values are to be displayed
+					if(i == 0) {
+						var symbol = ">=15";
+						for(var service = 1; service < 6; service++) {//adult male
+							if(service == 3)
+								continue;
+							//because there is no PMTCT for adult males
+							getPatientsEnrolledPeriodSummary(symbol, service, 1, start_date, end_date, function(transaction, results) {//numerical value in the method argument is the gender;1-male,2-female
+								totals = parseInt($("#all_totals").text());
+								//retrieve the current total value
+								for(var i = 0; i < results.rows.length; i++) {
+									var parent_row = results.rows.item(i);
+									var total = parent_row['total'];
+									totals += total;
+									$("#cell" + count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+								//display the current total value
+							});
+						}
+						for(var service = 1; service < 6; service++) {//adult female
+							getPatientsEnrolledPeriodSummary(symbol, service, 2, start_date, end_date, function(transaction, results) {
+								totals = parseInt($("#all_totals").text());
+								for(var i = 0; i < results.rows.length; i++) {
+									var parent_row = results.rows.item(i);
+									var total = parent_row['total'];
+									totals += total;
+									$("#cell" + count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+							});
+						}
+					} else {
+						var symbol = "<15";
+						for(var service = 1; service < 6; service++) {//male children
+							getPatientsEnrolledPeriodSummary(symbol, service, 1, start_date, end_date, function(transaction, results) {
+								totals = parseInt($("#all_totals").text());
+								for(var i = 0; i < results.rows.length; i++) {
+									var parent_row = results.rows.item(i);
+									var total = parent_row['total'];
+									totals += total;
+									$("#cell" + count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+							});
+						}
+						for(var service = 1; service < 6; service++) {//female children
+							getPatientsEnrolledPeriodSummary(symbol, service, 2, start_date, end_date, function(transaction, results) {
+								totals = parseInt($("#all_totals").text());
+								for(var i = 0; i < results.rows.length; i++) {
+									var parent_row = results.rows.item(i);
+									var total = parent_row['total'];
+									totals += total;
+									$("#cell" + count).text(total);
+									count++;
+								}
+								$("#all_totals").text(totals);
+							});
+						}
+					}
+				};
+
+				/*populating values in the lower part of the report*/
+				var gender = Array("", "M", "F");
+				var grand_total = 0;
+				var adult_male_total = 0;
+				var adult_female_total = 0;
+				var child_male_total = 0;
+				var child_female_total = 0;
+				getPatientsEnrolledPeriod(start_date, end_date, function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						//store retrieved values from the local database in variables
+						var regimen_name = parent_row['regimen'];
+						var total = parent_row['total'];
+						var adult_male = parent_row['adult_male'];
+						var adult_female = parent_row['adult_female'];
+						var child_male = parent_row['child_male'];
+						var child_female = parent_row['child_female'];
+
+						//calculate the totals
+						grand_total += total;
+						adult_male_total += adult_male;
+						adult_female_total += adult_female;
+						child_male_total += child_male;
+						child_female_total += child_female;
+
+						//concatenate the values in a string(row_string) that represent a row in an existing table
+						var row_string = "<tr><td>" + regimen_name + "</td>";
+						row_string += "<td>" + total + "</td>";
+						row_string += "<td>0</td>";
+						row_string += "<td>" + adult_male + "</td>";
+						row_string += "<td>0</td>";
+						row_string += "<td>" + adult_female + "</td>";
+						row_string += "<td>0</td>";
+						row_string += "<td>" + child_male + "</td>";
+						row_string += "<td>0</td>";
+						row_string += "<td>" + child_female + "</td>";
+						row_string += "<td>0</td></tr>";
+
+						//append the row in the existing table
+						$("#drug_listing").append($(row_string));
+					}
+					//concatenate the totals in a string(row_string) that represent a row in an existing table
+					var row_string = "<tr><td>Grand Total</td>";
+					row_string += "<td>" + grand_total + "</td>";
+					row_string += "<td>100%</td>";
+					row_string += "<td>" + adult_male_total + "</td>";
+					row_string += "<td>100%</td>";
+					row_string += "<td>" + adult_female_total + "</td>";
+					row_string += "<td>100%</td>";
+					row_string += "<td>" + child_male_total + "</td>";
+					row_string += "<td>100%</td>";
+					row_string += "<td>" + child_female_total + "</td>";
+					row_string += "<td>100%</td></tr>";
+
+					//append the row in the existing table
+					$("#drug_listing").append($(row_string));
+				});
+			});
+			function percentage() {
+				//$('tr').children('td:first').text(parseInt(25));
+				//console.log("variable:"+td);
+			}
+
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td th {
+				padding: 10px;
+			}
+			#top_enrollments_panel {
+				border: 1px solid black;
+				width: 900px;
+				margin: 0 auto;
+				overflow: hidden;
+				margin-bottom: 20px;
+			}
+			#bottom_enrollments_panel {
+				border: 1px solid black;
+				width: 900px;
+				margin: 0 auto;
+				overflow: hidden;
+				margin-bottom: 20px;
+				padding-bottom: 20px;
+			}
+			.category_title {
+				font-weight: bold;
+				color: #003366;
+				text-align: center;
+				text-decoration: underline;
+				font-size: 16px;
+				letter-spacing: 2px;
+			}
+			.category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			.sub_category {
+				width: 49%;
+				height: 100px;
+				float: left;
+			}
+			table {
+				margin: 0 auto;
+			}
+			td {
+				width: 60px;
+				text-align: center;
+			}
+			th {
+				text-decoration: underline;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center"> List of Expired Commodities as of
+		<script >
+			var currentTime = new Date()
+			var month = currentTime.getMonth() + 1
+			var day = currentTime.getDate()
+			var year = currentTime.getFullYear()
+			document.write(month + "/" + day + "/" + year);
+
+		</script></h4>
+	</body>
+</html>
