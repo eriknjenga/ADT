@@ -19,6 +19,12 @@
 				initDatabase();
 				getTotalPatients();
 				getPatients(0);
+				$('#search_term').bind('keypress', function(e) {
+					var code = (e.keyCode ? e.keyCode : e.which);
+					if(code == 13) {//Enter keycode
+						$("#search").click();
+					}
+				});
 				$(".details").click(function() {
 					alert();
 				});
@@ -113,7 +119,10 @@
 					$("#next_offset_holder").attr("value", next_offset);
 					$("#previous_offset_holder").attr("value", previous_offset);
 					$.each($(".records_counter"), function(key, value) {
-						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b>";
+						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b> ";
+						if(search_term.length>0){
+							record_text += "<span style='color:red;'>(Search Term '"+search_term+"')</span>";
+						}
 						$(this).html(record_text);
 					});
 					$("#patients_table").find("tr:gt(0)").remove();
@@ -225,14 +234,13 @@
 				-webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, .4) inset, 0 1px #fff;
 			}
 			.records_counter {
-				width: 200px;
+				width: 150px;
 				margin: 0 auto;
 			}
 			.search_box {
 				float: right;
 				width: 100%;
-				position: relative; 
-				z-index:-100 !important;
+				position: relative;
 			}
 			.search_box label {
 				float: right;
@@ -278,7 +286,7 @@
 						<label> <strong class="label">Search Term</strong>
 							<input type="text"name="search_term" id="search_term" style="width:300px;">
 						</label>
-					</div>
+					</div> 
 					<div class="pagination flip">
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
 						<div class="records_counter"></div>
@@ -296,7 +304,7 @@
 					</table>
 					<div class="pagination flip">
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
-						<div class="records_counter"/>
+						</div class="records_counter">
 					</div>
 				</div>
 				<div id="action_panel_parent" style="display:none">

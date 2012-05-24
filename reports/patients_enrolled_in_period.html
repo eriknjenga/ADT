@@ -29,7 +29,7 @@
 					var count=1; //to increment the cell id where the values are to be displayed
 					  if(i==0){
 					  	var symbol=">=15";
-					  	for (var service=1; service < 6; service++) {//adult male
+					  	for (var service=1; service < 5; service++) {//adult male
 					  		if(service==3)
 					  			continue; //because there is no PMTCT for adult males
 							getPatientsEnrolledPeriodSummary(symbol,service,1,start_date, end_date,function(transaction, results){ //numerical value in the method argument is the gender;1-male,2-female
@@ -45,7 +45,7 @@
 					  		});
 					  		
 						}	
-						for (var service=1; service < 6; service++) { //adult female
+						for (var service=1; service < 5; service++) { //adult female
 							getPatientsEnrolledPeriodSummary(symbol,service,2,start_date, end_date,function(transaction, results){
 								totals=parseInt($("#all_totals").text());
 								for(var i = 0; i < results.rows.length; i++) {				
@@ -61,7 +61,7 @@
 					  }
 					  else{
 					  	var symbol="<15";
-					  	for (var service=1; service < 6; service++) { //male children
+					  	for (var service=1; service < 5; service++) { //male children
 							getPatientsEnrolledPeriodSummary(symbol,service,1,start_date, end_date,function(transaction, results){
 								totals=parseInt($("#all_totals").text());
 					  			for(var i = 0; i < results.rows.length; i++) {	
@@ -74,7 +74,7 @@
 								$("#all_totals").text(totals);
 					  		});
 						}	
-					  	for (var service=1; service < 6; service++) {//female children			  		
+					  	for (var service=1; service < 5; service++) {//female children			  		
 							getPatientsEnrolledPeriodSummary(symbol,service,2,start_date, end_date,function(transaction, results){
 								totals=parseInt($("#all_totals").text());
 					  			for(var i = 0; i < results.rows.length; i++) {	

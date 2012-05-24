@@ -159,7 +159,7 @@
 	}
 
 	function savePatientVisitDataLocally(data) {
-		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity");
+		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity","last_regimen");
 		//console.log(data);
 		parseReturnedData(data, "patient_visit", columns, false);
 	}
@@ -396,7 +396,9 @@
 	.canvas {
 		width: 300px;
 		height: 60px;
-	}
+	}
+
+
 </style>
 <div id="synchronization_frame">
 	<div class="synchronize_table" id="drugcode">
@@ -567,5 +569,3 @@
 				Progressbar Can't Be shown.
 			</canvas>
 		</div>
-	</div>
-</div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patients Changing Regimens</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				var gender = Array("", "M", "F");
+				getChangedRegimens(start_date, end_date, function(transaction, results) {
+					var counter = 0;
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						var row_string = "<tr><td>" + parent_row['last_regimen'] + "</td><td>" + parent_row['current_regimen'] + "</td><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + parent_row['service'] + "</td><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['regimen_change_reason'] + "</td></tr>";
+						$("#patient_listing").append($(row_string));
+						counter++;
+					}
+					$("#total_count").text(counter);
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			} 
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 9px;
+				letter-spacing: 1px;
+			}
+			#patient_listing td, th {
+				letter-spacing: 1px;
+				padding: 5px;
+				font-family: Times;
+			}
+			.report_title {
+				color: red;
+				letter-spacing: 1px;
+				padding: 5px;
+			}
+		</style>
+		<h3 class="report_title" id="facility_name" style="text-align: center"></h3>
+		<h4 class="report_title" style="text-align: center">Patients who have changed regimens in the period
+		<br/>
+		<br/>
+		Between <span id="start_date"></span> and <span id="end_date"></span></h4>
+		<h5 class="report_title" style="text-align: center">Total Count: <span id="total_count"></span></h5>
+		<table   id="patient_listing">
+			<tr>
+				<th> From Regimen </th>
+				<th> To Regimen </th>
+				<th> ART Number </th>
+				<th> First Name </th>
+				<th> Surname </th>
+				<th> Service </th>
+				<th> Date of Change </th>
+				<th> Reason for Change</th>
+			</tr>
+		</table>
+	</body>
+</html>

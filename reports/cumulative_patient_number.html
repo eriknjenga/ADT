@@ -19,7 +19,33 @@
 					$("#facility_name").text(row['facility_name']);
 				});
 				
-				var current_status=new Array('Active','Deceased','PEP end','PMTCT end','Lost to follow','Transfer out','Discharged','Transfer out')
+				getCumulativePatientNumber(date,function(transaction, results){ 			
+					for(var i = 0; i < results.rows.length; i++) {				
+						var parent_row = results.rows.item(i);	
+						 var row_string="<tr><td>"+parent_row['name']+"</td>";
+							row_string+="<td>"+parent_row['total']+"</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td>";
+							row_string+="<td>0</td></tr>";
+							
+							$("#table_listing").append($(row_string));
+					}	
+		  		});
+				
+				/*var current_status=new Array('Active','Deceased','PEP end','PMTCT end','Lost to follow','Transfer out','Discharged','Transfer out')
 				for (var i=0; i < current_status.length; i++) {
 				  var row_string="<tr><td>"+current_status[i]+"</td>";
 						row_string+="<td>0</td>";
@@ -41,7 +67,7 @@
 						row_string+="<td>0</td></tr>";
 						
 						$("#table_listing").append($(row_string));
-				};
+				};*/
 			});	
 			function getQueryParams(qs) {
 				qs = qs.split("+").join(" ");

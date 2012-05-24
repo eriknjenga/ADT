@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
- 
+
 				//Dynamically load the list of supporters!
 				selectAll("supporter", function(transaction, results) {
 					// Handle the results
@@ -63,6 +63,21 @@
 				});
 				$("#enrolled").datepicker({
 					maxDate : "0D"
+				});
+
+				//Add listener to the gender drop down
+				$("#gender").change(function() {
+					var selected_value = $(this).attr("value");
+					//if female, display the prengancy selector
+					if(selected_value == 2) {
+						$('#pregnant_container').slideDown('slow', function() {
+							// Animation complete.
+						});
+					} else {
+						$('#pregnant_container').slideUp('slow', function() {
+							// Animation complete.
+						});
+					}
 				});
 			});
 
@@ -128,7 +143,7 @@
 										<select name="gender" id="gender">
 											<option value="1">Male</option><option value="2">Female</option>
 										</select> </label>
-									<label style="width:140px; float:right;"> <strong class="label">Pregnant?</br> </strong>
+									<label style="width:140px; float:right; display: none" id="pregnant_container"> <strong class="label">Pregnant?</br> </strong>
 										<select name="pregnant" id="pregnant">
 											<option value="0">No</option><option value="1">Yes</option>
 										</select> </label>
@@ -168,7 +183,7 @@
 									Yes
 									<input type="checkbox" name="other_allergies" id="other_allergies" value="">
 									<div class="list">
-										Allergies/ADR
+										List Them
 									</div>
 									<textarea class="list_area" name="other_allergies_listing" id="other_allergies_listing"></textarea>
 								</div>
