@@ -73,6 +73,22 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transactions_temp(migration_id INTEGER NOT NULL PRIMARY KEY, PatientTranNo int(6) DEFAULT NULL, ARTID TEXT(12) DEFAULT NULL, DateofVisit TEXT(10) DEFAULT NULL, Drugname TEXT(49) DEFAULT NULL, BrandName TEXT(20) DEFAULT NULL, TransactionCode int(2) DEFAULT NULL, unit TEXT(7) DEFAULT NULL,  ARVQty TEXT(12) DEFAULT NULL,  Dose TEXT(18) DEFAULT NULL,  duration TEXT(10) DEFAULT NULL,  Regimen TEXT(4) DEFAULT NULL,  LastRegimen TEXT(4) DEFAULT NULL,  Comment TEXT(153) DEFAULT NULL,  Operator TEXT(8) DEFAULT NULL,  Indication TEXT(5) DEFAULT NULL,  Weight TEXT(13) DEFAULT NULL,  pillCount TEXT(5) DEFAULT NULL,  Adherence TEXT(1) DEFAULT NULL,  DaysLate TEXT(10) DEFAULT NULL,  ReasonsForChange TEXT(26) DEFAULT NULL,  RefOrderNo TEXT(10) DEFAULT NULL,  BatchNo TEXT(13) DEFAULT NULL,  ExpiryDate TEXT(10) DEFAULT NULL,);', [], nullDataHandler, errorHandler);	});
+		//Create all the necessary indexes!
+		transaction.executeSql('CREATE INDEX if not exists dispensing_date_index ON patient_visit(dispensing_date);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists dispensing_patient_index ON patient_visit(patient_id);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists patient_id_index ON patient(id);', [], nullDataHandler, errorHandler);
+		/*
+		 * Deactivate all patients who are inactive
+		 */
+		transaction.executeSql("update patient set current_status = '5' where patient_number_ccc in (SELECT patient from patient_appointment pa left join patient p on p.patient_number_ccc = pa.patient where (strftime('%s','now')-strftime('%s',appointment))/86400 >90 and p.current_status = '1' and p.service = '1' group by patient);", [], nullDataHandler, errorHandler);
+		/*
+		 * Update the status of patients whose PMTCT days are over
+		 */
+		transaction.executeSql("UPDATE patient SET current_status = '4' WHERE service='3' AND (strftime('%s','now')-strftime('%s',date_enrolled))/86400>=270;", [], nullDataHandler, errorHandler);
+		/*
+		 * Update the status of patients whose PEP days are over
+		 */
+		transaction.executeSql("UPDATE patient SET current_status = '3' WHERE service='2' AND (strftime('%s','now')-strftime('%s',date_enrolled))/86400>=30;", [], nullDataHandler, errorHandler);
 }
 
 function Populate(sql) {
@@ -406,8 +422,17 @@ function patientListing_dateStarted(start_date,dataSelectHandler){
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+function patientListingByRegimen(start_date, end_date,dataSelectHandler){
+	var sql="SELECT regimen.regimen_desc regimen,count(patient.start_regimen) total FROM patient,regimen WHERE regimen.id=patient.start_regimen AND service=1 AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','"+start_date+"') and strftime('%Y-%m-%d','"+end_date+"') group by regimen.id";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
 function getAppointmentSummary(dataSelectHandler){
 	var sql = "SELECT distinct appointment,count(distinct patient) as patients FROM `patient_appointment` group by appointment order by appointment desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getCumulativePatientNumber(start_date,dataSelectHandler){
+	var sql="SELECT distinct patient_status.Name, count(patient.current_status) as total FROM patient,patient_status WHERE patient_status.id=patient.current_status AND strftime('%Y-%m-%d',date_enrolled)<strftime('%Y-%m-%d','"+start_date+"') GROUP BY patient_status.Name";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 function getExpiredDrugs(dataSelectHandler){
