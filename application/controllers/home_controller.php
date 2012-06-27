@@ -22,6 +22,7 @@ class Home_Controller extends MY_Controller {
 			$menu_data['menus'][$right -> Menu] = $right -> Access_Type;
 			$menus['menu_items'][$counter]['url'] = $right -> Menu_Item -> Menu_Url;
 			$menus['menu_items'][$counter]['text'] = $right -> Menu_Item -> Menu_Text;
+			$menus['menu_items'][$counter]['offline'] = $right -> Menu_Item -> Offline;
 			$counter++;
 		}
 		$this -> session -> set_userdata($menu_data);

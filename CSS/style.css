@@ -3,7 +3,7 @@ body {
 	color: #3F3F38;
 	margin: 0;
 	padding: 0;
-	font: 13px     / 1.231 arial, helvetica, clean, sans-serif;
+	font: 13px     /1.231 arial, helvetica, clean, sans-serif;
 	line-height: 1;
 	font-size: 80%;
 	vertical-align: baseline;
@@ -226,7 +226,7 @@ input[type =
 	background-image: linear-gradient(top,#46EB59,#36D148);
 }
 .action_button {
-	 
+
 	width: 150px;
 	height: 15px;
 	line-height: 15px;
@@ -417,46 +417,59 @@ fieldset {
 }
 /*NOTIFICATION MESSAGES*/
 .message {
-	display:block;
-	padding:10px 20px;
-	margin-bottom:15px;
+	display: block;
+	padding: 10px 20px;
+	margin-bottom: 15px;
 }
-
 .message p {
-	width:auto;
-	margin-bottom:0;
-	margin-left:60px;
+	width: auto;
+	margin-bottom: 0;
+	margin-left: 60px;
 }
-
 .message h2 {
-	margin-left:60px;
-	margin-bottom:5px;
+	margin-left: 60px;
+	margin-bottom: 5px;
 }
-
-.warning { 
-	border:1px solid #f1aa2d;
-} 
-
+.warning {
+	border: 1px solid #f1aa2d;
+}
 .message p {
-	color:#555;
+	color: #555;
 }
-
 .message h2 {
-	color:#333;
+	color: #333;
 }
-
-.error { 
-	border:1px solid #c44509;
+.error {
+	border: 1px solid #c44509;
 }
-
-.success { 
-	border:1px solid #739f1d;
+.success {
+	border: 1px solid #739f1d;
 }
-
-.information { 
-	border:1px solid #688fdc;
+.information {
+	border: 1px solid #688fdc;
 }
-
 .message:hover {
-	cursor:pointer;
+	cursor: pointer;
+}
+.alert {
+	
+	width: 19px;
+	height: 19px;
+	font-size: 10px;
+	font-weight: 600;
+	color: #FFF;
+	text-align: center;
+	line-height: 19px;
+	display: block;
+	border-radius: 100px;
+	position: absolute;
+	top: 6px;
+	right: 1px;
+	z-index: 100;
+}
+.red_alert{
+	background: red;
+}
+.green_alert{
+	background: green;
 }

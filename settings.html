@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Settings</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				
+				$( "#dialog-frm" ).dialog({
+					autoOpen: false,
+					height: 650,
+					maxHeight: 650,
+					minHeight: 650,
+					width: 1150,
+					maxWidth: 1150,
+					minWidth: 1150,
+					modal: true
+				});
+				
+				$( ".view_listing" ).click(function() {	
+					$( "#dialog-frm" ).dialog( "open" );
+				});
+					
+				$( "#tabs" ).tabs();
+				
+				$("#add").click(function() {	
+					$('#row').clone(true).insertAfter("#row");
+				});
+				
+				$("#remove").click(function() {
+					$("#row").after().remove();
+				});
+				
+				$('#save_drugcode').click(function(){
+					var data =[$('#drugcode_id').val(),$('#drug_unit').val(),$('#drugcode_packsize').val(),$('#drugcode_safety').val(),$('#generic_name').val(),$('#supporter').val(),$('#drugcode_other').val(),$('#drugcode_tb').val(),$('#drugcode_drug').val(),$('#dose').val(),$('#drugcode_duration').val(),$('#drugcode_quantity').val(),$('#drugcode_comment').val()];
+					populate(data)
+					alert("saved")
+					location.reload(true)
+				})
+				
+				
+				getUnits(function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#drug_unit").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+
+				});
+				
+				getGenericName(function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#generic_name").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+
+				});
+				
+				getDose(function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#dose").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+
+				});
+				
+				getSupporter(function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#supporter").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+
+				});
+				
+				getDrugcode(function(transaction, results) {
+					$('#listing').append('<tr><td>Drug</td><td>Unit</td><td>Pack size</td><td>Safety quantity</td><td>Generic name</td><td>Supported by</td><td>Dose</td><td>Duration</td><td>Quantity</td></tr>');
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$('#listing').append('<tr class="row"><td>'+row['drug']+'</td><td>'+row['unit']+'</td><td>'+row['pack_size']+'</td><td>'+row['safety_quantity']+'</td><td>'+row['generic_name']+'</td><td>'+row['supported_by']+'</td><td>'+row['dose']+'</td><td>'+row['duration']+'</td><td>'+row['quantity']+'</td></tr>');
+						$("#brand_drugname").append($("<option></option>").attr("value", row['id']).text(row['drug']));
+					}
+
+				});
+				
+				selectRegimen(function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#drug_regimen_desc").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
+					}
+
+				});
+				
+				for (var i=0; i < 6; i++) {
+				  $('#drug_regimen').append('<tr><td>drug regimen string</td></tr>');
+				};
+			});
+			
+			function populate(data){
+				var sql="INSERT INTO drugcode(drug,unit,pack_size,safety_quantity,generic_name,supported_by,dose,duration, quantity) VALUES ('"+data[0]+"','"+ data[1]+"','"+ data[2]+"', '"+data[3]+"', '"+data[4]+"','"+data[5]+"', '"+data[9]+"', '"+data[10]+"', '"+data[11]+"');";
+				console.log(sql);
+				executeStatement(sql);
+			}
+			
+		</script>
+		<style>
+			.row:nth-child(even) {
+			  background: #dde;
+			}
+			.row:nth-child(odd) {
+			  background: white;
+			}
+			td{
+				padding: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link">Patients</a>
+					<a href="inventory.html" class="top_menu_link">Inventory</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a href="settings.html" class="top_menu_link top_menu_active">Settings</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				
+				<div id="tabs" style="font-size: 11px;">
+					<ul>
+						<li><a href="#tabs-2">Drug code</a></li>
+						<li><a href="#tabs-3">Brand Name</a></li>
+						<li><a href="#tabs-5">Drug in Regimen</a></li>
+						<li><a href="#tabs-6">Stock source</a></li>
+						<li><a href="#tabs-7">Drug Destination</a></li>
+					</ul>				
+					<div id="tabs-2">
+						<form>
+							<table>
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td>Drug id</td>
+												<td><input type="text" id="drugcode_id"/></td>
+											</tr>
+											<tr>
+												<td>unit</td>
+												<td>
+													<select id="drug_unit">
+														<option>--select unit--</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>Pack size</td>
+												<td><input type="text" id="drugcode_packsize"/></td>
+											</tr>
+											<tr>
+												<td>Safety quantity</td>
+												<td><input type="text" id="drugcode_safety"/></td>
+											</tr>
+											<tr>
+												<td>Generic name</td>
+												<td>
+													<select id="generic_name">
+														<option>--select generic name--</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>Supported by</td>
+												<td>
+													<select id="supporter">
+														<option>--select support--</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input type="checkbox"  id="drugcode_other"/>Drug other than ARV
+												</td>
+												<td>
+													<input type="checkbox"  id="drugcode_tb"/>Or a TB drug?
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input type="checkbox" id="drugcode_drug" />Drug in use?
+												</td>
+											</tr>
+										</table>						
+									</td>
+									<td>
+										<table>
+											<tr>
+												<td colspan="2">
+													<fieldset>
+														<legend>Standard Dispensing Information</legend>
+														<table>
+															<tr>
+																<td>Dose</td>
+																<td>
+																	<select id="dose">
+																		<option>--select dose--</option>
+																	</select>
+																</td>
+																<td><a href="#">add dose</a></td>
+															</tr>
+															<tr>
+																<td>Duration</td>
+																<td><input type="text" id="drugcode_duration"/></td>
+															</tr>
+															<tr>
+																<td>Quantity</td>
+																<td><input type="text" id="drugcode_quantity"/></td>
+															</tr>
+														</table>
+													</fieldset>
+												</td>
+											</tr>
+											<tr>
+												<td>Comment</td>
+												<td><textarea cols="30" rows="6" id="drugcode_comment"></textarea></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td colspan=><input type="button" class="submit-button view_listing" value="view listing" style="font-size: 11px;"/></td>
+									<td colspan=><input type="button" id="save_drugcode" class="submit-button" value="submit" style="font-size: 11px;"/></td>
+								</tr>
+							</table>				
+						</form>
+					</div>
+					<div id="tabs-3">
+						<form>
+							<label>Drug</label>				
+							<select id="brand_drugname">
+								<option>--Select drug name--</option>
+							</select>
+									
+							<table>
+								<tr id="row">
+									<td><input type="text" /></td>
+									<td><input type="button" value="add" class="submit-button" id="add" /></td>
+									<td><input type="button" value="remove" class="submit-button" id="remove" /></td>
+								</tr>
+								<tr>
+									<td colspan="3"><input type="button" id="save" class="submit-button" value="submit" style="font-size: 11px;"/></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div id="tabs-5">
+						<form>
+							<label>Regimen</label>				
+							<select id="drug_regimen_desc">
+								<option>--Select regimen--</option>
+							</select>
+									
+							<table id="drug_regimen">
+								<script type="text/javascript">
+									
+								</script>					
+							</table>
+					</div>
+					<div id="tabs-6">
+						<form>
+							<table>
+								<tr>
+									<td><label>Supplier/Donor</label></td>
+									<td><input type="text" id="generic_name" /></td>
+									<td><input type="button" id="save" class="submit-button" value="submit" style="font-size: 11px;"/></td>
+									<td><input type="button" id="donor_listing" class="submit-button view_listing" value="view_listing" style="font-size: 11px;"/></td>
+								</tr>
+							</table>
+						</form>	
+					</div>
+					<div id="tabs-7">
+						<form>
+							<table>
+								<tr>
+									<td><label>Stock Destination</label></td>
+									<td><input type="text" id="generic_name" /></td>
+									<td><input type="button" id="save" class="submit-button" value="submit" style="font-size: 11px;"/></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div id="dialog-frm" title="Drug code listing">
+						<table id="listing">
+						
+						</table>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

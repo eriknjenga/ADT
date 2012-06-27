@@ -19,9 +19,13 @@
 				patient_number = $_GET['patient_number'];
 				initDatabase();
 				getLastVisitData();
+
+				$("#dispensing_date").attr('value', setCurrentDate());
+
 				//Add datepicker for the dispensing date
 				$("#dispensing_date").datepicker({
 					defaultDate : new Date(),
+					dateFormat : $.datepicker.ATOM,
 					changeMonth : true,
 					changeYear : true
 
@@ -92,7 +96,7 @@
 
 				});
 				//Dynamically load the list of regimens
-				selectAll("regimen", function(transaction, results) {
+				selectRegimen(function(transaction, results) {
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
@@ -134,12 +138,13 @@
 								continue;
 							}
 							$.each($(".drug"), function(i, v) {
+
 								$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 							});
 						}
 					});
 					//In addition to the drugs in this regimen, load OI medicines too!
-					loadOIMedicine();
+					//loadOIMedicine();
 				});
 				//Fill the whole drug row with details of the selected drug!
 				$(".drug").change(function() {
@@ -152,6 +157,9 @@
 					cloned_object.attr("drug_row", next_drug_row);
 					cloned_object.insertAfter('#drugs_table tr:last');
 					return false;
+				});
+				$(".remove").click(function() {
+					$("#drugs_table tr:last").remove();
 				});
 			});
 			//Function to get details of the last visit made by this patient
@@ -181,16 +189,15 @@
 							// Handle the results
 							var row = results.rows.item(0);
 							var today = new Date();
-							var appointment_date =$.datepicker.parseDate('yy-mm-dd', row['appointment']);
+							var appointment_date = $.datepicker.parseDate('yy-mm-dd', row['appointment']);
 							var timeDiff = today.getTime() - appointment_date.getTime();
-							var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
-							if(diffDays>0){
-								var html = "<span style='color:#ED5D3B;'>Late by <b>"+diffDays+"</b> days.</span>";								
+							var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
+							if(diffDays > 0) {
+								var html = "<span style='color:#ED5D3B;'>Late by <b>" + diffDays + "</b> days.</span>";
+							} else {
+								var html = "<span style='color:#009905'>Not Due for <b>" + Math.abs(diffDays) + "</b> days.</span>";
 							}
-							else{
-								var html = "<span style='color:#009905'>Not Due for <b>"+Math.abs(diffDays)+"</b> days.</span>";
-							}
-							
+
 							$("#days_late").append(html);
 							$("#last_appointment_date").attr("value", row['appointment']);
 						});
@@ -218,7 +225,11 @@
 
 					// Handle the results
 					var row = results.rows.item(0);
-					unit.attr("value", row['unit']);
+					getUnitName(row['unit'], function(transaction, res) {
+						var r = res.rows.item(0);
+						unit.attr("value", r['name']);
+					});
+					//unit.attr("value", row['unit']);
 					dose.attr("value", row['dose']);
 					duration.attr("value", row['duration']);
 					batch.children('option').remove();
@@ -269,6 +280,15 @@
 					});
 				});
 			}
+
+			function setCurrentDate() {
+				var d = new Date();
+				var curr_date = d.getDate();
+				var curr_month = d.getMonth() + 1;
+				var curr_year = d.getFullYear();
+				var current_date = curr_year + "-" + curr_month + "-" + curr_date;
+				return current_date;
+			}
 		</script>
 	</head>
 	<body>
@@ -287,10 +307,13 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a>
-					<a href="inventory.html" class="top_menu_link">Inventory</a>
-					<a href="reports.html" class="top_menu_link">Reports</a>
-					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients<span class="alert red_alert">off</span></a>
+					<a href="inventory.html" class="top_menu_link">Inventory<span class="alert red_alert">off</span></a>
+					<a href="reports.html" class="top_menu_link">Reports<span class="alert red_alert">off</span></a>
+					<a href="settings_management" class="top_menu_link">Settings<span class="alert green_alert">on</span></a>
+					<div id="my_profile_link_container" style="display: inline">
+						<a ref="#" class="top_menu_link" id="my_profile_link"></a>
+					</div>
 				</div>
 			</div>
 			<div id="inner_wrapper">
@@ -362,7 +385,7 @@
 							</div>
 							<div id="drugs_section">
 								<table border="0" class="data-table" id="drugs_table">
-									<th class="subsection-title" colspan="13">Select Drugs</th>
+									<th class="subsection-title" colspan="14">Select Drugs</th>
 									<tr>
 										<th>Drug</th>
 										<th>Unit</th>
@@ -377,6 +400,7 @@
 										<th>Pill Count</th>
 										<th>Comment</th>
 										<th>Add New</th>
+										<th>Remove</th>
 									</tr>
 									<tr drug_row="0">
 										<td><select name="drug" class="drug"  style="max-width: 70px;"></select></td>
@@ -413,6 +437,9 @@
 										<td>
 										<input type="button" class="add button" value="Add"/>
 										</td>
+										<td>
+										<input type="button" class="remove button" value="Remove"/>
+										</td
 									</tr>
 								</table>
 							</div>

@@ -91,14 +91,14 @@
 				});
 				//Fill some of the text boxes with details of the selected drug
 				$(".drug").change(function() {
-					
+
 					populateDrugRow($(this));
 				});
 			});
 			function updateCommodityQuantity(pack_object) {
 				var packs = pack_object.attr("value");
 				var pack_size = pack_object.closest("tr").find(".pack_size").attr("value");
-				var quantity_holder = pack_object.closest("tr").find(".quantity"); 
+				var quantity_holder = pack_object.closest("tr").find(".quantity");
 				if(!isNaN(pack_size) && pack_size.length > 0 && !isNaN(packs) && packs.length > 0) {
 					quantity_holder.attr("value", packs * pack_size);
 				}
@@ -124,8 +124,7 @@
 					pack_size.attr("value", row['pack_size']);
 					//After all is done, recalculate the quantity
 					updateCommodityQuantity(pack);
-				});		
-				
+				});
 			}
 
 			function refreshDatePickers() {
@@ -157,10 +156,13 @@
 				</div>
 				<div id="top_menu">
 					<a href="home_controller" class="top_menu_link  first_link">Home </a>
-					<a href="patient_management.html" class="top_menu_link ">Patients</a>
-					<a href="inventory.html" class="top_menu_link top_menu_active">Inventory</a>
-					<a href="reports.html" class="top_menu_link">Reports</a>
-					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+					<a href="patient_management.html" class="top_menu_link">Patients<span class="alert red_alert">off</span></a>
+					<a href="inventory.html" class="top_menu_link top_menu_active">Inventory<span class="alert red_alert">off</span></a>
+					<a href="reports.html" class="top_menu_link">Reports<span class="alert red_alert">off</span></a>
+					<a href="settings_management" class="top_menu_link">Settings<span class="alert green_alert">on</span></a>
+					<div id="my_profile_link_container" style="display: inline">
+						<a ref="#" class="top_menu_link" id="my_profile_link"></a>
+					</div>
 				</div>
 			</div>
 			<div id="inner_wrapper">

@@ -102,7 +102,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$drugs_array = array();
 		foreach ($drugs as $drug) {
-			$drug_details = array("id" => $drug -> id, "drug" => $drug -> Drug, "unit" => $drug -> Unit, "pack_size" => $drug -> Pack_Size, "safety_quantity" => $drug -> Safety_Quantity, "generic_name" => $drug -> Generic -> Name, "supported_by" => $drug -> Supporter -> Name, "dose" => $drug -> Drug_Dose -> Name, "duration" => $drug -> Duration, "quantity" => $drug -> Quantity);
+			$drug_details = array("id" => $drug -> id, "drug" => $drug -> Drug, "unit" => $drug -> Unit, "pack_size" => $drug -> Pack_Size, "safety_quantity" => $drug -> Safety_Quantity, "generic_name" => $drug -> Generic -> Name, "supported_by" => $drug -> Supporter -> Name, "dose" => $drug -> Drug_Dose -> Name, "duration" => $drug -> Duration, "quantity" => $drug -> Quantity, "source" => $drug -> Source);
 			$drugs_array[$counter] = $drug_details;
 			$counter++;
 		}
@@ -149,7 +149,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$regimens_array = array();
 		foreach ($regimens as $regimen) {
-			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Type_Of_Service, "remarks" => $regimen -> Remarks);
+			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Type_Of_Service, "remarks" => $regimen -> Remarks,"source"=>$regimen->Source);
 			$regimens_array[$counter] = $regimen_details;
 			$counter++;
 		}

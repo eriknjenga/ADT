@@ -59,7 +59,43 @@ if (isset($styles)) {
 	}
 }
 ?>  
+<?php
+if (!$user_is_pharmacist) {?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#my_profile_link_container").hover(function() {
+			var html = "<a href='<?php echo base_url().'user_management/change_password'?>' class='top_menu_link temp_link'>Change Password</a> <a href='<?php echo base_url().'user_management/logout'?>' class='top_menu_link temp_link'>Logout</a> ";
+			$("#my_profile_link").css('display','none'); 
+			$(this).append(html);
+		}, function() {
+			$("#my_profile_link").css('display','block');
+			$(this).find(".temp_link").remove();
+		});
+	});
 
+</script>
+<?php }?>
+<style>
+	#my_profile_link_container .generated_link{
+		display: none;
+	}
+	#my_profile_link{ 
+		width: 200px !important;
+		margin:0px !important;
+		padding:0px !important;
+	}
+	#my_profile_link_continer{
+		min-width: 200px !important;
+		background-color: red;
+		height:100px;
+	}
+	.temp_link{
+		font-size: 10px;
+		width:100px !important;
+		background-color: #B80000;  
+		margin:0px;
+	}
+</style>
 </head>
 
 <body>
@@ -129,14 +165,22 @@ foreach($menus as $menu){?>
 	<a href = "<?php echo $menu['url'];?>" class="top_menu_link <?php
 	if ($current == $menu['url'] || $menu['url'] == $link) {echo " top_menu_active ";
 	}
-?>"><?php echo $menu['text'];?>
+?>"><?php echo $menu['text']; if($menu['offline'] == "1"){?>
+	 <span class="alert red_alert">off</span></a>
+	
+<?php } else{?>
+	 <span class="alert green_alert">on</span></a>
+<?php }?>
+
+
+
 <?php
 $counter++;
 }
 	?>
-
+<div id="my_profile_link_container" style="display: inline">
 <a ref="#" class="top_menu_link" id="my_profile_link"><?php echo $this -> session -> userdata('full_name');?></a>
-
+</div>
  </div>
 
 </div>

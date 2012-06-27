@@ -9,6 +9,7 @@ class Regimen extends Doctrine_Record {
 		$this -> hasColumn('Type_Of_Service', 'varchar', 20);
 		$this -> hasColumn('Remarks', 'varchar', 30);
 		$this -> hasColumn('Enabled', 'varchar', 4);
+		$this -> hasColumn('Source', 'varchar', 10);
 	}
 
 	public function setUp() {

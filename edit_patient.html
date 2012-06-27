@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Add New Patient</title>
+		<title>Edit Patient</title>
 		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
@@ -25,6 +25,10 @@
 					}
 
 				});
+				var $_GET = getQueryParams(document.location.search);
+				var patient_identification = $_GET['patient_number'];
+				$("#patient_number").attr("value", patient_identification);
+
 				//Dynamically load the list of supporters!
 				selectAll("supporter", function(transaction, results) {
 					// Handle the results
@@ -65,15 +69,12 @@
 					});
 				});
 				$("#dob").datepicker({
-					yearRange : "-120:+0",
 					maxDate : "0D",
-					dateFormat : $.datepicker.ATOM,
 					changeMonth : true,
 					changeYear : true
 				});
 				$("#enrolled").datepicker({
-					maxDate : "0D",
-					dateFormat : $.datepicker.ATOM,
+					maxDate : "0D"
 				});
 
 				//Add listener to the gender drop down
@@ -90,7 +91,62 @@
 						});
 					}
 				});
+				/*
+				 $("#submit").click(function() {
+				 alert('submit was clicked')
+				 });
+				 */
+
+				getPatientDetails(patient_identification, function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						console.log(parent_row);
+						$('#medical_record_number').attr("value", parent_row['medical_record_number']);
+						$('#first_name').attr("value", parent_row['first_name']);
+						$('#last_name').attr("value", parent_row['last_name']);
+						$('#other_name').attr("value", parent_row['other_name']);
+						$('#dob').attr("value", parent_row['dob']);
+						$('#pob').attr("value", parent_row['pob']);
+						if(parent_row['gender'] == 1)
+							$('#gender').attr("value", "1");
+						else
+							$('#gender').attr("value", "2");
+						$('#weight').attr("value", parent_row['weight']);
+						$('#height').attr("value", parent_row['height']);
+						$('#surface_area').attr("value", parent_row['sa']);
+						$('#phone').attr("value", parent_row['phone']);
+						$('#physical').attr("value", parent_row['physical']);
+						$('#alternate').attr("value", parent_row['alternate']);
+						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
+							$('#other_illnesses').attr("checked", "checked");
+							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
+						}
+						$('#other_drugs').attr("value", parent_row['other_drugs']);
+						if(parent_row['adr'] != null || parent_row['adr'] != "") {
+							$('#other_allergies').attr("checked", "checked");
+							$('#other_allergies_listing').attr("value", parent_row['adr']);
+						}
+						$('#tb').attr("value", parent_row['tb']);
+						$('#smoke').attr("value", parent_row['smoke']);
+						$('#alcohol').attr("value", parent_row['alcohol']);
+						$('#enrolled').attr("value", parent_row['date_enrolled']);
+
+						$('#source').attr("value", parent_row['source']);
+						$('#support').attr("value", parent_row['supported_by']);
+						$('#service').attr("value", parent_row['service']);
+						$('#regimen').attr("value", parent_row['start_regimen']);
+					}
+				});
 			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
 			function getMSQ() {
 				var weight = $('#weight').attr('value');
 				var height = $('#height').attr('value');
@@ -100,7 +156,6 @@
 		</script>
 	</head>
 	<body>
-		<input type="hidden" id="sql">
 		<div id="wrapper">
 			<div id="top-panel" style="margin:0px;">
 				<div class="logo"></div>
@@ -129,9 +184,9 @@
 				<div id="main_wrapper">
 					<div id="signup_form">
 						<div class="short_title" >
-							<h1 class="banner_text" style="width:auto;">New Patient Registration</h1>
+							<h1 class="banner_text" style="width:auto;">Edit Patient Details</h1>
 						</div>
-						<form id="add_patient_form" method="post" >
+						<form id="edit_patient_form" method="post" >
 							<div class="column">
 								<label> <strong class="label">Medical Record Number</strong>
 									<input type="text" name="medical_record_number" id="medical_record_number" value="">
@@ -168,14 +223,14 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
-										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required,custom[onlyNumberSp]]">
+										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
-										<input style="width:140px" type="text"name="height" id="height" class="validate[required,custom[onlyNumberSp]]" onblur="getMSQ()">
+										<input style="width:140px" type="text"name="height" id="height" class="validate[required]" onblur="getMSQ()">
 									</label>
 								</div>
 								<label> <strong class="label">Body Surface Area (MSQ)</strong>
-									<input type="text" name="surface_area" id="surface_area" value="" readonly="readonly">
+									<input type="text" name="surface_area" id="surface_area" value="">
 								</label>
 								<label> <strong class="label">Patient's Phone Contact(s)</strong>
 									<input type="text" name="phone" id="phone" value="">
@@ -189,7 +244,7 @@
 								<div class="three_columns">
 									<strong class="label">Does Patient have other Chronic illnesses</strong>
 									Yes
-									<input type="checkbox" name="other_illnesses" id="other_illnesses" value="">
+									<input type="checkbox" name="other_illnesses" id="other_illnesses" value="" >
 									<div class="list">
 										List Them
 									</div>
@@ -231,9 +286,7 @@
 								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen" style="width:300px"></select> </label>
 							</div>
 							<div id="submit_section">
-								<input form="add_patient_form" class="submit-button" id="submit" value="Save &amp View List" style="width:200px;"/>
-								<input form="add_patient_form" class="submit-button" id="dispense" value="Save &amp Dispense" style="width:200px;"/>
-								<input type="reset" class="submit-button" id="reset" value="Reset Page" style="width:200px;"/>
+								<input form="edit_patient_form" class="submit-button" id="submit" value="Edit Patient Details" style="width:200px;"/>
 							</div>
 						</form>
 					</div>

@@ -1,3 +1,14 @@
+//Add the logout and change password links to the top menu
+	$(document).ready(function() {
+		$("#my_profile_link_container").hover(function() {
+			var html = "<a href='user_management/change_password' class='top_menu_link temp_link'>Change Password</a> <a href='user_management/logout' class='top_menu_link temp_link'>Logout</a> ";
+			$("#my_profile_link").css('display','none'); 
+			$(this).append(html);
+		}, function() {
+			$("#my_profile_link").css('display','block');
+			$(this).find(".temp_link").remove();
+		});
+	});
 function initDatabase() {
 	try {
 		if(!window.openDatabase) {
@@ -48,6 +59,11 @@ function initDatabase() {
 		}
 		return;
 	}
+	//Get the environment variables and display them appropriately
+	selectEnvironmentVariables(function(transaction, results) {
+		var variables = results.rows.item(0);
+		$("#my_profile_link").html(variables["operator"]);
+	});
 }
 
 function createTables() {
@@ -56,11 +72,11 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS supporter(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_service_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT, first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, machine_code TEXT, current_status TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT , first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, start_regimen_date TEXT, machine_code TEXT, current_status TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_change_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS visit_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS opportunistic_infections(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS drugcode(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, unit TEXT, pack_size TEXT, safety_quantity TEXT, generic_name TEXT, supported_by TEXT,dose TEXT, duration TEXT, quantity TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drugcode(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, unit TEXT, pack_size TEXT, safety_quantity TEXT, generic_name TEXT, supported_by TEXT,dose TEXT, duration TEXT, quantity TEXT, source TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_drug(id INTEGER NOT NULL PRIMARY KEY, regimen TEXT, drugcode TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS scheduled_patients(id INTEGER NOT NULL PRIMARY KEY, name TEXT, universal_id TEXT, start_regimen TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT, machine_code TEXT, quantity TEXT, last_regimen TEXT);', [], nullDataHandler, errorHandler);
@@ -72,6 +88,10 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS districts(id INTEGER(14) NOT NULL,name varchar(100) NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS generic_name (id INTEGER NOT NULL PRIMARY KEY,name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS dose (id INTEGER NOT NULL PRIMARY KEY,name TEXT,value TEXT,frequency TEXT);', [], nullDataHandler, errorHandler)
 		//Create all the necessary indexes!
 		transaction.executeSql('CREATE INDEX if not exists dispensing_date_index ON patient_visit(dispensing_date);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists dispensing_patient_index ON patient_visit(patient_id);', [], nullDataHandler, errorHandler);
@@ -110,14 +130,24 @@ function executeStatementArray(sql_array) {
 
 			transaction.executeSql(sql_array[sql]);
 		}
-	}, transactionCallback, transactionErrorCallback);
+	}, null, transactionCallback, transactionErrorCallback);
 }
 
-function transactionCallback(transaction) {
+function callbackExecuteStatementArray(sql_array, callback) {
+	DEMODB.transaction(function(transaction) {
+		for(sql in sql_array) {
+			if(sql_array[sql].length > 0) {
+				transaction.executeSql(sql_array[sql]);
+			}
+		}
+	}, null, callback, errorHandler);
+}
+
+function transactionCallback(transaction, result) {
 	console.log(transaction);
 }
 
-function transactionErrorCallback(transaction) {
+function transactionErrorCallback(transaction, error) {
 	console.log(transaction);
 }
 
@@ -131,12 +161,22 @@ function errorHandler(transaction, error) {
 	return false;
 }
 
-function nullDataHandler() {
+function nullDataHandler(transaction, result) {
 	console.log("SQL Query Succeeded");
 }
 
 function selectAll(table, dataSelectHandler) {
 	var sql = "select * from " + table;
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function selectRegimen(dataSelectHandler) {
+	var sql = "select * from regimen order by regimen_desc asc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function selectDistricts(dataSelectHandler) {
+	var sql = "select * from districts order by name asc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -160,7 +200,8 @@ function selectLastVisitDetails(patient, date, dataSelectHandler) {
 }
 
 function selectRegimenDrugs(regimen, dataSelectHandler) {
-	var sql = "select drugcode.id, drug from drugcode, regimen_drug where regimen_drug.regimen = '" + regimen + "' and drugcode.id = regimen_drug.drugcode";
+	var sql = "select d.id, UPPER(drug) as drug from drugcode d, regimen_drug rd,regimen r where (rd.regimen = '" + regimen + "' or r.regimen_code = 'OI') and d.id = rd.drugcode and rd.regimen = r.id order by UPPER(drug) asc";
+
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -260,7 +301,7 @@ function getLastAppointmentData(dataSelectHandler) {
 
 //Get the latest record from the patient visit table grouped by the machine code
 function getLastVisitData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id from patient_visit group by machine_code";
+	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id,current_height,current_weight from patient_visit group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -272,7 +313,7 @@ function countSearchedPatientRecords(search_term, dataSelectHandler) {
 
 //This function returns a list of patients based on the limits specified
 function getPatientDetails(patient_number, dataSelectHandler) {
-	var sql = "select patient_number_ccc, first_name, last_name, other_name from patient where patient_number_ccc = '" + patient_number + "'";
+	var sql = "select * from patient where patient_number_ccc = '" + patient_number + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -311,6 +352,37 @@ function getDrugsDetails(id, dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+//get unit name
+function getUnitName(id, dataSelectHandler) {
+	var sql = "select Name from drug_unit where id = '" + id + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getUnits(dataSelectHandler) {
+	var sql = "select * from drug_unit";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugcode(dataSelectHandler) {
+	var sql = "select * from drugcode";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getGenericName(dataSelectHandler) {
+	var sql = "select * from generic_name";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDose(dataSelectHandler) {
+	var sql = "select * from dose";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getSupporter(dataSelectHandler) {
+	var sql = "select * from supporter";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 //This function returns the bin card of a drug given its id
 function getDrugBinCard(id, dataSelectHandler) {
 	var sql = "select * from drug_stock_movement d, where d.drug = '" + drug + "'";
@@ -342,11 +414,11 @@ function getMissedAppointments(start_date, end_date, dataSelectHandler) {
 	var sql = "SELECT pa.appointment, pa.patient, p.other_name,p.first_name,p.gender,p.physical,(strftime('%s','now')-strftime('%s',appointment))/86400 as days_late from patient_appointment pa left join patient p on p.patient_number_ccc = pa.patient where strftime('%Y-%m-%d',pa.appointment) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') and p.current_status = '1' group by patient;";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 function getChangedRegimens(start_date, end_date, dataSelectHandler) {
 	var sql = "select distinct p.patient_number_ccc, p.first_name, p.other_name, p.service, pv.dispensing_date,r1.regimen_desc as current_regimen,r2.regimen_desc as last_regimen, pv.comment, pv.regimen_change_reason from patient p left join patient_visit pv on p.patient_number_ccc = pv.patient_id left join regimen r1 on pv.regimen = r1.id left join regimen r2 on pv.last_regimen = r2.id where pv.last_regimen != '' and pv.regimen != pv.last_regimen and strftime('%Y-%m-%d',pv.dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') and p.current_status = '1' order by last_regimen";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-
 
 function getDrugBatches(drug, dataSelectHandler) {
 	var sql = "select distinct batch_number from drug_stock_movement where drug = '" + drug + "' order by id desc";
@@ -365,6 +437,52 @@ function getTotalPatientAppointments(appointment_date, dataSelectHandler) {
 
 function getLastPatientAppointment(patient, dataSelectHandler) {
 	var sql = "select appointment from patient_appointment pa where pa.patient = '" + patient + "' order by appointment desc limit 1";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPatientsEnrolledPeriod(start_date, end_date, dataSelectHandler) {
+
+	var sql = "SELECT " + "regimen.regimen_desc regimen," + "count(start_regimen) total," + "(SELECT count(start_regimen) FROM patient where date('now')-dob>=15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) adult_male," + "(SELECT count(start_regimen) FROM patient where date('now')-dob>=15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) adult_female," + "(SELECT count(start_regimen) FROM patient where date('now')-dob<15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) child_male," + "(SELECT count(start_regimen) FROM patient where date('now')-dob<15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) child_female " + "FROM " + "patient," + "regimen " + "WHERE " + "patient.start_regimen = regimen.id " + "AND " + "strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') " + "AND strftime('%Y-%m-%d','" + end_date + "')" + "GROUP BY " + "start_regimen " + "ORDER BY " + "regimen.regimen_desc " + "ASC";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPatientsEnrolledPeriodSummary(symbol, service, gender, start_date, end_date, dataSelectHandler) {
+	var sql = "SELECT count(service) as total FROM patient where date('now')-dob" + symbol + " AND service='" + service + "' AND gender='" + gender + "' AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPatientsEnrolledPeriod1(start_date, end_date, dataSelectHandler) {
+
+	var sql = "SELECT " + "regimen.regimen_desc regimen," + "count(start_regimen) total," + "(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob>=15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) adult_male," + "(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob>=15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) adult_female," + "(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob<15 and gender=1 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) child_male," + "(SELECT count(start_regimen) FROM patient where service=1 AND date('now')-dob<15 and gender=2 and patient.start_regimen = regimen.id AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) child_female " + "FROM " + "patient," + "regimen " + "WHERE " + "patient.start_regimen = regimen.id " + "AND " + "strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') " + "AND strftime('%Y-%m-%d','" + end_date + "') " + "AND service=1 " + "GROUP BY " + "start_regimen " + "ORDER BY " + "regimen.regimen_desc " + "ASC";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPatientsEnrolledPeriodSummary1(symbol, gender, start_date, end_date, dataSelectHandler) {
+	var sql = "SELECT count(service) as total FROM patient where date('now')-dob" + symbol + " AND service=1 AND gender='" + gender + "' AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function patientListing_dateStarted(start_date, dataSelectHandler) {
+	var sql = "SELECT * from patient where date_enrolled='" + start_date + "'";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function patientListingByRegimen(start_date, end_date, dataSelectHandler) {
+	var sql = "SELECT regimen.regimen_desc regimen,count(patient.start_regimen) total FROM patient,regimen WHERE regimen.id=patient.start_regimen AND service=1 AND strftime('%Y-%m-%d',date_enrolled) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') group by regimen.id";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getAppointmentSummary(dataSelectHandler) {
+	var sql = "SELECT distinct appointment,count(distinct patient) as patients FROM `patient_appointment` group by appointment order by appointment desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getCumulativePatientNumber(start_date, dataSelectHandler) {
+	var sql = "SELECT distinct patient_status.Name, count(patient.current_status) as total FROM patient,patient_status WHERE patient_status.id=patient.current_status AND strftime('%Y-%m-%d',date_enrolled)<strftime('%Y-%m-%d','" + start_date + "') GROUP BY patient_status.Name";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

@@ -15,6 +15,7 @@ class Drugcode extends Doctrine_Record {
 		$this -> hasColumn('Dose', 'varchar', 20);
 		$this -> hasColumn('Duration', 'varchar', 4);
 		$this -> hasColumn('Quantity', 'varchar', 4);
+		$this -> hasColumn('Source', 'varchar', 10);
 	}
 
 	public function setUp() {
@@ -45,7 +46,7 @@ class Drugcode extends Doctrine_Record {
 		return $total[0]['Total_Drugs'];
 	}
 		public function getPagedDrugs($offset, $items) {
-		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity") -> from("Drugcode") -> offset($offset) -> limit($items);
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity,Source") -> from("Drugcode") -> offset($offset) -> limit($items);
 		$drugs = $query -> execute();
 		return $drugs;
 	}

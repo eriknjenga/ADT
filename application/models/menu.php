@@ -4,6 +4,7 @@ class Menu extends Doctrine_Record {
 		$this -> hasColumn('Menu_Text', 'varchar', 50);
 		$this -> hasColumn('Menu_Url', 'varchar', 100);
 		$this -> hasColumn('Description', 'text');
+		$this -> hasColumn('Offline', 'varchar',1);
 	}
 
 	public function setUp() {

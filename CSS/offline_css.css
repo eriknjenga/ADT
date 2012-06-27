@@ -4,7 +4,7 @@
 }
 .hovered td {
 	background-color: #E5E5E5 !important;
-} 
+}
 #inner_wrapper {
 	width: 97%;
 }
@@ -57,7 +57,7 @@
 #signup_form {
 	border: 1px solid #E5E5E5;
 	margin: 0 auto;
-	overflow: hidden; 
+	overflow: hidden;
 }
 .label {
 	font-weight: bold;
@@ -74,14 +74,14 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 }
-#dispense_form, #add_patient_form, #stock_form{
+#dispense_form, #add_patient_form, #stock_form {
 	width: 980px;
 	margin: 0 auto;
-	border-right:1px solid #E5E5E5;
-	border-left:1px solid #E5E5E5;
+	border-right: 1px solid #E5E5E5;
+	border-left: 1px solid #E5E5E5;
 }
 .column {
-	position: relative; 
+	position: relative;
 	overflow: hidden;
 	float: left;
 	width: 45%;
@@ -111,14 +111,14 @@
 	float: right;
 	clear: right;
 }
-#submit_section { 
-	width: 500px;
+#submit_section {
+	width: 850px;
 	margin: 0 auto;
 }
 #add_patient_form {
 	overflow: hidden;
 }
-#drugs_section { 
+#drugs_section {
 	width: 970px;
 }
 .small_text {
@@ -126,4 +126,23 @@
 	font-size: 11px !important;
 	padding: 0 !important;
 	text-align: center !important;
+}
+#my_profile_link_container .generated_link {
+	display: none;
+}
+#my_profile_link {
+	width: 200px !important;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+#my_profile_link_continer {
+	min-width: 200px !important;
+	background-color: red;
+	height: 100px;
+}
+.temp_link {
+	font-size: 10px;
+	width: 100px !important;
+	background-color: #B80000;
+	margin: 0px;
 }
