@@ -63,10 +63,6 @@ echo $this -> table -> generate($regimens);
 <strong class="label">Remarks</strong>
 <textarea name="remarks" id="remarks" class="input"></textarea>
 </label>
-	<label>
-<strong class="label"><input type="checkbox" name="show" id="show" class="input"> Show</strong>
-
-</label>
 	<input type="submit" value="Save" class="submit-button"/>
 	</form>
 </div>

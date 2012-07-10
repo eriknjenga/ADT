@@ -21,7 +21,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	//Get the total Number of drugs in the server
 	public function getTotalServerDrugs() {
-		$number = Drugcode::getTotalNumber();
+		$source = $this -> session -> userdata('facility');
+		$number = Drugcode::getTotalNumber($source);
 		echo $number;
 	}
 	
@@ -45,7 +46,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	//Get the total Number of regimens in the server
 	public function getTotalServerRegimens() {
-		$number = Regimen::getTotalNumber();
+		$source = $this -> session -> userdata('facility');
+		$number = Regimen::getTotalNumber($source);
 		echo $number;
 	}
 
@@ -57,7 +59,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	//Get the total Number of regimen change reasons in the server
 	public function getTotalServerRegimenDrugs() {
-		$number = Regimen_Drug::getTotalNumber();
+		$source = $this -> session -> userdata('facility');
+		$number = Regimen_Drug::getTotalNumber($source);
 		echo $number;
 	}
 
@@ -98,7 +101,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 	}
 
 	public function getDrugs($offset, $limit) {
-		$drugs = Drugcode::getPagedDrugs($offset, $limit);
+		$source = $this -> session -> userdata('facility');
+		$drugs = Drugcode::getPagedDrugs($offset, $limit,$source);
 		$counter = 0;
 		$drugs_array = array();
 		foreach ($drugs as $drug) {
@@ -145,7 +149,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 	}
 
 	public function getRegimens($offset, $limit) {
-		$regimens = Regimen::getPagedRegimens($offset, $limit);
+		$source = $this -> session -> userdata('facility');
+		$regimens = Regimen::getPagedRegimens($offset, $limit,$source);
 		$counter = 0;
 		$regimens_array = array();
 		foreach ($regimens as $regimen) {
@@ -169,7 +174,8 @@ class Synchronize_Pharmacy extends MY_Controller {
 	}
 
 	public function getRegimenDrugs($offset, $limit) {
-		$regimen_drugs = Regimen_Drug::getPagedRegimenDrugs($offset, $limit);
+		$source = $this -> session -> userdata('facility');
+		$regimen_drugs = Regimen_Drug::getPagedRegimenDrugs($offset, $limit,$source);
 		$counter = 0;
 		$regimen_drugs_array = array();
 		foreach ($regimen_drugs as $regimen_drug) {

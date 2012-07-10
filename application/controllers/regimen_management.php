@@ -9,18 +9,29 @@ class Regimen_management extends MY_Controller {
 	}
 
 	public function listing() {
+		$access_level = $this -> session -> userdata('user_indicator');
+		$source = 0;
+		if ($access_level == "pharmacist") {
+			$source = $this -> session -> userdata('facility');
+		}
+
 		$data = array();
 		$data['settings_view'] = "regimen_listing_v";
 		$data['styles'] = array("jquery-ui.css");
 		$data['scripts'] = array("jquery-ui.js");
-		$data['regimens'] = Regimen::getAllHydrated(); 
-		$this -> table -> set_heading(array('id', 'Regimen_Code', 'Regimen_Desc','Line','Enabled' ,'Regimen_Category','Type_Of_Service'));
+		$data['regimens'] = Regimen::getAllHydrated($source);
+		$this -> table -> set_heading(array('id', 'Regimen Code', 'Regimen Desc', 'Enabled', 'Regimen Category', 'Type Of Service'));
 		$data['regimen_categories'] = Regimen_Category::getAll();
 		$data['regimen_service_types'] = Regimen_Service_Type::getAll();
 		$this -> base_params($data);
 	}
 
 	public function save() {
+		$access_level = $this -> session -> userdata('user_indicator');
+		$source = 0;
+		if ($access_level == "pharmacist") {
+			$source = $this -> session -> userdata('facility');
+		}
 		$regimen = new Regimen();
 		$regimen -> Regimen_Code = $this -> input -> post('regimen_code');
 		$regimen -> Regimen_Desc = $this -> input -> post('regimen_desc');
@@ -28,12 +39,12 @@ class Regimen_management extends MY_Controller {
 		$regimen -> Line = $this -> input -> post('line');
 		$regimen -> Type_Of_Service = $this -> input -> post('type_of_service');
 		$regimen -> Remarks = $this -> input -> post('remarks');
-		$regimen -> Enabled = $this -> input -> post('show');
+		$regimen -> Enabled = "1";
+		$regimen -> Source = $source;
 
 		$regimen -> save();
 		redirect('regimen_management');
 	}
- 
 
 	public function base_params($data) {
 		$data['quick_link'] = "regimen";

@@ -16,7 +16,7 @@
 <div id="view_content">
 	<a class="action_button" id="new_genericname" href="<?php echo base_url()."drugcode_management"?>"> &lt;&lt;Back to Listing</a>
 	<?php
-	$attributes = array('class' => 'input_form', 'style' => 'width:500px; margin:0 auto; border:1px solid #DDD; overflow:hidden;');
+	$attributes = array('class' => 'input_form', 'style' => 'width:600px; margin:0 auto; border:1px solid #DDD; overflow:hidden;');
 	echo form_open('drugcode_management/save', $attributes);
 	echo validation_errors('<p class="error">', '</p>');
 	?>

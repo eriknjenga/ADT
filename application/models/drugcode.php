@@ -28,8 +28,8 @@ class Drugcode extends Doctrine_Record {
 
 	}
 
-	public function getAll() {
-		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode");
+	public function getAll($source = 0) {
+		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"')->orderBy("id desc");
 		$drugsandcodes = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drugsandcodes;
 	}
@@ -40,13 +40,13 @@ class Drugcode extends Doctrine_Record {
 		return $drugsandcodes;
 	}
 
-	public function getTotalNumber() {
-		$query = Doctrine_Query::create() -> select("count(*) as Total_Drugs") -> from("Drugcode");
+	public function getTotalNumber($source = 0) {
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Drugs") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"');
 		$total = $query -> execute();
 		return $total[0]['Total_Drugs'];
 	}
-		public function getPagedDrugs($offset, $items) {
-		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity,Source") -> from("Drugcode") -> offset($offset) -> limit($items);
+		public function getPagedDrugs($offset, $items,$source = 0) {
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity,Source") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"') -> offset($offset) -> limit($items);
 		$drugs = $query -> execute();
 		return $drugs;
 	}

@@ -62,7 +62,7 @@ foreach($regimens as $regimen){
 				<?php
 foreach($drug_codes as $drug_code){
 				?>
-				<option value="<?php echo $drug_code -> id;?>"><?php echo $drug_code -> Drug;?></option>
+				<option value="<?php echo $drug_code['id'];?>"><?php echo $drug_code ['Drug'];?></option>
 				<?php }?>
 			</select> </label>
 		<input type="submit" value="Save" class="submit-button"/>

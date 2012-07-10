@@ -9,12 +9,17 @@ class Drugcode_management extends MY_Controller {
 	}
 
 	public function listing() {
+		$access_level = $this -> session -> userdata('user_indicator');
+		$source = 0; 
+		if ($access_level == "pharmacist") {
+			$source = $this -> session -> userdata('facility');
+		}
 		$data = array();
 		$data['settings_view'] = "drugcode_listing_v";
-		$data['drugcodes'] = Drugcode::getAll(); 
-		$this -> table -> set_heading(array('id', 'Drug',  'Pack Size', 'Safety Quantity',  'Quantity','Duration'));
+		$data['drugcodes'] = Drugcode::getAll($source);
+		$this -> table -> set_heading(array('id', 'Drug', 'Pack Size', 'Safety Quantity', 'Quantity', 'Duration'));
 		$this -> base_params($data);
-		
+
 	}
 
 	public function add() {
@@ -32,6 +37,11 @@ class Drugcode_management extends MY_Controller {
 		if ($valid == false) {
 			$this -> add();
 		} else {
+			$access_level = $this -> session -> userdata('user_indicator');
+			$source = 0;
+			if ($access_level == "pharmacist") {
+				$source = $this -> session -> userdata('facility');
+			}
 			$drugcode = new Drugcode();
 			$drugcode -> Drug = $this -> input -> post('drug');
 			$drugcode -> Unit = $this -> input -> post('unit');
@@ -46,6 +56,7 @@ class Drugcode_management extends MY_Controller {
 			$drugcode -> Dose = $this -> input -> post('dose');
 			$drugcode -> Duration = $this -> input -> post('duration');
 			$drugcode -> Quantity = $this -> input -> post('quantity');
+			$drugcode -> Source = $source;
 
 			$drugcode -> save();
 			redirect('drugcode_management');

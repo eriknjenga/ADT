@@ -8,7 +8,7 @@ class Settings_Management extends MY_Controller {
 	}
 
 	public function index() {
-redirect("genericname_management");
+		redirect("regimen_management");
 	}
 
 	public function base_params($data) {
