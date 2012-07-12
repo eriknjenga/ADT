@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Order Form</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				
+				$( "#accordion" ).accordion({
+					autoHeight: false,
+					navigation: true
+				});
+				getDrugOrder("1",function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						//console.log(row['name']+":");
+						$('#adult_listing').append('<tr><td>'+row['name']+'</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>');
+						
+					}
+
+				});
+			});
+			function appendRow(row,column){
+				for (var i=0; i < column; i++) {
+				  row+="<td><input type=\"text\" size=\"10\"></td>";
+				};
+				row+="<\/tr>";
+				$("#drug_codes").append(row);
+			}
+		</script>
+		<style>
+			a{
+				background-color: #036;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients</a>
+					<a href="inventory.html" class="top_menu_link">Inventory</a>
+					<a href="reports.html" class="top_menu_link">Reports</a>
+					<a href="order.html" class="top_menu_link top_menu_active">Order</a>
+					<a ref="#" class="top_menu_link" id="my_profile_link">Test Name</a>
+				</div>
+			</div>
+			<div id="inner_wrapper" align="center">
+				<p align="center">FACILITY CONSUMPTION DATA REPORT AND REQUEST (F-CDRR) FOR ANTIRETROVIRAL AND OPPORTUNISTIC INFECTION MEDICINES</p>
+				<form id="order_form" >
+					<!--<table>
+						<tr>
+							<td>Programme Sponsor:(Please Tick)</td>
+							<td>GOK</td>
+							<td><input type="text" /></td>
+							<td>PEPFAR</td>
+							<td><input type="text" /></td>
+							<td>MSF</td>
+							<td><input type="text" /></td>
+							<td colspan="2"></td>
+						</tr>
+						<tr>
+							<td colspan="2">Facility name</td>
+							<td colspan="3"><input type="text" /></td>
+							<td colspan="2">Facility Code</td>
+							<td colspan="2"><input type="text" /></td>
+						</tr>
+						<tr>
+							<td colspan="2">Province</td>
+							<td colspan="3"><input type="text" /></td>
+							<td colspan="2">Distict</td>
+							<td colspan="2"><input type="text" /></td>
+						</tr>
+						<tr>
+							<td>Type of Service provided at the Facility:- (Please Tick)ART</td>
+							<td>ART</td>
+							<td><input type="text" /></td>
+							<td>PMTCT</td>
+							<td><input type="text" /></td>
+							<td>PEP</td>
+							<td><input type="text" /></td>
+							<td colspan="2"></td>
+						</tr>
+						<tr>
+							<td>Period of reporting</td>
+							<td colspan="2"><input type="text" /></td>
+							<td>Beginning</td>
+							<td colspan="2"><input type="text" /></td>
+							<td>Ending</td>
+							<td colspan="2"><input type="text" /></td>
+						</tr>
+					</table>-->
+					
+					<div>
+						<div id="accordion" style="font-size: 11px;">
+							<h3><a href="#" class="subtitle"><font color="white">Adult Preparations</font></a></h3>
+							<div align="center" id="adult">
+								<table id="adult_listing">
+									<tr>
+										<td>Drug name</td>
+										<td>Unit pack size</td>
+										<td>Beginning balance (in packs)</td>
+										<td>Quantity recieved this period (in packs)</td>
+										<td colspan="2">Total quantity dispensed this period</td>
+										<td>Losses(damages, expiries,missing)-in packs</td>
+										<td>Adjustments (borrowed from or issued out to other facilities)-in packs</td>
+										<td>End of month physical count-in packs</td>
+										<td colspan="2">Drugs with less than 6 months to expiry</td>
+										<td>Days out of stock this month</td>
+										<td>Quantities required for RESUPPLY</td>
+									</tr>
+									<tr>
+										<td colspan="2"></td>
+										<td>A</td>
+										<td>B</td>
+										<td>In Units (tabs, caps, bottles for Liquids, etc)</td>
+										<td>C</td>
+										<td>D</td>
+										<td>E</td>
+										<td>F</td>
+										<td>Quantity</td>
+										<td>Expirey Date</td>
+										<td>G</td>
+										<td>H</td>
+									</tr>
+								</table>
+							</div>
+							<h3><a href="#" class="subtitle" id="two"><font color="white">Paeditric Preparations</font></a></h3>
+							<div align="center" id="campus">
+									show			
+							</div>
+							<h3><a href="#" class="subtitle" id="three"><font color="white">Drugs for OIs</font>  </a></h3>
+							<div align="center">
+								show
+							</div>
+						</div>
+					</div>
+					<br /><br />
+					<div>
+						
+						<table id="drug_codes">
+							<tr>
+							<td></td>
+								<td>PM1</td>
+								<td>PM2</td>
+								<td>PM3</td>
+								<td>PM4</td>
+								<td>PM5</td>
+								<td>PM6</td>
+								<td>PM7</td>
+								<td>PM8</td>
+								<td>2</td>
+								<td>PC1</td>
+								<td>PC2</td>
+								<td>PC3</td>		
+							</tr>					
+							<script type="text/javascript">
+							var row="<tr><td>Number of patients who picked drugs this period</td>";
+							appendRow(row,12);
+							
+							row="<tr><td>Mos of stocks dispensed this period</td>";
+							appendRow(row,12);
+							</script>
+														
+							<tr>																		
+								<td></td>
+								<td>AF1A</td>
+								<td>AF1B</td>
+								<td>AF2A</td>
+								<td>AF2B</td>
+								<td>AF3A</td>
+								<td>AF3B</td>
+								<td>AS1A</td>
+								<td>AS1B</td>
+								<td>AS1C</td>
+								<td>AS2A</td>
+								<td>AS2B</td>
+								<td>AS2C</td>		
+							</tr>
+							<script type="text/javascript">
+							var row="<tr><td>Number of patients who picked drugs this period</td>";
+							appendRow(row,12);
+							
+							row="<tr><td>Mos of stocks dispensed this period</td>";
+							appendRow(row,12);
+							</script>
+							
+							<tr>																
+								<td></td>
+								<td>AS2D</td>
+								<td>AS2E</td>
+								<td>AS3A</td>
+								<td>AS4A</td>
+								<td>AS4B</td>
+								<td>AO1A</td>
+								<td>AO1B</td>
+								<td>AO1C</td>
+								<td>CF1A</td>
+								<td>CF1B</td>
+								<td>CF1C</td>
+								<td>CF2A</td>		
+							</tr>
+							<script type="text/javascript">
+							var row="<tr><td>Number of patients who picked drugs this period</td>";
+							appendRow(row,12);
+							
+							row="<tr><td>Mos of stocks dispensed this period</td>";
+							appendRow(row,12);
+							</script>
+							
+							<tr>	
+								<td></td>
+								<td>CF2B</td>
+								<td>CF2C</td>
+								<td>CF2D</td>
+								<td>CF3A</td>
+								<td>CF3B</td>
+								<td>CS1A</td>
+								<td>CS1B</td>
+								<td>CS1C</td>
+								<td>CS2A</td>
+								<td>CS2B</td>
+								<td>CS3A</td>
+								<td>CS3B</td>		
+							</tr>
+							<script type="text/javascript">
+							var row="<tr><td>Number of patients who picked drugs this period</td>";
+							appendRow(row,12);
+							
+							row="<tr><td>Mos of stocks dispensed this period</td>";
+							appendRow(row,12);
+							</script>
+							
+							<tr>	
+								<td></td>
+								<td>CO1A</td>
+								<td>CO1B</td>
+								<td>PA1A</td>
+								<td>PA1B</td>
+								<td>PA2A</td>
+								<td>PA2B</td>
+								<td>PC1A</td>
+								<td>PC1B</td>
+								<td>PC2A</td>
+								<td>PC2B</td>										
+							</tr>
+							<script type="text/javascript">
+							var row="<tr><td>Number of patients who picked drugs this period</td>";
+							appendRow(row,10);
+							
+							row="<tr><td>Mos of stocks dispensed this period</td>";
+							appendRow(row,10);
+							</script>	
+						</table>												
+					</div>
+				</form>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

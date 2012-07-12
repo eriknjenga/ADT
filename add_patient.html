@@ -21,7 +21,7 @@
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
-						$("#pob").append($("<option></option>").attr("value", row['id']).text(row['name']));
+						$("#pob").append($("<option></option>").attr("value", row['name']).text(row['name']));
 					}
 
 				});
@@ -45,7 +45,7 @@
 				});
 				//Dynamically load the list of service types
 				selectAll("regimen_service_type", function(transaction, results) {
-					// Handle the results
+					// Handle the results 
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
 						$("#service").append($("<option></option>").attr("value", row['id']).text(row['name']));
@@ -58,6 +58,7 @@
 					//Dynamically load the list of service types
 					selectServiceRegimen(value, function(transaction, results) {
 						// Handle the results
+						$("#regimen").append($("<option></option>"));
 						for(var i = 0; i < results.rows.length; i++) {
 							var row = results.rows.item(i);
 							$("#regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
@@ -154,11 +155,12 @@
 									<label style="width:140px; float:left;"> <strong class="label" >Date of Birth</strong>
 										<input style="width:140px;" type="text"name="dob" id="dob" class="validate[required]">
 									</label>
-									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">--> <select name="pob" id="pob"></select> </label>
+									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">--> <select name="pob" id="pob" style="width:120px"></select> </label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Gender</strong>
 										<select name="gender" id="gender">
+											<option value=""></option>
 											<option value="1">Male</option><option value="2">Female</option>
 										</select> </label>
 									<label style="width:140px; float:right; display: none" id="pregnant_container"> <strong class="label">Pregnant?</br> </strong>
@@ -168,10 +170,10 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
-										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required,custom[onlyNumberSp]]">
+										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
-										<input style="width:140px" type="text"name="height" id="height" class="validate[required,custom[onlyNumberSp]]" onblur="getMSQ()">
+										<input style="width:140px" type="text"name="height" id="height" class="validate[required]" onblur="getMSQ()">
 									</label>
 								</div>
 								<label> <strong class="label">Body Surface Area (MSQ)</strong>
@@ -207,14 +209,17 @@
 								</div>
 								<label> <strong class="label">Does Patient Have TB?</strong>
 									<select name="tb" id="tb">
+										<option value=""></option>
 										<option value="0">No</option><option value="1">Yes</option>
 									</select> </label>
 								<label> <strong class="label">Does Patient Smoke?</strong>
 									<select name="smoke" id="smoke">
+										<option value=""></option>
 										<option value="0">No</option><option value="1">Yes</option>
 									</select> </label>
 								<label> <strong class="label">Does Patient Drink Alcohol?</strong>
 									<select name="alcohol" id="alcohol">
+										<option value=""></option>
 										<option value="0">No</option><option value="1">Yes</option>
 									</select> </label>
 							</div>
@@ -222,8 +227,8 @@
 								<label> <strong class="label">Date Patient Enrolled</strong>
 									<input type="text" name="enrolled" id="enrolled" value="">
 								</label>
-								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"></select> </label>
-								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"></select> </label>
+								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"><option></option></select> </label>
+								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"><option></option></select> </label>
 								<label> <strong class="label">Type of Service</strong>
 									<select name="service" id="service">
 										<option></option>

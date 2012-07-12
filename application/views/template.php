@@ -156,7 +156,7 @@ if (!$user_is_pharmacist) {?>
 	$current = $this -> router -> class;
 	$counter = 0;
 ?>
- 	<a href="home_controller" class="top_menu_link  first_link <?php
+ 	<a href="<?php echo site_url('home_controller');?>" class="top_menu_link  first_link <?php
 	if ($current == "home_controller") {echo " top_menu_active ";
 	}
 ?>">Home </a>

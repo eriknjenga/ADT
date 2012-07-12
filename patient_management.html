@@ -16,6 +16,13 @@
 		<script type="text/javascript">
 			total_patients = 0;
 			$(document).ready(function() {
+				var $_GET = getQueryParams(document.location.search);
+				message = $_GET['message'];
+				if(message != null){
+					$("#message").text(message);
+					$("#message").css("display","block");
+				}
+				
 				initDatabase();
 				getTotalPatients();
 				getPatients(0);
@@ -120,8 +127,8 @@
 					$("#previous_offset_holder").attr("value", previous_offset);
 					$.each($(".records_counter"), function(key, value) {
 						var record_text = "<b>Records " + offset + " - " + next_offset + " of " + total_patients + "</b> ";
-						if(search_term.length>0){
-							record_text += "<span style='color:red;'>(Search Term '"+search_term+"')</span>";
+						if(search_term.length > 0) {
+							record_text += "<span style='color:red;'>(Search Term '" + search_term + "')</span>";
 						}
 						$(this).html(record_text);
 					});
@@ -252,6 +259,13 @@
 				background: url("Images/spinner.gif") no-repeat;
 				display: none;
 			}
+			#message {
+				background: #D4F684;
+				border: 1px solid #739F1D;
+				display: block;
+				padding: 10px 20px;
+				margin-bottom: 15px;
+			}
 		</style>
 	</head>
 	<body>
@@ -275,7 +289,7 @@
 					<a href="reports.html" class="top_menu_link">Reports<span class="alert red_alert">off</span></a>
 					<a href="settings_management" class="top_menu_link">Settings<span class="alert green_alert">on</span></a>
 					<div id="my_profile_link_container" style="display: inline">
-					<a ref="#" class="top_menu_link" id="my_profile_link"></a>
+						<a ref="#" class="top_menu_link" id="my_profile_link"></a>
 					</div>
 				</div>
 			</div>
@@ -284,12 +298,13 @@
 					<input type="hidden" id="next_offset_holder" />
 					<input type="hidden" id="previous_offset_holder" />
 					<a class="action_button" href="add_patient.html" style="margin-top:10px;">Add New Patient</a>
+					<div id="message" style="margin-left:250px;margin-top:-30px; display:none"></div>
 					<div class="search_box">
 						<input type="submit" class="submit-button" id="search" value="Search" style="width:200px;"/>
 						<label> <strong class="label">Search Term</strong>
 							<input type="text"name="search_term" id="search_term" style="width:300px;">
 						</label>
-					</div> 
+					</div>
 					<div class="pagination flip">
 						<a href="#" class="previous">« Previous Page</a><a class="next" href="#">Next Page »</a>
 						<div class="records_counter"></div>

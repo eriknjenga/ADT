@@ -34,6 +34,7 @@
 				$("#next_appointment_date").datepicker({
 					changeMonth : true,
 					changeYear : true,
+					dateFormat : $.datepicker.ATOM,
 					onSelect : function(dateText, inst) {
 						var base_date = new Date();
 						var today = new Date(base_date.getFullYear(), base_date.getMonth(), base_date.getDate());
@@ -61,13 +62,17 @@
 				$(".batch").change(function() {
 					var row_element = $(this).closest("tr");
 					var expiry_date = row_element.find(".expiry");
+					var expiry_date = row_element.find(".expiry");
 					var drug = row_element.find(".drug").attr("value");
 					//Get basic getails of the selected patient
 					getBatchExpiry(drug, $(this).attr("value"), function(transaction, results) {
 						// Handle the results
-						var row = results.rows.item(0);
-						expiry_date.attr("value", row['expiry_date']);
+						if(results.rows.length > 0) {
+							var row = results.rows.item(0);
+							expiry_date.attr("value", row['expiry_date']);
+						}
 					});
+					
 				});
 				//Get basic getails of the selected patient
 				getPatientDetails(patient_number, function(transaction, results) {
@@ -120,19 +125,24 @@
 							}
 						});
 						$("#regimen_change_reason_container").css("display", "block");
+					} else {
+						$("#regimen_change_reason_container").remove();
 					}
 					//Clear the drugs list first
 					$.each($(".drug"), function(i, v) {
 						$(this).children('option').remove();
+						$(this).append($("<option></option>"));
 					});
 					//Dynamically load the list of drugs for this regimen
 					selectRegimenDrugs(regimen, function(transaction, results) {
 						// Handle the results
+
 						for(var i = 0; i < results.rows.length; i++) {
 							var row = results.rows.item(i);
 							if(i == 0) {
 								$.each($(".drug"), function(i, v) {
 									$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
+
 									populateDrugRow($(this));
 								});
 								continue;
@@ -154,6 +164,16 @@
 					var cloned_object = $('#drugs_table tr:last').clone(true);
 					var drug_row = cloned_object.attr("drug_row");
 					var next_drug_row = parseInt(drug_row) + 1;
+					var row_element = cloned_object;
+					//Secod thing, retrieve the respective containers in the row where the drug is
+					row_element.find(".unit").attr("value", "");
+					row_element.find(".batch").attr("value", "");
+					row_element.find(".expiry").attr("value", "");
+					row_element.find(".dose").attr("value", "");
+					row_element.find(".duration").attr("value", "");
+					row_element.find(".qty_disp").attr("value", "");
+					row_element.find(".brand").attr("value", "");
+					row_element.find(".soh").attr("value", "");
 					cloned_object.attr("drug_row", next_drug_row);
 					cloned_object.insertAfter('#drugs_table tr:last');
 					return false;
@@ -207,7 +227,6 @@
 			}
 
 			function populateDrugRow(drug) {
-
 				//First things first, retrieve the row where this drug exists
 				var row_element = drug.closest("tr");
 				//Secod thing, retrieve the respective containers in the row where the drug is
@@ -219,30 +238,43 @@
 				var qty_disp = row_element.find(".qty_disp");
 				var brand = row_element.find(".brand");
 				var soh = row_element.find(".soh");
+				if(drug.attr("value") > 0) {
+					//Retrieve details about the selected drug from the database
+					selectSingleFilteredQuery("drugcode", "id", drug.attr("value"), function(transaction, results) {
 
-				//Retrieve details about the selected drug from the database
-				selectSingleFilteredQuery("drugcode", "id", drug.attr("value"), function(transaction, results) {
+						// Handle the results
+						var row = results.rows.item(0);
+						getUnitName(row['unit'], function(transaction, res) {
+							var r = res.rows.item(0);
+							unit.attr("value", r['name']);
+						});
+						//Get the various doses
+						getDrugDoses(function(transaction, results) {
+							for(var i = 0; i < results.rows.length; i++) {
+								var dose_row = results.rows.item(i);
+								if(row['dose'] == dose_row['name']) {
+									dose.append($("<option selected></option>").attr("value", dose_row['id']).text(dose_row['name']));
+								} else {
+									dose.append($("<option></option>").attr("value", dose_row['id']).text(dose_row['name']));
+								}
 
-					// Handle the results
-					var row = results.rows.item(0);
-					getUnitName(row['unit'], function(transaction, res) {
-						var r = res.rows.item(0);
-						unit.attr("value", r['name']);
+							}
+						});
+						//unit.attr("value", row['unit']);
+						dose.attr("value", row['dose']);
+						duration.attr("value", row['duration']);
+						batch.children('option').remove();
+						expiry.attr("value", "");
+						//Retrieve all the batch numbers for this drug
+						getDrugBatches(drug.attr("value"), function(transaction, results) {
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i);
+								batch.append($("<option></option>").attr("value", row['batch_number']).text(row['batch_number']));
+							}
+							batch.change();
+						});
 					});
-					//unit.attr("value", row['unit']);
-					dose.attr("value", row['dose']);
-					duration.attr("value", row['duration']);
-					batch.children('option').remove();
-					expiry.attr("value", "");
-					//Retrieve all the batch numbers for this drug
-					getDrugBatches(drug.attr("value"), function(transaction, results) {
-						for(var i = 0; i < results.rows.length; i++) {
-							var row = results.rows.item(i);
-							batch.append($("<option></option>").attr("value", row['batch_number']).text(row['batch_number']));
-						}
-						batch.change();
-					});
-				});
+				}
 			}
 
 			function loadOIMedicine() {
@@ -283,11 +315,8 @@
 
 			function setCurrentDate() {
 				var d = new Date();
-				var curr_date = d.getDate();
-				var curr_month = d.getMonth() + 1;
-				var curr_year = d.getFullYear();
-				var current_date = curr_year + "-" + curr_month + "-" + curr_date;
-				return current_date;
+				var date_string = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+				return date_string;
 			}
 		</script>
 	</head>
@@ -338,18 +367,18 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Current Height</strong>
-										<input style="width:140px;" type="text"name="height" id="height">
+										<input style="width:140px;" type="text"name="height" id="height" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Current Weight</strong>
-										<input style="width:140px" type="text"name="weight" id="weight">
+										<input style="width:140px" type="text"name="weight" id="weight" class="validate[required]">
 									</label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Days to Next Appointment</strong>
-										<input style="width:140px;" type="text"name="days_to_next" id="days_to_next">
+										<input style="width:140px;" type="text"name="days_to_next" id="days_to_next" class="validate[required]">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Date of Next Appointment</strong>
-										<input style="width:140px" type="text"name="next_appointment_date" id="next_appointment_date">
+										<input style="width:140px" type="text"name="next_appointment_date" id="next_appointment_date" class="validate[required]">
 									</label>
 								</div>
 								<label id="scheduled_patients" class="message information close" style="display:none"></label>
@@ -399,11 +428,10 @@
 										<th>Indication</th>
 										<th>Pill Count</th>
 										<th>Comment</th>
-										<th>Add New</th>
-										<th>Remove</th>
+										<th>Action</th>
 									</tr>
 									<tr drug_row="0">
-										<td><select name="drug" class="drug"  style="max-width: 70px;"></select></td>
+										<td><select name="drug" class="drug"  style="max-width: 150px; font-size: 11px"></select></td>
 										<td>
 										<input type="text" name="unit" class="unit small_text" />
 										</td>
@@ -412,8 +440,9 @@
 										<input type="text" name="expiry" class="expiry small_text" />
 										</td>
 										<td>
-										<input type="text" name="dose" class="dose small_text"/>
-										</td>
+										<select name="dose" class="dose" style="max-width: 70px;">
+											<option value="0"></option>
+										</select></td>
 										<td>
 										<input type="text" name="duration" class="duration small_text" />
 										</td>
@@ -435,11 +464,9 @@
 										<input type="text" name="comment" class="comment small_text" />
 										</td>
 										<td>
-										<input type="button" class="add button" value="Add"/>
+										<input type="button" class="add button" value="+" style="width: 20px; min-width:0"/>
+										<input type="button" class="remove button" value="-" style="width: 20px; min-width:0"/>
 										</td>
-										<td>
-										<input type="button" class="remove button" value="Remove"/>
-										</td
 									</tr>
 								</table>
 							</div>

@@ -14,12 +14,14 @@ class Drug_Unit extends Doctrine_Record {
 		$drugunits = $query -> execute();
 		return $drugunits;
 	}
-		public function getTotalNumber() {
+
+	public function getTotalNumber() {
 		$query = Doctrine_Query::create() -> select("count(*) as Total_Units") -> from("Drug_Unit");
 		$total = $query -> execute();
 		return $total[0]['Total_Units'];
 	}
-				public function getPagedDrugUnits($offset, $items) {
+
+	public function getPagedDrugUnits($offset, $items) {
 		$query = Doctrine_Query::create() -> select("*") -> from("Drug_Unit") -> offset($offset) -> limit($items);
 		$drug_units = $query -> execute();
 		return $drug_units;

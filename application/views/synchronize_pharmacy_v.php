@@ -8,8 +8,8 @@
 		var sync_table = "";
 
 		//Create a new queue for all the synchronization functions
-		//var queue = new Queue([syncDrugUnits]);
-		var queue = new Queue([syncDrugs,syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncPatients, syncPatientAppointments, syncPatientVisits]);
+		//var queue = new Queue([syncDistricts,syncDrugDoses]);
+		var queue = new Queue([syncDrugs, syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses,syncDistricts,syncDrugDoses, syncPatients, syncPatientAppointments, syncPatientVisits]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
@@ -149,17 +149,17 @@
 	}
 
 	function savePatientDataLocally(data) {
-		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code","current_status");
+		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code", "current_status");
 		parseReturnedData(data, "patient", columns, false);
 	}
 
 	function savePatientAppointmentDataLocally(data) {
-		var columns = Array("patient", "machine_code", "appointment");
+		var columns = Array("patient", "machine_code", "appointment", "facility");
 		parseReturnedData(data, "patient_appointment", columns, false);
 	}
 
 	function savePatientVisitDataLocally(data) {
-		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity","last_regimen");
+		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity", "last_regimen","duration");
 		//console.log(data);
 		parseReturnedData(data, "patient_visit", columns, false);
 	}
@@ -198,6 +198,14 @@
 
 	function syncVisitPurposes() {
 		synchronizeData("visit_purpose", "synchronize_pharmacy/getTotalServerVisitPurposes", "synchronize_pharmacy/getVisitPurposes", "#total_visit_purposes_local", "#total_visit_purposes_master", "visit_purposes_progress", "#visit_purposes_sync_complete", saveVisitPurposesLocally);
+	}
+
+	function syncDrugDoses() {
+		synchronizeData("dose", "synchronize_pharmacy/getTotalServerDoses", "synchronize_pharmacy/getDoses", "#total_doses_local", "#total_doses_master", "doses_progress", "#doses_sync_complete", saveDosesLocally);
+	}
+
+	function syncDistricts() {
+		synchronizeData("districts", "synchronize_pharmacy/getTotalServerDistricts", "synchronize_pharmacy/getDistricts", "#total_districts_local", "#total_districts_master", "districts_progress", "#districts_sync_complete", saveDistrictsLocally);
 	}
 
 	function syncPatientStatuses() {
@@ -323,6 +331,16 @@
 		parseReturnedData(data, "patient_status", columns, false);
 	}
 
+	function saveDosesLocally(data) {
+		var columns = Array("id", "name","value","frequency");
+		parseReturnedData(data, "dose", columns, false);
+	}
+
+	function saveDistrictsLocally(data) {
+		var columns = Array("id", "name");
+		parseReturnedData(data, "districts", columns, false);
+	}
+
 	function parseReturnedData(data, table_name, columns_array, patient_data) {
 		//Retrieve the whole array of key-value pairs from the returned json object
 		if(patient_data) {
@@ -363,6 +381,8 @@
 	}
 
 	function show_complete(sync_div, sync_table) {
+		console.log(sync_div);
+		console.log(sync_table);
 		$(sync_div).css("display", "block");
 		$(sync_table).css("border-color", "#17C700");
 		$(sync_table).css("border-width", "2px");
@@ -525,6 +545,32 @@
 			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Patient Statues in Server: <span id="total_patient_statuses_master"></span></span>
 			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="patient_statuses_sync_complete">Synchronization Complete!</span>
 			<canvas id="patient_statuses_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="districts">
+		<div class="synchronize_table_title">
+			Districts (Place of Birth)
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Districts Locally: <span id="total_districts_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Districts in Server: <span id="total_districts_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="districts_sync_complete">Synchronization Complete!</span>
+			<canvas id="districts_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="dose">
+		<div class="synchronize_table_title">
+			Drug Doses
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drug Doses Locally: <span id="total_doses_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Drug Doses in Server: <span id="total_doses_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="doses_sync_complete">Synchronization Complete!</span>
+			<canvas id="doses_progress" class="canvas" width="500" height="150">
 				Progressbar Can't Be shown.
 			</canvas>
 		</div>

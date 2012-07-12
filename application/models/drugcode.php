@@ -16,6 +16,8 @@ class Drugcode extends Doctrine_Record {
 		$this -> hasColumn('Duration', 'varchar', 4);
 		$this -> hasColumn('Quantity', 'varchar', 4);
 		$this -> hasColumn('Source', 'varchar', 10);
+		$this -> hasColumn('Type', 'varchar', 1);
+		$this -> hasColumn('Supplied', 'varchar', 1);
 	}
 
 	public function setUp() {
@@ -29,8 +31,14 @@ class Drugcode extends Doctrine_Record {
 	}
 
 	public function getAll($source = 0) {
-		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"')->orderBy("id desc");
+		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode") -> where('Source = "' . $source . '" or Source ="0"') -> orderBy("id asc");
 		$drugsandcodes = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
+		return $drugsandcodes;
+	}
+
+	public function getAllObjects($source = 0) {
+		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode") -> where("Supplied = '1'") -> orderBy("id asc");
+		$drugsandcodes = $query -> execute(array());
 		return $drugsandcodes;
 	}
 
@@ -41,12 +49,13 @@ class Drugcode extends Doctrine_Record {
 	}
 
 	public function getTotalNumber($source = 0) {
-		$query = Doctrine_Query::create() -> select("count(*) as Total_Drugs") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"');
+		$query = Doctrine_Query::create() -> select("count(*) as Total_Drugs") -> from("Drugcode") -> where('Source = "' . $source . '" or Source ="0"');
 		$total = $query -> execute();
 		return $total[0]['Total_Drugs'];
 	}
-		public function getPagedDrugs($offset, $items,$source = 0) {
-		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity,Source") -> from("Drugcode")->where('Source = "'.$source.'" or Source ="0"') -> offset($offset) -> limit($items);
+
+	public function getPagedDrugs($offset, $items, $source = 0) {
+		$query = Doctrine_Query::create() -> select("Drug,Unit,Pack_Size,Safety_Quantity,Generic_Name,Supported_By,Dose,Duration,Quantity,Source") -> from("Drugcode") -> where('Source = "' . $source . '" or Source ="0"') -> offset($offset) -> limit($items);
 		$drugs = $query -> execute();
 		return $drugs;
 	}

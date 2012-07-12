@@ -25,10 +25,22 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$number = Drugcode::getTotalNumber($source);
 		echo $number;
 	}
-	
+
 	//Get the total Number of drug units in the server
 	public function getTotalServerDrugUnits() {
 		$number = Drug_Unit::getTotalNumber();
+		echo $number;
+	}
+
+	//Get the total Number of doses in the server
+	public function getTotalServerDoses() {
+		$number = Dose::getTotalNumber();
+		echo $number;
+	}
+
+	//Get the total Number of districts in the server
+	public function getTotalServerDistricts() {
+		$number = District::getTotalNumber();
 		echo $number;
 	}
 
@@ -102,7 +114,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	public function getDrugs($offset, $limit) {
 		$source = $this -> session -> userdata('facility');
-		$drugs = Drugcode::getPagedDrugs($offset, $limit,$source);
+		$drugs = Drugcode::getPagedDrugs($offset, $limit, $source);
 		$counter = 0;
 		$drugs_array = array();
 		foreach ($drugs as $drug) {
@@ -112,6 +124,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		}
 		echo json_encode($drugs_array);
 	}
+
 	public function getDrugUnits($offset, $limit) {
 		$drug_units = Drug_Unit::getPagedDrugUnits($offset, $limit);
 		$counter = 0;
@@ -122,6 +135,30 @@ class Synchronize_Pharmacy extends MY_Controller {
 			$counter++;
 		}
 		echo json_encode($drug_units_array);
+	}
+
+	public function getDoses($offset, $limit) {
+		$doses = Dose::getPagedDoses($offset, $limit);
+		$counter = 0;
+		$doses_array = array();
+		foreach ($doses as $dose) {
+			$dose_details = array("id" => $dose -> id, "name" => $dose -> Name, "value" => $dose -> Value, "frequency" => $dose -> Frequency);
+			$doses_array[$counter] = $dose_details;
+			$counter++;
+		}
+		echo json_encode($doses_array);
+	}
+
+	public function getDistricts($offset, $limit) {
+		$districts = District::getPagedDistricts($offset, $limit);
+		$counter = 0;
+		$districts_array = array();
+		foreach ($districts as $district) {
+			$district_details = array("id" => $district -> id, "name" => $district -> Name);
+			$districts_array[$counter] = $district_details;
+			$counter++;
+		}
+		echo json_encode($districts_array);
 	}
 
 	public function getOIs($offset, $limit) {
@@ -150,11 +187,11 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	public function getRegimens($offset, $limit) {
 		$source = $this -> session -> userdata('facility');
-		$regimens = Regimen::getPagedRegimens($offset, $limit,$source);
+		$regimens = Regimen::getPagedRegimens($offset, $limit, $source);
 		$counter = 0;
 		$regimens_array = array();
 		foreach ($regimens as $regimen) {
-			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Type_Of_Service, "remarks" => $regimen -> Remarks,"source"=>$regimen->Source);
+			$regimen_details = array("id" => $regimen -> id, "regimen_code" => $regimen -> Regimen_Code, "regimen_desc" => $regimen -> Regimen_Desc, "category" => $regimen -> Regimen_Category -> Name, "line" => $regimen -> Line, "type_of_service" => $regimen -> Type_Of_Service, "remarks" => $regimen -> Remarks, "source" => $regimen -> Source);
 			$regimens_array[$counter] = $regimen_details;
 			$counter++;
 		}
@@ -175,7 +212,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 
 	public function getRegimenDrugs($offset, $limit) {
 		$source = $this -> session -> userdata('facility');
-		$regimen_drugs = Regimen_Drug::getPagedRegimenDrugs($offset, $limit,$source);
+		$regimen_drugs = Regimen_Drug::getPagedRegimenDrugs($offset, $limit, $source);
 		$counter = 0;
 		$regimen_drugs_array = array();
 		foreach ($regimen_drugs as $regimen_drug) {
@@ -284,7 +321,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$patient_appointments_array = array();
 		foreach ($aggregated_object as $patient_appointment) {
-			$patient_appointment_details = array("patient" => $patient_appointment['Patient'], "appointment" => $patient_appointment['Appointment'], "machine_code" => $patient_appointment['Machine_Code']);
+			$patient_appointment_details = array("patient" => $patient_appointment['Patient'], "appointment" => $patient_appointment['Appointment'], "machine_code" => $patient_appointment['Machine_Code'], "facility" => $patient_appointment['Facility']);
 			$patient_appointments_array[$counter] = $patient_appointment_details;
 			$counter++;
 		}
@@ -312,7 +349,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 					$date = $separated_variables[2];
 					$drug = $separated_variables[3];
 					//Get all new patients since the last synchronization
-					$patient_visits_data = Patient_Visit::getPagedPatientVisits($offset, $limit, $machine_code, $patient_ccc, $facility, $date,$drug);
+					$patient_visits_data = Patient_Visit::getPagedPatientVisits($offset, $limit, $machine_code, $patient_ccc, $facility, $date, $drug);
 					//Append the results to the array that will be sent back to the client machine
 					$aggregated_object += $patient_visits_data;
 				}
@@ -321,7 +358,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$patient_visits_array = array();
 		foreach ($aggregated_object as $patient_visit) {
-			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code'],"last_regimen" => $patient_visit['Last_Regimen']);
+			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code'], "last_regimen" => $patient_visit['Last_Regimen'], "duration" => $patient_visit['duration']);
 			$patient_visits_array[$counter] = $patient_visit_details;
 			$counter++;
 		}

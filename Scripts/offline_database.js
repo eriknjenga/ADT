@@ -1,14 +1,14 @@
 //Add the logout and change password links to the top menu
-	$(document).ready(function() {
-		$("#my_profile_link_container").hover(function() {
-			var html = "<a href='user_management/change_password' class='top_menu_link temp_link'>Change Password</a> <a href='user_management/logout' class='top_menu_link temp_link'>Logout</a> ";
-			$("#my_profile_link").css('display','none'); 
-			$(this).append(html);
-		}, function() {
-			$("#my_profile_link").css('display','block');
-			$(this).find(".temp_link").remove();
-		});
+$(document).ready(function() {
+	$("#my_profile_link_container").hover(function() {
+		var html = "<a href='user_management/change_password' class='top_menu_link temp_link'>Change Password</a> <a href='user_management/logout' class='top_menu_link temp_link'>Logout</a> ";
+		$("#my_profile_link").css('display', 'none');
+		$(this).append(html);
+	}, function() {
+		$("#my_profile_link").css('display', 'block');
+		$(this).find(".temp_link").remove();
 	});
+});
 function initDatabase() {
 	try {
 		if(!window.openDatabase) {
@@ -79,8 +79,8 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drugcode(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, unit TEXT, pack_size TEXT, safety_quantity TEXT, generic_name TEXT, supported_by TEXT,dose TEXT, duration TEXT, quantity TEXT, source TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_drug(id INTEGER NOT NULL PRIMARY KEY, regimen TEXT, drugcode TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS scheduled_patients(id INTEGER NOT NULL PRIMARY KEY, name TEXT, universal_id TEXT, start_regimen TEXT);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT, machine_code TEXT, quantity TEXT, last_regimen TEXT);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_visit(id INTEGER NOT NULL PRIMARY KEY, patient_id TEXT, visit_purpose TEXT, current_height TEXT, current_weight TEXT, regimen TEXT, regimen_change_reason TEXT, drug_id TEXT, batch_number TEXT, brand TEXT, indication TEXT, pill_count TEXT, comment TEXT, timestamp TEXT, user TEXT, facility TEXT, dose TEXT,  dispensing_date TEXT, dispensing_date_timestamp TEXT, machine_code TEXT, quantity TEXT,duration TEXT, last_regimen TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_appointment(id INTEGER NOT NULL PRIMARY KEY, patient TEXT, appointment TEXT, machine_code TEXT,facility TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS environment_variables(id INTEGER NOT NULL PRIMARY KEY, machine_id TEXT, operator TEXT, facility_name TEXT, facility TEXT );', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
@@ -96,6 +96,8 @@ function createTables() {
 		transaction.executeSql('CREATE INDEX if not exists dispensing_date_index ON patient_visit(dispensing_date);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists dispensing_patient_index ON patient_visit(patient_id);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists patient_id_index ON patient(id);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists drug_id_index ON patient_visit(drug_id);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists drug_stock_index ON drug_stock_movement(drug);', [], nullDataHandler, errorHandler);
 		/*
 		 * Deactivate all patients who are inactive
 		 */
@@ -170,8 +172,19 @@ function selectAll(table, dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+//Function to select all drugs and order them alphabetically
+function selectAllDrugs(dataSelectHandler) {
+	var sql = "select * from drugcode order by drug asc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 function selectRegimen(dataSelectHandler) {
 	var sql = "select * from regimen order by regimen_desc asc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugDoses(dataSelectHandler) {
+	var sql = "select id,name from dose order by name asc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -295,13 +308,13 @@ function getLastMachineCodeRecords(dataSelectHandler) {
 
 //Get the latest record from the patient appointment table grouped by the machine code
 function getLastAppointmentData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient, appointment from patient_appointment group by machine_code";
+	var sql = "SELECT machine_code,patient, appointment from patient_appointment";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //Get the latest record from the patient visit table grouped by the machine code
 function getLastVisitData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id,current_height,current_weight from patient_visit group by machine_code";
+	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id,current_height,current_weight from patient_visit";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -430,6 +443,12 @@ function getBatchExpiry(drug, batch, dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+//Get the stock balance for a particular batch for a particular drug
+function getBatchBalance(drug, batch, dataSelectHandler) {
+	var sql = "select sum(quantity) from drug_stock_movement where drug = '" + drug + "' and batch_number = '" + batch + "' order by id desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 function getTotalPatientAppointments(appointment_date, dataSelectHandler) {
 	var sql = "select count(*) as total_appointments  from patient_appointment pa where pa.appointment = '" + appointment_date + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
@@ -483,6 +502,18 @@ function getAppointmentSummary(dataSelectHandler) {
 
 function getCumulativePatientNumber(start_date, dataSelectHandler) {
 	var sql = "SELECT distinct patient_status.Name, count(patient.current_status) as total FROM patient,patient_status WHERE patient_status.id=patient.current_status AND strftime('%Y-%m-%d',date_enrolled)<strftime('%Y-%m-%d','" + start_date + "') GROUP BY patient_status.Name";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPeriodDrugBalance(drug, start_date, end_date, dataSelectHandler) {
+	var sql = "select stock_in.*,sum(p.quantity) as total_dispensed from (select sum(ds.quantity) as total_received from drug_stock_movement ds left join transaction_type t on ds.transaction_type = t.id where drug = '" + drug + "' and t.effect = '1' and strftime('%Y-%m-%d',transaction_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) stock_in left join patient_visit p on p.drug_id = '" + drug + "' where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getOpeningDrugBalance(drug, start_date, dataSelectHandler) {
+	var sql = "select stock_in.*,sum(p.quantity) as total_dispensed from (select sum(ds.quantity) as total_received from drug_stock_movement ds left join transaction_type t on ds.transaction_type = t.id where drug = '" + drug + "' and t.effect = '1' and strftime('%Y-%m-%d',transaction_date) <= strftime('%Y-%m-%d','" + start_date + "')) stock_in left join patient_visit p on p.drug_id = '" + drug + "' where strftime('%Y-%m-%d',dispensing_date) <= strftime('%Y-%m-%d','" + start_date + "')";
+	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

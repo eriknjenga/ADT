@@ -32,9 +32,6 @@ class Home_Controller extends MY_Controller {
 		if ($this -> session -> userdata('user_indicator') == "pharmacist") {
 			$facility_code = $this -> session -> userdata('facility');
 			//Retrieve the Totals of the records in the master database that have clones in the clients!
-
-			
-
 			$today = date('m/d/Y');
 			$timestamp = strtotime($today);
 			$data['scheduled_patients'] = Patient_Appointment::getAllScheduled($timestamp);

@@ -105,6 +105,15 @@ class User_Management extends MY_Controller {
 				else {
 					$session_data = array('user_id' => $logged_in -> id, 'user_indicator' => $logged_in -> Access -> Indicator, 'facility_name' => $logged_in -> Facility -> name, 'access_level' => $logged_in -> Access_Level, 'username' => $logged_in -> Username, 'full_name' => $logged_in -> Name, 'facility' => $logged_in -> Facility_Code);
 					$this -> session -> set_userdata($session_data);
+					//Execute queries that update the patient statuses
+					$sql_pep = "update patient set current_status = '3' WHERE service='2' and current_status = '1' AND datediff(now(),date_enrolled)>=30;";
+					$sql_pmtct = "update patient set current_status = '4' WHERE service='3' and current_status = '1' AND datediff(now(),date_enrolled)>=270;";
+					$sql_inactive = "update patient,(SELECT patient from patient_appointment pa left join patient p on p.patient_number_ccc = pa.patient where  datediff(now(),appointment)>90 and p.current_status = '1' and p.service = '1' group by patient) patient_ids set current_status = '5' where patient_number_ccc  = patient_ids.patient ;
+";
+					$this -> load -> database();
+					$this -> db -> query($sql_pep);
+					$this -> db -> query($sql_pmtct);
+					$this -> db -> query($sql_inactive);
 
 					redirect("home_controller");
 				}
