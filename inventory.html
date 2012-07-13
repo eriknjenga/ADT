@@ -16,6 +16,12 @@
 		<script type="text/javascript">
 			total_drugs = 0;
 			$(document).ready(function() {
+				var $_GET = getQueryParams(document.location.search);
+				message = $_GET['message'];
+				if(message != null) {
+					$("#message").text(message);
+					$("#message").css("display", "block");
+				}
 				initDatabase();
 				getTotalDrugs();
 				getDrugs(0);
@@ -273,6 +279,7 @@
 					<a class="action_button" href="add_stock.html" style="margin-top:10px;">New Stock</a>
 					<input type="hidden" id="next_offset_holder" />
 					<input type="hidden" id="previous_offset_holder" />
+					<div id="message" style="margin-left:250px;margin-top:-30px; display:none"></div>
 					<div class="search_box">
 						<input type="submit" class="submit-button" id="search" value="Search" style="width:200px;"/>
 						<label> <strong class="label">Search Term</strong>

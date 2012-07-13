@@ -85,18 +85,28 @@
 			changeYear : true
 		});
 		$("#generate").click(function() {
+			var start_date = $("#start_date").attr("value");
+			var end_date = $("#end_date").attr("value");
 			$.each($(".ordered_drugs"), function(i, v) {
-				var start_date = $("#start_date").attr("value");
-				var end_date = $("#end_date").attr("value");
 				getPeriodDrugBalance($(this).attr("drug_id"), start_date, end_date, function(transaction, results) {
 					var row = results.rows.item(0);
 					console.log(row);
+					var total_received = row['total_received'];
+					var total_dispensed = row['total_dispensed'];
+					var total_received_div = "#received_in_period_" + row['drug'];
+					var total_dispensed_div = "#dispensed_in_period_" + row['drug'];
+					$(total_received_div).attr("value", total_received);
+					$(total_dispensed_div).attr("value", total_dispensed);
 				});
-				getOpeningDrugBalance($(this).attr("drug_id"), start_date, function(transaction, results) {
-					var row = results.rows.item(0);
-					console.log(row);
-				});
-				console.log($(this).attr("drug_id"));
+			});
+			getPeriodRegimenPatients(start_date, end_date, function(transaction, results) {
+				//Loop through all the regimen information returned and populate the appropriate fields
+				for(var i = 0; i < results.rows.length; i++) {
+					var row = results.rows.item(i);
+					var total_patients = row['patients'];
+					var total_patients_div = "#patient_numbers_" + row['regimen'];
+					$(total_patients_div).attr("value", total_patients);
+				}
 
 			});
 		});
@@ -228,14 +238,14 @@ $counter = 0;
 			<input id="pack_size" type="text" value="<?php echo $commodity -> Pack_Size;?>">
 			</td>
 			<td class="number calc_count">
-			<input name="CdrrItem[10][balance]" id="CdrrItem_10_balance" type="text">
+			<input name="opening_balance[]" id="opening_balance_<?php echo $commodity -> id;?>" type="text">
 			</td>
 			<td class="number calc_count">
-			<input name="CdrrItem[10][received]" id="CdrrItem_10_received" type="text">
+			<input name="received_in_period" id="received_in_period_<?php echo $commodity -> id;?>" type="text">
 			</td>
 			<!-- dispensed_units-->
 			<td class="number col_dispensed_units calc_dispensed_packs  calc_resupply calc_count">
-			<input name="CdrrItem[10][dispensed_units]" id="CdrrItem_10_dispensed_units" type="text">
+			<input name="dispensed_in_period" id="dispensed_in_period_<?php echo $commodity -> id;?>" type="text">
 			</td>
 			<!-- dispensed_packs -->
 			<td class="number calc_count">
@@ -280,9 +290,9 @@ $counter = 1;
 foreach($regimens as $regimen){
 
 			?>
-			<th><?php echo $regimen -> Regimen_Code;?>
-			<input tabindex="-1" name="CdrrItem[10][resupply]" id="CdrrItem_10_resupply" type="text">
-			<input tabindex="-1" name="CdrrItem[10][resupply]" id="CdrrItem_10_resupply" type="text">
+			<th regimen_id="<?php echo $regimen -> id;?>" class="regimen_numbers"><?php echo $regimen -> Regimen_Code;?>
+			<input tabindex="-1" name="patient_numbers[]" id="patient_numbers_<?php echo $regimen -> id;?>" type="text">
+			<input tabindex="-1" name="mos[]" id="mos_<?php echo $regimen -> id;?>" type="text">
 			</th>
 			<?php
 			echo "</th>";

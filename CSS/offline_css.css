@@ -146,3 +146,10 @@
 	background-color: #B80000;
 	margin: 0px;
 }
+#message {
+	background: #D4F684;
+	border: 1px solid #739F1D;
+	display: block;
+	padding: 10px 20px;
+	margin-bottom: 15px;
+}

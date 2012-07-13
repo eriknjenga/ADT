@@ -19,11 +19,13 @@
 
 				//Add datepicker for the transaction date
 				$("#transaction_date").datepicker({
-					defaultDate : new Date()
+					defaultDate : new Date(),
+					dateFormat : $.datepicker.ATOM,
 				});
 				//Add datepicker for the expiry date
 				$("#expiry_date").datepicker({
 					defaultDate : new Date(),
+					dateFormat : $.datepicker.ATOM,
 					changeYear : true,
 					changeMonth : true
 				});
@@ -53,6 +55,14 @@
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
 						$("#destination").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+				});
+				//Dynamically load the list of commodity sources
+				selectAll("drug_source", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#source").append($("<option></option>").attr("value", row['id']).text(row['name']));
 					}
 				});
 				//Dynamically load the list of commodities

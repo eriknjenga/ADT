@@ -98,6 +98,8 @@ function createTables() {
 		transaction.executeSql('CREATE INDEX if not exists patient_id_index ON patient(id);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists drug_id_index ON patient_visit(drug_id);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists drug_stock_index ON drug_stock_movement(drug);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists patient_regimen_index ON patient_visit(regimen);', [], nullDataHandler, errorHandler);
+
 		/*
 		 * Deactivate all patients who are inactive
 		 */
@@ -110,6 +112,11 @@ function createTables() {
 		 * Update the status of patients whose PEP days are over
 		 */
 		transaction.executeSql("UPDATE patient SET current_status = '3' WHERE service='2' AND (strftime('%s','now')-strftime('%s',date_enrolled))/86400>=30;", [], nullDataHandler, errorHandler);
+
+		/*
+		 * Add the duration column to the patient_visit table
+		 */
+		transaction.executeSql("alter table patient_visit add column 'duration' text", [], nullDataHandler, errorHandler); 
 	});
 }
 
@@ -506,14 +513,20 @@ function getCumulativePatientNumber(start_date, dataSelectHandler) {
 }
 
 function getPeriodDrugBalance(drug, start_date, end_date, dataSelectHandler) {
-	var sql = "select stock_in.*,sum(p.quantity) as total_dispensed from (select sum(ds.quantity) as total_received from drug_stock_movement ds left join transaction_type t on ds.transaction_type = t.id where drug = '" + drug + "' and t.effect = '1' and strftime('%Y-%m-%d',transaction_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) stock_in left join patient_visit p on p.drug_id = '" + drug + "' where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	var sql = "select case when 1=1 then '" + drug + "' end as drug,stock_in.*,sum(p.quantity) as total_dispensed from (select sum(ds.quantity) as total_received from drug_stock_movement ds left join transaction_type t on ds.transaction_type = t.id where drug = '" + drug + "' and t.effect = '1' and strftime('%Y-%m-%d',transaction_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')) stock_in left join patient_visit p on p.drug_id = '" + drug + "' and strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "')";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getPeriodRegimenPatients(start_date, end_date, dataSelectHandler) {
+	var sql = "select regimen, count(distinct patient_id) as patients from patient_visit where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') group by regimen;";
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 function getOpeningDrugBalance(drug, start_date, dataSelectHandler) {
 	var sql = "select stock_in.*,sum(p.quantity) as total_dispensed from (select sum(ds.quantity) as total_received from drug_stock_movement ds left join transaction_type t on ds.transaction_type = t.id where drug = '" + drug + "' and t.effect = '1' and strftime('%Y-%m-%d',transaction_date) <= strftime('%Y-%m-%d','" + start_date + "')) stock_in left join patient_visit p on p.drug_id = '" + drug + "' where strftime('%Y-%m-%d',dispensing_date) <= strftime('%Y-%m-%d','" + start_date + "')";
-	console.log(sql);
+	//console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
