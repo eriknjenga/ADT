@@ -83,11 +83,21 @@
 					var quantity_id = "quantity_" + next_drug_row;
 					var expiry_id = "expiry_date_" + next_drug_row;
 					var batch = cloned_object.find(".batch");
+					var packs = cloned_object.find(".pack");
+					var packs = cloned_object.find(".pack");
+					var unit = cloned_object.find(".unit");
+					var pack_size = cloned_object.find(".pack_size");
 					var quantity = cloned_object.find(".quantity");
 					var expiry_date = cloned_object.find(".expiry");
 					batch.attr("id", batch_id);
 					quantity.attr("id", quantity_id);
 					expiry_date.attr("id", expiry_id);
+					batch.attr("value", "");
+					quantity.attr("value", "");
+					expiry_date.attr("value", "");
+					packs.attr("value", "");
+					pack_size.attr("value", "");
+					unit.attr("value", "");
 					var expiry_selector = "#" + expiry_id;
 
 					$(expiry_selector).datepicker({
@@ -143,7 +153,12 @@
 					var new_id = "date_" + counter;
 					$(this).attr("id", new_id);
 					$(this).datepicker("destroy");
-					$(this).not('.hasDatePicker').datepicker();
+					$(this).not('.hasDatePicker').datepicker({
+						defaultDate : new Date(),
+						dateFormat : $.datepicker.ATOM,
+						changeYear : true,
+						changeMonth : true
+					});
 					counter++;
 
 				});

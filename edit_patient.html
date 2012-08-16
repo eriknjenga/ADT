@@ -21,7 +21,7 @@
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
-						$("#pob").append($("<option></option>").attr("value", row['id']).text(row['name']));
+						$("#pob").append($("<option></option>").attr("value", row['name']).text(row['name']));
 					}
 
 				});
@@ -134,7 +134,9 @@
 						$('#source').attr("value", parent_row['source']);
 						$('#support').attr("value", parent_row['supported_by']);
 						$('#service').attr("value", parent_row['service']);
+						$('#service').change();
 						$('#regimen').attr("value", parent_row['start_regimen']);
+						getMSQ();
 					}
 				});
 			});
@@ -147,7 +149,7 @@
 				return params;
 			}
 
-			function getMSQ() {
+			function getMSQ() { 
 				var weight = $('#weight').attr('value');
 				var height = $('#height').attr('value');
 				var MSQ = Math.sqrt((parseInt(weight) * parseInt(height)) / 3600);
@@ -223,7 +225,7 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
-										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]">
+										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]" onblur="getMSQ()">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
 										<input style="width:140px" type="text"name="height" id="height" class="validate[required]" onblur="getMSQ()">

@@ -174,6 +174,7 @@
 					row_element.find(".qty_disp").attr("value", "");
 					row_element.find(".brand").attr("value", "");
 					row_element.find(".soh").attr("value", "");
+					row_element.find(".batch").attr("value", "");
 					cloned_object.attr("drug_row", next_drug_row);
 					cloned_object.insertAfter('#drugs_table tr:last');
 					return false;
@@ -196,7 +197,6 @@
 						var last_visit_date = row['dispensing_date'];
 						$("#last_visit_date").attr("value", last_visit_date);
 						$("#height").attr("value", row['current_height']);
-						$("#weight").attr("value", row['current_weight']);
 						//Retrieve drugs dispensed during the last visit
 						selectLastVisitDetails(patient_number, last_visit_date, function(transaction, results) {
 							for(var i = 0; i < results.rows.length; i++) {
@@ -245,20 +245,11 @@
 						// Handle the results
 						var row = results.rows.item(0);
 						getUnitName(row['unit'], function(transaction, res) {
-							var r = res.rows.item(0);
-							unit.attr("value", r['name']);
-						});
-						//Get the various doses
-						getDrugDoses(function(transaction, results) {
-							for(var i = 0; i < results.rows.length; i++) {
-								var dose_row = results.rows.item(i);
-								if(row['dose'] == dose_row['name']) {
-									dose.append($("<option selected></option>").attr("value", dose_row['id']).text(dose_row['name']));
-								} else {
-									dose.append($("<option></option>").attr("value", dose_row['id']).text(dose_row['name']));
-								}
-
+							if(res.rows.length > 0){
+								var r = res.rows.item(0);
+								unit.attr("value", r['name']);
 							}
+
 						});
 						//unit.attr("value", row['unit']);
 						dose.attr("value", row['dose']);
@@ -394,6 +385,9 @@
 									<select type="text"name="regimen_change_reason" id="regimen_change_reason" style="width:300px">
 										<option></option>
 									</select> </label>
+								<label> <strong class="label">MOS Dispensed</strong>
+									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]"> 
+								</label>
 							</div>
 							<div class="column">
 								<fieldset>
@@ -440,9 +434,8 @@
 										<input type="text" name="expiry" class="expiry small_text" />
 										</td>
 										<td>
-										<select name="dose" class="dose" style="max-width: 70px;">
-											<option value="0"></option>
-										</select></td>
+										<input type="text" name="dose" class="dose small_text" />
+										</td>
 										<td>
 										<input type="text" name="duration" class="duration small_text" />
 										</td>

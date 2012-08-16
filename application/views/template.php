@@ -162,7 +162,7 @@ if (!$user_is_pharmacist) {?>
 ?>">Home </a>
 <?php
 foreach($menus as $menu){?>
-	<a href = "<?php echo $menu['url'];?>" class="top_menu_link <?php
+	<a href = "<?php echo site_url($menu['url']);?>" class="top_menu_link <?php
 	if ($current == $menu['url'] || $menu['url'] == $link) {echo " top_menu_active ";
 	}
 ?>"><?php echo $menu['text']; if($menu['offline'] == "1"){?>

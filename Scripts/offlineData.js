@@ -25,7 +25,7 @@ function processData(button) {
 
 				var patient_number = dump["patient_number"];
 				getPatientDetails(patient_number, function(transaction, results) {
-					if(results.rows.length >0) {
+					if(results.rows.length > 0) {
 						alert("patient number id already exists");
 						return
 					} else {
@@ -87,8 +87,10 @@ function processData(button) {
 				var sql = next_appointment_sql;
 				//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 				for(var i = 0; i < drugs_count; i++) {
-					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity,duration) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "','" + durations[i] + "');";
+					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity,duration,months_of_stock) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "','" + durations[i] + "','" + dump["months_of_stock"] + "');";
+				
 				};
+				console.log(sql);
 				var url = "patient_management.html?message=Dispensing data for " + dump['patient'] + " saved successfully";
 				var combined_object = {
 					0 : target,
@@ -126,12 +128,15 @@ function processData(button) {
 				var amounts = retrieveFormValues_Array('amount');
 
 				//After getting the number of drugs being recorded, create a unique entry (sql statement) for each in the database in this loop
+				var sql_queries = "";
 				for(var i = 0; i < drugs_count; i++) {
 					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator, order_number) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','" + user + "','" + dump["reference_number"] + "');";
-					SQLExecuteAbstraction(sql,function(transaction,results){
-						window.location = "inventory.html?message=Stock inventory data saved successfully";
-					});
+					sql_queries += sql;
 				};
+				var queries = sql_queries.split(";");
+				callbackExecuteStatementArray(queries, function(transaction, resultset) {  
+					window.location = "inventory.html?message=Stock inventory data saved successfully";
+				});
 				return;
 
 			} else if(form == "edit_patient_form") {
@@ -150,7 +155,6 @@ function processData(button) {
 				};
 				var saved_object = JSON.stringify(combined_object);
 				saveDataLocally(saved_object);
-				alert("Patient details successfully edited in the database");
 			}
 		});
 		//end environmental variables callback
@@ -206,7 +210,6 @@ function saveDataLocally(data) {
 	var timestamp = separated_data[2];
 	var url = separated_data[4];
 
-	
 	var length = window.localStorage.length;
 	document.querySelector('#local-count').innerHTML = length;
 	var queries = sql.split(";");
@@ -214,7 +217,7 @@ function saveDataLocally(data) {
 		//alert(transaction);
 		localStorage.setItem(timestamp, data);
 		window.location = url;
-		
+
 	});
 	//
 }

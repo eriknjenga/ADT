@@ -18,11 +18,11 @@
 			$(document).ready(function() {
 				var $_GET = getQueryParams(document.location.search);
 				message = $_GET['message'];
-				if(message != null){
+				if(message != null) {
 					$("#message").text(message);
-					$("#message").css("display","block");
+					$("#message").css("display", "block");
 				}
-				
+
 				initDatabase();
 				getTotalPatients();
 				getPatients(0);
@@ -31,15 +31,6 @@
 					if(code == 13) {//Enter keycode
 						$("#search").click();
 					}
-				});
-				$(".details").click(function() {
-					alert();
-				});
-				$("#details_popup").dialog({
-					autoOpen : false
-				});
-				$("#history_popup").dialog({
-					autoOpen : false
 				});
 				$(".next").click(function() {
 					var offset = $("#next_offset_holder").attr("value");
@@ -59,10 +50,13 @@
 				//Add click listeners to the action links
 				$(".details").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					$("#details_popup").dialog('open');
+					var url = "patient_details.html?patient_number=" + patient_medical_record_number;
+					window.location.href = url;
 				});
 				$(".edit").click(function() {
-					alert();
+					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
+					var url = "edit_patient.html?patient_number=" + patient_medical_record_number;
+					window.location.href = url;
 				});
 				$(".dispense").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
@@ -74,7 +68,7 @@
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
 					var url = "history.html?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
-				});
+				}); 
 				//First add the hover listener to the passed element (table row)
 				$(".table_row").hover(function() {
 					//When hovered on, make the background color of the row darker and show the action links

@@ -57,6 +57,9 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+//Add config for kenya pharma demo
+
+
 
 /* End of file database.php */
 

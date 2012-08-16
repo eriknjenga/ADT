@@ -155,7 +155,7 @@
 									<label style="width:140px; float:left;"> <strong class="label" >Date of Birth</strong>
 										<input style="width:140px;" type="text"name="dob" id="dob" class="validate[required]">
 									</label>
-									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">--> <select name="pob" id="pob" style="width:120px"></select> </label>
+									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">--> <select name="pob" id="pob" style="width:120px"><option value="None">--Select--</option></select> </label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Gender</strong>
@@ -170,7 +170,7 @@
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Weight (KG)</strong>
-										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]">
+										<input style="width:140px;" type="text"name="weight" id="weight" class="validate[required]" onblur="getMSQ()">
 									</label>
 									<label style="width:140px; float:right;"> <strong class="label">Height (CM)</strong>
 										<input style="width:140px" type="text"name="height" id="height" class="validate[required]" onblur="getMSQ()">

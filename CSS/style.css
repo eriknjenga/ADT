@@ -109,11 +109,11 @@ body {
 .top_menu_link {
 	float: left;
 	width: 115px;
-	height: 50px;
-	line-height: 50px;
+	height: 40px;
+	line-height: 40px;
 	color: white;
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 12px;
 	font-family: helvetica, arial;
 	font-weight: bold;
 	display: block;
