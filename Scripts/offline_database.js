@@ -117,7 +117,7 @@ function createTables() {
 		/*
 		 * Add the months of stock column to the patient_visit table
 		 */
-		transaction.executeSql("alter table patient_visit add column months_of_stock text;", [], nullDataHandler, errorHandler);
+		//transaction.executeSql("alter table patient_visit add column months_of_stock text;", [], nullDataHandler, errorHandler);
 		
 	});
 }
@@ -243,7 +243,6 @@ function selectOIMedicines(dataSelectHandler) {
 //This function returns details of the last visit of the patient
 function getPatientLastVisit(patient_ccc, dataSelectHandler) {
 	var sql = "select * from patient_visit where patient_id = '"+patient_ccc+"' order by dispensing_date desc limit 1";
-	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -534,7 +533,11 @@ function getOpeningDrugBalance(drug, start_date, dataSelectHandler) {
 
 //Get all patient visit records for this patient
 function getPatientDispensingHistory(patient, dataSelectHandler) {
-	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id where pv.patient_id = '" + patient + "' order by dispensing_date desc";
+	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id left join visit_purpose v on pv.visit_purpose = v.id where pv.patient_id = '" + patient + "' order by dispensing_date desc";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getDispensingDetails(dispensing_id, dataSelectHandler) {
+	var sql = "select * from patient_visit pv left join patient p on pv.patient_id = p.patient_number_ccc where pv.id = '" + dispensing_id + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

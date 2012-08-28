@@ -16,7 +16,8 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
-
+				var regimens = Array();
+				var regimen_change_reason = Array();
 				selectDistricts(function(transaction, results) {
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
@@ -69,8 +70,17 @@
 					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
+						regimens[row['id']] = row['regimen_desc'];
 						$("#regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
 						$("#current_regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
+					}
+				});
+				//Dynamically load the list of regimen change reasons
+				selectAll("regimen_change_purpose", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						regimen_change_reason[row['id']] = row['name'];
 					}
 				});
 				$("#dob").datepicker({
@@ -147,14 +157,30 @@
 					}
 				});
 				getPatientDispensingHistory(patient_identification, function(transaction, results) {
+					var dispensing_row = "";
 					for(var i = 0; i < results.rows.length; i++) {
 						var parent_row = results.rows.item(i);
+						dispensing_row += "<tr><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['name'] + "</td><td>" + parent_row['unit'] + "</td>" + "<td>" + parent_row['dose'] + "</td><td>" + parent_row['duration'] + "</td><td>" + parent_row['months_of_stock'] + "</td><td>" + parent_row['indication'] + "</td><td><input dispensing_id= '" + parent_row['id'] + "' type='button' class='button edit_dispensing' value='Edit'/></td><td>" + parent_row['drug'] + "</td>" + "<td>" + parent_row['quantity'] + "</td><td>" + parent_row['current_weight'] + "</td><td>" + parent_row['current_height'] + "</td><td>" + regimens[parent_row['last_regimen']] + "</td>" + "<td>" + regimens[parent_row['regimen']] + "</td><td>" + parent_row['batch_number'] + "</td><td>" + parent_row['pill_count'] + "</td><td>" + parent_row['user'] + "</td><td>" + regimen_change_reason[parent_row['regimen_change_reason']] + "</td></tr>";
+						//console.log(parent_row);
 						/*$('#current_weight').text(parent_row['current_weight']);
-						$('#current_height').text(parent_row['current_height']);
-						$('#current_bsa').text(getMSQ(parent_row['current_weight'], parent_row['current_height']));
-						$('#current_regimen').attr("value", parent_row['regimen']);*/
-						
+						 $('#current_height').text(parent_row['current_height']);
+						 $('#current_bsa').text(getMSQ(parent_row['current_weight'], parent_row['current_height']));
+						 $('#current_regimen').attr("value", parent_row['regimen']);*/
 					}
+					$('#drugs_table tr:last').after(dispensing_row);
+					$(".edit_dispensing").click(function() {
+						var dispensing_id = $(this).attr("dispensing_id");
+						var url = "edit_dispensing.html?dispensing_id=" + dispensing_id;
+						window.location.href = url;
+					});
+					$("#edit_patient").click(function() {
+						var url = "edit_patient.html?patient_number=" + patient_identification;
+						window.location.href = url;
+					});
+					$("#dispense").click(function() {
+						var url = "dispense.html?patient_number=" + patient_identification;
+						window.location.href = url;
+					});
 				});
 			});
 			function getQueryParams(qs) {
@@ -243,7 +269,16 @@
 				width: 50px;
 			}
 			#dispensing_history {
-				width: 95%;
+				width: 980px !important;
+				height: 200px !important;
+				overflow: scroll;
+				margin: 0 auto;
+			}
+			#drugs_table td {
+				min-width: 60px;
+			}
+			#drugs_table {
+				font-size: 85%;
 			}
 		</style>
 	</head>
@@ -419,64 +454,38 @@
 							</table>
 						</div>
 					</div>
+					<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:200px;"/>
+					<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:200px;"/>
 					<div id="dispensing_history">
 						<div class="short_title" >
 							<h3 class="section_title" style="width:auto;">Dispensing History</h3>
 						</div>
 						<table border="0" class="data-table" id="drugs_table">
-							<tr>
-								<th>Date</th>
-								<th>Purpose of Visit</th>
-								<th>Unit</th>
-								<th>Dose</th>
-								<th>Duration</th>
-								<th>MoS</th>
-								<th>Drug</th>
-								<th>Qty</th>
-								<th>Weight</th>
-								<th>Last Regimen</th>
-								<th>BatchNo</th>
-								<th>Expiry Date</th>
-								<th>Pill Count</th>
-								<th>Operator</th>
-								<th>Reasons For Change</th>
-							</tr>
-							<tr drug_row="0">
-								<td><select name="drug" class="drug"  style="max-width: 150px; font-size: 11px"></select></td>
-								<td>
-								<input type="text" name="unit" class="unit small_text" />
-								</td>
-								<td><select name="batch" class="batch small_text"></select></td>
-								<td>
-								<input type="text" name="expiry" class="expiry small_text" />
-								</td>
-								<td>
-								<input type="text" name="dose" class="dose small_text" />
-								</td>
-								<td>
-								<input type="text" name="duration" class="duration small_text" />
-								</td>
-								<td>
-								<input type="text" name="qty_disp" class="qty_disp small_text" />
-								</td>
-								<td><select name="brand" class="brand small_text"></select></td>
-								<td>
-								<input type="text" name="soh" class="soh small_text" />
-								</td>
-								<td>
-								<select name="indication" class="indication" style="max-width: 70px;">
-									<option value="0">None</option>
-								</select></td>
-								<td>
-								<input type="text" name="pill_count" class="pill_count small_text" />
-								</td>
-								<td>
-								<input type="text" name="comment" class="comment small_text" />
-								</td>
-								<td>
-								<input type="button" class="edit button" value="Edit" style="width: 50px; min-width:0"/>
-								</td>
-							</tr>
+							<thead>
+								<tr id="table-header">
+									<th>Date</th>
+									<th>Purpose of Visit</th>
+									<th>Unit</th>
+									<th>Dose</th>
+									<th>Duration</th>
+									<th>MoS</th>
+									<th>Indication</th>
+									<th>Action</th>
+									<th>Drug</th>
+									<th>Qty</th>
+									<th>Weight</th>
+									<th>Height</th>
+									<th>Last Regimen</th>
+									<th>Regimen</th>
+									<th>BatchNo</th>
+									<th>Pill Count</th>
+									<th>Operator</th>
+									<th>Reasons For Change</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr></tr>
+							</tbody>
 						</table>
 					</div>
 				</div>

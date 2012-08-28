@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Dispense Drugs</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var $_GET = getQueryParams(document.location.search);
+				dispensing_id = $_GET['dispensing_id'];
+				initDatabase();
+				//Add datepicker for the dispensing date
+				$("#dispensing_date").datepicker({
+					defaultDate : new Date(),
+					dateFormat : $.datepicker.ATOM,
+					changeMonth : true,
+					changeYear : true
+
+				});
+				//Dynamically load the list of purposes of visit
+				selectAll("visit_purpose", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#purpose").append($("<option></option>").attr("value", row['id']).text(row['name']));
+					}
+				});
+				//Dynamically load the list of regimens
+				selectRegimen(function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$("#current_regimen").append($("<option></option>").attr("value", row['id']).text(row['regimen_desc']));
+					}
+				});
+				//Get basic getails of the selected patient
+				getDispensingDetails(dispensing_id, function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					console.log(row);
+					//Fill in the dispensing details that are to be edited
+
+					$("#patient").attr("value", row['patient_number_ccc']);
+					$("#patient_details").text(row['first_name'] + " " + row['other_name'] + " " + row["last_name"]);
+					$("#dispensing_date").attr("value", row['dispensing_date']);
+					$("#original_dispensing_date").attr("value", row['dispensing_date']);
+					$("#original_drug").attr("value", row['drug_id']);
+					$("#purpose").attr("value", row['visit_purpose']);
+					$("#current_regimen").attr("value", row['regimen']);
+					//Get the drugs for that regimen.
+					selectRegimenDrugs(row['regimen'], function(transaction, results) {
+						// Handle the results
+						for(var i = 0; i < results.rows.length; i++) {
+							var drugs_row = results.rows.item(i);
+							if(i == 0) {
+								$.each($(".drug"), function(i, v) {
+									$(this).append($("<option></option>").attr("value", drugs_row['id']).text(drugs_row['drug']));
+
+									populateDrugRow($(this));
+								});
+								continue;
+							}
+							$.each($(".drug"), function(i, v) {
+
+								$(this).append($("<option></option>").attr("value", drugs_row['id']).text(drugs_row['drug']));
+							});
+						}
+						//get the drug that was dispensed and display it
+						$("#drug").attr("value", row['drug_id']); 
+						$("#batch").attr("value", row['batch_number']); 
+						$("#weight").attr("value", row['current_weight']);
+						$("#height").attr("value", row['current_height']);
+						$("#dose").attr("value", row['dose']);
+						$("#duration").attr("value", row['duration']);
+						$("#qty_disp").attr("value", row['quantity']);
+						$("#brand").attr("value", row['brand']);
+						$("#indication").attr("value", row['indication']);
+						$("#pill_count").attr("value", row['pill_count']);
+						$("#comment").attr("value", row['comment']);
+					});
+				});
+				//Dynamically load the list of opportunistic infections
+				selectAll("opportunistic_infections", function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$.each($(".indication"), function(i, v) {
+							$(this).append($("<option></option>").attr("value", row['id']).text(row['name']));
+						});
+					}
+
+				});
+				//Dynamically change the list of drugs once a current regimen is selected
+				$("#current_regimen").change(function() {
+					var regimen = $("#current_regimen option:selected").attr("value");
+					//Clear the drugs list first
+					$.each($(".drug"), function(i, v) {
+						$(this).children('option').remove();
+						$(this).append($("<option></option>"));
+					});
+					//Dynamically load the list of drugs for this regimen
+					selectRegimenDrugs(regimen, function(transaction, results) {
+						// Handle the results
+
+						for(var i = 0; i < results.rows.length; i++) {
+							var row = results.rows.item(i);
+							if(i == 0) {
+								$.each($(".drug"), function(i, v) {
+									$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
+
+									populateDrugRow($(this));
+								});
+								continue;
+							}
+							$.each($(".drug"), function(i, v) {
+
+								$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
+							});
+						}
+					});
+					//In addition to the drugs in this regimen, load OI medicines too!
+					//loadOIMedicine();
+				});
+				//Fill the whole drug row with details of the selected drug!
+				$(".drug").change(function() {
+					populateDrugRow($(this));
+				});
+				$(".add").click(function() {
+					var cloned_object = $('#drugs_table tr:last').clone(true);
+					var drug_row = cloned_object.attr("drug_row");
+					var next_drug_row = parseInt(drug_row) + 1;
+					var row_element = cloned_object;
+					//Secod thing, retrieve the respective containers in the row where the drug is
+					row_element.find(".unit").attr("value", "");
+					row_element.find(".batch").attr("value", "");
+					row_element.find(".expiry").attr("value", "");
+					row_element.find(".dose").attr("value", "");
+					row_element.find(".duration").attr("value", "");
+					row_element.find(".qty_disp").attr("value", "");
+					row_element.find(".brand").attr("value", "");
+					row_element.find(".soh").attr("value", "");
+					row_element.find(".batch").attr("value", "");
+					cloned_object.attr("drug_row", next_drug_row);
+					cloned_object.insertAfter('#drugs_table tr:last');
+					return false;
+				});
+				$("#delete").click(function() { 
+					$("#delete_trigger").attr("value","1");
+					$("#submit").click();
+				});
+			});
+			function populateDrugRow(drug) {
+				//First things first, retrieve the row where this drug exists
+				var row_element = drug.closest("tr");
+				//Secod thing, retrieve the respective containers in the row where the drug is
+				var unit = row_element.find(".unit");
+				var batch = row_element.find(".batch");
+				var expiry = row_element.find(".expiry");
+				var dose = row_element.find(".dose");
+				var duration = row_element.find(".duration");
+				var qty_disp = row_element.find(".qty_disp");
+				var brand = row_element.find(".brand");
+				var soh = row_element.find(".soh");
+				if(drug.attr("value") > 0) {
+					//Retrieve details about the selected drug from the database
+					selectSingleFilteredQuery("drugcode", "id", drug.attr("value"), function(transaction, results) {
+
+						// Handle the results
+						var row = results.rows.item(0);
+						getUnitName(row['unit'], function(transaction, res) {
+							if(res.rows.length > 0) {
+								var r = res.rows.item(0);
+								unit.attr("value", r['name']);
+							}
+
+						});
+						//unit.attr("value", row['unit']);
+						dose.attr("value", row['dose']);
+						duration.attr("value", row['duration']);
+						batch.children('option').remove();
+						expiry.attr("value", "");
+						//Retrieve all the batch numbers for this drug
+						getDrugBatches(drug.attr("value"), function(transaction, results) {
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i);
+								batch.append($("<option></option>").attr("value", row['batch_number']).text(row['batch_number']));
+							}
+							batch.change();
+						});
+					});
+				}
+			}
+
+			function loadOIMedicine() {
+				//Dynamically load all opportunistic drugs
+				selectOIMedicines(function(transaction, results) {
+
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						$.each($(".drug"), function(i, v) {
+
+							$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
+						});
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="top-panel" style="margin:0px;">
+				<div class="logo"></div>
+				<div class="network">
+					Network Status: <span id="status" class="offline">Offline</span>
+					<p>
+						Out-of-Sync Records: <span id="local-count"></span>
+					</p>
+				</div>
+				<div id="system_title">
+					<span style="display: block; font-weight: bold; font-size: 14px; margin:2px;">Ministry of Medical Services/Public Health and Sanitation</span>
+					<span style="display: block; font-size: 12px;">ARV Drugs Supply Chain Management Tool</span>
+				</div>
+				<div id="top_menu">
+					<a href="home_controller" class="top_menu_link  first_link">Home </a>
+					<a href="patient_management.html" class="top_menu_link top_menu_active">Patients<span class="alert red_alert">off</span></a>
+					<a href="inventory.html" class="top_menu_link">Inventory<span class="alert red_alert">off</span></a>
+					<a href="reports.html" class="top_menu_link">Reports<span class="alert red_alert">off</span></a>
+					<a href="settings_management" class="top_menu_link">Settings<span class="alert green_alert">on</span></a>
+					<div id="my_profile_link_container" style="display: inline">
+						<a ref="#" class="top_menu_link" id="my_profile_link"></a>
+					</div>
+				</div>
+			</div>
+			<div id="inner_wrapper">
+				<div id="main_wrapper">
+					<div id="signup_form">
+						<div class="short_title" >
+							<h1 class="banner_text" style="width:auto;">Dispense Drugs</h1>
+						</div>
+						<form id="edit_dispense_form" method="post" >
+							<input id="original_dispensing_date" name="original_dispensing_date" type="hidden"/>
+							<input id="original_drug" name="original_drug" type="hidden"/>
+							<input id="delete_trigger" name="delete_trigger" type="hidden"/>
+							<div class="column">
+								<label> <strong class="label">Patient (<span id="patient_details"></span>)</strong>
+									<input readonly="" id="patient" name="patient" class="validate[required]"/>
+								</label>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label">Dispensing Date</strong>
+										<input style="width:140px" type="text"name="dispensing_date" id="dispensing_date" class="validate[required]">
+									</label>
+									<label style="width:140px; float:right;"> <strong class="label" >Purpose of Visit</strong>
+										<select style="width:140px;" type="text"name="purpose" id="purpose" class="validate[required]">
+											<option></option>
+										</select> </label>
+								</div>
+								<label> <strong class="label">Weight</strong>
+									<input type="text" name="weight" id="weight" class="validate[required]">
+								</label>
+								<label> <strong class="label">Height</strong>
+									<input type="text" name="height" id="height" class="validate[required]">
+								</label>
+								<label> <strong class="label">Current Regimen</strong>
+									<select type="text"name="current_regimen" id="current_regimen" style="width:300px" class="validate[required]">
+										<option></option>
+									</select> </label>
+							</div>
+							<div id="drugs_section" style="margin: 0 auto;">
+								<table border="0" class="data-table" id="drugs_table">
+									<th class="subsection-title" colspan="14">Select Drugs</th>
+									<tr>
+										<th>Drug</th>
+										<th>Unit</th>
+										<th>Batch No.</th>
+										<th>Expiry Date</th>
+										<th>Dose</th>
+										<th>Duration</th>
+										<th>Qty. disp</th>
+										<th>Brand Name</th>
+										<th>Indication</th>
+										<th>Pill Count</th>
+										<th>Comment</th>
+									</tr>
+									<tr drug_row="0">
+										<td><select name="drug" class="drug" id="drug" style="max-width: 150px; font-size: 11px"></select></td>
+										<td>
+										<input type="text" name="unit" id="unit" class="unit small_text" />
+										</td>
+										<td>
+										<input type="text" id="batch" name="batch" class="batch small_text" />
+										</td>
+										<td>
+										<input type="text" id="expiry" name="expiry" class="expiry small_text" />
+										</td>
+										<td>
+										<input type="text" id="dose" name="dose" class="dose small_text" />
+										</td>
+										<td>
+										<input type="text" id="duration" name="duration" class="duration small_text" />
+										</td>
+										<td>
+										<input type="text" id="qty_disp" name="qty_disp" class="qty_disp small_text" />
+										</td>
+										<td><select name="brand" id="brand" class="brand small_text"></select></td>
+										<td>
+										<select name="indication" id="indication" class="indication" style="max-width: 70px;">
+											<option value="0">None</option>
+										</select></td>
+										<td>
+										<input type="text" name="pill_count" id="pill_count" class="pill_count small_text" />
+										</td>
+										<td>
+										<input type="text" name="comment" id="comment" class="comment small_text" />
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div id="submit_section">
+								<input type="button" class="submit-button" id="delete" value="Delete Record" style="width:200px; background-color: #E01B1B; color: white;"/>
+								<input form="edit_dispense_form" class="submit-button" id="submit" value="Save & go Back" style="width:200px;"/>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!--End Wrapper div-->
+			</div>
+			<div id="bottom_ribbon">
+				<div id="footer">
+					<div id="footer_text">
+						Government of Kenya &copy; 2011. All Rights Reserved
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

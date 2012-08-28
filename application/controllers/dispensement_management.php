@@ -24,10 +24,18 @@ class Dispensement_Management extends MY_Controller {
 			}
 			
 		}
-		
-
 	}
-
+	public function save_edit() {
+		$this->load->database();
+		$sql = $this->input->post("sql");
+		$queries = explode(";", $sql);
+		foreach($queries as $query){
+			if(strlen($query)>0){
+				$this->db->query($query);
+			}
+			
+		}
+	}
 	public function base_params($data) { 
 		$data['title'] = "Drug Dispensements"; 
 		$data['banner_text'] = "Facility Dispensements";

@@ -88,7 +88,7 @@ function processData(button) {
 				//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 				for(var i = 0; i < drugs_count; i++) {
 					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity,duration,months_of_stock) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "','" + durations[i] + "','" + dump["months_of_stock"] + "');";
-				
+
 				};
 				console.log(sql);
 				var url = "patient_management.html?message=Dispensing data for " + dump['patient'] + " saved successfully";
@@ -134,7 +134,7 @@ function processData(button) {
 					sql_queries += sql;
 				};
 				var queries = sql_queries.split(";");
-				callbackExecuteStatementArray(queries, function(transaction, resultset) {  
+				callbackExecuteStatementArray(queries, function(transaction, resultset) {
 					window.location = "inventory.html?message=Stock inventory data saved successfully";
 				});
 				return;
@@ -155,6 +155,31 @@ function processData(button) {
 				};
 				var saved_object = JSON.stringify(combined_object);
 				saveDataLocally(saved_object);
+			} else if(form == "edit_dispense_form") {
+				target = "dispensement_management/save_edit";
+				local_table = 'patient_visit';
+				var dump = retrieveFormValues();
+				var timestamp = new Date().getTime();
+				var redirect_url = "";
+				if(dump["delete_trigger"] == "1") {
+					var sql = "delete from patient_visit WHERE patient_id='" + dump["patient"] + "' AND facility='" + facility + "' and dispensing_date='" + dump["original_dispensing_date"] + "' and drug_id='" + dump["original_drug"] + "';";
+					redirect_url = "patient_management.html?message=Dispensing Data for " + dump['patient'] + " deleted successfully";
+				} else {
+					var sql = "UPDATE patient_visit SET dispensing_date = '" + dump["dispensing_date"] + "', visit_purpose = '" + dump["purpose"] + "', current_weight='" + dump["weight"] + "', current_height='" + dump["height"] + "', regimen='" + dump["current_regimen"] + "', drug_id='" + dump["drug"] + "', batch_number='" + dump["batch"] + "', dose='" + dump["dose"] + "', duration='" + dump["duration"] + "', quantity='" + dump["qty_disp"] + "', brand='" + dump["brand"] + "', indication='" + dump["indication"] + "', pill_count='" + dump["pill_count"] + "', comment='" + dump["comment"] + "' WHERE patient_id='" + dump["patient"] + "' AND facility='" + facility + "' and dispensing_date='" + dump["original_dispensing_date"] + "' and drug_id='" + dump["original_drug"] + "';";
+					redirect_url = "patient_management.html?message=Edited Dispensing Data for " + dump['patient'] + " saved successfully";
+				}
+
+				//console.log(sql);
+				var combined_object = {
+					0 : target,
+					1 : sql,
+					2 : timestamp,
+					3 : local_table,
+					4 : redirect_url
+				};
+				var saved_object = JSON.stringify(combined_object);
+				saveDataLocally(saved_object);
+
 			}
 		});
 		//end environmental variables callback
@@ -205,6 +230,7 @@ function sendDataToServer(data) {
 
 //called on submit if device is offline from processData()
 function saveDataLocally(data) {
+
 	var separated_data = JSON.parse(data);
 	var sql = separated_data[1];
 	var timestamp = separated_data[2];
@@ -213,7 +239,9 @@ function saveDataLocally(data) {
 	var length = window.localStorage.length;
 	document.querySelector('#local-count').innerHTML = length;
 	var queries = sql.split(";");
+	console.log(queries);
 	callbackExecuteStatementArray(queries, function(transaction, resultset) {
+
 		//alert(transaction);
 		localStorage.setItem(timestamp, data);
 		window.location = url;

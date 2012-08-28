@@ -61,8 +61,7 @@
 				//Add listener to the drug batch selecter to prepopulate the expiry date
 				$(".batch").change(function() {
 					var row_element = $(this).closest("tr");
-					var expiry_date = row_element.find(".expiry");
-					var expiry_date = row_element.find(".expiry");
+					var expiry_date = row_element.find(".expiry"); 
 					var drug = row_element.find(".drug").attr("value");
 					//Get basic getails of the selected patient
 					getBatchExpiry(drug, $(this).attr("value"), function(transaction, results) {
@@ -174,7 +173,6 @@
 					row_element.find(".qty_disp").attr("value", "");
 					row_element.find(".brand").attr("value", "");
 					row_element.find(".soh").attr("value", "");
-					row_element.find(".batch").attr("value", "");
 					cloned_object.attr("drug_row", next_drug_row);
 					cloned_object.insertAfter('#drugs_table tr:last');
 					return false;

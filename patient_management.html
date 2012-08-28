@@ -52,7 +52,7 @@
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
 					var url = "patient_details.html?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
-				});
+				});				
 				$(".edit").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
 					var url = "edit_patient.html?patient_number=" + patient_medical_record_number;
@@ -315,10 +315,7 @@
 				</div>
 				<div id="action_panel_parent" style="display:none">
 					<div class="actions_panel" style="visibility:hidden" >
-						<a class="link dispense">Dispense</a>
-						<a class="link history">History</a>
-						<a class="link details">Details</a>
-						<a class="link edit">Edit</a>
+						<a class="link details">Details</a> 
 					</div>
 				</div>
 				<div id="details_popup" title="Patient Details"></div>
