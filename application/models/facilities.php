@@ -59,6 +59,6 @@ class Facilities extends Doctrine_Record {
 		$query = Doctrine_Query::create() -> select("*") -> from("Facilities") -> where("id = '$id'");
 		$facility = $query -> execute();
 		return $facility[0];
-	}
+	} 
 
 }

@@ -36,6 +36,12 @@ class Drugcode extends Doctrine_Record {
 		return $drugsandcodes;
 	}
 
+	public function getARVs() {
+		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode") -> where("None_Arv != '1'") -> orderBy("id asc");
+		$drugsandcodes = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
+		return $drugsandcodes;
+	}
+
 	public function getAllObjects($source = 0) {
 		$query = Doctrine_Query::create() -> select("Drug,Pack_Size,Safety_Quantity,Quantity,Duration") -> from("Drugcode") -> where("Supplied = '1'") -> orderBy("id asc");
 		$drugsandcodes = $query -> execute(array());

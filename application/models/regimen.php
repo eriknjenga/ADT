@@ -10,6 +10,7 @@ class Regimen extends Doctrine_Record {
 		$this -> hasColumn('Remarks', 'varchar', 30);
 		$this -> hasColumn('Enabled', 'varchar', 4);
 		$this -> hasColumn('Source', 'varchar', 10);
+		$this -> hasColumn('Optimality', 'varchar', 1);
 	}
 
 	public function setUp() {
@@ -45,6 +46,12 @@ class Regimen extends Doctrine_Record {
 
 	public function getPagedRegimens($offset, $items, $source = 0) {
 		$query = Doctrine_Query::create() -> select("Regimen_Code,Regimen_Desc,Category,Line,Type_Of_Service,Remarks,Enabled") -> from("Regimen") -> where('Source = "' . $source . '" or Source ="0"') -> offset($offset) -> limit($items);
+		$regimens = $query -> execute();
+		return $regimens;
+	}
+
+	public function getOptimalityRegimens($optimality) {
+		$query = Doctrine_Query::create() -> select("*") -> from("Regimen") -> where('Optimality = "' . $optimality . '" and Source ="0"') -> orderBy("Regimen_Desc asc");
 		$regimens = $query -> execute();
 		return $regimens;
 	}

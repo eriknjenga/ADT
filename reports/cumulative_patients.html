@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Cumulative Patients to Date</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var date = $_GET['date'];
+				$("#date_of_appointment").text(date);
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				countTableRecords('patient', function(transaction, results) {
+					// Handle the results
+					var parent_row = results.rows.item(0);
+					var total_patients = parent_row['total'];
+					var total_adult_male_art = 0;
+					var total_adult_male_pep = 0;
+					var total_adult_male_oi = 0;
+					var total_adult_female_art = 0;
+					var total_adult_female_pep = 0;
+					var total_adult_female_pmtct = 0;
+					var total_adult_female_oi = 0;
+					var total_child_male_art = 0;
+					var total_child_male_pep = 0;
+					var total_child_male_pmtct = 0;
+					var total_child_male_oi = 0;
+					var total_child_female_art = 0;
+					var total_child_female_pep = 0;
+					var total_child_female_pmtct = 0;
+					var total_child_female_oi = 0;
+
+					var status_totals = new Array();
+					//Now get all the patient statuses
+					getStatusTotals(function(transaction, results0) {
+						for(var x = 0; x < results0.rows.length; x++) {
+							var parent_row = results0.rows.item(x);
+							var returned_counter = 0;
+							status_totals[parent_row['name']] = parent_row['total'];
+							//for each patient status, get it's statistics
+							//start with the adult male
+							getStatisticNumbers("adult", "1", parent_row['current_status'], parent_row['name'], function(transaction, results) {
+								var status_details = results.rows.item(0);
+								var passed_status = status_details['passed_status'];
+								var passed_status_name = status_details['passed_status_name'];
+								var row_string = "<tr><td>" + passed_status_name + "</td><td>" + status_totals[passed_status_name] + "</td><td>" + (Math.ceil(100 * ((status_totals[passed_status_name] / total_patients) * 100)) / 100) + "</td>";
+								counter = 0;
+								for(var i = 1; i <= 3; i++) {
+									counter++;
+									try {
+										var adult_male_row = results.rows.item(i);
+										if(adult_male_row['name'] == null) {
+											counter--;
+											continue;
+										}
+										if(adult_male_row['name'] == "ART") {
+											total_adult_male_art += adult_male_row['total'];
+											row_string += "<td>" + adult_male_row['total'] + "</td>";
+											continue;
+										} else {
+											if(counter == 1) {
+												row_string += "<td>-</td>";
+												counter++;
+											}
+										}
+										if(adult_male_row['name'] == "PEP") {
+											total_adult_male_pep += adult_male_row['total'];
+											row_string += "<td>" + adult_male_row['total'] + "</td>";
+											continue;
+										} else {
+											if(counter == 2) {
+												row_string += "<td>-</td>";
+												counter++;
+											}
+										}
+										if(adult_male_row['name'] == "OI Only") {
+											total_adult_male_oi += adult_male_row['total'];
+											row_string += "<td>" + adult_male_row['total'] + "</td>";
+											continue;
+										} else {
+											if(counter == 3) {
+												row_string += "<td>-</td>";
+												counter++;
+											}
+										}
+									} catch(e) {
+										if(counter <= 3) {
+											row_string += "<td>-</td>";
+										}
+									}
+								}
+								getStatisticNumbers("adult", "2", passed_status, passed_status_name, function(transaction2, results2) {
+									counter = 0;
+									for(var i = 1; i <= 4; i++) {
+										counter++;
+										try {
+											var adult_female_row = results2.rows.item(i);
+											if(adult_female_row['name'] == null) {
+												counter--;
+												continue;
+											}
+											if(adult_female_row['name'] == "ART") {
+												total_adult_female_art += adult_female_row['total'];
+												row_string += "<td>" + adult_female_row['total'] + "</td>";
+												continue;
+											} else {
+												if(counter == 1) {
+													row_string += "<td>-</td>";
+													counter++;
+												}
+											}
+											if(adult_female_row['name'] == "PEP") {
+												total_adult_female_pep += adult_female_row['total'];
+												row_string += "<td>" + adult_female_row['total'] + "</td>";
+												continue;
+											} else {
+												if(counter == 2) {
+													row_string += "<td>-</td>";
+													counter++;
+												}
+											}
+											if(adult_female_row['name'] == "PMTCT") {
+												total_adult_female_pmtct += adult_female_row['total'];
+												row_string += "<td>" + adult_female_row['total'] + "</td>";
+												continue;
+											} else {
+												if(counter == 3) {
+													row_string += "<td>-</td>";
+													counter++;
+												}
+											}
+											if(adult_female_row['name'] == "OI Only") {
+												total_adult_female_oi += adult_female_row['total'];
+												row_string += "<td>" + adult_female_row['total'] + "</td>";
+												continue;
+											} else {
+												if(counter == 4) {
+													row_string += "<td>-</td>";
+													counter++;
+												}
+											}
+
+										} catch(e) {
+											if(counter <= 4) {
+												row_string += "<td>-</td>";
+											}
+										}
+
+									}
+									getStatisticNumbers("child", "1", passed_status, passed_status_name, function(transaction3, results3) {
+										counter = 0;
+										for(var i = 1; i <= 4; i++) {
+											counter++;
+											try {
+												var child_male_row = results3.rows.item(i);
+												if(child_male_row['name'] == null) {
+													counter--;
+													continue;
+												}
+												if(child_male_row['name'] == "ART") {
+													total_child_male_art += child_male_row['total'];
+													row_string += "<td>" + child_male_row['total'] + "</td>";
+													continue;
+												} else {
+													if(counter == 1) {
+														row_string += "<td>-</td>";
+														counter++;
+													}
+												}
+												if(child_male_row['name'] == "PEP") {
+													total_child_male_pep += child_male_row['total'];
+													row_string += "<td>" + child_male_row['total'] + "</td>";
+													continue;
+												} else {
+													if(counter == 2) {
+														row_string += "<td>-</td>";
+														counter++;
+													}
+												}
+												if(child_male_row['name'] == "PMTCT") {
+													total_child_male_pmtct += child_male_row['total'];
+													row_string += "<td>" + child_male_row['total'] + "</td>";
+													continue;
+												} else {
+													if(counter == 3) {
+														row_string += "<td>-</td>";
+														counter++;
+													}
+												}
+												if(child_male_row['name'] == "OI Only") {
+													total_child_male_oi += child_male_row['total'];
+													row_string += "<td>" + child_male_row['total'] + "</td>";
+													continue;
+												} else {
+													if(counter == 4) {
+														row_string += "<td>-</td>";
+														counter++;
+													}
+												}
+
+											} catch(e) {
+												if(counter <= 4) {
+													row_string += "<td>-</td>";
+												}
+											}
+
+										}
+										getStatisticNumbers("child", "2", passed_status, passed_status_name, function(transaction4, results4) {
+											returned_counter++;
+											counter = 0;
+											for(var i = 1; i <= 4; i++) {
+												counter++;
+												try {
+													var child_female_row = results4.rows.item(i);
+													if(child_male_row['name'] == null) {
+														counter--;
+														continue;
+													}
+													if(child_female_row['name'] == "ART") {
+														total_child_female_art += child_female_row['total'];
+														row_string += "<td>" + child_female_row['total'] + "</td>";
+														continue;
+													} else {
+														if(counter == 1) {
+															row_string += "<td>-</td>";
+															counter++;
+														}
+													}
+													if(child_female_row['name'] == "PEP") {
+														total_child_female_pep += child_female_row['total'];
+														row_string += "<td>" + child_female_row['total'] + "</td>";
+														continue;
+													} else {
+														if(counter == 2) {
+															row_string += "<td>-</td>";
+															counter++;
+														}
+													}
+													if(child_female_row['name'] == "PMTCT") {
+														total_child_female_pmtct += child_female_row['total'];
+														row_string += "<td>" + child_female_row['total'] + "</td>";
+														continue;
+													} else {
+														if(counter == 3) {
+															row_string += "<td>-</td>";
+															counter++;
+														}
+													}
+													if(child_female_row['name'] == "OI Only") {
+														total_child_female_oi += child_female_row['total'];
+														row_string += "<td>" + child_female_row['total'] + "</td>";
+														continue;
+													} else {
+														if(counter == 4) {
+															row_string += "<td>-</td>";
+															counter++;
+														}
+													}
+
+												} catch(e) {
+													if(counter <= 4) {
+														row_string += "<td>-</td>";
+													}
+												}
+
+											}
+											row_string += "</tr>";
+											if(returned_counter == results0.rows.length) {
+												row_string += "<tr><td><b>Totals:</b></td><td><b>" + total_patients + "</b></td><td><b>100</b></td><td><b>" + total_adult_male_art + "</b></td><td><b>" + total_adult_male_pep + "</b></td><td><b>" + total_adult_male_oi + "</b></td><td><b>" + total_adult_female_art + "</b></td><td><b>" + total_adult_female_pep + "</b></td><td><b>" + total_adult_female_pmtct + "</b></td><td><b>" + total_adult_female_oi + "</b></td><td><b>" + total_child_male_art + "</b></td><td><b>" + total_child_male_pep + "</b></td><td><b>" + total_child_male_pmtct + "</b></td><td><b>" + total_child_male_oi + "</b></td><td><b>" + total_child_female_art + "</b></td><td><b>" + total_child_female_pep + "</b></td><td><b>" + total_child_female_pmtct + "</b></td><td><b>" + total_child_female_oi + "</b></td></tr>";
+											}
+											$("#patient_listing").append($(row_string));
+										});
+									});
+								});
+							});
+						}
+					});
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 11px;
+				letter-spacing: 0.5px;
+				width: 1000px;
+			}
+			#patient_listing td th {
+				padding: 10px;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Cumulative Number of Patients by Current Status as at <span id="date_of_appointment"></span></h4>
+		<table   id="patient_listing">
+			<tr>
+				<th rowspan="3">Current Status</th>
+				<th colspan="2">Total</th>
+				<th colspan="7"> Adult</th>
+				<th colspan="8"> Children </th>
+			</tr>
+			<tr>
+				<th rowspan="2">No.</th>
+				<th rowspan="2">%</th>
+				<th colspan="3">Male</th>
+				<th colspan="4">Female</th>
+				<th colspan="4">Male</th>
+				<th colspan="4">Female</th>
+			</tr>
+			<tr>
+				<th>ART</th>
+				<th>PEP</th>
+				<th>OI</th>
+				<th>ART</th>
+				<th>PEP</th>
+				<th>PMTCT</th>
+				<th>OI</th>
+				<th>ART</th>
+				<th>PEP</th>
+				<th>PMTCT</th>
+				<th>OI</th>
+				<th>ART</th>
+				<th>PEP</th>
+				<th>PMTCT</th>
+				<th>OI</th>
+			</tr>
+		</table>
+	</body>
+</html>

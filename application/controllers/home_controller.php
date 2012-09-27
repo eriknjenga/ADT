@@ -8,12 +8,19 @@ class Home_Controller extends MY_Controller {
 	}
 
 	public function index() {
+		$this -> platform_home();
+	}
 
-		$this -> home();
+	public function platform_home() {
+		$data = array();
+		$data['current'] = "home_controller";
+		$data['title'] = "System Dashboard";
+		$data['banner_text'] = "System Dashboard";
+		$data['content_view'] = "platform_home_v";
+		$this -> load -> view("platform_template", $data);
 	}
 
 	public function home() {
-		//
 		$rights = User_Right::getRights($this -> session -> userdata('access_level'));
 		$menu_data = array();
 		$menus = array();

@@ -104,7 +104,7 @@ if ($user_is_pharmacist) {
 			var row = results.rows.item(0);
 			total_patients = row['total']; 
 			//Create the url to be used in the ajax call
-			url = "synchronize_pharmacy/check_patient_numbers/"+facility;
+			url = "<?php echo base_url();?>synchronize_pharmacy/check_patient_numbers/"+facility;
 			$.get(url, function(data) {
   				//alert(data);
   				$("#total_number_local").html(total_patients);

@@ -106,8 +106,8 @@ function createTables() {
 		 */
 		transaction.executeSql("update patient set current_status = '5' where patient_number_ccc in (SELECT patient from patient_appointment pa left join patient p on p.patient_number_ccc = pa.patient where (strftime('%s','now')-strftime('%s',appointment))/86400 >90 and p.current_status = '1' and (p.service = '1' or p.service='3') group by patient);", [], nullDataHandler, errorHandler);
 		/*
-		 * Update the status of patients whose PMTCT days are over
-		 */
+		* Update the status of patients whose PMTCT days are over
+		*/
 		//transaction.executeSql("UPDATE patient SET current_status = '4' WHERE service='3' AND (strftime('%s','now')-strftime('%s',date_enrolled))/86400>=270;", [], nullDataHandler, errorHandler);
 		/*
 		 * Update the status of patients whose PEP days are over
@@ -115,10 +115,10 @@ function createTables() {
 		transaction.executeSql("UPDATE patient SET current_status = '3' WHERE service='2' AND (strftime('%s','now')-strftime('%s',date_enrolled))/86400>=30;", [], nullDataHandler, errorHandler);
 
 		/*
-		 * Add the months of stock column to the patient_visit table
-		 */
+		* Add the months of stock column to the patient_visit table
+		*/
 		//transaction.executeSql("alter table patient_visit add column months_of_stock text;", [], nullDataHandler, errorHandler);
-		
+
 	});
 }
 
@@ -239,10 +239,9 @@ function selectOIMedicines(dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
-
 //This function returns details of the last visit of the patient
 function getPatientLastVisit(patient_ccc, dataSelectHandler) {
-	var sql = "select * from patient_visit where patient_id = '"+patient_ccc+"' order by dispensing_date desc limit 1";
+	var sql = "select * from patient_visit where patient_id = '" + patient_ccc + "' order by dispensing_date desc limit 1";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -460,7 +459,7 @@ function getTotalPatientAppointments(appointment_date, dataSelectHandler) {
 }
 
 function getLastPatientAppointment(patient, dataSelectHandler) {
-	var sql = "select appointment from patient_appointment pa where pa.patient = '" + patient + "' order by appointment desc limit 1"; 
+	var sql = "select appointment from patient_appointment pa where pa.patient = '" + patient + "' order by appointment desc limit 1";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -519,6 +518,7 @@ function getPeriodRegimenPatients(start_date, end_date, dataSelectHandler) {
 	var sql = "select regimen, count(distinct patient_id) as patients from patient_visit where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') group by regimen;";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 function getPeriodRegimenMos(start_date, end_date, dataSelectHandler) {
 	var sql = "select regimen,sum(mos) as total_mos from (select regimen, months_of_stock as mos from patient_visit where strftime('%Y-%m-%d',dispensing_date) between strftime('%Y-%m-%d','" + start_date + "') and strftime('%Y-%m-%d','" + end_date + "') group by patient_id) group by regimen;";
 	console.log(sql);
@@ -536,8 +536,25 @@ function getPatientDispensingHistory(patient, dataSelectHandler) {
 	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id left join visit_purpose v on pv.visit_purpose = v.id where pv.patient_id = '" + patient + "' order by dispensing_date desc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 function getDispensingDetails(dispensing_id, dataSelectHandler) {
 	var sql = "select * from patient_visit pv left join patient p on pv.patient_id = p.patient_number_ccc where pv.id = '" + dispensing_id + "'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getStatisticNumbers(adult_or_child, gender, status,status_name, dataSelectHandler) {
+	var sql = "";
+	if(adult_or_child == "adult") {
+		sql = "select case when 1=1 then '" + status + "' end as passed_status, case when 1=1 then '" + status_name + "' end as passed_status_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.name from patient p left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') group by service) test ";
+	}
+	if(adult_or_child == "child") {
+		sql = "select case when 1=1 then '" + status + "' end as passed_status,case when 1=1 then '" + status_name + "' end as passed_status_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.name from patient p  left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) group by service) test ";
+
+	}
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getStatusTotals(dataSelectHandler) {
+	var sql = "select count(p.id) as total,current_status,ps.name from patient_status ps left join patient p   on ps.id = current_status  group by ps.id";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

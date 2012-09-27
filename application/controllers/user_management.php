@@ -115,7 +115,7 @@ class User_Management extends MY_Controller {
 					$this -> db -> query($sql_pmtct);
 					$this -> db -> query($sql_inactive);
 
-					redirect("home_controller");
+					redirect("home_controller/home");
 				}
 
 			}
