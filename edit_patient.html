@@ -58,7 +58,14 @@
 				//Dynamically change the regimens based on the service type!
 				$("#service").change(function() {
 					$("#regimen option").remove();
+
 					var value = $("#service option:selected").attr("value");
+					var text = $("#service option:selected").html();
+					if(text == "ART") {
+						$("#date_service_started").css("display", "block");
+					} else {
+						$("#date_service_started").css("display", "none");
+					}
 					//Dynamically load the list of service types
 					selectServiceRegimen(value, function(transaction, results) {
 						// Handle the results
@@ -74,6 +81,9 @@
 					changeYear : true
 				});
 				$("#enrolled").datepicker({
+					maxDate : "0D"
+				});
+				$("#service_started").datepicker({
 					maxDate : "0D"
 				});
 
@@ -117,6 +127,14 @@
 						$('#phone').attr("value", parent_row['phone']);
 						$('#physical').attr("value", parent_row['physical']);
 						$('#alternate').attr("value", parent_row['alternate']);
+						if(parent_row['sms_consent'] != null || parent_row['sms_consent'] != " ") {
+							if(parent_row['sms_consent'] == 1) {
+								$('#yes_reminders').attr("checked", "checked");
+							}
+							if(parent_row['sms_consent'] == 0) {
+								$('#no_reminders').attr("checked", "checked");
+							}
+						}
 						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
 							$('#other_illnesses').attr("checked", "checked");
 							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
@@ -130,7 +148,7 @@
 						$('#smoke').attr("value", parent_row['smoke']);
 						$('#alcohol').attr("value", parent_row['alcohol']);
 						$('#enrolled').attr("value", parent_row['date_enrolled']);
-
+						$('#service_started').attr("value", parent_row['start_regimen_date']);
 						$('#source').attr("value", parent_row['source']);
 						$('#support').attr("value", parent_row['supported_by']);
 						$('#service').attr("value", parent_row['service']);
@@ -149,7 +167,7 @@
 				return params;
 			}
 
-			function getMSQ() { 
+			function getMSQ() {
 				var weight = $('#weight').attr('value');
 				var height = $('#height').attr('value');
 				var MSQ = Math.sqrt((parseInt(weight) * parseInt(height)) / 3600);
@@ -234,9 +252,16 @@
 								<label> <strong class="label">Body Surface Area (MSQ)</strong>
 									<input type="text" name="surface_area" id="surface_area" value="">
 								</label>
-								<label> <strong class="label">Patient's Phone Contact(s)</strong>
-									<input type="text" name="phone" id="phone" value="">
-								</label>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label">Patient's Phone Contact(s)</strong>
+										<input style="width:140px" type="text"  name="phone" id="phone" value="">
+									</label>
+									<label style="width:140px; float:right;"> <strong class="label">Receive SMS Reminders</strong>
+										<input style="width:20px" type="radio" id="yes_reminders"  name="sms_consent" value="1">
+										Yes
+										<input style="width:20px" type="radio" id="no_reminders" name="sms_consent" value="0">
+										No </label>
+								</div>
 								<label> <strong class="label">Patient's Physical Contact(s)</strong> 									<textarea name="physical" id="physical" value=""></textarea> </label>
 								<label> <strong class="label">Patient's Alternate Contact(s)</strong>
 									<input type="text" name="alternate" id="alternate" value="">
@@ -285,6 +310,9 @@
 									<select name="service" id="service">
 										<option></option>
 									</select> </label>
+								<label id="date_service_started" style="display: none;"> <strong class="label">Date Service Started</strong>
+									<input type="text" name="service_started" id="service_started" value="">
+								</label>
 								<label> <strong class="label">Start Regimen</strong> <select name="regimen" id="regimen" style="width:300px"></select> </label>
 							</div>
 							<div id="submit_section">

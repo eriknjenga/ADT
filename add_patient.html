@@ -45,7 +45,7 @@
 				});
 				//Dynamically load the list of service types
 				selectAll("regimen_service_type", function(transaction, results) {
-					// Handle the results 
+					// Handle the results
 					for(var i = 0; i < results.rows.length; i++) {
 						var row = results.rows.item(i);
 						$("#service").append($("<option></option>").attr("value", row['id']).text(row['name']));
@@ -155,7 +155,10 @@
 									<label style="width:140px; float:left;"> <strong class="label" >Date of Birth</strong>
 										<input style="width:140px;" type="text"name="dob" id="dob" class="validate[required]">
 									</label>
-									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">--> <select name="pob" id="pob" style="width:120px"><option value="None">--Select--</option></select> </label>
+									<label style="width:140px; float:right;"> <strong class="label">Place of Birth</strong> <!--<input style="width:140px" type="text"name="pob" id="pob">-->
+										<select name="pob" id="pob" style="width:120px">
+											<option value="None">--Select--</option>
+										</select> </label>
 								</div>
 								<div class="two_comlumns">
 									<label style="width:140px; float:left;"> <strong class="label" >Gender</strong>
@@ -179,9 +182,15 @@
 								<label> <strong class="label">Body Surface Area (MSQ)</strong>
 									<input type="text" name="surface_area" id="surface_area" value="" readonly="readonly">
 								</label>
-								<label> <strong class="label">Patient's Phone Contact(s)</strong>
-									<input type="text" name="phone" id="phone" value="">
-								</label>
+								<div class="two_comlumns">
+									<label style="width:140px; float:left;"> <strong class="label">Patient's Phone Contact(s)</strong>
+										<input style="width:140px" type="text"  name="phone" id="phone" value="">
+									</label>
+								<label style="width:140px; float:right;"> <strong class="label">Receive SMS Reminders</strong>
+										<input style="width:20px" type="radio"  name="sms_consent" value="1"> Yes
+										<input style="width:20px" type="radio"  name="sms_consent" value="0"> No
+									</label>
+								</div>
 								<label> <strong class="label">Patient's Physical Contact(s)</strong> 									<textarea name="physical" id="physical" value=""></textarea> </label>
 								<label> <strong class="label">Patient's Alternate Contact(s)</strong>
 									<input type="text" name="alternate" id="alternate" value="">
@@ -227,8 +236,14 @@
 								<label> <strong class="label">Date Patient Enrolled</strong>
 									<input type="text" name="enrolled" id="enrolled" value="">
 								</label>
-								<label> <strong class="label">Source of Patient</strong> <select name="source" id="source"><option></option></select> </label>
-								<label> <strong class="label">Patient Supported by</strong> <select name="support" id="support"><option></option></select> </label>
+								<label> <strong class="label">Source of Patient</strong>
+									<select name="source" id="source">
+										<option></option>
+									</select> </label>
+								<label> <strong class="label">Patient Supported by</strong>
+									<select name="support" id="support">
+										<option></option>
+									</select> </label>
 								<label> <strong class="label">Type of Service</strong>
 									<select name="service" id="service">
 										<option></option>

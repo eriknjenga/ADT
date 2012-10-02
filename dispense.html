@@ -310,6 +310,11 @@
 		</script>
 	</head>
 	<body>
+		<style>
+			.data-table th{
+				font-size: 10px;
+			}
+		</style>
 		<div id="wrapper">
 			<div id="top-panel" style="margin:0px;">
 				<div class="logo"></div>
@@ -386,6 +391,9 @@
 								<label> <strong class="label">MOS Dispensed</strong>
 									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]"> 
 								</label>
+								<label> <strong class="label">Reported Adherence (%)</strong>
+									<input type="text"name="adherence" id="adherence"> 
+								</label>
 							</div>
 							<div class="column">
 								<fieldset>
@@ -420,7 +428,8 @@
 										<th>Indication</th>
 										<th>Pill Count</th>
 										<th>Comment</th>
-										<th>Action</th>
+										<th>Missed Pills</th>
+										<th style="min-width: 50px;">Action</th>
 									</tr>
 									<tr drug_row="0">
 										<td><select name="drug" class="drug"  style="max-width: 150px; font-size: 11px"></select></td>
@@ -453,6 +462,9 @@
 										</td>
 										<td>
 										<input type="text" name="comment" class="comment small_text" />
+										</td>
+										<td>
+										<input type="text" name="missed_pills" class="missed_pills small_text" />
 										</td>
 										<td>
 										<input type="button" class="add button" value="+" style="width: 20px; min-width:0"/>

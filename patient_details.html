@@ -113,6 +113,14 @@
 						$('#phone').text(parent_row['phone']);
 						$('#physical').text(parent_row['physical']);
 						$('#alternate').text(parent_row['alternate']);
+						if(parent_row['sms_consent'] != null || parent_row['sms_consent'] != " ") {
+							if(parent_row['sms_consent'] == 1) {
+								$('#sms_consent').text("Yes");
+							}
+							if(parent_row['sms_consent'] == 0) {
+								$('#sms_consent').text("No");
+							}
+						}
 						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
 							$('#other_illnesses').attr("checked", "checked");
 							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
@@ -366,9 +374,12 @@
 									<td><strong class="label">Patient's Phone Contacts:</strong></td><td><label id="phone" class="data-holder"></label></td>
 								</tr>
 								<tr class="normal_row table_row">
-									<td><strong class="label">Patient's Physical Contacts:</strong></td><td><label id="physical" class="data-holder"></label></td>
+									<td><strong class="label">SMS Reminders Consent:</strong></td><td><label id="sms_consent" class="data-holder"></label></td>
 								</tr>
 								<tr class="alternate_row table_row">
+									<td><strong class="label">Patient's Physical Contacts:</strong></td><td><label id="physical" class="data-holder"></label></td>
+								</tr>
+								<tr class="normal_row table_row">
 									<td><strong class="label">Patient's Alternate Contacts:</strong></td><td><label id="alternate" class="data-holder"></label></td>
 								</tr>
 							</table>
