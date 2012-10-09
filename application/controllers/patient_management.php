@@ -13,12 +13,16 @@ class Patient_Management extends MY_Controller {
 		$data['content_view'] = "patient_listing_v";
 		$this -> base_params($data);
 	}
-
 	public function save() {
-		$this -> load -> database();
-		$sql = $this -> input -> post("sql");
-		$this -> db -> query($sql);
-
+		$this->load->database();
+		$sql = $this->input->post("sql");
+		$queries = explode(";", $sql);
+		foreach($queries as $query){
+			if(strlen($query)>0){
+				$this->db->query($query);
+			}
+			
+		}
 	}
 
 	public function base_params($data) {

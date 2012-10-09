@@ -533,7 +533,7 @@ function getOpeningDrugBalance(drug, start_date, dataSelectHandler) {
 
 //Get all patient visit records for this patient
 function getPatientDispensingHistory(patient, dataSelectHandler) {
-	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id left join visit_purpose v on pv.visit_purpose = v.id where pv.patient_id = '" + patient + "' order by dispensing_date desc";
+	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id left join visit_purpose v on pv.visit_purpose = v.id where pv.patient_id = '" + patient + "' order by dispensing_date desc limit 50";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -557,6 +557,16 @@ function getStatusTotals(dataSelectHandler) {
 	var sql = "select count(p.id) as total,current_status,ps.name from patient_status ps left join patient p   on ps.id = current_status  group by ps.id";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+function getBasicPatientDetails(patient_id, dataSelectHandler) {
+	var sql = "select patient_number_ccc,gender, first_name, last_name, other_name,dob, date_enrolled, start_regimen_date, s.name as current_status from patient p left join patient_status s on p.current_status = s.id where patient_number_ccc = '"+patient_id+"'";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+function getSixMonthsDispensing(patient_id, dataSelectHandler) {
+	var sql = "select * from patient_visit pv left join drugcode d on pv.drug_id = d.id where patient_id = '"+patient_id+"' and date(dispensing_date) > date('now','-6 months') ";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {

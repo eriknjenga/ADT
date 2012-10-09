@@ -116,6 +116,7 @@
 					if(regimen != last_regimen) {
 						//Retrieve all the regimen change reasons
 						$("#regimen_change_reason").children('option').remove();
+						$("#regimen_change_reason").append($("<option></option>").text("Choose One"));
 						selectAll("regimen_change_purpose", function(transaction, results) {
 							// Handle the results
 							for(var i = 0; i < results.rows.length; i++) {
@@ -173,6 +174,10 @@
 					row_element.find(".qty_disp").attr("value", "");
 					row_element.find(".brand").attr("value", "");
 					row_element.find(".soh").attr("value", "");
+					row_element.find(".indication").attr("value", "");
+					row_element.find(".pill_count").attr("value", "");
+					row_element.find(".comment").attr("value", "");
+					row_element.find(".missed_pills").attr("value", "");
 					cloned_object.attr("drug_row", next_drug_row);
 					cloned_object.insertAfter('#drugs_table tr:last');
 					return false;

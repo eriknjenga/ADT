@@ -107,6 +107,7 @@
 						$('#gender').attr("value", parent_row['gender']);
 						$('#pregnant').attr("value", parent_row['pregnant']);
 						$('#age').text(getAge(parent_row['dob']));
+						$('#start_age').text(getStartAge(parent_row['dob'], parent_row['date_enrolled']));
 						$('#start_weight').text(parent_row['weight']);
 						$('#start_height').text(parent_row['height']);
 						$('#start_bsa').text(parent_row['sa']);
@@ -176,6 +177,9 @@
 						 $('#current_regimen').attr("value", parent_row['regimen']);*/
 					}
 					$('#drugs_table tr:last').after(dispensing_row);
+					$('#dispensing_history').slideDown('slow', function() {
+						// Animation complete.
+					});
 					$(".edit_dispensing").click(function() {
 						var dispensing_id = $(this).attr("dispensing_id");
 						var url = "edit_dispensing.html?dispensing_id=" + dispensing_id;
@@ -187,6 +191,10 @@
 					});
 					$("#dispense").click(function() {
 						var url = "dispense.html?patient_number=" + patient_identification;
+						window.location.href = url;
+					});
+					$("#patient_info").click(function() {
+						var url = "patient_info.html?patient_number=" + patient_identification;
 						window.location.href = url;
 					});
 				});
@@ -222,6 +230,21 @@
 
 			function getAge(dateString) {
 				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+
+			function getStartAge(dateString, baseDate) {
+				var today = new Date(baseDate);
+				console.log(today);
 				var birthDate = new Date(dateString);
 				var age = today.getFullYear() - birthDate.getFullYear();
 				var m = today.getMonth() - birthDate.getMonth();
@@ -277,8 +300,8 @@
 				width: 50px;
 			}
 			#dispensing_history {
-				width: 980px !important;
-				height: 200px !important;
+				min-width: 980px !important;
+				max-height: 500px !important;
 				overflow: scroll;
 				margin: 0 auto;
 			}
@@ -353,12 +376,12 @@
 											<option value="0">No</option><option value="1">Yes</option>
 										</select> </label></td>
 								</tr>
-								<tr class="alternate_row table_row">
-									<td><strong class="label">Age:</strong></td><td><label id="age" class="data-holder"></label></td>
-								</tr>
 								<tr class="normal_row table_row">
 									<td colspan="2">
 									<table class="data-table inner-table">
+										<tr class="alternate_row table_row">
+											<td><strong class="label">Start Age:</strong></td><td><label id="start_age" class="data-holder-2"></label></td><td><strong class="label">Current Age:</strong></td><td><label id="age" class="data-holder-2"></label></td>
+										</tr>
 										<tr class="normal_row table_row">
 											<td><strong class="label">Start Weight:</strong></td><td><label id="start_weight" class="data-holder-2"></label></td><td><strong class="label">Current Weight:</strong></td><td><label id="current_weight" class="data-holder-2"></label></td>
 										</tr>
@@ -465,9 +488,12 @@
 							</table>
 						</div>
 					</div>
-					<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:200px;"/>
-					<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:200px;"/>
-					<div id="dispensing_history">
+					<div id="button_container" style="width:700px; margin:0 auto">
+					<input type="button" class="submit-button" id="patient_info" value="Patient Info Report" style="width:150px;"/>
+					<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:150px;"/>
+					<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:150px;"/>
+					</div>
+					<div id="dispensing_history" style="display:none;">
 						<div class="short_title" >
 							<h3 class="section_title" style="width:auto;">Dispensing History</h3>
 						</div>

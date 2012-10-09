@@ -112,7 +112,7 @@ if (!$user_is_pharmacist) {?>
 		<span style="display: block; font-size: 12px; margin: 10px 5px;">Number of Local Patients: <span id="total_number_local"></span></span>
 		<span style="display: block; font-size: 12px; margin: 10px 5px;">Number of Patients Registered: <span id="total_number_registered"></span></span>
 		</div>
-		<a class="action_button" id="synchronize_button" href="synchronize_pharmacy">Synchronize Now</a>
+		<a class="action_button" id="synchronize_button" href="<?php echo base_url();?>synchronize_pharmacy">Synchronize Now</a>
 	</div>
 	<?php }?>
 

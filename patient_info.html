@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patient Information</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var $_GET = getQueryParams(document.location.search);
+				var patient_number = $_GET['patient_number'];
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				var sql = "";
+				getBasicPatientDetails(patient_number, function(transaction, results) {
+					// Handle the results
+					var parent_row = results.rows.item(0);
+					var gender = Array("", "M", "F");
+					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + getAge(parent_row['dob']) + "</td><td>" + parent_row['start_regimen_date'] + "</td><td>" + parent_row['current_status'] + "</td></tr>";
+					$("#patient_information").append($(row_string));
+				});
+				getSixMonthsDispensing(patient_number, function(transaction, results) {
+					// Handle the results
+					var parent_row = results.rows.item(0);
+					var gender = Array("", "M", "F");
+					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + getAge(parent_row['dob']) + "</td><td>" + parent_row['start_regimen_date'] + "</td><td>" + parent_row['current_status'] + "</td></tr>";
+					$("#patient_information").append($(row_string));
+				});
+			});
+			function getQueryParams(qs) {
+				qs = qs.split("+").join(" ");
+				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+				while( tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+				}
+				return params;
+			}
+
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#patient_information, #patient_pill_count {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+			#patient_pill_count, #patient_information td th {
+				padding: 10px;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Patient Information<span id="date_of_appointment"></span></h4>
+		<table   id="patient_information">
+			<tr>
+				<th>Art Number</th>
+				<th>First Name</th>
+				<th>Surname</th>
+				<th>Sex</th>
+				<th>Age</th>
+				<th>Date Therapy Started</th>
+				<th>Current Status</th>
+			</tr>
+		</table>
+		<h4 style="text-align: center">Patient Pill Count History (Last 6 Months)<span id="date_of_appointment"></span></h4>
+		<table   id="patient_pill_count">
+			<tr>
+				<th>Date of Visit</th>
+				<th>Drug Name</th>
+				<th>Qty. Dispensed</th>
+				<th>Pill Count</th>
+				<th>Pills Taken</th>
+				<th>Missed Pills</th>
+				<th>Adherence</th>
+				<th>Self-Reported Adherence</th>
+			</tr>
+		</table>
+	</body>
+</html>

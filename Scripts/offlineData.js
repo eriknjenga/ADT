@@ -145,7 +145,11 @@ function processData(button) {
 				local_table = 'patient';
 				var dump = retrieveFormValues();
 				var timestamp = new Date().getTime();
-				var sql = "UPDATE patient SET medical_record_number='" + dump["medical_record_number"] + "', first_name='" + dump["first_name"] + "', last_name='" + dump["last_name"] + "', other_name='" + dump["other_name"] + "', dob='" + dump["dob"] + "', pob='" + dump["pob"] + "', gender='" + dump["gender"] + "', pregnant='" + dump["pregnant"] + "',weight='" + dump["weight"] + "', height='" + dump["height"] + "', sa='" + dump["surface_area"] + "', phone='" + dump["phone"] + "', physical='" + dump["physical"] + "', alternate='" + dump["alternate"] + "', other_illnesses='" + dump["other_illnesses_listing"] + "', other_drugs='" + dump["other_drugs"] + "', adr='" + dump["other_allergies_listing"] + "', tb='" + dump["tb"] + "', smoke='" + dump["smoke"] + "', alcohol='" + dump["alcohol"] + "', date_enrolled='" + dump["enrolled"] + "', source='" + dump["source"] + "', supported_by='" + dump["support"] + "',timestamp='" + timestamp + "',service='" + dump["service"] + "', start_regimen='" + dump["regimen"] + "', start_regimen_date='" + dump["service_started"] + "', machine_code='" + machine_code + "', sms_consent='"+dump["sms_consent"]+"' WHERE patient_number_ccc='" + dump["patient_number"] + "' AND facility_code='" + facility + "';";
+				//Check if there is a date indicated for the next appointment. If there is, schedule it!
+				next_appointment_sql = "update patient_appointment set appointment = '" + dump["next_appointment_date"] + "' where patient = '" + dump["patient_number"] + "' and facility = '" + facility + "' and appointment = '" + dump["next_appointment_date_holder"] + "';";
+
+				var sql = "UPDATE patient SET medical_record_number='" + dump["medical_record_number"] + "', first_name='" + dump["first_name"] + "', last_name='" + dump["last_name"] + "', other_name='" + dump["other_name"] + "', dob='" + dump["dob"] + "', pob='" + dump["pob"] + "', gender='" + dump["gender"] + "', pregnant='" + dump["pregnant"] + "',weight='" + dump["weight"] + "', height='" + dump["height"] + "', sa='" + dump["surface_area"] + "', phone='" + dump["phone"] + "', physical='" + dump["physical"] + "', alternate='" + dump["alternate"] + "', other_illnesses='" + dump["other_illnesses_listing"] + "', other_drugs='" + dump["other_drugs"] + "', adr='" + dump["other_allergies_listing"] + "', tb='" + dump["tb"] + "', smoke='" + dump["smoke"] + "', alcohol='" + dump["alcohol"] + "', date_enrolled='" + dump["enrolled"] + "', source='" + dump["source"] + "', supported_by='" + dump["support"] + "',timestamp='" + timestamp + "',service='" + dump["service"] + "', start_regimen='" + dump["regimen"] + "', start_regimen_date='" + dump["service_started"] + "', machine_code='" + machine_code + "', sms_consent='" + dump["sms_consent"] + "', current_status='" + dump["current_status"] + "'  WHERE patient_number_ccc='" + dump["patient_number"] + "' AND facility_code='" + facility + "';";
+				sql += next_appointment_sql;
 				console.log(sql);
 				var combined_object = {
 					0 : target,
@@ -194,11 +198,10 @@ function retrieveFormValues() {
 		var theTag = v.tagName;
 		var theElement = $(v);
 		var theValue = theElement.val();
-		if(theElement.attr('type') == "radio"){
-			var text = 'input:radio[name='+theElement.attr('name')+']:checked';  
+		if(theElement.attr('type') == "radio") {
+			var text = 'input:radio[name=' + theElement.attr('name') + ']:checked';
 			dump[theElement.attr("name")] = $(text).attr("value");
-		}
-		else{
+		} else {
 			dump[theElement.attr("name")] = theElement.attr("value");
 		}
 	});
@@ -243,7 +246,7 @@ function saveDataLocally(data) {
 
 	var length = window.localStorage.length;
 	document.querySelector('#local-count').innerHTML = length;
-	var queries = sql.split(";"); 
+	var queries = sql.split(";");
 	callbackExecuteStatementArray(queries, function(transaction, resultset) {
 
 		//alert(transaction);
