@@ -28,10 +28,20 @@
 				});
 				getSixMonthsDispensing(patient_number, function(transaction, results) {
 					// Handle the results
-					var parent_row = results.rows.item(0);
-					var gender = Array("", "M", "F");
-					var row_string = "<tr><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + getAge(parent_row['dob']) + "</td><td>" + parent_row['start_regimen_date'] + "</td><td>" + parent_row['current_status'] + "</td></tr>";
-					$("#patient_information").append($(row_string));
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						//console.log(parent_row);
+						var row_string = "<tr><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['drug'] + "</td><td>" + parent_row['quantity'] + "</td><td>" + parent_row['pill_count'] + "</td><td>" + (parent_row['quantity'] - parent_row['pill_count']) + "</td><td>" + parent_row['missed_pills'] + "</td><td>?</td><td>" + parent_row['adherence'] + "</td></tr>";
+						$("#patient_pill_count").append($(row_string));
+					}
+				});
+				getAppointmentAdherence(patient_number, function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);  
+						var row_string = "<tr><td>" + parent_row['appointment'] + "</td><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['days_late'] + "</td></tr>";
+						$("#patient_appointment_history").append($(row_string));
+					}
 				});
 			});
 			function getQueryParams(qs) {
@@ -60,18 +70,18 @@
 	</head>
 	<body>
 		<style>
-			#patient_information, #patient_pill_count {
+			#patient_information, #patient_pill_count,#patient_regimen_history,#patient_appointment_history {
 				margin: 0 auto;
 				border-top: 1px solid #B9B9B9;
 				font-size: 12px;
 				letter-spacing: 1px;
 			}
-			#patient_pill_count, #patient_information td th {
+			#patient_pill_count, #patient_information,#patient_regimen_history,#patient_appointment_history td th {
 				padding: 10px;
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Patient Information<span id="date_of_appointment"></span></h4>
+		<h4 style="text-align: center">Patient Information</h4>
 		<table   id="patient_information">
 			<tr>
 				<th>Art Number</th>
@@ -83,7 +93,7 @@
 				<th>Current Status</th>
 			</tr>
 		</table>
-		<h4 style="text-align: center">Patient Pill Count History (Last 6 Months)<span id="date_of_appointment"></span></h4>
+		<h4 style="text-align: center">Patient Pill Count History (Last 6 Months)</h4>
 		<table   id="patient_pill_count">
 			<tr>
 				<th>Date of Visit</th>
@@ -96,5 +106,23 @@
 				<th>Self-Reported Adherence</th>
 			</tr>
 		</table>
+		<h4 style="text-align: center">Patient Regimen Change History</h4>
+		<table   id="patient_regimen_history">
+			<tr>
+				<th>Date of Visit</th>
+				<th>Last Regimen Dispensed</th>
+				<th>Current Regimen</th>
+				<th>Reason for Change</th> 
+			</tr>
+		</table>
+		<h4 style="text-align: center">Patient Appointment History</h4>
+		<table   id="patient_appointment_history">
+			<tr>
+				<th>Date of Appointment</th>
+				<th>Date of Visit</th>
+				<th>Days Late</th> 
+			</tr>
+		</table>
+		
 	</body>
 </html>

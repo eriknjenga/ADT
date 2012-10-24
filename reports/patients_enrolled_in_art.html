@@ -11,17 +11,20 @@
 			$(document).ready(function() {
 				initDatabase();
 				var $_GET = getQueryParams(document.location.search);
-				var date = $_GET['date'];
-				$("#date_of_appointment").text(date);
+				var start_date = $_GET['start_date'];
+				var end_date = $_GET['end_date'];
+				$("#start_date").text(start_date);
+				$("#end_date").text(end_date);
 				//Get the environmental variables to display the hospital name
 				selectEnvironmentVariables(function(transaction, results) {
 					// Handle the results
 					var row = results.rows.item(0);
 					$("#facility_name").text(row['facility_name']);
 				});
-				countTotalPatients(date, function(transaction, results) {
+				var sql = "select count(*) as total from patient where date(start_regimen_date) between date('"+start_date+"') and date('"+end_date+"')";
+				SQLExecuteAbstraction(sql, function(transaction, results) {
 					// Handle the results
-					var parent_row = results.rows.item(0);
+					var parent_row = results.rows.item(0); 
 					var total_patients = parent_row['total'];
 					var total_adult_male_art = 0;
 					var total_adult_male_pep = 0;
@@ -39,20 +42,21 @@
 					var total_child_female_pmtct = 0;
 					var total_child_female_oi = 0;
 
-					var status_totals = new Array();
+					var regimen_totals = new Array();
 					//Now get all the patient statuses
-					getStatusTotals(date,function(transaction, results0) {
+					getRegimenTotals(start_date,end_date, function(transaction, results0) {
 						for(var x = 0; x < results0.rows.length; x++) {
 							var parent_row = results0.rows.item(x);
+							console.log(parent_row);
 							var returned_counter = 0;
-							status_totals[parent_row['name']] = parent_row['total'];
+							regimen_totals[parent_row['regimen_desc']] = parent_row['total'];
 							//for each patient status, get it's statistics
 							//start with the adult male
-							getStatisticNumbers(date,"adult", "1", parent_row['current_status'], parent_row['name'], function(transaction, results) {
-								var status_details = results.rows.item(0);
-								var passed_status = status_details['passed_status'];
-								var passed_status_name = status_details['passed_status_name'];
-								var row_string = "<tr><td>" + passed_status_name + "</td><td>" + status_totals[passed_status_name] + "</td><td>" + (Math.ceil(100 * ((status_totals[passed_status_name] / total_patients) * 100)) / 100) + "</td>";
+							getRegimenStatisticNumbers(start_date,end_date, "adult", "1", parent_row['current_status'], parent_row['name'], function(transaction, results) {
+								var regimen_details = results.rows.item(0);
+								var passed_regimen = regimen_details['passed_regimen'];
+								var passed_regimen_name = regimen_details['passed_regimen_name'];
+								var row_string = "<tr><td>" + passed_regimen_name + "</td><td>" + regimen_totals[passed_regimen_name] + "</td><td>" + (Math.ceil(100 * ((regimen_totals[passed_regimen_name] / total_patients) * 100)) / 100) + "</td>";
 								counter = 0;
 								for(var i = 1; i <= 3; i++) {
 									counter++;
@@ -98,7 +102,7 @@
 										}
 									}
 								}
-								getStatisticNumbers(date,"adult", "2", passed_status, passed_status_name, function(transaction2, results2) {
+								getRegimenStatisticNumbers(start_date,end_date, "adult", "2", passed_status, passed_status_name, function(transaction2, results2) {
 									counter = 0;
 									for(var i = 1; i <= 4; i++) {
 										counter++;
@@ -156,7 +160,7 @@
 										}
 
 									}
-									getStatisticNumbers(date,"child", "1", passed_status, passed_status_name, function(transaction3, results3) {
+									getRegimenStatisticNumbers(start_date,end_date, "child", "1", passed_status, passed_status_name, function(transaction3, results3) {
 										counter = 0;
 										for(var i = 1; i <= 4; i++) {
 											counter++;
@@ -214,7 +218,7 @@
 											}
 
 										}
-										getStatisticNumbers(date,"child", "2", passed_status, passed_status_name, function(transaction4, results4) {
+										getRegimenStatisticNumbers(start_date,end_date, "child", "2", passed_status, passed_status_name, function(transaction4, results4) {
 											returned_counter++;
 											counter = 0;
 											for(var i = 1; i <= 4; i++) {
@@ -324,38 +328,29 @@
 			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Cumulative Number of Patients by Current Status as at <span id="date_of_appointment"></span></h4>
+		<h4 style="text-align: center">Patients Started on ART in the period from <span id="start_date"></span> to <span id="end_date"></span></h4>
 		<table   id="patient_listing">
 			<tr>
-				<th rowspan="3">Current Status</th>
+				<th rowspan="3">Regimen</th>
 				<th colspan="2">Total</th>
-				<th colspan="7"> Adult</th>
-				<th colspan="8"> Children </th>
+				<th colspan="4"> Adult</th>
+				<th colspan="4"> Children </th>
 			</tr>
 			<tr>
 				<th rowspan="2">No.</th>
 				<th rowspan="2">%</th>
-				<th colspan="3">Male</th>
-				<th colspan="4">Female</th>
-				<th colspan="4">Male</th>
-				<th colspan="4">Female</th>
+				<th colspan="2">Male</th>
+				<th colspan="2">Female</th>
+				<th colspan="2">Male</th>
+				<th colspan="2">Female</th>
 			</tr>
 			<tr>
-				<th>ART</th>
-				<th>PEP</th>
-				<th>OI</th>
-				<th>ART</th>
-				<th>PEP</th>
-				<th>PMTCT</th>
-				<th>OI</th>
-				<th>ART</th>
-				<th>PEP</th>
-				<th>PMTCT</th>
-				<th>OI</th>
-				<th>ART</th>
-				<th>PEP</th>
-				<th>PMTCT</th>
-				<th>OI</th>
+				<th>No.</th>
+				<th>%</th>
+				<th>No.</th>
+				<th>%</th><th>No.</th>
+				<th>%</th><th>No.</th>
+				<th>%</th>
 			</tr>
 		</table>
 	</body>

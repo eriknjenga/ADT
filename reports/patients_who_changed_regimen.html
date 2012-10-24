@@ -23,7 +23,7 @@
 				});
 				var gender = Array("", "M", "F");
 				getChangedRegimens(start_date, end_date, function(transaction, results) {
-					var counter = 0;
+					var counter = 0; 
 					for(var i = 0; i < results.rows.length; i++) {
 						var parent_row = results.rows.item(i);
 						var row_string = "<tr><td>" + parent_row['last_regimen'] + "</td><td>" + parent_row['current_regimen'] + "</td><td>" + parent_row['patient_number_ccc'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + parent_row['other_name'] + "</td><td>" + parent_row['service'] + "</td><td>" + parent_row['dispensing_date'] + "</td><td>" + parent_row['regimen_change_reason'] + "</td></tr>";
