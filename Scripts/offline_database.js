@@ -543,35 +543,55 @@ function getDispensingDetails(dispensing_id, dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
-function getStatisticNumbers(date,adult_or_child, gender, status, status_name, dataSelectHandler) {
+function getStatisticNumbers(date, adult_or_child, gender, status, status_name, dataSelectHandler) {
 	var sql = "";
 	if(adult_or_child == "adult") {
-		sql = "select case when 1=1 then '" + status + "' end as passed_status, case when 1=1 then '" + status_name + "' end as passed_status_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.name from patient p left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) <= date('"+date+"')  group by service) test ";
+		sql = "select case when 1=1 then '" + status + "' end as passed_status, case when 1=1 then '" + status_name + "' end as passed_status_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.name from patient p left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) <= date('" + date + "')  group by service) test ";
 	}
 	if(adult_or_child == "child") {
-		sql = "select case when 1=1 then '" + status + "' end as passed_status,case when 1=1 then '" + status_name + "' end as passed_status_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.name from patient p  left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) and date(date_enrolled) <= date('"+date+"')  group by service) test ";
+		sql = "select case when 1=1 then '" + status + "' end as passed_status,case when 1=1 then '" + status_name + "' end as passed_status_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.name from patient p  left join regimen_service_type r on p.service = r.id  where current_status = '" + status + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) and date(date_enrolled) <= date('" + date + "')  group by service) test ";
 
 	}
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-function getRegimenStatisticNumbers(start_date,end_date,adult_or_child, gender, regimen, regimen_name, dataSelectHandler) {
+
+function getRegimenStatisticNumbers(start_date, end_date, adult_or_child, gender, regimen, regimen_name, dataSelectHandler) {
 	var sql = "";
 	if(adult_or_child == "adult") {
-		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen, case when 1=1 then '" + regimen_name + "' end as passed_regimen_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.regimen_desc from patient p left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) between date('"+start_date+"') and date('"+end_date+"') group by start_regimen) test ";
+		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen, case when 1=1 then '" + regimen_name + "' end as passed_regimen_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.regimen_desc from patient p left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(start_regimen_date) between date('" + start_date + "') and date('" + end_date + "') group by start_regimen) test ";
 	}
 	if(adult_or_child == "child") {
-		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen,case when 1=1 then '" + regimen_name + "' end as passed_regimen_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.regimen_desc from patient p  left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) and date(date_enrolled) between date('"+start_date+"') and date('"+end_date+"') group by start_regimen) test ";
+		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen,case when 1=1 then '" + regimen_name + "' end as passed_regimen_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.regimen_desc from patient p  left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) and date(start_regimen_date) between date('" + start_date + "') and date('" + end_date + "') group by start_regimen) test ";
 
 	}
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
-function getStatusTotals(date,dataSelectHandler) {
-	var sql = "select count(p.id) as total,current_status,ps.name from patient_status ps left join patient p  on ps.id = current_status where date(date_enrolled) <= date('"+date+"')  group by ps.id";
+function getEnrolledRegimenStatisticNumbers(start_date, end_date, adult_or_child, gender, regimen, regimen_name, dataSelectHandler) {
+	var sql = "";
+	if(adult_or_child == "adult") {
+		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen, case when 1=1 then '" + regimen_name + "' end as passed_regimen_name,'' as total,'' as name union all select test.* from (select '','',count(*) as total,r.regimen_desc from patient p left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "') group by start_regimen) test ";
+	}
+	if(adult_or_child == "child") {
+		sql = "select case when 1=1 then '" + regimen + "' end as passed_regimen,case when 1=1 then '" + regimen_name + "' end as passed_regimen_name ,'' as total,'' as name union all select test.* from (select '','',  count(*) as total,r.regimen_desc from patient p  left join regimen r on p.start_regimen = r.id  where start_regimen = '" + regimen + "' and gender = '" + gender + "' and (((strftime('%Y', 'now') - strftime('%Y', dob))) <15) and date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "') group by start_regimen) test ";
+
+	}
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
-function getRegimenTotals(start_date,end_date,dataSelectHandler) {
-	var sql = "select count(*) as total,start_regimen,regimen_desc from patient p left join regimen r  on p.start_regimen = r.id where date(date_enrolled) between date('"+start_date+"') and date('"+end_date+"')  group by start_regimen";
+
+function getStatusTotals(date, dataSelectHandler) {
+	var sql = "select count(p.id) as total,current_status,ps.name from patient_status ps left join patient p  on ps.id = current_status where date(date_enrolled) <= date('" + date + "')  group by ps.id";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getRegimenTotals(start_date, end_date, dataSelectHandler) {
+	var sql = "select count(*) as total,start_regimen,regimen_desc from patient p left join regimen r  on p.start_regimen = r.id where date(start_regimen_date) between date('" + start_date + "') and date('" + end_date + "')  group by start_regimen";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getEnrolledRegimenTotals(start_date, end_date, dataSelectHandler) {
+	var sql = "select count(*) as total,start_regimen,regimen_desc from patient p left join regimen r  on p.start_regimen = r.id where date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "')  group by start_regimen";
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
@@ -596,12 +616,14 @@ function getAppointmentAdherence(patient_id, dataSelectHandler) {
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 //count the total number of records in a particular table
 function countTotalPatients(date, dataSelectHandler) {
-	var sql = "select count(*) as total from patient where date(date_enrolled) <= date('"+date+"')";
+	var sql = "select count(*) as total from patient where date(date_enrolled) <= date('" + date + "')";
 	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
+
 function SQLExecuteAbstraction(sql, dataSelectHandler) {
 	DEMODB.transaction(function(transaction) {
 		transaction.executeSql(sql, [], dataSelectHandler, errorHandler);

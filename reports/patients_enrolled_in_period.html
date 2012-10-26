@@ -21,20 +21,193 @@
 					var row = results.rows.item(0);
 					$("#facility_name").text(row['facility_name']);
 				});
-				var gender = Array("", "M", "F");
-				getMissedAppointments(start_date, end_date, function(transaction, results) {
-					for(var i = 0; i < results.rows.length; i++) {
-						var parent_row = results.rows.item(i);
-
-						var appointment = new Date(parent_row['appointment']);
-						var today = new Date();
-						var timeDiff = Math.abs(today.getTime() - appointment.getTime());
-						var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
-
-						var row_string = "<tr><td>" + parent_row['patient'] + "</td><td>" + parent_row['last_name'] + "</td><td>" + parent_row['first_name'] + "</td><td>" + gender[parent_row['gender']] + "</td><td>" + parent_row['physical'] + "</td><td>" + parent_row['appointment'] + "</td><td>" + diffDays + "</td></tr>";
-						$("#patient_listing").append($(row_string));
+				//Get the summaries to per service type to display at the top. Start with adults
+				var sql_adult_summaries = "select count(*) as total, service, gender,r.name from patient p  left join regimen_service_type r on p.service = r.id  where (((strftime('%Y', 'now') - strftime('%Y', dob))) >=15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "') group by service, gender";
+				SQLExecuteAbstraction(sql_adult_summaries, function(transaction, results) {
+					for(var x = 0; x < results.rows.length; x++) {
+						var result_row = results.rows.item(x);
+						//start with males
+						if(result_row['gender'] == 1 && result_row['name'] == "ART") {
+							$("#adult_male_art").text(result_row['total']);
+						}
+						if(result_row['gender'] == 1 && result_row['name'] == "PEP") {
+							$("#adult_male_pep").text(result_row['total']);
+						}
+						if(result_row['gender'] == 1 && result_row['name'] == "OI Only") {
+							$("#adult_male_oi").text(result_row['total']);
+						}
+						//now females
+						if(result_row['gender'] == 2 && result_row['name'] == "ART") {
+							$("#adult_female_art").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "PEP") {
+							$("#adult_female_pep").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "OI Only") {
+							$("#adult_female_oi").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "PMTCT") {
+							$("#adult_female_pmtct").text(result_row['total']);
+						}
 					}
+				});
+				//Get the summaries to per service type to display at the top. Now for children
+				var sql_child_summaries = "select count(*) as total, service, gender,r.name from patient p  left join regimen_service_type r on p.service = r.id where (((strftime('%Y', 'now') - strftime('%Y', dob))) <15 or coalesce((strftime('%Y', 'now') - strftime('%Y', dob)),'x') = 'x') and date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "') group by service, gender";
+				SQLExecuteAbstraction(sql_child_summaries, function(transaction, results) {
+					for(var x = 0; x < results.rows.length; x++) {
+						var result_row = results.rows.item(x);
+						//start with males
+						if(result_row['gender'] == 1 && result_row['name'] == "ART") {
+							$("#child_male_art").text(result_row['total']);
+						}
+						if(result_row['gender'] == 1 && result_row['name'] == "PEP") {
+							$("#child_male_pep").text(result_row['total']);
+						}
+						if(result_row['gender'] == 1 && result_row['name'] == "OI Only") {
+							$("#child_male_oi").text(result_row['total']);
+						}
+						if(result_row['gender'] == 1 && result_row['name'] == "PMTCT") {
+							$("#child_male_pmtct").text(result_row['total']);
+						}
+						//now females
+						if(result_row['gender'] == 2 && result_row['name'] == "ART") {
+							$("#child_female_art").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "PEP") {
+							$("#child_female_pep").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "OI Only") {
+							$("#child_female_oi").text(result_row['total']);
+						}
+						if(result_row['gender'] == 2 && result_row['name'] == "PMTCT") {
+							$("#child_female_pmtct").text(result_row['total']);
+						}
+					}
+				});
+				var sql = "select count(*) as total from patient where date(date_enrolled) between date('" + start_date + "') and date('" + end_date + "')";
+				SQLExecuteAbstraction(sql, function(transaction, results) {
+					// Handle the results
+					var parent_row = results.rows.item(0);
+					var total_patients = parent_row['total'];
+					var total_adult_male_art = 0;
+					var total_adult_male_pep = 0;
+					var total_adult_male_oi = 0;
+					var total_adult_female_art = 0;
+					var total_adult_female_pep = 0;
+					var total_adult_female_pmtct = 0;
+					var total_adult_female_oi = 0;
+					var total_child_male_art = 0;
+					var total_child_male_pep = 0;
+					var total_child_male_pmtct = 0;
+					var total_child_male_oi = 0;
+					var total_child_female_art = 0;
+					var total_child_female_pep = 0;
+					var total_child_female_pmtct = 0;
+					var total_child_female_oi = 0;
 
+					var regimen_totals = new Array();
+					//Now get all the patient statuses
+					getEnrolledRegimenTotals(start_date, end_date, function(transaction, results0) {
+						for(var x = 0; x < results0.rows.length; x++) {
+							var parent_row = results0.rows.item(x);
+
+							var returned_counter = 0;
+							regimen_totals[parent_row['regimen_desc']] = parent_row['total'];
+							//for each patient status, get it's statistics
+							//start with the adult male
+							getEnrolledRegimenStatisticNumbers(start_date, end_date, "adult", "1", parent_row['start_regimen'], parent_row['regimen_desc'], function(transaction, results) {
+								var regimen_details = results.rows.item(0);
+								var passed_regimen = regimen_details['passed_regimen'];
+								var passed_regimen_name = regimen_details['passed_regimen_name'];
+								var row_string = "<tr><td>" + passed_regimen_name + "</td><td>" + regimen_totals[passed_regimen_name] + "</td><td>" + (Math.ceil(100 * ((regimen_totals[passed_regimen_name] / total_patients) * 100)) / 100) + "</td>";
+								counter = 0;
+								for(var i = 1; i <= 2; i++) {
+									counter++;
+									try {
+										var adult_male_row = results.rows.item(i);
+										if(adult_male_row['name'] != null) {
+											total_adult_male_art += adult_male_row['total'];
+											row_string += "<td>" + adult_male_row['total'] + "</td><td>" + (Math.ceil(100 * ((adult_male_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
+										} else {
+											row_string += "<td>-</td>";
+										}
+									} catch(e) {
+										if(counter <= 1) {
+											row_string += "<td>-</td><td>-</td>";
+										}
+									}
+								}
+								getEnrolledRegimenStatisticNumbers(start_date, end_date, "adult", "2", passed_regimen, passed_regimen_name, function(transaction2, results2) {
+									counter = 0;
+									for(var i = 1; i <= 2; i++) {
+										counter++;
+										try {
+											var adult_female_row = results2.rows.item(i);
+											if(adult_female_row['name'] != null) {
+												total_adult_female_art += adult_female_row['total'];
+												row_string += "<td>" + adult_female_row['total'] + "</td><td>" + (Math.ceil(100 * ((adult_female_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
+											} else {
+												row_string += "<td>-</td>";
+											}
+										} catch(e) {
+											if(counter <= 1) {
+												row_string += "<td>-</td><td>-</td>";
+											}
+										}
+
+									}
+									getEnrolledRegimenStatisticNumbers(start_date, end_date, "child", "1", passed_regimen, passed_regimen_name, function(transaction3, results3) {
+										counter = 0;
+										for(var i = 1; i <= 2; i++) {
+											counter++;
+											try {
+												var child_male_row = results3.rows.item(i);
+												if(child_male_row['name'] != null) {
+													total_child_male_art += child_male_row['total'];
+													row_string += "<td>" + child_male_row['total'] + "</td><td>" + (Math.ceil(100 * ((child_male_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
+
+												} else {
+													row_string += "<td>-</td>";
+												}
+											} catch(e) {
+												if(counter <= 1) {
+													row_string += "<td>-</td><td>-</td>";
+												}
+											}
+
+										}
+										getEnrolledRegimenStatisticNumbers(start_date, end_date, "child", "2", passed_regimen, passed_regimen_name, function(transaction4, results4) {
+											returned_counter++;
+											counter = 0;
+											for(var i = 1; i <= 2; i++) {
+												counter++;
+												try {
+													var child_female_row = results4.rows.item(i);
+													if(child_female_row['name'] != null) {
+														total_child_female_art += child_female_row['total'];
+														row_string += "<td>" + child_female_row['total'] + "</td><td>" + (Math.ceil(100 * ((child_female_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
+													} else {
+														row_string += "<td>-</td>";
+													}
+
+												} catch(e) {
+													if(counter <= 1) {
+														row_string += "<td>-</td><td>-</td>";
+													}
+												}
+
+											}
+											row_string += "</tr>";
+											if(returned_counter == results0.rows.length) {
+												row_string += "<tr><td><b>Totals:</b></td><td><b>" + total_patients + "</b></td><td><b>100</b></td><td><b>" + total_adult_male_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_adult_male_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_adult_female_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_adult_female_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_child_male_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_child_male_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_child_female_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_child_female_art / total_patients) * 100)) / 100) + "</b></td></tr>";
+											}
+											$("#patient_listing").append($(row_string));
+										});
+									});
+								});
+							});
+						}
+					});
 				});
 			});
 			function getQueryParams(qs) {
@@ -66,14 +239,14 @@
 			#patient_listing {
 				margin: 0 auto;
 				border-top: 1px solid #B9B9B9;
-				font-size: 12px;
-				letter-spacing: 1px;
+				font-size: 11px;
+				letter-spacing: 0.5px;
+				width: 1000px;
 			}
 			#patient_listing td th {
 				padding: 10px;
 			}
 			#top_enrollments_panel {
-				border: 1px solid black;
 				width: 900px;
 				margin: 0 auto;
 				overflow: hidden;
@@ -96,12 +269,9 @@
 				height: 100px;
 				float: left;
 			}
-			table {
-				margin: 0 auto;
-			}
 		</style>
 		<h3 id="facility_name" style="text-align: center"></h3>
-		<h4 style="text-align: center">Patients Who Enrolled in The Period From <span id="start_date"></span> to <span id="end_date"></span></h4>
+		<h4 style="text-align: center">Patients enrolled in the period from <span id="start_date"></span> to <span id="end_date"></span></h4>
 		<div id="top_enrollments_panel">
 			<div id="adult_enrollments" class="category">
 				<div class="category_title">
@@ -160,10 +330,10 @@
 							<th>OI</th>
 						</tr>
 						<tr>
-							<td id="child_male_art">ART</td>
-							<td id="child_male_pep">PEP</td>
-							<td id="child_male_pmtct">PMTCT</td>
-							<td id="child_male_oi">OI</td>
+							<td id="child_male_art">0</td>
+							<td id="child_male_pep">0</td>
+							<td id="child_male_pmtct">0</td>
+							<td id="child_male_oi">0</td>
 						</tr>
 					</table>
 				</div>
@@ -178,15 +348,39 @@
 							<th>PMTCT</th>
 							<th>OI</th>
 						</tr>
-												<tr>
-							<td id="child_female_art">ART</td>
-							<td id="child_female_pep">PEP</td>
-							<td id="child_female_pmtct">PMTCT</td>
-							<td id="child_female_oi">OI</td>
+						<tr>
+							<td id="child_female_art">0</td>
+							<td id="child_female_pep">0</td>
+							<td id="child_female_pmtct">0</td>
+							<td id="child_female_oi">0</td>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
+		<table   id="patient_listing">
+			<tr>
+				<th rowspan="3">Regimen</th>
+				<th colspan="2">Total</th>
+				<th colspan="4"> Adult</th>
+				<th colspan="4"> Children </th>
+			</tr>
+			<tr>
+				<th rowspan="2">No.</th>
+				<th rowspan="2">%</th>
+				<th colspan="2">Male</th>
+				<th colspan="2">Female</th>
+				<th colspan="2">Male</th>
+				<th colspan="2">Female</th>
+			</tr>
+			<tr>
+				<th>No.</th>
+				<th>%</th>
+				<th>No.</th>
+				<th>%</th><th>No.</th>
+				<th>%</th><th>No.</th>
+				<th>%</th>
+			</tr>
+		</table>
 	</body>
 </html>

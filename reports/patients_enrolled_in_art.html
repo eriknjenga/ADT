@@ -21,10 +21,10 @@
 					var row = results.rows.item(0);
 					$("#facility_name").text(row['facility_name']);
 				});
-				var sql = "select count(*) as total from patient where date(start_regimen_date) between date('"+start_date+"') and date('"+end_date+"')";
+				var sql = "select count(*) as total from patient where date(start_regimen_date) between date('" + start_date + "') and date('" + end_date + "')";
 				SQLExecuteAbstraction(sql, function(transaction, results) {
 					// Handle the results
-					var parent_row = results.rows.item(0); 
+					var parent_row = results.rows.item(0);
 					var total_patients = parent_row['total'];
 					var total_adult_male_art = 0;
 					var total_adult_male_pep = 0;
@@ -44,242 +44,99 @@
 
 					var regimen_totals = new Array();
 					//Now get all the patient statuses
-					getRegimenTotals(start_date,end_date, function(transaction, results0) {
+					getRegimenTotals(start_date, end_date, function(transaction, results0) {
 						for(var x = 0; x < results0.rows.length; x++) {
 							var parent_row = results0.rows.item(x);
-							console.log(parent_row);
+
 							var returned_counter = 0;
 							regimen_totals[parent_row['regimen_desc']] = parent_row['total'];
 							//for each patient status, get it's statistics
 							//start with the adult male
-							getRegimenStatisticNumbers(start_date,end_date, "adult", "1", parent_row['current_status'], parent_row['name'], function(transaction, results) {
+							getRegimenStatisticNumbers(start_date, end_date, "adult", "1", parent_row['start_regimen'], parent_row['regimen_desc'], function(transaction, results) {
 								var regimen_details = results.rows.item(0);
 								var passed_regimen = regimen_details['passed_regimen'];
 								var passed_regimen_name = regimen_details['passed_regimen_name'];
 								var row_string = "<tr><td>" + passed_regimen_name + "</td><td>" + regimen_totals[passed_regimen_name] + "</td><td>" + (Math.ceil(100 * ((regimen_totals[passed_regimen_name] / total_patients) * 100)) / 100) + "</td>";
 								counter = 0;
-								for(var i = 1; i <= 3; i++) {
+								for(var i = 1; i <= 2; i++) {
 									counter++;
 									try {
 										var adult_male_row = results.rows.item(i);
-										if(adult_male_row['name'] == null) {
-											counter--;
-											continue;
-										}
-										if(adult_male_row['name'] == "ART") {
+										if(adult_male_row['name'] != null) {
 											total_adult_male_art += adult_male_row['total'];
-											row_string += "<td>" + adult_male_row['total'] + "</td>";
-											continue;
+											row_string += "<td>" + adult_male_row['total'] + "</td><td>" + (Math.ceil(100 * ((adult_male_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
 										} else {
-											if(counter == 1) {
-												row_string += "<td>-</td>";
-												counter++;
-											}
-										}
-										if(adult_male_row['name'] == "PEP") {
-											total_adult_male_pep += adult_male_row['total'];
-											row_string += "<td>" + adult_male_row['total'] + "</td>";
-											continue;
-										} else {
-											if(counter == 2) {
-												row_string += "<td>-</td>";
-												counter++;
-											}
-										}
-										if(adult_male_row['name'] == "OI Only") {
-											total_adult_male_oi += adult_male_row['total'];
-											row_string += "<td>" + adult_male_row['total'] + "</td>";
-											continue;
-										} else {
-											if(counter == 3) {
-												row_string += "<td>-</td>";
-												counter++;
-											}
+											row_string += "<td>-</td>";
 										}
 									} catch(e) {
-										if(counter <= 3) {
-											row_string += "<td>-</td>";
+										if(counter <= 1) {
+											row_string += "<td>-</td><td>-</td>";
 										}
 									}
 								}
-								getRegimenStatisticNumbers(start_date,end_date, "adult", "2", passed_status, passed_status_name, function(transaction2, results2) {
+								getRegimenStatisticNumbers(start_date, end_date, "adult", "2", passed_regimen, passed_regimen_name, function(transaction2, results2) {
 									counter = 0;
-									for(var i = 1; i <= 4; i++) {
+									for(var i = 1; i <= 2; i++) {
 										counter++;
 										try {
 											var adult_female_row = results2.rows.item(i);
-											if(adult_female_row['name'] == null) {
-												counter--;
-												continue;
-											}
-											if(adult_female_row['name'] == "ART") {
+											if(adult_female_row['name'] != null) {
 												total_adult_female_art += adult_female_row['total'];
-												row_string += "<td>" + adult_female_row['total'] + "</td>";
-												continue;
+												row_string += "<td>" + adult_female_row['total'] + "</td><td>" + (Math.ceil(100 * ((adult_female_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
 											} else {
-												if(counter == 1) {
-													row_string += "<td>-</td>";
-													counter++;
-												}
-											}
-											if(adult_female_row['name'] == "PEP") {
-												total_adult_female_pep += adult_female_row['total'];
-												row_string += "<td>" + adult_female_row['total'] + "</td>";
-												continue;
-											} else {
-												if(counter == 2) {
-													row_string += "<td>-</td>";
-													counter++;
-												}
-											}
-											if(adult_female_row['name'] == "PMTCT") {
-												total_adult_female_pmtct += adult_female_row['total'];
-												row_string += "<td>" + adult_female_row['total'] + "</td>";
-												continue;
-											} else {
-												if(counter == 3) {
-													row_string += "<td>-</td>";
-													counter++;
-												}
-											}
-											if(adult_female_row['name'] == "OI Only") {
-												total_adult_female_oi += adult_female_row['total'];
-												row_string += "<td>" + adult_female_row['total'] + "</td>";
-												continue;
-											} else {
-												if(counter == 4) {
-													row_string += "<td>-</td>";
-													counter++;
-												}
-											}
-
-										} catch(e) {
-											if(counter <= 4) {
 												row_string += "<td>-</td>";
+											}
+										} catch(e) {
+											if(counter <= 1) {
+												row_string += "<td>-</td><td>-</td>";
 											}
 										}
 
 									}
-									getRegimenStatisticNumbers(start_date,end_date, "child", "1", passed_status, passed_status_name, function(transaction3, results3) {
+									getRegimenStatisticNumbers(start_date, end_date, "child", "1", passed_regimen, passed_regimen_name, function(transaction3, results3) {
 										counter = 0;
-										for(var i = 1; i <= 4; i++) {
+										for(var i = 1; i <= 2; i++) {
 											counter++;
 											try {
 												var child_male_row = results3.rows.item(i);
-												if(child_male_row['name'] == null) {
-													counter--;
-													continue;
-												}
-												if(child_male_row['name'] == "ART") {
+												if(child_male_row['name'] != null) {
 													total_child_male_art += child_male_row['total'];
-													row_string += "<td>" + child_male_row['total'] + "</td>";
-													continue;
-												} else {
-													if(counter == 1) {
-														row_string += "<td>-</td>";
-														counter++;
-													}
-												}
-												if(child_male_row['name'] == "PEP") {
-													total_child_male_pep += child_male_row['total'];
-													row_string += "<td>" + child_male_row['total'] + "</td>";
-													continue;
-												} else {
-													if(counter == 2) {
-														row_string += "<td>-</td>";
-														counter++;
-													}
-												}
-												if(child_male_row['name'] == "PMTCT") {
-													total_child_male_pmtct += child_male_row['total'];
-													row_string += "<td>" + child_male_row['total'] + "</td>";
-													continue;
-												} else {
-													if(counter == 3) {
-														row_string += "<td>-</td>";
-														counter++;
-													}
-												}
-												if(child_male_row['name'] == "OI Only") {
-													total_child_male_oi += child_male_row['total'];
-													row_string += "<td>" + child_male_row['total'] + "</td>";
-													continue;
-												} else {
-													if(counter == 4) {
-														row_string += "<td>-</td>";
-														counter++;
-													}
-												}
+													row_string += "<td>" + child_male_row['total'] + "</td><td>" + (Math.ceil(100 * ((child_male_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
 
-											} catch(e) {
-												if(counter <= 4) {
+												} else {
 													row_string += "<td>-</td>";
+												}
+											} catch(e) {
+												if(counter <= 1) {
+													row_string += "<td>-</td><td>-</td>";
 												}
 											}
 
 										}
-										getRegimenStatisticNumbers(start_date,end_date, "child", "2", passed_status, passed_status_name, function(transaction4, results4) {
+										getRegimenStatisticNumbers(start_date, end_date, "child", "2", passed_regimen, passed_regimen_name, function(transaction4, results4) {
 											returned_counter++;
 											counter = 0;
-											for(var i = 1; i <= 4; i++) {
+											for(var i = 1; i <= 2; i++) {
 												counter++;
 												try {
 													var child_female_row = results4.rows.item(i);
-													if(child_male_row['name'] == null) {
-														counter--;
-														continue;
-													}
-													if(child_female_row['name'] == "ART") {
+													if(child_female_row['name'] != null) {
 														total_child_female_art += child_female_row['total'];
-														row_string += "<td>" + child_female_row['total'] + "</td>";
-														continue;
+														row_string += "<td>" + child_female_row['total'] + "</td><td>" + (Math.ceil(100 * ((child_female_row['total'] / regimen_totals[passed_regimen_name]) * 100)) / 100) + "</td>";
 													} else {
-														if(counter == 1) {
-															row_string += "<td>-</td>";
-															counter++;
-														}
-													}
-													if(child_female_row['name'] == "PEP") {
-														total_child_female_pep += child_female_row['total'];
-														row_string += "<td>" + child_female_row['total'] + "</td>";
-														continue;
-													} else {
-														if(counter == 2) {
-															row_string += "<td>-</td>";
-															counter++;
-														}
-													}
-													if(child_female_row['name'] == "PMTCT") {
-														total_child_female_pmtct += child_female_row['total'];
-														row_string += "<td>" + child_female_row['total'] + "</td>";
-														continue;
-													} else {
-														if(counter == 3) {
-															row_string += "<td>-</td>";
-															counter++;
-														}
-													}
-													if(child_female_row['name'] == "OI Only") {
-														total_child_female_oi += child_female_row['total'];
-														row_string += "<td>" + child_female_row['total'] + "</td>";
-														continue;
-													} else {
-														if(counter == 4) {
-															row_string += "<td>-</td>";
-															counter++;
-														}
+														row_string += "<td>-</td>";
 													}
 
 												} catch(e) {
-													if(counter <= 4) {
-														row_string += "<td>-</td>";
+													if(counter <= 1) {
+														row_string += "<td>-</td><td>-</td>";
 													}
 												}
 
 											}
 											row_string += "</tr>";
 											if(returned_counter == results0.rows.length) {
-												row_string += "<tr><td><b>Totals:</b></td><td><b>" + total_patients + "</b></td><td><b>100</b></td><td><b>" + total_adult_male_art + "</b></td><td><b>" + total_adult_male_pep + "</b></td><td><b>" + total_adult_male_oi + "</b></td><td><b>" + total_adult_female_art + "</b></td><td><b>" + total_adult_female_pep + "</b></td><td><b>" + total_adult_female_pmtct + "</b></td><td><b>" + total_adult_female_oi + "</b></td><td><b>" + total_child_male_art + "</b></td><td><b>" + total_child_male_pep + "</b></td><td><b>" + total_child_male_pmtct + "</b></td><td><b>" + total_child_male_oi + "</b></td><td><b>" + total_child_female_art + "</b></td><td><b>" + total_child_female_pep + "</b></td><td><b>" + total_child_female_pmtct + "</b></td><td><b>" + total_child_female_oi + "</b></td></tr>";
+												row_string += "<tr><td><b>Totals:</b></td><td><b>" + total_patients + "</b></td><td><b>100</b></td><td><b>" + total_adult_male_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_adult_male_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_adult_female_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_adult_female_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_child_male_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_child_male_art / total_patients) * 100)) / 100) + "</b></td><td><b>" + total_child_female_art + "</b></td><td><b>" + (Math.ceil(100 * ((total_child_female_art / total_patients) * 100)) / 100) + "</b></td></tr>";
 											}
 											$("#patient_listing").append($(row_string));
 										});
