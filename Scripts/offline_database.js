@@ -24,6 +24,9 @@ function initDatabase() {
 			Populate("delete from supporter");
 			Populate("insert into supporter (name) values ('GOK')");
 			Populate("insert into supporter (name) values ('PEPFAR')");
+			
+			//Populate("insert into tb (phase) values ('Latent')");
+			//Populate("insert into tb (phase) values ('Active')");
 			Populate("delete from drug_source");
 			Populate("insert into drug_source (name) values ('Main Store')");
 			Populate("insert into drug_source (name) values ('Kenya Pharma')");
@@ -72,7 +75,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS supporter(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_service_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT , first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, start_regimen_date TEXT, machine_code TEXT, current_status TEXT, sms_consent TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT , first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, start_regimen_date TEXT, machine_code TEXT, current_status TEXT, sms_consent TEXT,partner TEXT,partner_status TEXT,non_commun TEXT,fplan TEXT,tbphase TEXT,startphase TEXT,endphase TEXT,partner_type TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_change_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS visit_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS opportunistic_infections(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
@@ -91,6 +94,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS districts(id INTEGER(14) NOT NULL,name varchar(100) NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS generic_name (id INTEGER NOT NULL PRIMARY KEY,name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS tb (id INTEGER NOT NULL PRIMARY KEY,phase TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS dose (id INTEGER NOT NULL PRIMARY KEY,name TEXT,value TEXT,frequency TEXT);', [], nullDataHandler, errorHandler)
 		//Create all the necessary indexes!
 		transaction.executeSql('CREATE INDEX if not exists dispensing_date_index ON patient_visit(dispensing_date);', [], nullDataHandler, errorHandler);
@@ -117,10 +121,21 @@ function createTables() {
 		/*
 		 *Alter table statements
 		 */
+		
+		//
+		//transaction.executeSql("alter table patient add column partner_type text default '0';", [], nullDataHandler, errorHandler);
+		/*
 		transaction.executeSql("alter table patient add column sms_consent text default '1';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column partner text default '0';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column partner_status text default '0';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column non_commun text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column fplan text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column tbphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column startphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column endphase text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient_visit add column adherence text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient_visit add column missed_pills text;", [], nullDataHandler, errorHandler);
-
+*/
 	});
 }
 

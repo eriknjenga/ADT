@@ -122,6 +122,8 @@
 								$('#sms_consent').text("No");
 							}
 						}
+						
+						
 						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
 							$('#other_illnesses').attr("checked", "checked");
 							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
@@ -141,6 +143,11 @@
 						$('#service').attr("value", parent_row['service']);
 						$('#service').change();
 						$('#regimen').attr("value", parent_row['start_regimen']);
+						
+						if(parent_row['current_status'] !=null && parent_row['current_status']!=1){
+							alert("Cannot Dispense to Patient:Status Not Active");
+							$("#dispense").attr("disabled", "disabled");
+						}
 						getMSQ();
 					}
 				});

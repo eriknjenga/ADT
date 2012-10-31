@@ -33,6 +33,15 @@ class Patient extends Doctrine_Record {
 		$this -> hasColumn('Machine_Code', 'varchar', 5);
 		$this -> hasColumn('Current_Status', 'varchar', 10);
 		$this -> hasColumn('SMS_Consent', 'varchar', 2);
+		$this -> hasColumn('Partner', 'int', 5);
+		$this -> hasColumn('Partner_Status', 'int', 5);
+		$this -> hasColumn('Non_Commun', 'text');
+		$this -> hasColumn('Fplan', 'text');
+		$this -> hasColumn('Tbphase', 'int', 5);
+		$this -> hasColumn('Startphase', 'varchar', 10);
+		$this -> hasColumn('Endphase', 'varchar', 10);
+		$this -> hasColumn('Partner_Type', 'int', 11);
+		
 
 	}
 

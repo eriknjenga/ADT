@@ -19,6 +19,7 @@
 				patient_number = $_GET['patient_number'];
 				initDatabase();
 				getLastVisitData();
+				$("#message").hide();
 
 				$("#dispensing_date").attr('value', setCurrentDate());
 
@@ -61,7 +62,7 @@
 				//Add listener to the drug batch selecter to prepopulate the expiry date
 				$(".batch").change(function() {
 					var row_element = $(this).closest("tr");
-					var expiry_date = row_element.find(".expiry"); 
+					var expiry_date = row_element.find(".expiry");
 					var drug = row_element.find(".drug").attr("value");
 					//Get basic getails of the selected patient
 					getBatchExpiry(drug, $(this).attr("value"), function(transaction, results) {
@@ -71,14 +72,21 @@
 							expiry_date.attr("value", row['expiry_date']);
 						}
 					});
-					
 				});
 				//Get basic getails of the selected patient
 				getPatientDetails(patient_number, function(transaction, results) {
 					// Handle the results
 					var row = results.rows.item(0);
-					$("#patient").attr("value", patient_number);
-					$("#patient_details").text(row['first_name'] + " " + row['other_name'] + " " + row["last_name"]);
+					if(row['current_status'] != 1) {
+						$("#patient").attr("value", patient_number);
+						$("#patient_details").text(row['first_name'] + " " + row['other_name'] + " " + row["last_name"]);
+					} else {
+						$("#patient").attr("value", patient_number);
+						$("#patient_details").text(row['first_name'] + " " + row['other_name'] + " " + row["last_name"]);
+						alert("Cannot Dispense To Patient Status Inactive");
+						$("#drugs_section").hide();
+                        $("#submit_section").hide();
+					}
 				});
 				//Dynamically load the list of purposes of visit
 				selectAll("visit_purpose", function(transaction, results) {
@@ -248,7 +256,7 @@
 						// Handle the results
 						var row = results.rows.item(0);
 						getUnitName(row['unit'], function(transaction, res) {
-							if(res.rows.length > 0){
+							if(res.rows.length > 0) {
 								var r = res.rows.item(0);
 								unit.attr("value", r['name']);
 							}
@@ -316,7 +324,7 @@
 	</head>
 	<body>
 		<style>
-			.data-table th{
+			.data-table th {
 				font-size: 10px;
 			}
 		</style>
@@ -394,10 +402,10 @@
 										<option></option>
 									</select> </label>
 								<label> <strong class="label">MOS Dispensed</strong>
-									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]"> 
+									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]">
 								</label>
 								<label> <strong class="label">Reported Adherence (%)</strong>
-									<input type="text"name="adherence" id="adherence"> 
+									<input type="text"name="adherence" id="adherence">
 								</label>
 							</div>
 							<div class="column">
@@ -417,6 +425,7 @@
 									</table>
 								</fieldset>
 							</div>
+							<br/>
 							<div id="drugs_section">
 								<table border="0" class="data-table" id="drugs_table">
 									<th class="subsection-title" colspan="14">Select Drugs</th>
@@ -482,9 +491,12 @@
 								<input type="reset" class="submit-button" id="reset" value="Reset Fields" style="width:200px;"/>
 								<input form="dispense_form" class="submit-button" id="submit" value="Dispense Drugs" style="width:200px;"/>
 							</div>
+							
 						</form>
+						
 					</div>
 				</div>
+				
 				<!--End Wrapper div-->
 			</div>
 			<div id="bottom_ribbon">
