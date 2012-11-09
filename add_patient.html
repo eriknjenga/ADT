@@ -95,9 +95,8 @@
 						// Animation complete.
 
 					});
-                    $('#npstatus').attr('checked',true);
+					$('#npstatus').attr('checked', true);
 					$('#plan_listing').attr("value", "0");
-					
 
 				});
 				//Add listener to the gender drop down
@@ -126,10 +125,11 @@
 					changeMonth : true,
 					changeYear : true
 				});
+				
 
 				$("#tb").change(function() {
 					var selected_value = $(this).attr("value");
-					//if female, display the prengancy selector
+					//if has tb(yes)
 					if(selected_value == 1) {
 						$('#tphase').slideDown('slow', function() {
 							// Animation complete.
@@ -141,28 +141,50 @@
 						$('#ttphase').slideUp('slow', function() {
 							// Animation complete.
 						});
+						$('#endp').slideUp('slow', function() {
+							// Animation complete.
+						});
 					}
 				});
 
-				$("#tphase").change(function() {
+				$("#tbphase").change(function() {
+
+					$('#endp').slideDown('slow', function() {
+						// Animation complete.
+					});
+					$('#ttphase').slideUp('slow', function() {
+						// Animation complete.
+					});
+				});
+				$("#tbphase1").change(function() {
 
 					$('#ttphase').slideDown('slow', function() {
 						// Animation complete.
 					});
-				});
-				
-				$("#pstatus").change(function() {
-                    var selected_value = $(this).attr("value");
-                    if(selected_value == 2) {
-					$('#dcs').slideDown('slow', function() {
+					$('#endp').slideDown('slow', function() {
 						// Animation complete.
 					});
-					}
-					else{
-					$('#dcs').slideUp('slow', function() {
+				});
+				$("#tbphase2").change(function() {
+
+					$('#ttphase').slideDown('slow', function() {
+						// Animation complete.
+					});
+					$('#endp').slideDown('slow', function() {
+						// Animation complete.
+					});
+				});
+
+				$("#pstatus").change(function() {
+					var selected_value = $(this).attr("value");
+					if(selected_value == 2) {
+						$('#dcs').slideDown('slow', function() {
 							// Animation complete.
-						});	
-						
+						});
+					} else {
+						$('#dcs').slideUp('slow', function() {
+							// Animation complete.
+						});
 					}
 				});
 			});
@@ -270,43 +292,68 @@
 								<label> <strong class="label">Patient's Alternate Contact(s)</strong>
 									<input type="text" name="alternate" id="alternate" value="">
 								</label>
-								<div class="three_columns">
-									<strong class="label">Does Patient have non-communicable disease(s)</strong>
-									Yes
-									<input type="checkbox" name="ndiseases" id="ndiseases" value="">
-									<div class="list">
-										List Them
-									</div>
-									<textarea class="list_area" name="alldiseases" id="alldiseases"></textarea>
-								</div>
+								<label>
+								<strong class="label"> Family Planning Method</strong>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-1-"/>
+								Condoms
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-2-"/>
+								Intrauterine Contraceptive Device(copper T)
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-3-"/>
+								Implants(levonorgestrel 75mg)
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-4-"/>
+								Emergency Contraceptive pills(levonorgestrel0.75 mg)
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-5-"/>
+								Vasectomy
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-6-"/>
+								Tubaligation
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-7-"/>
+								Medroxyprogestrone 150 mg
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-8-"/>
+								Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)
+								<br/>
+								<input type="checkbox"name="plan_listing" id="plan_listing" value="-9-"/>
+								levonorgestrel 0.03mg
+								<br/></label>
+								
 							</div>
-							<p>
-								&nbsp;
-							</p>
+							
 							<div class="column">
-								<div class="three_columns">
-									<strong class="label">Does Patient have other Chronic illnesses</strong>
-									
-									<select name="other_illnesses_listing" id="other_illnesses_listing" style="width:300px">
-										<option value="0" selected="selected">-----Select One-----</option>
-										<option value="1" > Diabetes</option>
-										<option value="2" > Hypertension</option>
-										<option value="3" > Obesity</option>
-										<option value="4" > Asthma</option>
-										<option value="5" > Gout</option>
-										<option value="6" > Arthritis</option>
-										<option value="7" > Cancer</option>
-										<option value="8" > Stroke</option>
-										<option value="9" > Epilepsy</option>
-										<option value="10"> Mental disorder</option>
-										
-									</select> 
-									
-									
-									
-									
-									
-								</div>
+								<strong class="label">Does Patient have other Chronic illnesses</strong>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-1-"/>
+								Diabetes  &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-2-"/>
+								Hypertension
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-3-"/>
+								Obesity   &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-4-"/>
+								Asthma
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-5-"/>
+								Gout   &nbsp;  &nbsp; &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-6-"/>
+								Arthritis
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-7-"/>
+								Cancer   &nbsp; &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-8-"/>
+								Stroke
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-9-"/>
+								Epilepsy  &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-10-"/>
+								Mental Disorder
+								<br/>
+								<p>
+									&nbsp;
+								</p>
 								<label> <strong class="label">List Other Drugs Patient is Taking</strong> 									<textarea name="other_drugs" id="other_drugs"></textarea> </label>
 								<div class="three_columns">
 									<strong class="label">Does Patient have any Drugs Allergies/ADR</strong>
@@ -323,21 +370,23 @@
 										<option value="0">No</option><option value="1">Yes</option>
 									</select> </label>
 								<label style="display: none" id="tphase"> <strong class="label">TB Phase?</br> </strong>
-									<input style="width:20px" type="radio"  name="tbphase"  value="1"/>
-									Latent Phase
-									<input style="width:20px" type="radio"  name="tbphase"  value="2"/>
-									Active Phase </label>
+									<input style="width:20px" type="radio"  name="tbphase" id="tbphase1" value="1"/>
+									Intensive
+									<input style="width:20px" type="radio"  name="tbphase" id="tbphase2" value="2"/>
+									Continuation
+									<input style="width:20px" type="radio"  name="tbphase" id="tbphase" value="3"/>
+									Completed </label>
 								<p>
 									&nbsp;
 								</p>
-								<div style="display: none" id="ttphase">
-									<label> <strong class="label">Start of Phase</strong>
+								<label id="ttphase" style="display: none;"> <strong class="label">Start of Phase</strong>
 										<input type="text" name="fromphase" id="fromphase" value=""/>
 									</label>
-									&nbsp; <label> <strong class="label">End of Phase</strong>
+									&nbsp; <label id="endp" style="display: none;"> <strong class="label">End of Phase</strong>
 										<input type="text" name="tophase" id="tophase" value=""/>
 									</label>
-								</div>
+								<label>
+									
 								<label> <strong class="label">Does Patient Smoke?</strong>
 									<select name="smoke" id="smoke">
 										<option value=""></option>
@@ -365,50 +414,24 @@
 									<select name="service" id="service">
 										<option></option>
 									</select> </label>
-							
-									
 								<label  id="tstatus"> <strong class="label">Partner Type</br> </strong>
-									
-									
 									<select name="pstatus" id="pstatus" style="width:300px">
 										<option value="0" selected="selected">-----Select One-----</option>
 										<option value="1" > Concordant</option>
 										<option value="2" > Discordant</option>
-										
-										
-									</select> 
-									
-									
-									</label>
+									</select> </label>
 								<p>
 									&nbsp;
 								</p>
-								
 								<label id="dcs" style="display: none"><strong class="label">Disclosure</br> </strong>
 									<input style="width:20px" type="radio"  name="disco" id="disco" value="1">
 									Yes
 									<input style="width:20px" type="radio"  name="disco" id="disco1" value="0">
 									No </label>
-								
-								
-								<div class="three_columns" id="plani">
-									<strong class="label"> Family Planning Method</strong>
-									
-									<select name="plan_listing" id="plan_listing" style="width:300px">
-										<option value="0" selected="selected">-----Select One-----</option>
-										<option value="1" > Condoms</option>
-										<option value="2" > Intrauterine Contraceptive Device(copper T)</option>
-										<option value="3" > Implants(levonorgestrel 75mg)</option>
-										<option value="4" > Emergency Contraceptive pills(levonorgestrel0.75 mg)</option>
-										<option value="5" > Vasectomy</option>
-										<option value="6" > Tubaligation</option>
-										<option value="7" > Medroxyprogestrone 150 mg</option>
-										<option value="8" > Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)</option>
-										<option value="9" > levonorgestrel 0.03mg</option>
-										
-									</select> 
-									
-								</div>
+								<br/><br/><br/><br/><br/><br/><br/>
+								<p>
+									&nbsp;
+								</p>
 							</div>
 							<div id="submit_section">
 								<input form="add_patient_form" class="submit-button" id="submit" value="Save &amp View List" style="width:200px;"/>
