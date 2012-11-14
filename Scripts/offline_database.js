@@ -72,7 +72,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS supporter(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_service_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT , first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, start_regimen_date TEXT, machine_code TEXT, current_status TEXT, sms_consent TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient(id INTEGER NOT NULL PRIMARY KEY, medical_record_number TEXT, patient_number_ccc TEXT , first_name TEXT, last_name TEXT,' + 'other_name TEXT, dob TEXT, pob TEXT, gender TEXT, pregnant TEXT, weight TEXT, height TEXT,sa TEXT, phone TEXT, physical TEXT, alternate TEXT, other_illnesses TEXT, other_drugs TEXT, adr TEXT,' + 'tb TEXT, smoke TEXT, alcohol TEXT, date_enrolled TEXT, source TEXT, supported_by TEXT, timestamp TEXT, facility_code TEXT, service TEXT, start_regimen TEXT, start_regimen_date TEXT, machine_code TEXT, current_status TEXT, sms_consent TEXT,partner TEXT,partner_status TEXT,non_commun TEXT,fplan TEXT,tbphase TEXT,startphase TEXT,endphase TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS regimen_change_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS visit_purpose(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS opportunistic_infections(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
@@ -85,7 +85,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_destination(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT, machine_code TEXT, facility TEXT,);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS districts(id INTEGER(14) NOT NULL,name varchar(100) NOT NULL);', [], nullDataHandler, errorHandler);
@@ -94,6 +94,8 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS dose (id INTEGER NOT NULL PRIMARY KEY,name TEXT,value TEXT,frequency TEXT);', [], nullDataHandler, errorHandler)
 		//Create all the necessary indexes!
 		transaction.executeSql('CREATE INDEX if not exists dispensing_date_index ON patient_visit(dispensing_date);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists regimen_index ON patient_visit(regimen);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE INDEX if not exists last_regimen_index ON patient_visit(last_regimen);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists dispensing_patient_index ON patient_visit(patient_id);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists patient_id_index ON patient(id);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE INDEX if not exists drug_id_index ON patient_visit(drug_id);', [], nullDataHandler, errorHandler);
@@ -120,6 +122,16 @@ function createTables() {
 		transaction.executeSql("alter table patient add column sms_consent text default '1';", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient_visit add column adherence text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient_visit add column missed_pills text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table drug_stock_movement add column machine_code text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table drug_stock_movement add column facility text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column sms_consent text default '1';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column partner text default '0';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column partner_status text default '0';", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column non_commun text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column fplan text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column tbphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column startphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column endphase text;", [], nullDataHandler, errorHandler);
 
 	});
 }
@@ -309,15 +321,21 @@ function getLastMachineCodeRecords(dataSelectHandler) {
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
+//Get the last record for a particular machine_code in the drug_stock_movement recordset
+function getLastDrugTransactionRecords(dataSelectHandler) {
+	var sql = "SELECT machine_code,drug,order_number,transaction_date from drug_stock_movement group by machine_code";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
 //Get the latest record from the patient appointment table grouped by the machine code
 function getLastAppointmentData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient, appointment from patient_appointment";
+	var sql = "SELECT machine_code,patient, appointment from patient_appointment group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
 //Get the latest record from the patient visit table grouped by the machine code
 function getLastVisitData(dataSelectHandler) {
-	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id,current_height,current_weight from patient_visit";
+	var sql = "SELECT machine_code,patient_id, dispensing_date, drug_id,current_height,current_weight from patient_visit group by machine_code";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -329,8 +347,7 @@ function countSearchedPatientRecords(search_term, dataSelectHandler) {
 
 //This function returns a list of patients based on the limits specified
 function getPatientDetails(patient_number, dataSelectHandler) {
-	var sql = "select * from patient where patient_number_ccc = '" + patient_number + "'";
-	console.log(sql);
+	var sql = "select * from patient where patient_number_ccc = '" + patient_number + "'"; 
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

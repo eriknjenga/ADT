@@ -21,6 +21,9 @@ function processData(button) {
 				target = "patient_management/save";
 				local_table = 'patient';
 				var dump = retrieveFormValues();
+				//tokenize the information being gathered from checkboxes
+				var beast = retrieveSelectedFormValues_Array("plan_listing");
+				var beast1 = retrieveSelectedFormValues_Array("other_illnesses_listing");
 				//Retrieve all form input elements and their values
 
 				var patient_number = dump["patient_number"];
@@ -30,7 +33,8 @@ function processData(button) {
 						return
 					} else {
 						var timestamp = new Date().getTime();
-						var sql = "INSERT INTO patient (medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, pob, gender, pregnant," + " weight, height, sa, phone, physical, alternate, other_illnesses, other_drugs, adr, tb, smoke, alcohol, date_enrolled, source, supported_by," + " timestamp, facility_code, service, start_regimen, machine_code,sms_consent) VALUES ('" + dump["medical_record_number"] + "', '" + dump["patient_number"] + "', '" + dump["first_name"] + "', '" + dump["last_name"] + "', '" + dump["other_name"] + "', '" + dump["dob"] + "', '" + dump["pob"] + "', '" + dump["gender"] + "', '" + dump["pregnant"] + "', '" + dump["weight"] + "', '" + dump["height"] + "', '" + dump["surface_area"] + "', '" + dump["phone"] + "', '" + dump["physical"] + "', '" + dump["alternate"] + "', '" + dump["other_illnesses_listing"] + "', '" + dump["other_drugs"] + "', '" + dump["other_allergies_listing"] + "', '" + dump["tb"] + "', '" + dump["smoke"] + "', '" + dump["alcohol"] + "', '" + dump["enrolled"] + "', '" + dump["source"] + "', '" + dump["support"] + "', '" + timestamp + "','" + facility + "', '" + dump["service"] + "', '" + dump["regimen"] + "','" + machine_code + "','" + dump["sms_consent"] + "');";
+						var sql = "INSERT INTO patient (medical_record_number, patient_number_ccc, first_name, last_name, other_name, dob, pob, gender, pregnant," + " weight, height, sa, phone, physical, alternate, other_illnesses, other_drugs, adr, tb, smoke, alcohol, date_enrolled, source, supported_by," + " timestamp, facility_code, service, start_regimen, machine_code,sms_consent,partner,fplan,tbphase,startphase,endphase,partner_status) VALUES ('" + dump["medical_record_number"] + "', '" + dump["patient_number"] + "', '" + dump["first_name"] + "', '" + dump["last_name"] + "', '" + dump["other_name"] + "', '" + dump["dob"] + "', '" + dump["pob"] + "', '" + dump["gender"] + "', '" + dump["pregnant"] + "', '" + dump["weight"] + "', '" + dump["height"] + "', '" + dump["surface_area"] + "', '" + dump["phone"] + "', '" + dump["physical"] + "', '" + dump["alternate"] + "', '" + beast1 + "', '" + dump["other_drugs"] + "', '" + dump["other_allergies_listing"] + "', '" + dump["tb"] + "', '" + dump["smoke"] + "', '" + dump["alcohol"] + "', '" + dump["enrolled"] + "', '" + dump["source"] + "', '" + dump["support"] + "', '" + timestamp + "','" + facility + "', '" + dump["service"] + "', '" + dump["regimen"] + "','" + machine_code + "','" + dump["sms_consent"] + "','" + dump["pstatus"] + "','" + beast + "','" + dump["tbphase"] + "','" + dump["fromphase"] + "','" + dump["tophase"] + "','" + dump["disco"] + "');";
+						console.log(sql);
 						var url = "";
 						if(button.attr("id") == "dispense") {
 							url = "dispense.html?patient_number=" + dump["patient_number"];
@@ -49,8 +53,6 @@ function processData(button) {
 
 					}
 				});
-				//redirect();
-
 			} else if(form == "dispense_form") {
 				var timestamp = new Date().getTime();
 				target = "dispensement_management/save";
@@ -103,6 +105,7 @@ function processData(button) {
 				var saved_object = JSON.stringify(combined_object);
 				saveDataLocally(saved_object);
 			} else if(form == "stock_form") {
+				target = "inventory_management/save";
 				var timestamp = new Date().getTime();
 				local_table = 'drug_stock_movement';
 				//Before going any further, first calculate the number of drugs being recorded
@@ -131,24 +134,32 @@ function processData(button) {
 				//After getting the number of drugs being recorded, create a unique entry (sql statement) for each in the database in this loop
 				var sql_queries = "";
 				for(var i = 0; i < drugs_count; i++) {
-					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator, order_number) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','" + user + "','" + dump["reference_number"] + "');";
+					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator, order_number, facility, machine_code) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','" + user + "','" + dump["reference_number"] + "','" + facility + "','" + machine_code + "');";
 					sql_queries += sql;
 				};
-				var queries = sql_queries.split(";");
-				callbackExecuteStatementArray(queries, function(transaction, resultset) {
-					window.location = "inventory.html?message=Stock inventory data saved successfully";
-				});
+				var url = "inventory.html?message=Stock inventory data saved successfully";
+				var combined_object = {
+					0 : target,
+					1 : sql_queries,
+					2 : timestamp,
+					3 : local_table,
+					4 : url
+				};
+				var saved_object = JSON.stringify(combined_object);
+				saveDataLocally(saved_object);
 				return;
 
 			} else if(form == "edit_patient_form") {
 				target = "patient_management/save";
 				local_table = 'patient';
 				var dump = retrieveFormValues();
+				var beast2=retrieveSelectedFormValues_Array("theplan");
+				var beast3=retrieveSelectedFormValues_Array("other_illnesses_listing");
 				var timestamp = new Date().getTime();
 				//Check if there is a date indicated for the next appointment. If there is, schedule it!
 				next_appointment_sql = "update patient_appointment set appointment = '" + dump["next_appointment_date"] + "' where patient = '" + dump["patient_number"] + "' and facility = '" + facility + "' and appointment = '" + dump["next_appointment_date_holder"] + "';";
 
-				var sql = "UPDATE patient SET medical_record_number='" + dump["medical_record_number"] + "', first_name='" + dump["first_name"] + "', last_name='" + dump["last_name"] + "', other_name='" + dump["other_name"] + "', dob='" + dump["dob"] + "', pob='" + dump["pob"] + "', gender='" + dump["gender"] + "', pregnant='" + dump["pregnant"] + "',weight='" + dump["weight"] + "', height='" + dump["height"] + "', sa='" + dump["surface_area"] + "', phone='" + dump["phone"] + "', physical='" + dump["physical"] + "', alternate='" + dump["alternate"] + "', other_illnesses='" + dump["other_illnesses_listing"] + "', other_drugs='" + dump["other_drugs"] + "', adr='" + dump["other_allergies_listing"] + "', tb='" + dump["tb"] + "', smoke='" + dump["smoke"] + "', alcohol='" + dump["alcohol"] + "', date_enrolled='" + dump["enrolled"] + "', source='" + dump["source"] + "', supported_by='" + dump["support"] + "',timestamp='" + timestamp + "',service='" + dump["service"] + "', start_regimen='" + dump["regimen"] + "', start_regimen_date='" + dump["service_started"] + "', machine_code='" + machine_code + "', sms_consent='" + dump["sms_consent"] + "', current_status='" + dump["current_status"] + "'  WHERE patient_number_ccc='" + dump["patient_number"] + "' AND facility_code='" + facility + "';";
+				var sql = "UPDATE patient SET medical_record_number='" + dump["medical_record_number"] + "', first_name='" + dump["first_name"] + "', last_name='" + dump["last_name"] + "', other_name='" + dump["other_name"] + "', dob='" + dump["dob"] + "', pob='" + dump["pob"] + "', gender='" + dump["gender"] + "', pregnant='" + dump["pregnant"] + "',weight='" + dump["weight"] + "', height='" + dump["height"] + "', sa='" + dump["surface_area"] + "', phone='" + dump["phone"] + "', physical='" + dump["physical"] + "', alternate='" + dump["alternate"] + "', other_illnesses='" + beast3 + "', other_drugs='" + dump["other_drugs"] + "', adr='" + dump["other_allergies_listing"] + "', tb='" + dump["tb"] + "', smoke='" + dump["smoke"] + "', alcohol='" + dump["alcohol"] + "', date_enrolled='" + dump["enrolled"] + "', source='" + dump["source"] + "', supported_by='" + dump["support"] + "',timestamp='" + timestamp + "',service='" + dump["service"] + "', start_regimen='" + dump["regimen"] + "', start_regimen_date='" + dump["service_started"] + "', machine_code='" + machine_code + "', sms_consent='" + dump["sms_consent"] + "', current_status='" + dump["current_status"] + "',partner_status='" + dump["disco"] + "',fplan='" + beast2+ "',tbphase='" + dump["tbphase"] + "',startphase='" + dump["fromphase"] + "',endphase='" + dump["tophase"] + "',partner='" + dump["pstatus"] + "'  WHERE patient_number_ccc='" + dump["patient_number"] + "' AND facility_code='" + facility + "';";
 				sql += next_appointment_sql;
 				console.log(sql);
 				var combined_object = {
@@ -160,7 +171,7 @@ function processData(button) {
 				};
 				var saved_object = JSON.stringify(combined_object);
 				saveDataLocally(saved_object);
-			} else if(form == "edit_dispense_form") {
+			}else if(form == "edit_dispense_form") {
 				target = "dispensement_management/save_edit";
 				local_table = 'patient_visit';
 				var dump = retrieveFormValues();
@@ -221,6 +232,18 @@ function retrieveFormValues_Array(name) {
 	return dump;
 }
 
+function retrieveSelectedFormValues_Array(name) {
+	var dump = new Array();
+	var counter = 0;
+	$.each($("input[name=" + name + "]:checked, select[name=" + name + "]:checked, select[name=" + name + "]:checked"), function(i, v) {
+		var theTag = v.tagName;
+		var theElement = $(v);
+		var theValue = theElement.val();
+		dump[counter] = theElement.attr("value");
+		counter++;
+	});
+	return dump;
+}
 //called on submit if device is online from processData()
 function sendDataToServer(data) {
 	var separated_data = JSON.parse(data);

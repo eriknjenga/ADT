@@ -23,6 +23,10 @@ class Patient_Visit extends Doctrine_Record {
 		$this -> hasColumn('Dispensing_Date_Timestamp', 'varchar', 32);
 		$this -> hasColumn('Quantity', 'varchar', 100);
 		$this -> hasColumn('Machine_Code', 'varchar', 100);
+		$this -> hasColumn('Duration', 'varchar', 10);
+		$this -> hasColumn('Months_Of_Stock', 'varchar', 10);
+		$this -> hasColumn('Adherence', 'varchar', 10);
+		$this -> hasColumn('Missed_Pills', 'varchar', 10);
 	}
 
 	public function setUp() {
@@ -48,7 +52,7 @@ class Patient_Visit extends Doctrine_Record {
 	}
 
 	public function getPagedPatientVisits($offset, $items, $machine_code, $patient_ccc, $facility, $date,$drug) {
-		$query = Doctrine_Query::create() -> select("pv.*") -> from("Patient_Visit pv") -> leftJoin("Patient_Visit pv2") -> where("pv2.Patient_Id = '$patient_ccc' and pv2.Machine_Code = '$machine_code' and pv2.Dispensing_Date = '$date' and pv2.Facility='$facility' and pv2.Drug_Id = '$drug' and  pv.id>pv2.id and pv.Facility='$facility'") -> offset($offset) -> limit($items);
+		$query = Doctrine_Query::create() -> select("pv.*") -> from("Patient_Visit pv") -> leftJoin("Patient_Visit pv2") -> where("pv2.Patient_Id = '$patient_ccc' and pv2.Machine_Code = '$machine_code' and pv2.Dispensing_Date = '$date' and pv2.Facility='$facility' and pv2.Drug_Id = '$drug' and pv.Facility='$facility'") -> offset($offset) -> limit($items);
 		//echo $query->getSQL();
 		$patient_visits = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $patient_visits;

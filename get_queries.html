@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Patient History</title>
+		<link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/jquery-ui.css" type="text/css" rel="stylesheet"/>
+		<link href="CSS/validator.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
+		<script type="text/javascript" src="Scripts/jquery.js"></script>
+		<script type="text/javascript" src="Scripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/validator.js"></script>
+		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				var sql = "select  * from drug_stock_movement";
+				SQLExecuteAbstraction(sql, function(transaction, results) {
+					// Handle the results
+					var _tbl_name = "drug_stock_movement";
+					var _exportSql = "";
+					for(var x = 0; x < results.rows.length; x++) {
+						var row = results.rows.item(x);
+						var _fields = [];
+						var _values = [];
+						for(col in row) {
+							_fields.push(col);
+							_values.push('"' + row[col] + '"');
+						}
+						_exportSql += ";\nINSERT INTO " + _tbl_name + "(" + _fields.join(",") + ") VALUES (" + _values.join(",") + ")";
+					}
+					$("#results").text(_exportSql); 
+				});
+			});
+
+		</script>
+	</head>
+	<body>
+		<div id="results"></div>
+	</body>
+</html>

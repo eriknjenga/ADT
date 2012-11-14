@@ -8,8 +8,8 @@
 		var sync_table = "";
 
 		//Create a new queue for all the synchronization functions
-		//var queue = new Queue([syncDistricts,syncDrugDoses]);
-		var queue = new Queue([syncDrugs, syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses,syncDistricts,syncDrugDoses, syncPatients, syncPatientAppointments, syncPatientVisits]);
+		//var queue = new Queue([syncDrugTransactions]);
+		var queue = new Queue([syncDrugs, syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncDistricts, syncDrugDoses, syncPatients, syncPatientAppointments, syncPatientVisits, syncDrugTransactions]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
@@ -33,6 +33,25 @@
 				post_data += row['machine_code'] + ":" + row['patient_number_ccc'] + ",";
 			}
 			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, savePatientDataLocally);
+		});
+	}
+
+	function syncDrugTransactions() {
+		var check_total_records_url = "synchronize_pharmacy/check_drug_transaction_numbers/";
+		var table = "drug_stock_movement";
+		var total_local_records_container = "#total_drug_transactions_local";
+		var total_master_records_container = "#total_drug_transactions_master";
+		var get_data_url = "synchronize_pharmacy/getDrugTransactions/";
+		var progress_bar = "drug_transactions_progress";
+		var sync_complete_container = "#drug_transactions_sync_complete";
+		var table_name = "#drug_stock_movement";
+		getLastDrugTransactionRecords(function(transaction, results) {
+			var post_data = "machine_codes=";
+			for(var i = 0; i < results.rows.length; i++) {
+				var row = results.rows.item(i);
+				post_data += row['machine_code'] + ":" + row['drug'] + ":" + row['order_number'] + ":" + row['transaction_date'] + ":" + ",";
+			}
+			advancedSync(check_total_records_url, table, total_local_records_container, total_master_records_container, post_data, get_data_url, progress_bar, sync_complete_container, table_name, saveDrugTransactionDataLocally);
 		});
 	}
 
@@ -108,19 +127,21 @@
 						var percentage = 0;
 						//total_server_patients = 0;
 						//Get the number of records required
-						var total_required = total_server_records - total_local_records;
+						var total_required = total_server_records;
+						var loop_start = records_retrieved;
 						//total_required = 41420;
 						//create a loop that will fetch records using predefined batch sizes untill all records have been retrieved
-						for( start_point = 0; start_point <= total_required; start_point += batch_size) {
+						for( start_point = loop_start; start_point <= total_server_records; start_point += batch_size) {
 							//Create a new url appending the offset and limit at the end
 							var new_url = url + "/" + start_point + "/" + batch_size;
+							console.log(post_data);
 							//Make the get request and pass the results to the callback passed in the arguments. Update the progressbar only if the ajax request completed successfully!
 							$.ajaxQueue({
 								url : new_url,
 								type : "POST",
 								data : post_data,
 								context : document.body,
-								success : function(data) {
+								success : function(data) { 
 									//Pass the returned data to the function specified to save this data locally
 									save_locally_function(data);
 									//Increment the total number of records retrieved with the size of the batch
@@ -134,7 +155,7 @@
 									//Update the progress bar
 									$.progress_bar(progress_bar, 'update', percentage);
 									//Update the value in the local_quantity_div to show that all records have now been retrieved.
-									$(total_local_records_container).html(records_retrieved + total_local_records);
+									$(total_local_records_container).html(parseInt(records_retrieved));
 								}
 							});
 						}
@@ -146,70 +167,6 @@
 		$("body").ajaxStop(function() {
 			show_complete(sync_complete_container, table_name);
 		});
-	}
-
-	function savePatientDataLocally(data) {
-		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code", "current_status","sms_consent");
-		parseReturnedData(data, "patient", columns, false);
-	}
-
-	function savePatientAppointmentDataLocally(data) {
-		var columns = Array("patient", "machine_code", "appointment", "facility");
-		parseReturnedData(data, "patient_appointment", columns, false);
-	}
-
-	function savePatientVisitDataLocally(data) {
-		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity", "last_regimen","months_of_stock","duration","adherence","missed_pills");
-		//console.log(data);
-		parseReturnedData(data, "patient_visit", columns, false);
-	}
-
-	function syncDrugs() {
-		synchronizeData("drugcode", "synchronize_pharmacy/getTotalServerDrugs", "synchronize_pharmacy/getDrugs", "#total_drugs_local", "#total_drugs_master", "drugs_progress", "#drugs_sync_complete", saveDrugsLocally);
-	}
-
-	function syncDrugUnits() {
-		synchronizeData("drug_unit", "synchronize_pharmacy/getTotalServerDrugUnits", "synchronize_pharmacy/getDrugUnits", "#total_drug_units_local", "#total_drug_units_master", "drug_units_progress", "#drug_units_sync_complete", saveDrugUnitsLocally);
-	}
-
-	function syncOIs() {
-		synchronizeData("opportunistic_infections", "synchronize_pharmacy/getTotalServerOIs", "synchronize_pharmacy/getOIs", "#total_ois_local", "#total_ois_master", "ois_progress", "#ois_sync_complete", saveOILocally);
-	}
-
-	function syncPatientSources() {
-		synchronizeData("patient_source", "synchronize_pharmacy/getTotalServerPatientSources", "synchronize_pharmacy/getPatientSources", "#total_sources_local", "#total_sources_master", "sources_progress", "#sources_sync_complete", savePatientSourcesLocally);
-	}
-
-	function syncRegimens() {
-		synchronizeData("regimen", "synchronize_pharmacy/getTotalServerRegimens", "synchronize_pharmacy/getRegimens", "#total_regimens_local", "#total_regimens_master", "regimens_progress", "#regimens_sync_complete", saveRegimensLocally);
-	}
-
-	function syncRegimensChangeReasons() {
-		synchronizeData("regimen_change_purpose", "synchronize_pharmacy/getTotalServerRegimenChangeReasons", "synchronize_pharmacy/getRegimenChangeReasons", "#total_regimen_change_reasons_local", "#total_regimen_change_reasons_master", "regimen_change_reasons_progress", "#regimen_change_reasons_sync_complete", saveRegimenChangeReasonsLocally);
-	}
-
-	function syncRegimenDrugs() {
-		synchronizeData("regimen_drug", "synchronize_pharmacy/getTotalServerRegimenDrugs", "synchronize_pharmacy/getRegimenDrugs", "#total_regimen_drugs_local", "#total_regimen_drugs_master", "regimen_drugs_progress", "#regimen_drugs_sync_complete", saveRegimenDrugsLocally);
-	}
-
-	function syncServiceTypes() {
-		synchronizeData("regimen_service_type", "synchronize_pharmacy/getTotalServerRegimenServiceTypes", "synchronize_pharmacy/getRegimenServiceTypes", "#total_service_types_local", "#total_service_types_master", "service_types_progress", "#service_types_sync_complete", saveRegimenServiceTypesLocally);
-	}
-
-	function syncVisitPurposes() {
-		synchronizeData("visit_purpose", "synchronize_pharmacy/getTotalServerVisitPurposes", "synchronize_pharmacy/getVisitPurposes", "#total_visit_purposes_local", "#total_visit_purposes_master", "visit_purposes_progress", "#visit_purposes_sync_complete", saveVisitPurposesLocally);
-	}
-
-	function syncDrugDoses() {
-		synchronizeData("dose", "synchronize_pharmacy/getTotalServerDoses", "synchronize_pharmacy/getDoses", "#total_doses_local", "#total_doses_master", "doses_progress", "#doses_sync_complete", saveDosesLocally);
-	}
-
-	function syncDistricts() {
-		synchronizeData("districts", "synchronize_pharmacy/getTotalServerDistricts", "synchronize_pharmacy/getDistricts", "#total_districts_local", "#total_districts_master", "districts_progress", "#districts_sync_complete", saveDistrictsLocally);
-	}
-
-	function syncPatientStatuses() {
-		synchronizeData("patient_status", "synchronize_pharmacy/getTotalServerPatientStatuses", "synchronize_pharmacy/getPatientStatuses", "#total_patient_statuses_local", "#total_patient_statuses_master", "patient_statuses_progress", "#patient_statuses_sync_complete", savePatientStatusesLocally);
 	}
 
 	function synchronizeData(local_table_name, check_total_url, fetch_records_url, local_container, master_container, progress_bar, sync_complete, save_local_function, synchOrder) {
@@ -275,10 +232,79 @@
 					//Update the progress bar
 					$.progress_bar(progress_bar, 'update', percentage);
 					//Update the value in the local_quantity_div to show that all records have now been retrieved.
+					$(local_quantity_div).html("");
 					$(local_quantity_div).html(records_retrieved);
 				}
 			});
 		}
+	}
+
+	function savePatientDataLocally(data) {
+		var columns = Array("medical_record_number", "patient_number_ccc", "first_name", "last_name", "other_name", "dob", "pob", "gender", "pregnant", "weight", "height", "sa", "phone", "physical", "alternate", "other_illnesses", "other_drugs", "adr", "tb", "smoke", "alcohol", "date_enrolled", "source", "supported_by", "timestamp", "facility_code", "service", "start_regimen", "machine_code", "current_status", "sms_consent", "partner", "fplan", "tbphase", "startphase", "endphase", "partner_status");
+		parseReturnedData(data, "patient", columns, false);
+	}
+
+	function savePatientAppointmentDataLocally(data) {
+		var columns = Array("patient", "machine_code", "appointment", "facility");
+		parseReturnedData(data, "patient_appointment", columns, false);
+	}
+	function saveDrugTransactionDataLocally(data) {
+		var columns = Array("drug", "transaction_date", "batch_number", "transaction_type","source","destination","expiry_date","packs","quantity","unit_cost","amount","remarks","operator","order_number","facility","machine_code");
+		parseReturnedData(data, "drug_stock_movement", columns, false);
+	}
+
+	function savePatientVisitDataLocally(data) {
+		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity", "last_regimen", "months_of_stock", "duration", "adherence", "missed_pills");
+
+		parseReturnedData(data, "patient_visit", columns, false);
+	}
+
+	function syncDrugs() {
+		synchronizeData("drugcode", "synchronize_pharmacy/getTotalServerDrugs", "synchronize_pharmacy/getDrugs", "#total_drugs_local", "#total_drugs_master", "drugs_progress", "#drugs_sync_complete", saveDrugsLocally);
+	}
+
+	function syncDrugUnits() {
+		synchronizeData("drug_unit", "synchronize_pharmacy/getTotalServerDrugUnits", "synchronize_pharmacy/getDrugUnits", "#total_drug_units_local", "#total_drug_units_master", "drug_units_progress", "#drug_units_sync_complete", saveDrugUnitsLocally);
+	}
+
+	function syncOIs() {
+		synchronizeData("opportunistic_infections", "synchronize_pharmacy/getTotalServerOIs", "synchronize_pharmacy/getOIs", "#total_ois_local", "#total_ois_master", "ois_progress", "#ois_sync_complete", saveOILocally);
+	}
+
+	function syncPatientSources() {
+		synchronizeData("patient_source", "synchronize_pharmacy/getTotalServerPatientSources", "synchronize_pharmacy/getPatientSources", "#total_sources_local", "#total_sources_master", "sources_progress", "#sources_sync_complete", savePatientSourcesLocally);
+	}
+
+	function syncRegimens() {
+		synchronizeData("regimen", "synchronize_pharmacy/getTotalServerRegimens", "synchronize_pharmacy/getRegimens", "#total_regimens_local", "#total_regimens_master", "regimens_progress", "#regimens_sync_complete", saveRegimensLocally);
+	}
+
+	function syncRegimensChangeReasons() {
+		synchronizeData("regimen_change_purpose", "synchronize_pharmacy/getTotalServerRegimenChangeReasons", "synchronize_pharmacy/getRegimenChangeReasons", "#total_regimen_change_reasons_local", "#total_regimen_change_reasons_master", "regimen_change_reasons_progress", "#regimen_change_reasons_sync_complete", saveRegimenChangeReasonsLocally);
+	}
+
+	function syncRegimenDrugs() {
+		synchronizeData("regimen_drug", "synchronize_pharmacy/getTotalServerRegimenDrugs", "synchronize_pharmacy/getRegimenDrugs", "#total_regimen_drugs_local", "#total_regimen_drugs_master", "regimen_drugs_progress", "#regimen_drugs_sync_complete", saveRegimenDrugsLocally);
+	}
+
+	function syncServiceTypes() {
+		synchronizeData("regimen_service_type", "synchronize_pharmacy/getTotalServerRegimenServiceTypes", "synchronize_pharmacy/getRegimenServiceTypes", "#total_service_types_local", "#total_service_types_master", "service_types_progress", "#service_types_sync_complete", saveRegimenServiceTypesLocally);
+	}
+
+	function syncVisitPurposes() {
+		synchronizeData("visit_purpose", "synchronize_pharmacy/getTotalServerVisitPurposes", "synchronize_pharmacy/getVisitPurposes", "#total_visit_purposes_local", "#total_visit_purposes_master", "visit_purposes_progress", "#visit_purposes_sync_complete", saveVisitPurposesLocally);
+	}
+
+	function syncDrugDoses() {
+		synchronizeData("dose", "synchronize_pharmacy/getTotalServerDoses", "synchronize_pharmacy/getDoses", "#total_doses_local", "#total_doses_master", "doses_progress", "#doses_sync_complete", saveDosesLocally);
+	}
+
+	function syncDistricts() {
+		synchronizeData("districts", "synchronize_pharmacy/getTotalServerDistricts", "synchronize_pharmacy/getDistricts", "#total_districts_local", "#total_districts_master", "districts_progress", "#districts_sync_complete", saveDistrictsLocally);
+	}
+
+	function syncPatientStatuses() {
+		synchronizeData("patient_status", "synchronize_pharmacy/getTotalServerPatientStatuses", "synchronize_pharmacy/getPatientStatuses", "#total_patient_statuses_local", "#total_patient_statuses_master", "patient_statuses_progress", "#patient_statuses_sync_complete", savePatientStatusesLocally);
 	}
 
 	function saveDrugsLocally(data) {
@@ -332,7 +358,7 @@
 	}
 
 	function saveDosesLocally(data) {
-		var columns = Array("id", "name","value","frequency");
+		var columns = Array("id", "name", "value", "frequency");
 		parseReturnedData(data, "dose", columns, false);
 	}
 
@@ -610,6 +636,19 @@
 			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Visits in Server: <span id="total_visits_master"></span></span>
 			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="visits_sync_complete">Synchronization Complete!</span>
 			<canvas id="visits_progress" class="canvas" width="500" height="150">
+				Progressbar Can't Be shown.
+			</canvas>
+		</div>
+	</div>
+	<div class="synchronize_table" id="drug_stock_movement">
+		<div class="synchronize_table_title">
+			Commodity Transactions
+		</div>
+		<div class="synchronize_table_data" >
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Transactions Saved Locally: <span id="total_drug_transactions_local"></span></span>
+			<span style="display: block; font-size: 12px; margin: 20px 5px;">Number of Transactions in Server: <span id="total_drug_transactions_master"></span></span>
+			<span style="display: block; font-size: 12px; margin: 5px; color:green; display: none;" id="drug_transactions_sync_complete">Synchronization Complete!</span>
+			<canvas id="drug_transactions_progress" class="canvas" width="500" height="150">
 				Progressbar Can't Be shown.
 			</canvas>
 		</div>

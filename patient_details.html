@@ -122,6 +122,7 @@
 								$('#sms_consent').text("No");
 							}
 						}
+
 						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
 							$('#other_illnesses').attr("checked", "checked");
 							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
@@ -141,6 +142,17 @@
 						$('#service').attr("value", parent_row['service']);
 						$('#service').change();
 						$('#regimen').attr("value", parent_row['start_regimen']);
+
+						if(parent_row['current_status'] != null && parent_row['current_status'] != 1) {
+							$('#dispense').unbind("click").click(function() {
+								alert("Cannot Dispense to Patient:Status Not Active");
+							});
+						} else {
+							$("#dispense").click(function() {
+								var url = "dispense.html?patient_number=" + patient_identification;
+								window.location.href = url;
+							});
+						}
 						getMSQ();
 					}
 				});
@@ -189,10 +201,7 @@
 						var url = "edit_patient.html?patient_number=" + patient_identification;
 						window.location.href = url;
 					});
-					$("#dispense").click(function() {
-						var url = "dispense.html?patient_number=" + patient_identification;
-						window.location.href = url;
-					});
+
 					$("#patient_info").click(function() {
 						var url = "patient_info.html?patient_number=" + patient_identification;
 						window.location.href = url;
@@ -489,9 +498,9 @@
 						</div>
 					</div>
 					<div id="button_container" style="width:700px; margin:0 auto">
-					<input type="button" class="submit-button" id="patient_info" value="Patient Info Report" style="width:150px;"/>
-					<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:150px;"/>
-					<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:150px;"/>
+						<input type="button" class="submit-button" id="patient_info" value="Patient Info Report" style="width:150px;"/>
+						<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:150px;"/>
+						<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:150px;"/>
 					</div>
 					<div id="dispensing_history" style="display:none;">
 						<div class="short_title" >

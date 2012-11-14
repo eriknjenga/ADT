@@ -112,6 +112,12 @@ class Synchronize_Pharmacy extends MY_Controller {
 		echo $total_patients;
 	}
 
+	//Get total number of drug transactions for a facility
+	public function check_drug_transaction_numbers($facility) {
+		$total_transactions = Drug_Stock_Movement::getTotalTransactions($facility);
+		echo $total_transactions;
+	}
+
 	public function getDrugs($offset, $limit) {
 		$source = $this -> session -> userdata('facility');
 		$drugs = Drugcode::getPagedDrugs($offset, $limit, $source);
@@ -286,7 +292,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 		$counter = 0;
 		$patients_array = array();
 		foreach ($aggregated_object as $patient) {
-			$patient_details = array("medical_record_number" => $patient['Medical_Record_Number'], "patient_number_ccc" => $patient['Patient_Number_CCC'], "first_name" => $patient['First_Name'], "last_name" => $patient['Last_Name'], "other_name" => $patient['Other_Name'], "dob" => $patient['Dob'], "pob" => $patient['Pob'], "gender" => $patient['Gender'], "pregnant" => $patient['Pregnant'], "weight" => $patient['Weight'], "height" => $patient['Height'], "sa" => $patient['Sa'], "phone" => $patient['Phone'], "physical" => $patient['Physical'], "alternate" => $patient['Alternate'], "other_illnesses" => $patient['Other_Illnesses'], "other_drugs" => $patient['Other_Drugs'], "adr" => $patient['Adr'], "tb" => $patient['Tb'], "smoke" => $patient['Smoke'], "alcohol" => $patient['Alcohol'], "date_enrolled" => $patient['Date_Enrolled'], "source" => $patient['Source'], "supported_by" => $patient['Supported_By'], "timestamp" => $patient['Timestamp'], "facility_code" => $patient['Facility_Code'], "service" => $patient['Service'], "start_regimen" => $patient['Start_Regimen'], "machine_code" => $patient['Machine_Code'], "current_status" => $patient['Current_Status'], "sms_consent" => $patient['SMS_Consent']);
+			$patient_details = array("medical_record_number" => $patient['Medical_Record_Number'], "patient_number_ccc" => $patient['Patient_Number_CCC'], "first_name" => $patient['First_Name'], "last_name" => $patient['Last_Name'], "other_name" => $patient['Other_Name'], "dob" => $patient['Dob'], "pob" => $patient['Pob'], "gender" => $patient['Gender'], "pregnant" => $patient['Pregnant'], "weight" => $patient['Weight'], "height" => $patient['Height'], "sa" => $patient['Sa'], "phone" => $patient['Phone'], "physical" => $patient['Physical'], "alternate" => $patient['Alternate'], "other_illnesses" => $patient['Other_Illnesses'], "other_drugs" => $patient['Other_Drugs'], "adr" => $patient['Adr'], "tb" => $patient['Tb'], "smoke" => $patient['Smoke'], "alcohol" => $patient['Alcohol'], "date_enrolled" => $patient['Date_Enrolled'], "source" => $patient['Source'], "supported_by" => $patient['Supported_By'], "timestamp" => $patient['Timestamp'], "facility_code" => $patient['Facility_Code'], "service" => $patient['Service'], "start_regimen" => $patient['Start_Regimen'], "machine_code" => $patient['Machine_Code'], "current_status" => $patient['Current_Status'], "sms_consent" => $patient['SMS_Consent'], "partner" => $patient['Partner'], "fplan" => $patient['Fplan'], "tbphase" => $patient['Tbphase'], "startphase" => $patient['Startphase'], "endphase" => $patient['Endphase'], "partner_status" => $patient['Partner_Status']);
 			$patients_array[$counter] = $patient_details;
 			$counter++;
 		}
@@ -326,7 +332,6 @@ class Synchronize_Pharmacy extends MY_Controller {
 			$counter++;
 		}
 		echo json_encode($patient_appointments_array);
-
 	}
 
 	public function getPatientVisits($facility, $offset, $limit) {
@@ -355,15 +360,52 @@ class Synchronize_Pharmacy extends MY_Controller {
 				}
 			}
 		}
+
 		$counter = 0;
 		$patient_visits_array = array();
 		foreach ($aggregated_object as $patient_visit) {
-			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code'], "last_regimen" => $patient_visit['Last_Regimen'], "duration" => $patient_visit['duration'], "adherence" => $patient_visit['adherence'], "missed_pills" => $patient_visit['missed_pills'], "months_of_stock" => $patient_visit['months_of_stock']);
+			$patient_visit_details = array("patient_id" => $patient_visit['Patient_Id'], "visit_purpose" => $patient_visit['Visit_Purpose'], "current_height" => $patient_visit['Current_Height'], "current_weight" => $patient_visit['Current_Weight'], "regimen" => $patient_visit['Regimen'], "regimen_change_reason" => $patient_visit['Regimen_Change_Reason'], "drug_id" => $patient_visit['Drug_Id'], "batch_number" => $patient_visit['Batch_Number'], "brand" => $patient_visit['Brand'], "indication" => $patient_visit['Indication'], "pill_count" => $patient_visit['Pill_Count'], "comment" => $patient_visit['Comment'], "timestamp" => $patient_visit['Timestamp'], "user" => $patient_visit['User'], "facility" => $patient_visit['Facility'], "dose" => $patient_visit['Dose'], "dispensing_date" => $patient_visit['Dispensing_Date'], "dispensing_date_timestamp" => $patient_visit['Current_Height'], "quantity" => $patient_visit['Quantity'], "machine_code" => $patient_visit['Machine_Code'], "last_regimen" => $patient_visit['Last_Regimen'], "duration" => $patient_visit['Duration'], "adherence" => $patient_visit['Adherence'], "missed_pills" => $patient_visit['Missed_Pills'], "months_of_stock" => $patient_visit['Months_Of_Stock']);
 			$patient_visits_array[$counter] = $patient_visit_details;
 			$counter++;
 		}
 		echo json_encode($patient_visits_array);
+	}
 
+	public function getDrugTransactions($facility, $offset, $limit) {
+		$aggregated_object = array();
+		//Retrieve the machine code data from the data passed
+		$machine_code_data = $this -> input -> post("machine_codes");
+		//Check if the client has returned any machine code data. If not, retrieve all relevant data for that facility
+		if (strlen($machine_code_data) == 0) {
+			$aggregated_object = Drug_Stock_Movement::getPagedFacilityTransactions($offset, $limit, $facility);
+		} else {
+			//Split the machine codes to separate all the discrete sets
+			$split_data = explode(",", $machine_code_data);
+			//Loop through each individual machine code set and retrieve it's data
+			foreach ($split_data as $data_element) {
+				if (strlen($data_element) > 0) {
+					//Separate the machine code and the patient_number_ccc
+					$separated_variables = explode(":", $data_element);
+					$machine_code = $separated_variables[0];
+					$drug = $separated_variables[1];
+					$order_number = $separated_variables[2];
+					$transaction_date = $separated_variables[3];
+					//Get all new patients since the last synchronization
+					$drug_transaction_data = Drug_Stock_Movement::getPagedTransactions($offset, $items, $machine_code, $drug, $facility, $transaction_date,$order_number);
+					
+					//Append the results to the array that will be sent back to the client machine
+					$aggregated_object += $drug_transaction_data;
+				}
+			}
+		}
+		$counter = 0;
+		$drug_transactions_array = array();
+		foreach ($aggregated_object as $drug_transaction) {
+			$drug_transaction_details = array("machine_code" => $drug_transaction['Machine_Code'], "drug" => $drug_transaction['Drug'], "transaction_date" => $drug_transaction['Transaction_Date'], "batch_number" => $drug_transaction['Batch_Number'],"transaction_type" => $drug_transaction['Transaction_Type'], "source" => $drug_transaction['Source'], "destination" => $drug_transaction['Destination'], "expiry_date" => $drug_transaction['Expiry_date'],"packs" => $drug_transaction['Packs'], "quantity" => $drug_transaction['Quantity'], "unit_cost" => $drug_transaction['Unit_Cost'], "amount" => $drug_transaction['Amount'],"remarks" => $drug_transaction['Remarks'], "operator" => $drug_transaction['Operator'], "order_number" => $drug_transaction['Order_Number'], "facility" => $drug_transaction['Facility'],"machine_code" => $drug_transaction['Machine_Code']);
+			$drug_transactions_array[$counter] = $drug_transaction_details;
+			$counter++;
+		}
+		echo json_encode($drug_transactions_array);
 	}
 
 }

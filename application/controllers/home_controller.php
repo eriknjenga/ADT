@@ -12,6 +12,11 @@ class Home_Controller extends MY_Controller {
 	}
 
 	public function platform_home() {
+		//Check if the user is already logged in and if so, take him to their home page. Else, display the platform home page.
+		$user_id =  $this -> session -> userdata('user_id');
+		if(strlen($user_id)>0){
+			redirect("home_controller/home");
+		}
 		$data = array();
 		$data['current'] = "home_controller";
 		$data['title'] = "System Dashboard";
