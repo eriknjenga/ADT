@@ -23,6 +23,11 @@ class Patient_Visit extends Doctrine_Record {
 		$this -> hasColumn('Dispensing_Date_Timestamp', 'varchar', 32);
 		$this -> hasColumn('Quantity', 'varchar', 100);
 		$this -> hasColumn('Machine_Code', 'varchar', 100);
+		$this -> hasColumn('months_of_stock', 'varchar', 100);
+		$this -> hasColumn('missed_pills', 'varchar', 100);
+		$this -> hasColumn('adherence', 'varchar', 100);
+		$this -> hasColumn('duration', 'varchar', 100);
+		
 	}
 
 	public function setUp() {

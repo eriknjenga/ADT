@@ -102,7 +102,7 @@
 						//Make post request to get any new records. The data in the post request is the string with machine codes
 						url = get_data_url + facility;
 						var start_point = 0;
-						var batch_size = 500;
+						var batch_size = 5000;
 						var records_retrieved = total_local_records;
 						//create a variable to store the percentage progress completed
 						var percentage = 0;
@@ -159,7 +159,7 @@
 	}
 
 	function savePatientVisitDataLocally(data) {
-		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity", "last_regimen","months_of_stock","duration","adherence","missed_pills");
+		var columns = Array("patient_id", "visit_purpose", "current_height", "current_weight", "regimen", "regimen_change_reason", "drug_id", "batch_number", "brand", "indication", "pill_count", "comment", "timestamp", "user", "facility", "dose", "dispensing_date", "dispensing_date_timestamp", "machine_code", "quantity","duration","last_regimen","months_of_stock","adherence","missed_pill");
 		//console.log(data);
 		parseReturnedData(data, "patient_visit", columns, false);
 	}
@@ -374,6 +374,7 @@
 			query += ");";
 			sql_queries[counter] = query;
 			counter++;
+			//console.log(query);
 		});
 		//Call the execute function that executes batches of queries that are stored in arrays
 		executeStatementArray(sql_queries);

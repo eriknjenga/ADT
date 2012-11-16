@@ -13,6 +13,11 @@
 		<script type="text/javascript" src="Scripts/offline_database.js"></script>
 		<script type="text/javascript" src="Scripts/validator.js"></script>
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
+		<style type="text/css">
+			#submit_section{
+				float:left;
+			}
+		</style>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
@@ -78,7 +83,7 @@
 				});
 				$("#partner").change(function() {
 
-					$('#tstatus').slideDown('slow', function() {
+					$('#label_status').slideDown('slow', function() {
 						// Animation complete.
 					});
 					$('#plani').slideDown('slow', function() {
@@ -87,7 +92,7 @@
 				});
 				$("#partner1").change(function() {
 
-					$('#tstatus').slideUp('slow', function() {
+					$('#label_status').slideUp('slow', function() {
 						// Animation complete.
 
 					});
@@ -95,8 +100,8 @@
 						// Animation complete.
 
 					});
-					$('#npstatus').attr('checked', true);
-					$('#plan_listing').attr("value", "0");
+					$('#npartner_status').attr('checked', true);
+					$('#family_planning').attr("value", "0");
 
 				});
 				//Add listener to the gender drop down
@@ -175,7 +180,7 @@
 					});
 				});
 
-				$("#pstatus").change(function() {
+				$("#partner_status").change(function() {
 					var selected_value = $(this).attr("value");
 					if(selected_value == 2) {
 						$('#dcs').slideDown('slow', function() {
@@ -292,40 +297,78 @@
 								<label> <strong class="label">Patient's Alternate Contact(s)</strong>
 									<input type="text" name="alternate" id="alternate" value="">
 								</label>
+								<label  id="label_status"> <strong class="label">Partner Type</br> </strong>
+									<select name="partner_status" id="partner_status" style="width:300px">
+										<option value="0" selected="selected">-----Select One-----</option>
+										<option value="1" > Concordant</option>
+										<option value="2" > Discordant</option>
+									</select> </label>
+								<p>
+									&nbsp;
+								</p>
+								<label id="dcs" style="display: none"><strong class="label">Disclosure</br> </strong>
+									<input style="width:20px" type="radio"  name="disco" id="disco" value="1">
+									Yes
+									<input style="width:20px" type="radio"  name="disco" id="disco1" value="0">
+									No </label>
 								<label>
 								<strong class="label"> Family Planning Method</strong>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-1-"/>
-								Condoms
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-2-"/>
-								Intrauterine Contraceptive Device(copper T)
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-3-"/>
-								Implants(levonorgestrel 75mg)
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-4-"/>
-								Emergency Contraceptive pills(levonorgestrel0.75 mg)
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-5-"/>
-								Vasectomy
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-6-"/>
-								Tubaligation
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-7-"/>
-								Medroxyprogestrone 150 mg
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-8-"/>
-								Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)
-								<br/>
-								<input type="checkbox"name="plan_listing" id="plan_listing" value="-9-"/>
-								levonorgestrel 0.03mg
-								<br/></label>
+								<table>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-1-"/></td>
+										<td>Condoms</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-2-"/></td>
+										<td>Intrauterine Contraceptive Device(copper T)</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-3-"/></td>
+										<td>Implants(levonorgestrel 75mg)</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-4-"/></td>
+										<td>Emergency Contraceptive pills(levonorgestrel0.75 mg)</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-5-"/></td>
+										<td>Vasectomy</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-6-"/></td>
+										<td>Tubaligation</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox"name="family_planning" id="family_planning" value="-7-"/></td>
+										<td>Medroxyprogestrone 150 mg</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="checkbox"name="family_planning" id="family_planning" value="-8-"/>
+										</td>
+										<td>
+										Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)
+										</td>
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="checkbox"name="family_planning" id="family_planning" value="-9-"/>
+										</td>
+										<td>
+											levonorgestrel 0.03mg
+										</td>
+									</tr>
+								</table>						
+								
+						</label>
 								
 							</div>
 							
+							
 							<div class="column">
-								<strong class="label">Does Patient have other Chronic illnesses</strong>
+								<div class="three_columns">
+								<strong class="label">Does Patient have other Chronic illnesses?</strong><p>&nbsp;</p><p>&nbsp;</p>
 								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-1-"/>
 								Diabetes  &nbsp;
 								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-2-"/>
@@ -351,6 +394,7 @@
 								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-10-"/>
 								Mental Disorder
 								<br/>
+								</div>
 								<p>
 									&nbsp;
 								</p>
@@ -414,25 +458,10 @@
 									<select name="service" id="service">
 										<option></option>
 									</select> </label>
-								<label  id="tstatus"> <strong class="label">Partner Type</br> </strong>
-									<select name="pstatus" id="pstatus" style="width:300px">
-										<option value="0" selected="selected">-----Select One-----</option>
-										<option value="1" > Concordant</option>
-										<option value="2" > Discordant</option>
-									</select> </label>
-								<p>
-									&nbsp;
-								</p>
-								<label id="dcs" style="display: none"><strong class="label">Disclosure</br> </strong>
-									<input style="width:20px" type="radio"  name="disco" id="disco" value="1">
-									Yes
-									<input style="width:20px" type="radio"  name="disco" id="disco1" value="0">
-									No </label>
-								<br/><br/><br/><br/><br/><br/><br/>
-								<p>
-									&nbsp;
-								</p>
+								
+								
 							</div>
+							
 							<div id="submit_section">
 								<input form="add_patient_form" class="submit-button" id="submit" value="Save &amp View List" style="width:200px;"/>
 								<input form="add_patient_form" class="submit-button" id="dispense" value="Save &amp Dispense" style="width:200px;"/>

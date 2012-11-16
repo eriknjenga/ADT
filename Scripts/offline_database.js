@@ -155,7 +155,7 @@ function executeStatement(sql) {
 function executeStatementArray(sql_array) {
 	DEMODB.transaction(function(transaction) {
 		for(sql in sql_array) {
-
+            
 			transaction.executeSql(sql_array[sql]);
 		}
 	}, null, transactionCallback, transactionErrorCallback);

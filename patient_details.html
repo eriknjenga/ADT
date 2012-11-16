@@ -91,12 +91,109 @@
 				$("#enrolled").datepicker({
 					maxDate : "0D"
 				});
-				/*
-				 $("#submit").click(function() {
-				 alert('submit was clicked')
-				 });
-				 */
+				
+				
+				$("#partner_status").change(function() {
+					var selected_value = $(this).attr("value");
 
+					if(selected_value == 2) {
+
+						$('#dcs').slideDown('slow', function() {
+							// Animation complete.
+						});
+					} else {
+						$('#disco1').attr("value", "0");
+						$('#dcs').slideUp('slow', function() {
+							// Animation complete.
+						});
+					}
+				});
+				$("#tb").change(function() {
+					var selected_value = $(this).attr("value");
+
+					if(selected_value == 1) {
+						$('#tbstats').slideDown('slow', function() {
+							// Animation complete.
+						});
+						if($("#tbphase").val() == 0) {
+							$('#ttphase').slideUp('slow', function() {
+								// Animation complete.
+
+							});
+							$('#endp').slideUp('slow', function() {
+								// Animation complete.
+
+							});
+						}
+						if($("#tbphase").val() == 3) {
+
+							$('#ttphase').slideUp('slow', function() {
+								// Animation complete.
+							});
+							$('#endp').slideDown('slow', function() {
+								// Animation complete.
+							});
+						}
+						if($("#tbphase").val() != 0 && $("#tbphase").val() != 3) {
+							$('#ttphase').slideDown('slow', function() {
+								// Animation complete.
+							});
+							$('#endp').slideDown('slow', function() {
+								// Animation complete.
+							});
+						}
+					} else {
+						$('#tbstats').slideUp('slow', function() {
+							// Animation complete.
+						});
+						$('#ttphase').slideUp('slow', function() {
+							// Animation complete.
+						});
+						$('#endp').slideUp('slow', function() {
+							// Animation complete.
+						});
+						$('#tb').attr("value", "0");
+						$('#tbphase').attr("value", "0");
+						$('#fromphase').attr("value", " ");
+						$('#tophase').attr("value", " ");
+
+					}
+				});
+
+				$("#tbphase").change(function() {
+					var selected_value = $(this).attr("value");
+
+					if(selected_value == 0) {
+
+						$('#ttphase').slideUp('slow', function() {
+							// Animation complete.
+						});
+						$('#endp').slideUp('slow', function() {
+							// Animation complete.
+						});
+					}
+					if(selected_value == 3) {
+
+						$('#ttphase').slideUp('slow', function() {
+							// Animation complete.
+						});
+						$('#endp').slideDown('slow', function() {
+							// Animation complete.
+						});
+					}
+
+					if(selected_value != 0 && selected_value != 3) {
+
+						$('#ttphase').slideDown('slow', function() {
+							// Animation complete.
+						});
+						$('#endp').slideDown('slow', function() {
+							// Animation complete.
+						});
+						$('#tophase').attr("value", " ");
+
+					}
+				});
 				getPatientDetails(patient_identification, function(transaction, results) {
 					for(var i = 0; i < results.rows.length; i++) {
 						var parent_row = results.rows.item(i);
@@ -122,8 +219,17 @@
 								$('#sms_consent').text("No");
 							}
 						}
-						
-						
+						if(parent_row['partner_type'] == 0) {
+							$('#disco1').attr("checked", true);
+						}
+						if(parent_row['partner_type'] == 1) {
+							$('#disco').attr("checked", true);
+						}
+						if(parent_row['partner_status'] == 2) {
+							$('#dcs').slideDown('slow', function() {
+								// Animation complete.
+							});
+						}
 						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
 							$('#other_illnesses').attr("checked", "checked");
 							$('#other_illnesses_listing').attr("value", parent_row['other_illnesses']);
@@ -134,6 +240,7 @@
 							$('#other_allergies_listing').attr("value", parent_row['adr']);
 						}
 						$('#tb').attr("value", parent_row['tb']);
+						$('#partner_status').attr("value", parent_row['partner_status']);
 						$('#smoke').attr("value", parent_row['smoke']);
 						$('#alcohol').attr("value", parent_row['alcohol']);
 						$('#enrolled').text(parent_row['date_enrolled']);
@@ -143,13 +250,88 @@
 						$('#service').attr("value", parent_row['service']);
 						$('#service').change();
 						$('#regimen').attr("value", parent_row['start_regimen']);
-						
-						if(parent_row['current_status'] !=null && parent_row['current_status']!=1){
+						if(parent_row['tb'] != null || parent_row['tb'] != " ") {
+							if(parent_row['tb'] == 0) {
+								$('#tb').attr("value", "0");
+								$('#tbphase').attr("value", "0");
+								$('#fromphase').attr("value", " ");
+								$('#tophase').attr("value", " ");
+								$('#tophase1').attr("value", " ");
+
+							}
+							if(parent_row['tb'] == 1 && parent_row['tbphase'] != 3) {
+								$('#tb').attr("value", "1");
+								if(parent_row['tbphase'] == 1) {
+									$('#tbphase').attr("value", "1");
+								}
+								if(parent_row['tbphase'] == 2) {
+									$('#tbphase').attr("value", "2");
+								}
+								if(parent_row['tbphase'] == 0) {
+									$('#tbphase').attr("value", "0");
+								}
+
+								$('#fromphase').attr("value", parent_row['startphase']);
+								$('#tophase').attr("value", parent_row['endphase']);
+								$('#tbstats').slideDown('slow', function() {
+									// Animation complete.
+								});
+
+								$('#ttphase').slideDown('slow', function() {
+									// Animation complete.
+								});
+								$('#endp').slideDown('slow', function() {
+									// Animation complete.
+								});
+							}
+							if(parent_row['tb'] == 1 && parent_row['tbphase'] == 3) {
+								$('#tb').attr("value", "1");
+								if(parent_row['tbphase'] == 3) {
+									$('#tbphase').attr("value", "3");
+									$('#tophase').attr("value", parent_row['endphase']);
+								}
+								$('#tbstats').slideDown('slow', function() {
+									// Animation complete.
+								});
+								$('#endp').slideDown('slow', function() {
+									// Animation complete.
+								});
+								$('#ttphase').slideUp('slow', function() {
+									// Animation complete.
+								});
+							}
+						}
+
+						if(parent_row['current_status'] != null && parent_row['current_status'] != 1) {
 							alert("Cannot Dispense to Patient:Status Not Active");
 							$("#dispense").attr("disabled", "disabled");
 						}
+						if(parent_row['other_illnesses'] != null || parent_row['other_illnesses'] != " ") {
+
+							var myplan = parent_row['other_illnesses'];
+							var thplan = myplan.split(',');
+							for(var jj = 0; jj < thplan.length; jj++) {
+								$('input[name="other_illnesses_listing"][type="checkbox"][value="' + thplan[jj] + '"]').attr('checked', true);
+							}
+						}
+						if(parent_row['fplan'] != null || parent_row['fplan'] != " ") {
+
+							var myplan = parent_row['fplan'];
+							var thplan = myplan.split(',');
+
+							for(var jj = 0; jj < thplan.length; jj++) {
+
+								$('input[name="family_planning"][type="checkbox"][value="' + thplan[jj] + '"]').attr('checked', true);
+
+							}
+						}
+                        
+                        $("input:not(:checked)").attr("style", "display:none;");
+                        
+                        
+
 						getMSQ();
-					}
+					   }
 				});
 				getPatientLastVisit(patient_identification, function(transaction, results) {
 					for(var i = 0; i < results.rows.length; i++) {
@@ -419,13 +601,113 @@
 								<h3 class="section_title" style="width:auto;">Patient History</h3>
 							</div>
 							<div class="three_columns">
-								<strong class="label">Does Patient have other Chronic illnesses</strong>
-								Yes
-								<input type="checkbox" name="other_illnesses" id="other_illnesses" value="" disabled="">
-								<div class="list">
-									List Them
+								<label id="stats"><strong class="label">Partner Type</strong>
+									<select name="partner_status" id="partner_status" disabled="disabled" style="width:300px">
+										<option value="0" selected="selected">-----Select One-----</option>
+										<option value="1" > Concordant</option>
+										<option value="2" > Discordant</option>
+									</select> </label>
+								<p></p>
+								<label style="display: none" id="dcs"><strong class="label">Disclosure</br> </strong>
+									<input style="width:20px" type="radio"  name="disco" id="disco" value="1" disabled="disabled">
+									Yes
+									<input style="width:20px" type="radio"  name="disco" id="disco1" value="0" disabled="disabled">
+									No </label>
+							</div>
+							<div class="three_columns">
+								<div class="plans" >
+									<label> <strong class="label"> Family Planning Method</strong>
+										<table>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_1" class="family_planning" value="-1-" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_2">Condoms</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_2" class="family_planning" value="-2-" disabled="disabled"/>
+												</td>
+												<td ><label for="family_planning_2">Intrauterine Contraceptive Device(copper T)</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_3" class="family_planning" value="-3-" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_3">Implants(levonorgestrel 75mg)</td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_4" class="family_planning" value="-4-" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_4">Emergency Contraceptive pills(levonorgestrel0.75 mg)</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_5" class="family_planning" value="-5-" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_5">Vasectomy</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_6" class="family_planning" value="-6-" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_6">Tubaligation</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_7" value="-7-" class="family_planning" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_7">Medroxyprogestrone 150 mg</label></td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_8" value="-8-" class="family_planning" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_8"> Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)</label> </td>
+											</tr>
+											<tr>
+												<td>
+												<input type="checkbox"name="family_planning" id="family_planning_9" value="-9-" class="family_planning" disabled="disabled"/>
+												</td>
+												<td><label for="family_planning_9"> levonorgestrel 0.03mg <label></td>
+											</tr>
+										</table> </label>
 								</div>
-								<textarea class="list_area" name="other_illnesses_listing" id="other_illnesses_listing" disabled=""></textarea>
+							</div>
+							<div class="three_columns">
+								<strong class="label">Does Patient have other Chronic illnesses?</strong>
+								<p>
+									&nbsp;
+								</p>
+								<p>
+									&nbsp;
+								</p>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-1-" disabled="disabled"/>
+								Diabetes  &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-2-" disabled="disabled"/>
+								Hypertension
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-3-" disabled="disabled"/>
+								Obesity   &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-4-" disabled="disabled"/>
+								Asthma
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-5-" disabled="disabled"/>
+								Gout   &nbsp;  &nbsp; &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-6-" disabled="disabled"/>
+								Arthritis
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-7-" disabled="disabled"/>
+								Cancer   &nbsp; &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-8-" disabled="disabled"/>
+								Stroke
+								<br/>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-9-" disabled="disabled"/>
+								Epilepsy  &nbsp; &nbsp;
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-10-" disabled="disabled"/>
+								Mental Disorder
+								<br/>
 							</div>
 							<div class="three_columns">
 								<strong class="label">Does Patient have any Drugs Allergies/ADR</strong>
@@ -445,6 +727,20 @@
 									<select name="tb" id="tb" disabled="">
 										<option value="0">No</option><option value="1">Yes</option>
 									</select></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><label id="tbstats" style="display: none"> <strong class="label">TB Phase</strong>
+										<select name="tbphase" id="tbphase" disabled="disabled">
+											<option value="0" selected="selected"></option><option value="1">Intensive</option><option value="2">Continuation</option><option value="3">Completed</option>
+										</select> </label>
+									<p>
+										&nbsp;
+									</p><label id="ttphase" style="display: none;"> <strong class="label">Start of Phase</strong>
+										<input type="text" name="fromphase" id="fromphase" value="" disabled="disabled"/>
+									</label> &nbsp; <label id="endp" style="display: none;"> <strong class="label">End of Phase</strong>
+										<input type="text" name="tophase" id="tophase" value="" disabled="disabled"/>
+									</label></td>
 								</tr>
 								<tr class="normal_row table_row">
 									<td><strong class="label">Does Patient Smoke?</strong></td><td>
@@ -496,9 +792,9 @@
 						</div>
 					</div>
 					<div id="button_container" style="width:700px; margin:0 auto">
-					<input type="button" class="submit-button" id="patient_info" value="Patient Info Report" style="width:150px;"/>
-					<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:150px;"/>
-					<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:150px;"/>
+						<input type="button" class="submit-button" id="patient_info" value="Patient Info Report" style="width:150px;"/>
+						<input type="button" class="submit-button" id="edit_patient" value="Edit Patient Record" style="width:150px;"/>
+						<input type="button" class="submit-button" id="dispense" value="Dispense to Patient" style="width:150px;"/>
 					</div>
 					<div id="dispensing_history" style="display:none;">
 						<div class="short_title" >
