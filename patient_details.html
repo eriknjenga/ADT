@@ -91,8 +91,7 @@
 				$("#enrolled").datepicker({
 					maxDate : "0D"
 				});
-				
-				
+
 				$("#partner_status").change(function() {
 					var selected_value = $(this).attr("value");
 
@@ -302,7 +301,10 @@
 							}
 						}
 
-						if(parent_row['current_status'] != null && parent_row['current_status'] != 1) {
+						if(parent_row['current_status'] == 1) {
+							
+						}
+						else{
 							alert("Cannot Dispense to Patient:Status Not Active");
 							$("#dispense").attr("disabled", "disabled");
 						}
@@ -325,13 +327,22 @@
 
 							}
 						}
-                        
-                        $("input:not(:checked)").attr("style", "display:none;");
-                        
-                        
 
+						$(":checkbox:not(:checked)").attr("style", "display:none;");
+						$(":radio:not(:checked)").attr("style", "display:none;");
+						$(':checkbox:not(:checked)').each(function() {
+							var unchecked=$(this).attr('id');
+							$('label[for="' + unchecked + '"]').attr('style', 'display:none;');
+							
+						});
+						
+						$(':radio:not(:checked)').each(function() {
+							var unchecked=$(this).attr('id');
+							$('label[for="' + unchecked + '"]').attr('style', 'display:none;');
+							
+						});
 						getMSQ();
-					   }
+					}
 				});
 				getPatientLastVisit(patient_identification, function(transaction, results) {
 					for(var i = 0; i < results.rows.length; i++) {
@@ -608,21 +619,21 @@
 										<option value="2" > Discordant</option>
 									</select> </label>
 								<p></p>
-								<label style="display: none" id="dcs"><strong class="label">Disclosure</br> </strong>
+								<label style="display: none" id="dcs"><strong >Disclosure</br> </strong>
 									<input style="width:20px" type="radio"  name="disco" id="disco" value="1" disabled="disabled">
-									Yes
+									<label for="disco">Yes</label>
 									<input style="width:20px" type="radio"  name="disco" id="disco1" value="0" disabled="disabled">
-									No </label>
+									<label for="disco1">No </label></label>
 							</div>
 							<div class="three_columns">
 								<div class="plans" >
-									<label> <strong class="label"> Family Planning Method</strong>
+									<label> <strong> Family Planning Method</strong>
 										<table>
 											<tr>
 												<td>
 												<input type="checkbox"name="family_planning" id="family_planning_1" class="family_planning" value="-1-" disabled="disabled"/>
 												</td>
-												<td><label for="family_planning_2">Condoms</label></td>
+												<td><label for="family_planning_1">Condoms</label></td>
 											</tr>
 											<tr>
 												<td>
@@ -664,7 +675,7 @@
 												<td>
 												<input type="checkbox"name="family_planning" id="family_planning_8" value="-8-" class="family_planning" disabled="disabled"/>
 												</td>
-												<td><label for="family_planning_8"> Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)</label> </td>
+												<td><label for="family_planning_8"> Combined Oral Contraception(Levonorgestrel/ethinylestradiol 0.15/0.03mg)</label></td>
 											</tr>
 											<tr>
 												<td>
@@ -676,37 +687,31 @@
 								</div>
 							</div>
 							<div class="three_columns">
-								<strong class="label">Does Patient have other Chronic illnesses?</strong>
-								<p>
-									&nbsp;
-								</p>
-								<p>
-									&nbsp;
-								</p>
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-1-" disabled="disabled"/>
-								Diabetes  &nbsp;
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-2-" disabled="disabled"/>
-								Hypertension
+								<strong>Does Patient have other Chronic illnesses?</strong>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_1" value="-1-" disabled="disabled"/>
+								<label for="other_illnesses_listing_1">Diabetes  &nbsp;</label>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_2" value="-2-" disabled="disabled"/>
+								<label for="other_illnesses_listing_2">Hypertension</label>
 								<br/>
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-3-" disabled="disabled"/>
-								Obesity   &nbsp; &nbsp;
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-4-" disabled="disabled"/>
-								Asthma
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_3" value="-3-" disabled="disabled"/>
+								<label for="other_illnesses_listing_3">Obesity   &nbsp; &nbsp;</label>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_4" value="-4-" disabled="disabled"/>
+								<label for="other_illnesses_listing_4">Asthma</label>
 								<br/>
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-5-" disabled="disabled"/>
-								Gout   &nbsp;  &nbsp; &nbsp; &nbsp;
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-6-" disabled="disabled"/>
-								Arthritis
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_5" value="-5-" disabled="disabled"/>
+								<label for="other_illnesses_listing_5">Gout   &nbsp;  &nbsp; &nbsp; &nbsp;</label>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_6" value="-6-" disabled="disabled"/>
+								<label for="other_illnesses_listing_6">Arthritis</label>
 								<br/>
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-7-" disabled="disabled"/>
-								Cancer   &nbsp; &nbsp; &nbsp;
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-8-" disabled="disabled"/>
-								Stroke
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_7" value="-7-" disabled="disabled"/>
+								<label for="other_illnesses_listing_7">Cancer   &nbsp; &nbsp; &nbsp;</label>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_8" value="-8-" disabled="disabled"/>
+								<label for="other_illnesses_listing_8">Stroke</label>
 								<br/>
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-9-" disabled="disabled"/>
-								Epilepsy  &nbsp; &nbsp;
-								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing" value="-10-" disabled="disabled"/>
-								Mental Disorder
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_9" value="-9-" disabled="disabled"/>
+								<label for="other_illnesses_listing_9">Epilepsy  &nbsp; &nbsp;</label>
+								<input type="checkbox"name="other_illnesses_listing" id="other_illnesses_listing_10" value="-10-" disabled="disabled"/>
+								<label for="other_illnesses_listing_1">Mental Disorder</label>
 								<br/>
 							</div>
 							<div class="three_columns">
@@ -718,6 +723,34 @@
 								</div>
 								<textarea class="list_area" name="other_allergies_listing" id="other_allergies_listing" disabled=""></textarea>
 							</div>
+													</div>
+						<div id="program_information" class="column">
+							<div class="short_title" >
+								<h3 class="section_title" style="width:auto;">Program Information</h3>
+							</div>
+							<table class="data-table ">
+								<tr class="normal_row table_row">
+									<td><strong class="label">Date Enrolled:</strong></td><td><label id="enrolled" class="data-holder"></label></td>
+								</tr>
+								<tr class="alternate_row table_row">
+									<td><strong class="label">Current Status:</strong></td><td><select name="patient_status" id="patient_status" disabled=""></select></label></td>
+								</tr>
+								<tr class="normal_row table_row">
+									<td><strong class="label">Source of Client:</strong></td><td><select name="source" id="source" disabled=""></select></td>
+								</tr>
+								<tr class="alternate_row table_row">
+									<td><strong class="label">Client Supported By:</strong></td><td><select name="support" id="support" disabled=""></select></label></td>
+								</tr>
+								<tr class="normal_row table_row">
+									<td><strong class="label">Type of Service:</strong></td><td><select name="service" id="service" disabled=""></select></td>
+								</tr>
+								<tr class="alternate_row table_row">
+									<td><strong class="label">Start Regimen:</strong></td><td><select name="regimen" id="regimen" disabled="" style="max-width:200px"></select></label></td>
+								</tr>
+								<tr class="normal_row table_row">
+									<td><strong class="label">Current Regimen:</strong></td><td><select name="current_regimen" id="current_regimen" disabled="" style="max-width:200px"></select></td>
+								</tr>
+							</table>
 							<table class="data-table ">
 								<tr class="normal_row table_row">
 									<td><strong class="label">List Other Drugs Patient is Taking:</strong></td><td>									<textarea name="other_drugs" id="other_drugs" disabled=""></textarea></td>
@@ -761,34 +794,7 @@
 									<td><strong class="label">Days to Next Appointment:</strong></td><td><label id="days" class="data-holder"></label></td>
 								</tr>
 							</table>
-						</div>
-						<div id="program_information" class="column">
-							<div class="short_title" >
-								<h3 class="section_title" style="width:auto;">Program Information</h3>
-							</div>
-							<table class="data-table ">
-								<tr class="normal_row table_row">
-									<td><strong class="label">Date Enrolled:</strong></td><td><label id="enrolled" class="data-holder"></label></td>
-								</tr>
-								<tr class="alternate_row table_row">
-									<td><strong class="label">Current Status:</strong></td><td><select name="patient_status" id="patient_status" disabled=""></select></label></td>
-								</tr>
-								<tr class="normal_row table_row">
-									<td><strong class="label">Source of Client:</strong></td><td><select name="source" id="source" disabled=""></select></td>
-								</tr>
-								<tr class="alternate_row table_row">
-									<td><strong class="label">Client Supported By:</strong></td><td><select name="support" id="support" disabled=""></select></label></td>
-								</tr>
-								<tr class="normal_row table_row">
-									<td><strong class="label">Type of Service:</strong></td><td><select name="service" id="service" disabled=""></select></td>
-								</tr>
-								<tr class="alternate_row table_row">
-									<td><strong class="label">Start Regimen:</strong></td><td><select name="regimen" id="regimen" disabled="" style="max-width:200px"></select></label></td>
-								</tr>
-								<tr class="normal_row table_row">
-									<td><strong class="label">Current Regimen:</strong></td><td><select name="current_regimen" id="current_regimen" disabled="" style="max-width:200px"></select></td>
-								</tr>
-							</table>
+
 						</div>
 					</div>
 					<div id="button_container" style="width:700px; margin:0 auto">
