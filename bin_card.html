@@ -18,6 +18,7 @@
 				initDatabase();
 				var $_GET = getQueryParams(document.location.search);
 				var drug = $_GET['drug'];
+				var monthly_consumption = 0;
 				//Get the drug details first
 				getDrugsDetails(drug, function(transaction, results) {
 					// Handle the results
@@ -35,6 +36,65 @@
 						var row_string = "<tr><td>" + row['order_number'] + "</td><td>" + row['transaction_date'] + "</td><td>" + row['trans_type'] + "</td><td>" + row['batch_number'] + "</td><td>" + row['expiry_date'] + "</td><td>" + row['pack_size'] + "</td><td>" + row['packs'] + "</td><td>" + row['quantity'] + "</td><td>" + row['unit_cost'] + "</td><td>" + row['amount'] + "</td></tr>";
 						$("#transactions").append($(row_string));
 					}
+				});
+				getDrugStockStatus(drug, function(transaction, results) {
+					// Handle the results
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+
+					}
+					
+					
+					
+					if(results.rows.length==1){
+					var stock_out = 0;
+					var stock_in = results.rows.item(0);
+					var stock_status = stock_in["TOTAL"];					
+					var stock_status_row_string = "<tr><td>" + stock_status + "</td></tr>";
+					$("#stock_status").append($(stock_status_row_string));
+					}
+					if(results.rows.length >1){
+					var stock_out = results.rows.item(1);
+					var stock_in = results.rows.item(0);
+					var stock_status = stock_in["TOTAL"] - stock_out["TOTAL"];					
+					var stock_status_row_string = "<tr><td>" + stock_status + "</td></tr>";
+					$("#stock_status").append($(stock_status_row_string));
+						
+					}
+					
+
+				});
+				//Get Details about Drug Stock_in
+				getDrugMonthlyConsumption(drug, function(transaction, results) {
+					// Handle the results
+					if(results.rows.length==0)
+					{
+					var three_monthly_consumption=0;	
+						
+					}else{
+					for(var i = 0; i < results.rows.length; i++) {
+						var row = results.rows.item(i);
+						//For last three months
+						var three_monthly_consumption = row["TOTAL"];
+						
+
+					}
+                   }
+					//Calculating Monthly Consumption hence Max-Min Inventory
+
+					monthly_consumption = (three_monthly_consumption) / 3;
+
+					//Therefore Maximum Consumption
+					var maximum_consumption = monthly_consumption * 3;
+					var max_row_string = "<tr><td>" + maximum_consumption + "</td></tr>";
+					$("#maximum_consumption").append($(max_row_string));
+
+					//Therefore Minimum Consumption
+					var minimum_consumption = monthly_consumption * 1.5;
+					var min_row_string = "<tr><td>" + minimum_consumption + "</td></tr>";
+					$("#minimum_consumption").append($(min_row_string));
+					$("#minimum_consumption").attr('style', "background:red;font-weight:bold;color:#000;");
+                 
 				});
 			});
 
@@ -79,10 +139,19 @@
 								<td><b>Unit: </b></td><td id="drug_unit"></td>
 							</tr>
 						</table>
-						<table class="data-table" style="width:500px; float: right">
+						<table class="data-table" style="width:500px; float: right;">
 							<caption>
 								Batch Information
 							</caption>
+							<tr >
+								<td ><b>Max Consumption</b></td><td id="maximum_consumption"></td>
+							</tr>
+							<tr>
+								<td><b>Stock Status</b></td><td id="stock_status"></td>
+							</tr>
+							<tr>
+								<td><b>Min Consumption</b></td><td id="minimum_consumption"></td>
+							</tr>
 						</table>
 					</div>
 					<table class="data-table" id="transactions" style="width:90%; margin:0 auto;">

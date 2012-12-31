@@ -1,8 +1,12 @@
 <style>
-	table.order-table {
+	table {
 		border: 1px solid #DDD;
 		margin: 10px auto;
 		border-spacing: 0px;
+	}
+	#commodity-table {
+		width: 70%;
+		float: left;
 	}
 	table.order-table caption {
 		letter-spacing: 1px;
@@ -10,7 +14,7 @@
 		text-shadow: 0 1px rgba(0, 0, 0, 0.1);
 		font-size: 14px;
 	}
-	table.order-table th {
+	table  th {
 		border: none;
 		color: #036;
 		text-align: right;
@@ -21,7 +25,7 @@
 		letter-spacing: 1.5px;
 		padding: 2px;
 	}
-	table.order-table td {
+	table td {
 		border: none;
 		margin: 0px;
 		max-width: 350px;
@@ -44,6 +48,8 @@
 	}
 	.regimen-table {
 		margin: 0 auto;
+		width: 25%;
+		float: right;
 	}
 	.regimen-table th {
 		width: 70px;
@@ -65,7 +71,24 @@
 	}
 	th div {
 		font-size: 10px;
-	}
+	}
+	.button{
+		width:100px;
+		margin:10px;
+	}
+	#comments-section{
+		float: none;
+		width:100%;
+	}
+	table{  
+	}
+	td{
+		word-wrap: break-word;
+	}
+	.col_drug{
+		width:200px !important;
+	}
+
 </style>
 <script>
 	$(document).ready(function() {
@@ -174,59 +197,59 @@
 		calculated_physical = (opening_balance + quantity_received - quantity_dispensed - losses + adjustments);
 		//console.log(calculated_physical);
 		/*if(element.attr("class") == "physical_count") {
-			resupply = 0 - physical_count;
-		} else {
-			resupply = 0 - calculated_physical;
-			physical_count = calculated_physical;
-		}*/
-		resupply = (quantity_dispensed*3)-physical_count;
+		 resupply = 0 - physical_count;
+		 } else {
+		 resupply = 0 - calculated_physical;
+		 physical_count = calculated_physical;
+		 }*/
+		resupply = (quantity_dispensed * 3) - physical_count;
 		row_element.find(".physical_count").attr("value", physical_count);
 		row_element.find(".resupply").attr("value", resupply);
 	}
 </script>
 <form method="post" action="<?php echo site_url('order_management/save')?>">
-<div class="header section">
-	<table class="order-table">
-		<tbody>
-			<tr>
-				<th>Facility Name:</th>
-				<td>Liverpool VCT</td>
-				<th>Facility code:</th>
-				<td>13050</td>
-			</tr>
-			<tr>
-				<th>Province:</th>
-				<td>Nairobi</td>
-				<th>District:</th>
-				<td>Nairobi West</td>
-			</tr>
-			<tr>
-				<th>Programme Sponsor:</th>
-				<td>
-				<input name="sponsors" id="Cdrr_sponsors" type="text" value="">
-				</td>
-				<th>Type of Service provided:</th>
-				<td>
-				<input name="services" id="Cdrr_services" type="text" value="ART, PMTCT">
-				</td>
-			</tr>
-			<tr>
-				<th>Period of Reporting:</th>
-				<td>
-				<input name="start_date" id="start_date" type="text">
-				</td>
-				<td>
-				<input name="end_date" id="end_date" type="text">
-				</td>
-				<td>
-				<input name="generate" id="generate" class="action_button" value="Get Dispensing Data">
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<?php
-$header_text = '<thead>
+	<div class="header section">
+		<table class="order-table">
+			<tbody>
+				<tr>
+					<th>Facility Name:</th>
+					<td>Liverpool VCT</td>
+					<th>Facility code:</th>
+					<td>13050</td>
+				</tr>
+				<tr>
+					<th>Province:</th>
+					<td>Nairobi</td>
+					<th>District:</th>
+					<td>Nairobi West</td>
+				</tr>
+				<tr>
+					<th>Programme Sponsor:</th>
+					<td>
+					<input name="sponsors" id="Cdrr_sponsors" type="text" value="">
+					</td>
+					<th>Type of Service provided:</th>
+					<td>
+					<input name="services" id="Cdrr_services" type="text" value="ART, PMTCT">
+					</td>
+				</tr>
+				<tr>
+					<th>Period of Reporting:</th>
+					<td>
+					<input name="start_date" id="start_date" type="text">
+					</td>
+					<td>
+					<input name="end_date" id="end_date" type="text">
+					</td>
+					<td>
+					<input name="generate" id="generate" class="action_button" value="Get Dispensing Data">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<?php
+	$header_text = '<thead>
 <tr>
 <!-- label row -->
 <th class="col_drug" rowspan="2">Drug Name</th>
@@ -239,16 +262,10 @@ $header_text = '<thead>
 <th class="col_dispensed_units">Total Quantity Dispensed this period</th>
 <!-- dispensed_packs -->
 
-<th class="number">Losses (Damages, Expiries, Missing)</th>
 <th class="col_adjustments">Adjustments (Borrowed from or Issued out to Other Facilities)</th>
 <th class="number">End of Month Physical Count</th>
 
 <!-- aggr_consumed/on_hand -->
-
-<!-- expiry_quant/date -->
-<th colspan="2">Drugs with less than 6 months to expiry</th>
-
-<th class="number" rowspan="2">Days out of stock this Month</th>
 <th class="number">Quantity required for RESUPPLY</th>
 </tr>
 <tr>
@@ -260,14 +277,11 @@ $header_text = '<thead>
 <th class="col_dispensed_units">In Units</th>
 <!-- dispensed_packs -->
 
-<th>In Units</th> <!-- losses -->
 <th>In Units</th> <!-- adjustments -->
 <th>In Units</th> <!-- count -->
 
 <!-- aggr_consumed/on_hand -->
 
-<th class="number">Quantity</th> <!-- expiry_quant -->
-<th class="date">Expiry Date</th> <!-- expiry_date -->
 <th>In Units</th> <!-- resupply -->
 </tr>
 <tr>
@@ -283,19 +297,13 @@ $header_text = '<thead>
 
 <!-- aggr_consumed/on_hand -->
 
-<th>In Units</th> <!-- expiry_quant -->
-<th>mm/yyy</th> <!-- expiry_date -->
-
-<th>G</th> <!-- out_of_stock -->
-<th>H</th> <!-- resupply -->
-
 </tr>
 </thead>';
-?>
-<table class="order-table big-table">
-	<?php echo $header_text;?>
-	<tbody>
-		<?php
+	?>
+	<table class="order-table big-table" id="commodity-table">
+		<?php echo $header_text;?>
+		<tbody>
+			<?php
 $counter = 0;
 foreach($commodities as $commodity){
 $counter++;
@@ -303,82 +311,80 @@ if($counter == 10){
 echo $header_text;
 $counter = 0;
 }
-		?>
-		<tr class="ordered_drugs" drug_id="<?php echo $commodity -> id;?>">
-			<td class="col_drug"><?php echo $commodity -> Drug;?></td>
-			<td class="number">
-			<input id="pack_size" type="text" value="<?php echo $commodity -> Pack_Size;?>" class="pack_size">
-			</td>
-			<td class="number calc_count">
-			<input name="opening_balance[]" id="opening_balance_<?php echo $commodity -> id;?>" type="text" class="opening_balance">
-			</td>
-			<td class="number calc_count">
-			<input name="quantity_received[]" id="received_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_received">
-			</td>
-			<!-- dispensed_units-->
-			<td class="number col_dispensed_units calc_dispensed_packs  calc_resupply calc_count">
-			<input name="quantity_dispensed[]" id="dispensed_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_dispensed">
-			</td>
-			<!-- dispensed_packs -->
-			<td class="number calc_count">
-			<input name="losses[]" id="CdrrItem_10_losses" type="text" class="losses">
-			</td>
-			<td class="number calc_count">
-			<input name="adjustments[]" id="CdrrItem_10_adjustments" type="text" class="adjustments">
-			</td>
-			<td class="number calc_resupply col_count">
-			<input tabindex="-1" name="physical_count[]" id="CdrrItem_10_count" type="text" class="physical_count">
-			</td>
-			<!-- aggregate -->
-			<!-- expiry -->
-			<td class="number">
-			<input name="expiry_quantity[]" id="CdrrItem_10_expiry_quant" type="text">
-			</td>
-			<td class="date">
-			<input id="expiry_date[]" name="expiry_date[]" type="text" class="hasDatepicker">
-			</td>
-			<td class="number">
-			<input name="out_of_stock[]" id="CdrrItem_10_out_of_stock" type="text">
-			</td>
-			<td class="number col_resupply">
-			<input tabindex="-1" name="resupply[]" id="CdrrItem_10_resupply" type="text" class="resupply">
-			</td>
-			<input type="hidden" name="commodity[]" value="<?php echo $commodity -> id;?>"/>
-		</tr>
-		<?php }?>
-	</tbody>
-</table>
-<table class="regimen-table big-table">
-	<tbody>
-		<tr>
-			<th>
-			<div>
-				No. of Patients
-			</div></br>
-			<div>
-				MOS Dispensed
-			</div></th>
-			<?php
+			?>
+			<tr class="ordered_drugs" drug_id="<?php echo $commodity -> id;?>">
+				<td class="col_drug"><?php echo $commodity -> Drug;?></td>
+				<td class="number">
+				<input id="pack_size" type="text" value="<?php echo $commodity -> Pack_Size;?>" class="pack_size">
+				</td>
+				<td class="number calc_count">
+				<input name="opening_balance[]" id="opening_balance_<?php echo $commodity -> id;?>" type="text" class="opening_balance">
+				</td>
+				<td class="number calc_count">
+				<input name="quantity_received[]" id="received_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_received">
+				</td>
+				<!-- dispensed_units-->
+				<td class="number col_dispensed_units calc_dispensed_packs  calc_resupply calc_count">
+				<input name="quantity_dispensed[]" id="dispensed_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_dispensed">
+				</td>
+				<td class="number calc_count">
+				<input name="adjustments[]" id="CdrrItem_10_adjustments" type="text" class="adjustments">
+				</td>
+				<td class="number calc_resupply col_count">
+				<input tabindex="-1" name="physical_count[]" id="CdrrItem_10_count" type="text" class="physical_count">
+				</td>
+				<!-- aggregate -->
+				<td class="number col_resupply">
+				<input tabindex="-1" name="resupply[]" id="CdrrItem_10_resupply" type="text" class="resupply">
+				</td>
+				<input type="hidden" name="commodity[]" value="<?php echo $commodity -> id;?>"/>
+			</tr>
+			<?php }?>
+		</tbody>
+	</table>
+	<table class="regimen-table big-table">
+		<thead>
+			<tr>
+				<th class="col_drug">
+					Regimen
+				</th>
+				<th>
+					Number of clients on this regimen who picked drugs this reporting period
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+				<?php
 $counter = 1;
 foreach($regimens as $regimen){
 
-			?>
-			<th regimen_id="<?php echo $regimen -> id;?>" class="regimen_numbers"><?php echo $regimen -> Regimen_Code;?>
-			<input tabindex="-1" name="patient_numbers[]" id="patient_numbers_<?php echo $regimen -> id;?>" type="text">
-			<input tabindex="-1" name="mos[]" id="mos_<?php echo $regimen -> id;?>" type="text">
-			<input name="regimen[]" value="<?php echo $regimen -> id;?>" type="hidden">
-			</th>
+				?>
+				<tr>
+				<td regimen_id="<?php echo $regimen -> id;?>" class="regimen_desc col_drug"><?php echo $regimen -> Regimen_Desc;?></td>
+				<td regimen_id="<?php echo $regimen -> id;?>" class="regimen_numbers"><input name="patient_numbers[]" id="patient_numbers_<?php echo $regimen -> id;?>" type="text"><input name="patient_regimens[]" value="<?php echo $regimen -> id;?>" type="hidden"></td>
+				 
+			</tr>
 			<?php
-			echo "</th>";
-			if ($counter == 11) {
-				echo "</tr><tr><th><div>No. of Patients</div></br><div>MOS Dispensed</div></th>";
-				$counter = 0;
-			}
-			$counter++;
-
-			}
-			?>
-	<tr><td colspan="12"><input type="submit" class="button" name="Submit Report" /></td></tr>		
-	</tbody>
-</table>
+				}
+				?>
+			<tr>
+				<td colspan="12">
+				<input type="submit" class="button" name="Submit Report" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+		<table id="comments-section" class="order-table">
+		 
+		<tbody>
+				<tr>
+					<th>Comment:</th>
+					<td colspan="3"><textarea rows="10" cols="30" name="comments"></textarea></td>
+				</tr>
+				<tr>
+					<th>Action:</th>
+					<td><input type="submit" class="button" value="Submit Order" name="save_changes" /></td> 
+				</tr> 
+			</tbody>
+	</table>
 </form>

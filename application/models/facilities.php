@@ -12,7 +12,7 @@ class Facilities extends Doctrine_Record {
 
 	public function setUp() {
 		$this -> setTableName('facilities');
-		$this -> hasOne('Districts as Parent_District', array('local' => 'district', 'foreign' => 'id'));
+		$this -> hasOne('District as Parent_District', array('local' => 'district', 'foreign' => 'id'));
 		$this -> hasOne('Facility_Types as Type', array('local' => 'facilitytype', 'foreign' => 'id'));
 	}
 

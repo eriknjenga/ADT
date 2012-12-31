@@ -147,11 +147,6 @@
 							$('#dispense').unbind("click").click(function() {
 								alert("Cannot Dispense to Patient:Status Not Active");
 							});
-						} else {
-							$("#dispense").click(function() {
-								var url = "dispense.html?patient_number=" + patient_identification;
-								window.location.href = url;
-							});
 						}
 						getMSQ();
 					}
@@ -199,6 +194,10 @@
 					});
 					$("#edit_patient").click(function() {
 						var url = "edit_patient.html?patient_number=" + patient_identification;
+						window.location.href = url;
+					});
+					$("#dispense").click(function() {
+						var url = "dispense.html?patient_number=" + patient_identification;
 						window.location.href = url;
 					});
 

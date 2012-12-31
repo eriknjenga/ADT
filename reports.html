@@ -28,6 +28,15 @@
 					autoOpen : false,
 					modal : true
 				});
+				$("#year").dialog({
+					autoOpen : false,
+					modal : true
+				});
+				$("#no_filter").dialog({
+					autoOpen : false,
+					modal : true
+				});
+
 				//Add datepicker
 				$("#date_range_from").datepicker({
 					changeMonth : true,
@@ -70,6 +79,15 @@
 					$("#selected_report").attr("value", $(this).attr("id"));
 					$("#single_date").dialog("open");
 				});
+				$(".no_filter").click(function() {
+					$("#selected_report").attr("value", $(this).attr("id"));
+					$("#no_filter").dialog("open");
+				});
+				
+				$(".annual_report").click(function() {
+					$("#selected_report").attr("value", $(this).attr("id"));
+					$("#year").dialog("open");
+				});
 				$("#generate_date_range_report").click(function() {
 					var report = $("#selected_report").attr("value") + ".html";
 					var from = $("#date_range_from").attr("value");
@@ -83,6 +101,18 @@
 					var report_url = "reports/" + report + "?date=" + selected_date;
 					window.location = report_url;
 				});
+				$("#generate_single_year_report").click(function() {
+					var report = $("#selected_report").attr("value") + ".html";
+					var selected_year = $("#single_year_filter").attr("value");
+					var report_url = "reports/" + report + "?year=" + selected_year;
+					window.location = report_url;
+				});
+				$("#generate_no_filter_report").click(function() {
+					var report = $("#selected_report").attr("value") + ".html"; 
+					var report_url = "reports/" + report;
+					window.location = report_url;
+				});
+
 				$("#donor_generate_date_range_report").click(function() {
 					var report = $("#selected_report").attr("value") + ".html";
 					var from = $("#donor_date_range_from").attr("value");
@@ -194,9 +224,9 @@
 							</div>
 							<div class="report_category">
 								<span class="category_title">Drug Inventory</span>
-								<a href="#" id="patients_enrolled_in_period" class="report">Drug Consumption Report</a>
+								<a href="#" id="drug_consumption" class="report active_report annual_report">Drug Consumption Report</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">Drug Stock on Hand Report</a>
-								<a href="#" id="patients_enrolled_in_period" class="report">Short Dated Stocks &lt;6 Months to Expiry</a>
+								<a href="#" id="expiring_drugs" class="report active_report no_filter">Short Dated Stocks &lt;6 Months to Expiry</a>
 								<a href="#" id="patients_enrolled_in_period" class="report">List of Expired Drugs</a>
 							</div>
 						</div>
@@ -233,6 +263,19 @@
 							<input type="text"name="filter_date" id="single_date_filter">
 						</label>
 						<button id="generate_single_date_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">
+							Generate Report
+						</button>
+					</div>
+					<div id="year">
+						<label> <strong class="label">Report Year: </strong>
+							<input type="text"name="filter_year" id="single_year_filter">
+						</label>
+						<button id="generate_single_year_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">
+							Generate Report
+						</button>
+					</div>
+					<div id="no_filter">
+						<button id="generate_no_filter_report" class="action_button" style="height:30px; font-size: 13px; width: 200px;">
 							Generate Report
 						</button>
 					</div>

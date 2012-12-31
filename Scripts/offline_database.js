@@ -85,7 +85,7 @@ function createTables() {
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS patient_status(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_source(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_destination(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
-		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT, machine_code TEXT, facility TEXT,);', [], nullDataHandler, errorHandler);
+		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_stock_movement(id INTEGER NOT NULL PRIMARY KEY, drug TEXT, transaction_date TEXT, batch_number TEXT, transaction_type TEXT, source TEXT, destination TEXT, expiry_date TEXT, packs TEXT,quantity TEXT, unit_cost TEXT, amount TEXT, remarks TEXT, operator TEXT, order_number TEXT,facility TEXT, machine_code TEXT);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS transaction_type(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, report_title TEXT NOT NULL, effect TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS drug_unit(id INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL);', [], nullDataHandler, errorHandler);
 		transaction.executeSql('CREATE TABLE IF NOT EXISTS districts(id INTEGER(14) NOT NULL,name varchar(100) NOT NULL);', [], nullDataHandler, errorHandler);
@@ -106,7 +106,7 @@ function createTables() {
 		/*
 		 * Deactivate all patients who are inactive
 		 */
-		transaction.executeSql("update patient set current_status = '5' where patient_number_ccc in (SELECT patient from patient_appointment pa left join patient p on p.patient_number_ccc = pa.patient where (strftime('%s','now')-strftime('%s',appointment))/86400 >90 and p.current_status = '1' and (p.service = '1' or p.service='3') group by patient);", [], nullDataHandler, errorHandler);
+		transaction.executeSql("update patient set current_status = '5' where patient_number_ccc in (SELECT patient from (select max(date(appointment)) as appointment,patient from patient_appointment group by patient) pa pa left join patient p on p.patient_number_ccc = pa.patient where (strftime('%s','now')-strftime('%s',appointment))/86400 >90 and p.current_status = '1' and (p.service = '1' or p.service='3') group by patient);", [], nullDataHandler, errorHandler);
 		/*
 		* Update the status of patients whose PMTCT days are over
 		*/
@@ -131,6 +131,8 @@ function createTables() {
 		transaction.executeSql("alter table patient add column fplan text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient add column tbphase text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient add column startphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table patient add column endphase text;", [], nullDataHandler, errorHandler);
+		transaction.executeSql("alter table drug_stock_movement add column quantity_out text;", [], nullDataHandler, errorHandler);
 		transaction.executeSql("alter table patient add column endphase text;", [], nullDataHandler, errorHandler);
 
 	});
@@ -347,7 +349,7 @@ function countSearchedPatientRecords(search_term, dataSelectHandler) {
 
 //This function returns a list of patients based on the limits specified
 function getPatientDetails(patient_number, dataSelectHandler) {
-	var sql = "select * from patient where patient_number_ccc = '" + patient_number + "'"; 
+	var sql = "select * from patient where patient_number_ccc = '" + patient_number + "'";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -425,6 +427,17 @@ function getDrugBinCard(id, dataSelectHandler) {
 
 function getDrugTransactions(id, dataSelectHandler) {
 	var sql = "select t.name as trans_type,d.drug,d.pack_size,ds.* from drug_stock_movement ds,drugcode d,transaction_type t where ds.drug = '" + id + "' and ds.drug = d.id and ds.transaction_type = t.id";
+	console.log(sql);
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugMonthlyConsumption(id, dataSelectHandler) {
+	var sql = "SELECT SUM( d.quantity ) AS TOTAL, t.effect AS EFFECT FROM drug_stock_movement d, transaction_type t WHERE d.drug ='" + id + "' AND d.transaction_type = t.id AND strftime('%d', date()) - strftime('%d', d.transaction_date ) < 90 AND t.effect= 0 GROUP BY t.effect ORDER BY  t.EFFECT DESC ";
+	SQLExecuteAbstraction(sql, dataSelectHandler);
+}
+
+function getDrugStockStatus(id, dataSelectHandler) {
+	var sql = "SELECT SUM( d.quantity ) AS TOTAL, t.effect AS EFFECT FROM drug_stock_movement d, transaction_type t WHERE d.drug ='" + id + "' AND d.transaction_type = t.id GROUP BY t.effect ORDER BY  t.EFFECT DESC ";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 
@@ -456,7 +469,7 @@ function getChangedRegimens(start_date, end_date, dataSelectHandler) {
 }
 
 function getDrugBatches(drug, dataSelectHandler) {
-	var sql = "select distinct batch_number from drug_stock_movement where drug = '" + drug + "' order by id desc";
+	var sql = "select distinct batch_number from drug_stock_movement where drug = '" + drug + "' order by expiry_date asc";
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

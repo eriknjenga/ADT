@@ -75,6 +75,7 @@ function processData(button) {
 				var batches = retrieveFormValues_Array('batch');
 				var doses = retrieveFormValues_Array('dose');
 				var brands = retrieveFormValues_Array('brand');
+				var expiry = retrieveFormValues_Array('expiry');
 				var indications = retrieveFormValues_Array('indication');
 				var pill_counts = retrieveFormValues_Array('pill_count');
 				var comments = retrieveFormValues_Array('comment');
@@ -82,16 +83,21 @@ function processData(button) {
 				var quantities = retrieveFormValues_Array('qty_disp');
 				var durations = retrieveFormValues_Array('duration');
 				var next_appointment_sql = "";
+				var drug_consumption=" ";
+				var transaction_type=5;
 				var dispensing_date_timestamp = Date.parse(dump["dispensing_date"]);
 				//Check if there is a date indicated for the next appointment. If there is, schedule it!
 				if($("#next_appointment_date").attr("value").length > 1) {
 					next_appointment_sql = "insert into patient_appointment (patient,appointment,facility,machine_code) values ('" + dump["patient"] + "','" + dump["next_appointment_date"] + "','" + facility + "','" + machine_code + "');";
 				}
+				
+				
 				var sql = next_appointment_sql;
 				//After getting the number of drugs issued, create a unique entry (sql statement) for each in the database in this loop
 				for(var i = 0; i < drugs_count; i++) {
 					sql += "INSERT INTO patient_visit (patient_id, visit_purpose, current_height, current_weight, regimen, regimen_change_reason, drug_id, batch_number, brand, indication, pill_count, comment, timestamp, user, facility, dose, dispensing_date, dispensing_date_timestamp,machine_code,quantity,duration,months_of_stock,adherence,missed_pills) VALUES ('" + dump["patient"] + "', '" + dump["purpose"] + "', '" + dump["height"] + "', '" + dump["weight"] + "', '" + dump["current_regimen"] + "', '" + dump["regimen_change_reason"] + "', '" + drugs[i] + "', '" + batches[i] + "', '" + brands[i] + "', '" + indications[i] + "', '" + pill_counts[i] + "', '" + comments[i] + "', '" + timestamp + "', '" + user + "', '" + facility + "', '" + doses[i] + "', '" + dump["dispensing_date"] + "', '" + dispensing_date_timestamp + "','" + machine_code + "','" + quantities[i] + "','" + durations[i] + "','" + dump["months_of_stock"] + "','" + dump["adherence"] + "','" + missed_pills[i] + "');";
-
+                    drug_consumption= "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type,expiry_date, quantity, facility, machine_code) VALUES ('" + drugs[i] + "', '" + dump["dispensing_date"] + "', '" + batches[i] + "', '" + transaction_type + "','"+ expiry[i]+"','" + quantities[i] + "','" + facility + "','" + machine_code + "');";
+				    sql +=drug_consumption;
 				};
 				console.log(sql);
 				var url = "patient_management.html?message=Dispensing data for " + dump['patient'] + " saved successfully";

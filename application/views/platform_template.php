@@ -71,6 +71,10 @@ if (isset($styles)) {
 	if ($current == "commodity_management") {echo " top_menu_active ";
 	}
 ?>">Stocks</a>
+<a href="<?php echo site_url('pmos_management/view_interface');?>" class="top_menu_link  <?php
+	if ($current == "pmos_management") {echo " top_menu_active ";
+	}
+?>">PMoS Model</a>
 <div id="my_profile_link_container" style="display: inline">
 <a href="<?php echo site_url('user_management/login');?>" class="top_menu_link" id="my_profile_link">System Login </a>
 </div>

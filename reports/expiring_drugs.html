@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Expiring Drugs</title>
+		<link href="../CSS/style.css" type="text/css" rel="stylesheet"/>
+		<link href="../CSS/offline_css.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" src="../Scripts/jquery.js"></script>
+		<script type="text/javascript" src="../Scripts/offline_database.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initDatabase();
+				//Get the environmental variables to display the hospital name
+				selectEnvironmentVariables(function(transaction, results) {
+					// Handle the results
+					var row = results.rows.item(0);
+					$("#facility_name").text(row['facility_name']);
+				});
+				var drug_statistics;
+				//Retrieve all drugs in the database
+				var drugs_sql = "select d.id as id,drug, pack_size, name from drugcode d left join drug_unit u on d.unit = u.id";
+				SQLExecuteAbstraction(drugs_sql, function(transaction, results) {
+					for(var i = 0; i < results.rows.length; i++) {
+						var parent_row = results.rows.item(i);
+						var sql = "select '" + parent_row['drug'] + "' as drug_name,'" + parent_row['pack_size'] + "' as pack_size,'" + parent_row['name'] + "' as unit,strftime('%m',date(dispensing_date)) as month, sum(quantity) as total_consumed from patient_visit where drug_id = '" + parent_row['id'] + "' and dispensing_date like '%" + year + "%' group by strftime('%m',date(dispensing_date)) order by strftime('%m',date(dispensing_date)) asc";
+						SQLExecuteAbstraction(sql, function(transaction, results) {
+							if(results.rows.length > 0) {
+								var first_row = results.rows.item(0);
+								var drug_consumption = new Array();
+								//First loop and make the month number as the array key
+								for(var i = 0; i < results.rows.length; i++) {
+									var parent_row = results.rows.item(i);
+									var month = parent_row['month'];
+									//Replace the preceding 0 in months less than october
+									if(month < 10) {
+										var month = parent_row['month'].replace('0', '');
+									}
+									drug_consumption[month] = parent_row['total_consumed'];
+
+								}
+								var row_string = "<tr><td>" + first_row['drug_name'] + "</td><td>" + first_row['unit'] + "</td>";
+								//Loop untill 12; check if there is a result for each month
+								for(var x = 1; x <= 12; x++) {
+									if(drug_consumption[x] && first_row['pack_size']) {
+										row_string += "<td>" + Math.round(drug_consumption[x] / first_row['pack_size']) + "</td>";
+									} else {
+										row_string += "<td>-</td>";
+									}
+								}
+								row_string += "</tr>";
+								$("#drug_listing").append($(row_string));
+							}
+						});
+					}
+
+				});
+			}); 
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				if(isNaN(age)) {
+					return "N/A";
+				}
+				return age;
+			}
+		</script>
+	</head>
+	<body>
+		<style>
+			#drug_listing {
+				margin: 0 auto;
+				border-top: 1px solid #B9B9B9;
+				font-size: 10px;
+				letter-spacing: 1px;
+			}
+			#drug_listing td th {
+				padding: 10px;
+			}
+		</style>
+		<h3 id="facility_name" style="text-align: center"></h3>
+		<h4 style="text-align: center">Drug Consumption Report for <span id="year"></span>
+		<br>
+		(in Packs)</h4>
+		<table   id="drug_listing">
+			<tr>
+				<th> Drug </th>
+				<th> Unit </th>
+				<th> Jan </th>
+				<th> Feb </th>
+				<th> Mar </th>
+				<th> Apr </th>
+				<th> May </th>
+				<th> Jun </th>
+				<th> Jul </th>
+				<th> Aug </th>
+				<th> Sep </th>
+				<th> Oct </th>
+				<th> Nov </th>
+				<th> Dec </th>
+			</tr>
+		</table>
+	</body>
+</html>

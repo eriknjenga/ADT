@@ -61,7 +61,7 @@
 				//Add listener to the drug batch selecter to prepopulate the expiry date
 				$(".batch").change(function() {
 					var row_element = $(this).closest("tr");
-					var expiry_date = row_element.find(".expiry"); 
+					var expiry_date = row_element.find(".expiry");
 					var drug = row_element.find(".drug").attr("value");
 					//Get basic getails of the selected patient
 					getBatchExpiry(drug, $(this).attr("value"), function(transaction, results) {
@@ -71,7 +71,6 @@
 							expiry_date.attr("value", row['expiry_date']);
 						}
 					});
-					
 				});
 				//Get basic getails of the selected patient
 				getPatientDetails(patient_number, function(transaction, results) {
@@ -144,6 +143,7 @@
 									$(this).append($("<option></option>").attr("value", row['id']).text(row['drug']));
 
 									populateDrugRow($(this));
+
 								});
 								continue;
 							}
@@ -159,6 +159,7 @@
 				//Fill the whole drug row with details of the selected drug!
 				$(".drug").change(function() {
 					populateDrugRow($(this));
+
 				});
 				$(".add").click(function() {
 					var cloned_object = $('#drugs_table tr:last').clone(true);
@@ -248,7 +249,7 @@
 						// Handle the results
 						var row = results.rows.item(0);
 						getUnitName(row['unit'], function(transaction, res) {
-							if(res.rows.length > 0){
+							if(res.rows.length > 0) {
 								var r = res.rows.item(0);
 								unit.attr("value", r['name']);
 							}
@@ -266,6 +267,18 @@
 								batch.append($("<option></option>").attr("value", row['batch_number']).text(row['batch_number']));
 							}
 							batch.change();
+						});
+						getDrugStockStatus(drug.attr("value"), function(transaction, results) {
+							for(var i = 0; i < results.rows.length; i++) {
+								var row = results.rows.item(i);
+								soh.attr("value", row['Stock_Status']);
+							}
+
+							var stock_out = results.rows.item(1);
+							var stock_in = results.rows.item(0);
+							var stock_status = stock_in["TOTAL"] - stock_out["TOTAL"];
+							var stock_status_row_string = "<tr><td>" + stock_status + "</td></tr>";
+							soh.attr("value", stock_status);
 						});
 					});
 				}
@@ -316,7 +329,7 @@
 	</head>
 	<body>
 		<style>
-			.data-table th{
+			.data-table th {
 				font-size: 10px;
 			}
 		</style>
@@ -394,10 +407,10 @@
 										<option></option>
 									</select> </label>
 								<label> <strong class="label">MOS Dispensed</strong>
-									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]"> 
+									<input type="text"name="months_of_stock" regimen_id="0" id="months_of_stock" class="validate[required]">
 								</label>
 								<label> <strong class="label">Reported Adherence (%)</strong>
-									<input type="text"name="adherence" id="adherence"> 
+									<input type="text"name="adherence" id="adherence">
 								</label>
 							</div>
 							<div class="column">
