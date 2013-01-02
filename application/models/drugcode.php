@@ -27,6 +27,7 @@ class Drugcode extends Doctrine_Record {
 		$this -> hasOne('Supporter as Supporter', array('local' => 'Supported_By', 'foreign' => 'id'));
 		$this -> hasMany('Brand as Brands', array('local' => 'id', 'foreign' => 'Drug_Id'));
 		$this -> hasOne('Dose as Drug_Dose', array('local' => 'Dose', 'foreign' => 'id'));
+		$this -> hasMany('Cdrr_Item as Cdrr_Objects', array('local' => 'id', 'foreign' => 'Drug_Id'));
 
 	}
 

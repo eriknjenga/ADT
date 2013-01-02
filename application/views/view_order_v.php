@@ -78,8 +78,12 @@
 	}
 	#comments-section{
 		float: none; 
-		width:100%;
+		width:100%; 
 	}
+	#comments-section th{ 
+		text-align: left !important;
+	}
+	
 	table{ 
 		table-layout:fixed;
 	}

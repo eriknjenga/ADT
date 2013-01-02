@@ -14,7 +14,7 @@ class Order_Rationalization extends MY_Controller {
 		$number_of_orders = Facility_Order::getTotalNumber($status);
 		$orders = Facility_Order::getPagedOrders($offset, $items_per_page, $status);
 		if ($number_of_orders > $items_per_page) {
-			$config['base_url'] = base_url() . "order_rationalization/submitted_orders/0/";
+			$config['base_url'] = base_url() . "order_rationalization/submitted_orders/".$status."/";
 			$config['total_rows'] = $number_of_orders;
 			$config['per_page'] = $items_per_page;
 			$config['uri_segment'] = 4;
@@ -22,10 +22,13 @@ class Order_Rationalization extends MY_Controller {
 			$this -> pagination -> initialize($config);
 			$data['pagination'] = $this -> pagination -> create_links();
 		}
-
 		$data['orders'] = $orders;
 		$data['quick_link'] = $status;
 		$data['content_view'] = "view_orders_v";
+		//If the orders being viewd are approved, display the view for generating the picking list
+		if($status == 1){
+			$data['content_view'] = "view_approved_orders_v";
+		}
 		$data['banner_text'] = "Submitted Orders";
 		$data['styles'] = array("pagination.css");
 		//get all submitted orders that have not been rationalized (fresh orders)

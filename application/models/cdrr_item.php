@@ -28,6 +28,7 @@ class Cdrr_Item extends Doctrine_Record {
 		$items = $query -> execute();
 		return $items;
 	}
+ 
 
 	public static function getItem($item) {
 		$query = Doctrine_Query::create() -> select("*") -> from("Cdrr_Item") -> where("id = '$item'");

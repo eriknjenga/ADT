@@ -80,6 +80,9 @@
 		float: none;
 		width:100%;
 	}
+	#comments-section th{ 
+		text-align: left !important;
+	}
 	table{ 
 		table-layout:fixed;
 	}
@@ -242,32 +245,32 @@ echo $header_text;
 $counter = 0;
 }
 			?>
-			<tr class="ordered_drugs" drug_id="<?php echo $commodity -> Drugcode_Object->id;?>">
-				<td class="col_drug"><?php echo $commodity -> Drugcode_Object->Drug;?></td>
+			<tr class="ordered_drugs" drug_id="<?php echo $commodity['did'];?>">
+				<td class="col_drug"><?php echo $commodity['drug'];?></td>
 				<td class="number">
-				<input id="pack_size" type="text" value="<?php echo $commodity -> Drugcode_Object -> Pack_Size;?>" class="pack_size">
+				<input id="pack_size" type="text" value="<?php echo $commodity['pack_size']?>" class="pack_size">
 				</td>
 				<td class="number calc_count">
-				<input name="opening_balance[]" id="opening_balance_<?php echo $commodity -> id;?>" type="text" class="opening_balance" value="<?php echo $commodity -> Balance;?>">
+				<input name="opening_balance[]" id="opening_balance_<?php echo $commodity['did'];?>" type="text" class="opening_balance" value="<?php echo $commodity['balance'];?>">
 				</td>
 				<td class="number calc_count">
-				<input name="quantity_received[]" id="received_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_received" value="<?php echo $commodity -> Received;?>">
+				<input name="quantity_received[]" id="received_in_period_<?php echo $commodity['did'];?>" type="text" class="quantity_received" value="<?php echo $commodity['received'];?>">
 				</td>
 				<!-- dispensed_units-->
 				<td class="number col_dispensed_units calc_dispensed_packs  calc_resupply calc_count">
-				<input name="quantity_dispensed[]" id="dispensed_in_period_<?php echo $commodity -> id;?>" type="text" class="quantity_dispensed" value="<?php echo $commodity -> Dispensed_Units;?>">
+				<input name="quantity_dispensed[]" id="dispensed_in_period_<?php echo $commodity['did'];?>" type="text" class="quantity_dispensed" value="<?php echo $commodity['dispensed_units'];?>">
 				</td>
 				<td class="number calc_count">
-				<input name="adjustments[]" id="CdrrItem_10_adjustments" type="text" class="adjustments" value="<?php echo $commodity -> Adjustments;?>">
+				<input name="adjustments[]" id="CdrrItem_10_adjustments" type="text" class="adjustments" value="<?php echo $commodity['adjustments'];?>">
 				</td>
 				<td class="number calc_resupply col_count">
-				<input tabindex="-1" name="physical_count[]" id="CdrrItem_10_count" type="text" class="physical_count" value="<?php echo $commodity -> Count;?>">
+				<input tabindex="-1" name="physical_count[]" id="CdrrItem_10_count" type="text" class="physical_count" value="<?php echo $commodity['count'];?>">
 				</td>
 				<!-- aggregate -->
 				<td class="number col_resupply">
-				<input tabindex="-1" name="resupply[]" id="CdrrItem_10_resupply" type="text" class="resupply" value="<?php echo $commodity -> Resupply;?>">
+				<input tabindex="-1" name="resupply[]" id="CdrrItem_10_resupply" type="text" class="resupply" value="<?php echo $commodity['resupply'];?>">
 				</td>
-				<input type="hidden" name="commodity[]" value="<?php echo $commodity -> Drugcode_Object->id;?>"/>
+				<input type="hidden" name="commodity[]" value="<?php echo $commodity['did'];?>"/>
 			</tr>
 			<?php }?>
 		</tbody>
@@ -290,8 +293,8 @@ foreach($regimens as $regimen){
 
 				?>
 				<tr>
-				<td regimen_id="<?php echo $regimen -> id;?>" class="regimen_desc col_drug"><?php echo $regimen -> Regimen_Object->Regimen_Desc;?></td>
-				<td regimen_id="<?php echo $regimen -> id;?>" class="regimen_numbers"><input name="patient_numbers[]" id="patient_numbers_<?php echo $regimen -> Regimen_Object-> id;?>" type="text" value="<?php echo $regimen ->  Total;?>"><input name="patient_regimens[]" value="<?php echo $regimen -> id;?>" type="hidden"></td>
+				<td regimen_id="<?php echo $regimen['id'];?>" class="regimen_desc col_drug"><?php echo $regimen['regimen_desc'];?></td>
+				<td regimen_id="<?php echo $regimen['id'];?>" class="regimen_numbers"><input name="patient_numbers[]" id="patient_numbers_<?php echo $regimen['id'];?>" type="text" value="<?php echo $regimen['total'];?>"><input name="patient_regimens[]" value="<?php echo $regimen ['rid'];?>" type="hidden"></td>
 				 
 			</tr>
 			<?php
@@ -299,7 +302,8 @@ foreach($regimens as $regimen){
 				?> 
 		</tbody>
 	</table>
-	<table id="comments-section" class="order-table">
+		<table id="comments-section" class="order-table">
+		<caption>Comments</caption>
 		<thead>
 			<tr>
 				<th>Date Made</th>
@@ -309,7 +313,17 @@ foreach($regimens as $regimen){
 			</tr>
 		</thead>
 		<tbody>
+			<?php 
+			foreach($comments as $comment){?>
 				<tr>
+					<td><?php echo date('Y-m-d H:i:s',$comment->Timestamp);?></td>
+					<td><?php echo $comment->User_Object->Name;?></td>
+					<td><?php echo $comment->User_Object->Access->Level_Name;?></td>
+					<td><?php echo $comment->Comment; ?></td>
+				</tr>
+			<?php }
+			?>
+			<tr>
 					<th>New Comment:</th>
 					<td colspan="3"><textarea rows="10" cols="30" name="comments"></textarea></td>
 				</tr>

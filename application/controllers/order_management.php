@@ -32,8 +32,18 @@ class Order_Management extends MY_Controller {
 		//First retrieve the order and its particulars from the database
 		$data = array();
 		$data['order_details'] = Facility_Order::getOrder($order);
-		$data['commodities'] = Cdrr_Item::getOrderItems($order);
-		$data['regimens'] = Maps_Item::getOrderItems($order);
+		$this -> load -> database();
+		//Get all drugs, ordered or not
+		$sql = "select d.drug,d.id as did,d.pack_size,c.* from drugcode d left join cdrr_item c on d.id = c.drug_id and c.cdrr_id = '$order' where d.supplied = '1' order by d.id";
+		$query = $this -> db -> query($sql);
+		$data['commodities'] = $query -> result_array();
+		//Get all regimens; ordered or not
+		$regimen_sql = "select r.regimen_desc,r.id as rid,m.* from regimen r left join maps_item m on r.id = m.regimen_id and m.maps_id = '$order' order by r.id";
+		$regimen_query = $this -> db -> query($regimen_sql);
+		$data['commodities'] = $query -> result_array();
+		//var_dump($data['commodities']);
+		$data['regimens'] = $regimen_query -> result_array();
+		$data['comments'] = Order_Comment::getOrderComments($order);
 		$data['content_view'] = "edit_order_v";
 		$data['banner_text'] = "Order Particulars";
 		//get all submitted orders that have not been rationalized (fresh orders)
@@ -46,7 +56,7 @@ class Order_Management extends MY_Controller {
 		$number_of_orders = Facility_Order::getTotalFacilityNumber($status, $facility);
 		$orders = Facility_Order::getPagedFacilityOrders($offset, $items_per_page, $status, $facility);
 		if ($number_of_orders > $items_per_page) {
-			$config['base_url'] = base_url() . "order_rationalization/submitted_orders/0/";
+			$config['base_url'] = base_url() . "order_management/submitted_orders/".$status."/";
 			$config['total_rows'] = $number_of_orders;
 			$config['per_page'] = $items_per_page;
 			$config['uri_segment'] = 4;
@@ -130,7 +140,17 @@ class Order_Management extends MY_Controller {
 
 		//Save the cdrr
 		if ($is_editing) {
+			//Retrieve the order being edited
 			$order_object = Facility_Order::getOrder($order_number);
+			//Delete all items for that order
+			$old_commodities = Cdrr_Item::getOrderItems($order_number);
+			$old_regimens = Maps_Item::getOrderItems($order_number);
+			foreach ($old_commodities as $old_commodity) {
+				$old_commodity -> delete();
+			}
+			foreach ($old_regimens as $old_regimen) {
+				$old_regimen -> delete();
+			}
 		} else {$order_object = new Facility_Order();
 		}
 
@@ -150,12 +170,14 @@ class Order_Management extends MY_Controller {
 		$order_object -> save();
 		$order_id = $order_object -> id;
 		//Now save the comment that has been made
-		$order_comment = new Order_Comment();
-		$order_comment -> Order_Number = $order_id;
-		$order_comment -> Timestamp = date('U');
-		$order_comment -> User = $user_id;
-		$order_comment -> Comment = $comments;
-		$order_comment -> save();
+		if (strlen($comments) > 0) {
+			$order_comment = new Order_Comment();
+			$order_comment -> Order_Number = $order_id;
+			$order_comment -> Timestamp = date('U');
+			$order_comment -> User = $user_id;
+			$order_comment -> Comment = $comments;
+			$order_comment -> save();
+		}
 
 		//Now save the cdrr items
 		$commodity_counter = 0;
@@ -163,11 +185,7 @@ class Order_Management extends MY_Controller {
 			foreach ($commodities as $commodity) {
 				//First check if any quantitites are required for resupply to avoid empty entries
 				if ($resupply[$commodity_counter] > 0) {
-					if ($is_editing) {
-						$cdrr_item = Cdrr_Item::getItem($commodity);
-					} else {
-						$cdrr_item = new Cdrr_Item();
-					}
+					$cdrr_item = new Cdrr_Item();
 					$cdrr_item -> Balance = $opening_balances[$commodity_counter];
 					$cdrr_item -> Received = $quantities_received[$commodity_counter];
 					$cdrr_item -> Dispensed_Units = $quantities_dispensed[$commodity_counter];
@@ -195,11 +213,7 @@ class Order_Management extends MY_Controller {
 			foreach ($regimens as $regimen) {
 				//Check if any patient numbers have been reported for this regimen
 				if ($patient_numbers[$regimen_counter] > 0) {
-					if ($is_editing) {
-						$maps_item = Maps_Item::getItem($regimen);
-					} else {
-						$maps_item = new Maps_Item();
-					}
+					$maps_item = new Maps_Item();
 					$maps_item -> Total = $patient_numbers[$regimen_counter];
 					$maps_item -> Regimen_Id = $regimens[$regimen_counter];
 					$maps_item -> Maps_Id = $maps_id;

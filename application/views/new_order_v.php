@@ -80,6 +80,9 @@
 		float: none;
 		width:100%;
 	}
+	#comments-section th{ 
+		text-align: left !important;
+	}
 	table{  
 	}
 	td{

@@ -16,11 +16,13 @@ class Facility_Order extends Doctrine_Record {
 		$this -> hasColumn('Delivery_Note', 'varchar', 10);
 		$this -> hasColumn('Order_Id', 'varchar', 10);
 		$this -> hasColumn('Facility_Id', 'varchar', 10);
+		$this -> hasColumn('Picking_List_Id', 'varchar', 10);
 	}//end setTableDefinition
 
 	public function setUp() {
 		$this -> setTableName('facility_order');
 		$this -> hasOne('Facilities as Facility_Object', array('local' => 'Facility_Id', 'foreign' => 'id'));
+		$this -> hasMany('Cdrr_Item as Commodity_Objects', array('local' => 'id', 'foreign' => 'Cdrr_Id'));
 	}//end setUp
 
 	public static function getTotalNumber($status) {
