@@ -3,7 +3,7 @@ class Facilities extends Doctrine_Record {
 	public function setTableDefinition() {
 		$this -> hasColumn('facilitycode', 'int', 32);
 		$this -> hasColumn('name', 'varchar', 100);
-		$this -> hasColumn('facilitytype', 'varchar', 5); 
+		$this -> hasColumn('facilitytype', 'varchar', 5);
 		$this -> hasColumn('district', 'varchar', 5);
 		$this -> hasColumn('flag', 'varchar', 2);
 		$this -> hasColumn('email', 'varchar', 50);
@@ -59,6 +59,12 @@ class Facilities extends Doctrine_Record {
 		$query = Doctrine_Query::create() -> select("*") -> from("Facilities") -> where("id = '$id'");
 		$facility = $query -> execute();
 		return $facility[0];
-	} 
+	}
+
+	public static function getAll() {
+		$query = Doctrine_Query::create() -> select("id,name") -> from("Facilities")->orderBy("name asc");
+		$facility = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
+		return $facility;
+	}
 
 }

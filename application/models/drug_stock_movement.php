@@ -33,7 +33,7 @@ class Drug_Stock_Movement extends Doctrine_Record {
 	}
 
 	public function getPagedTransactions($offset, $items, $machine_code, $drug, $facility, $transaction_date,$order_number) {
-		$query = Doctrine_Query::create() -> select("dm.*") -> from("Drug_Stock_Movement dm") -> leftJoin("Drug_Stock_Movement dm2") -> where("dm2.Drug = '$drug' and dm2.Order_Number = '$order_number' and dm2.Machine_Code = '$machine_code' and dm2.Transaction_Date = '$transaction_date' and dm2.Facility='$facility' and  dm.id>dm2.id and dm.Facility='$facility'") -> offset($offset) -> limit($items);
+		$query = Doctrine_Query::create() -> select("dm.*") -> from("Drug_Stock_Movement dm") -> leftJoin("Drug_Stock_Movement dm2") -> where("dm2.Drug = '$drug' and dm2.Order_Number = '$order_number' and dm2.Machine_Code = '$machine_code' and dm2.Transaction_Date = '$transaction_date' and dm2.Facility='$facility' and dm.Facility='$facility'") -> offset($offset) -> limit($items);
 		$drug_transactions = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drug_transactions;
 	}

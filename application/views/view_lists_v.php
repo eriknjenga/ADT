@@ -15,7 +15,7 @@
 	}
 	}
 
-	} );
+	} );1				
 
 	$(".delete").click(function(){ 
 	url = "<?php echo base_url().'picking_list_management/delete_list/'?>
@@ -55,7 +55,7 @@ $this->load->view("picking_list_sub_menu");
 				<td><?php echo $list->User_Object->Name;?></td>
 				<td><?php echo date('Y-m-d h:i:s',$list->Timestamp);?></td>
 				<td><?php echo count($list->Order_Objects);?></td>
-				<td><a href="<?php echo base_url()."picking_list_management/view_orders/".$list->id;?>" class="link">View Orders</a> | <a list="<?php echo $list->id;?>" class="link delete">Delete</a></td>
+				<td><a href="<?php echo base_url()."picking_list_management/view_orders/".$list->id;?>" class="link">View Orders</a> | <a href="<?php echo base_url()."picking_list_management/close_list/".$list->id;?>" class="link">Close</a>| <a list="<?php echo $list->id;?>" class="link delete">Delete</a></td>
 				
 			</tr>
 		<?php }

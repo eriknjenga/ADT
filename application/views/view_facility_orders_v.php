@@ -40,16 +40,19 @@ if (isset($pagination)):
 		<tr>
 			<th>Order Number</th>
 			<th>Facility</th>
+			<th>Type of Order</th>
 			<th>Period Begining</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php 
+		$order_types = array(0=>"Satellite Facility Order",1=>"Central Facility Order");
 		foreach($orders as $order){?>
 			<tr>
 				<td><?php echo $order->id;?></td>
 				<td><?php echo $order->Facility_Object->name;?></td>
+				<td><?php echo $order_types[$order->Code];?></td>
 				<td><?php echo $order->Period_Begin;?></td>
 				<td><a href="<?php echo base_url()."order_management/view_order/".$order->id;?>" class="link">View</a>
 					<?php if($quick_link == 0){?>

@@ -56,7 +56,7 @@ class Order_Management extends MY_Controller {
 		$number_of_orders = Facility_Order::getTotalFacilityNumber($status, $facility);
 		$orders = Facility_Order::getPagedFacilityOrders($offset, $items_per_page, $status, $facility);
 		if ($number_of_orders > $items_per_page) {
-			$config['base_url'] = base_url() . "order_management/submitted_orders/".$status."/";
+			$config['base_url'] = base_url() . "order_management/submitted_orders/" . $status . "/";
 			$config['total_rows'] = $number_of_orders;
 			$config['per_page'] = $items_per_page;
 			$config['uri_segment'] = 4;
@@ -80,7 +80,12 @@ class Order_Management extends MY_Controller {
 		redirect("order_management/submitted_orders");
 	}
 
-	public function new_order() {
+	public function new_order($facility = "0") {
+		if ($facility == "0") {
+			$data['content_view'] = "facility_selection_v";
+			$data['banner_text'] = "Select Facility";
+			$this -> base_params($data);
+		}
 		$data = array();
 		$data['content_view'] = "new_order_v";
 		$data['banner_text'] = "New Order";
@@ -89,14 +94,46 @@ class Order_Management extends MY_Controller {
 		$this -> base_params($data);
 	}
 
+	public function new_central_order() {
+		$facility_id = $this -> input -> post("facility");
+		if ($facility_id == null) {
+			$data['content_view'] = "central_facility_selection_v";
+			$data['banner_text'] = "Select Facility";
+			$data['facilities'] = Facilities::getAll();
+			$this -> base_params($data);
+			return;
+		} else {
+			$data = array();
+			$data['content_view'] = "new_central_order_v";
+			$data['scripts'] = array("offline_database.js");
+			$data['banner_text'] = "New Central Order";
+			$data['commodities'] = Drugcode::getAllObjects($facility_id);
+			$data['regimens'] = Regimen::getAllObjects($facility_id);
+			$data['facility_object'] = Facilities::getFacility($facility_id);
+			$this -> base_params($data);
+			return;
+		}
+	}
+
 	public function new_satellite_order() {
-		$data = array();
-		$data['content_view'] = "new_order_v";
-		$data['scripts'] = array("offline_database.js");
-		$data['banner_text'] = "New Order";
-		$data['commodities'] = Drugcode::getAllObjects($this -> session -> userdata('facility'));
-		$data['regimens'] = Regimen::getAllObjects($this -> session -> userdata('facility'));
-		$this -> base_params($data);
+		$facility_id = $this -> input -> post("facility");
+		if ($facility_id == null) {
+			$data['content_view'] = "facility_selection_v";
+			$data['banner_text'] = "Select Facility";
+			$data['facilities'] = Facilities::getAll();
+			$this -> base_params($data);
+			return;
+		} else {
+			$data = array();
+			$data['content_view'] = "new_order_v";
+			$data['scripts'] = array("offline_database.js");
+			$data['banner_text'] = "New Satellite Order";
+			$data['commodities'] = Drugcode::getAllObjects($facility_id);
+			$data['regimens'] = Regimen::getAllObjects($facility_id);
+			$data['facility_object'] = Facilities::getFacility($facility_id);
+			$this -> base_params($data);
+			return;
+		}
 	}
 
 	public function base_params($data) {

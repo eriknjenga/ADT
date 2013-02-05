@@ -12,6 +12,7 @@ class Users extends Doctrine_Record {
 		$this -> hasColumn('Phone_Number', 'varchar', 50);
 		$this -> hasColumn('Email_Address', 'varchar', 50);
 		$this -> hasColumn('Active', 'varchar', 2);
+		$this -> hasColumn('Signature', 'varchar', 50);
 	}
 
 	public function setUp() {

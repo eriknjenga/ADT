@@ -308,6 +308,7 @@ function countTableRecords(table, dataSelectHandler) {
 //count the total number of records in a particular table
 function countPatientRecords(facility, dataSelectHandler) {
 	var sql = "select count(*) as total from patient where facility_code = " + facility;
+	console.log(sql);
 	SQLExecuteAbstraction(sql, dataSelectHandler);
 }
 

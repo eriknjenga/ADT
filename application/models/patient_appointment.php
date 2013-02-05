@@ -32,7 +32,7 @@ class Patient_Appointment extends Doctrine_Record {
 	}
 
 	public function getPagedPatientAppointments($offset, $items, $machine_code, $patient_ccc, $facility, $appointment) {
-		$query = Doctrine_Query::create() -> select("pa.*") -> from("Patient_Appointment pa") -> leftJoin("Patient_Appointment pa2") -> where("pa2.Patient = '$patient_ccc' and pa2.Machine_Code = '$machine_code' and pa2.Appointment = '$appointment' and pa2.Facility='$facility' and  pa.id>pa2.id and pa.Facility='$facility'") -> offset($offset) -> limit($items);
+		$query = Doctrine_Query::create() -> select("pa.*") -> from("Patient_Appointment pa") -> leftJoin("Patient_Appointment pa2") -> where("pa2.Patient = '$patient_ccc' and pa2.Machine_Code = '$machine_code' and pa2.Appointment = '$appointment' and pa2.Facility='$facility' and pa.Facility='$facility'") -> offset($offset) -> limit($items);
 		$patient_appointments = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $patient_appointments;
 	}

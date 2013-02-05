@@ -8,8 +8,8 @@
 		var sync_table = "";
 
 		//Create a new queue for all the synchronization functions
-		//var queue = new Queue([syncDrugTransactions]);
-		var queue = new Queue([syncDrugs, syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncDistricts, syncDrugDoses, syncPatients, syncPatientAppointments, syncPatientVisits, syncDrugTransactions]);
+		var queue = new Queue([syncPatients]);
+	//	var queue = new Queue([syncDrugs, syncDrugUnits, syncOIs, syncPatientSources, syncRegimens, syncRegimensChangeReasons, syncRegimenDrugs, syncServiceTypes, syncVisitPurposes, syncPatientStatuses, syncDistricts, syncDrugDoses, syncPatients, syncPatientAppointments, syncPatientVisits, syncDrugTransactions]);
 		//Make the first synchronization request
 		queue.callNext();
 		//Wait for all ajax calls to complete before making the second synchronization request. To prevent an infinite loop, also check that the table that has just been synchronized is not being synchronized again
@@ -107,6 +107,7 @@
 		});
 		countTableRecords(table, function(transaction, results) {
 			var row = results.rows.item(0);
+			console.log(row);
 			total_local_records = row['total'];
 			//Create the url to be used in the ajax call
 			url = check_total_records_url + facility;

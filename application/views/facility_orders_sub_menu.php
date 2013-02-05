@@ -23,5 +23,5 @@ $quick_link = null;
 </div>
 <div id="menu_container">
 	<a class="action_button" href="<?php echo base_url().'order_management/new_satellite_order'?>" style="margin-top:10px;">New Satellite Facility Order</a>
-	<a class="action_button" href="<?php echo base_url().'order_management/new_order'?>" style="margin-top:10px;">New Central Facility Order</a>
+	<a class="action_button" href="<?php echo base_url().'order_management/new_central_order'?>" style="margin-top:10px;">New Central Facility Order</a>
 </div> 

@@ -2,6 +2,18 @@
 class Facility_Order extends Doctrine_Record {
 
 	public function setTableDefinition() {
+		/*
+		 * For the Statuses
+		 * 0 - Pending
+		 * 1 - Approved
+		 * 2 - Declined
+		 * 3 - Dispatched
+		 * 
+		 * For the codes
+		 * 0 - Satellite facility order
+		 * 1 - Central facility order
+		 */
+		
 		$this -> hasColumn('Status', 'varchar', 10);
 		$this -> hasColumn('Created', 'varchar', 32);
 		$this -> hasColumn('Updated', 'varchar', 32);

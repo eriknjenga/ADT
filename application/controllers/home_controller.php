@@ -13,16 +13,21 @@ class Home_Controller extends MY_Controller {
 
 	public function platform_home() {
 		//Check if the user is already logged in and if so, take him to their home page. Else, display the platform home page.
-		$user_id =  $this -> session -> userdata('user_id');
-		if(strlen($user_id)>0){
+		$user_id = $this -> session -> userdata('user_id');
+		if (strlen($user_id) > 0) {
 			redirect("home_controller/home");
 		}
+		$this -> load -> database();
+		$sql = "select count(*) as total from patient where `current_status` = '1'";
+		$result = $this -> db -> query($sql) -> result_array(); 
 		$data = array();
+		$data['total_patients'] = $result[0]['total'];
+		$data['facilities'] = Reporting_Facility::getAll();
 		$data['current'] = "home_controller";
 		$data['title'] = "System Dashboard";
 		$data['banner_text'] = "System Dashboard";
 		$data['content_view'] = "platform_home_v";
-		$this -> load -> view("platform_template", $data);
+		$this -> load -> view("national_template", $data);
 	}
 
 	public function home() {

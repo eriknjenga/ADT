@@ -216,15 +216,15 @@
 			<tbody>
 				<tr>
 					<th>Facility Name:</th>
-					<td>Liverpool VCT</td>
+					<td><?php echo $facility_object->name;?></td>
 					<th>Facility code:</th>
-					<td>13050</td>
+					<td><?php echo $facility_object->facilitycode;?></td>
 				</tr>
 				<tr>
 					<th>Province:</th>
-					<td>Nairobi</td>
+					<td>-</td>
 					<th>District:</th>
-					<td>Nairobi West</td>
+					<td><?php echo $facility_object->Parent_District->Name;?></td>
 				</tr>
 				<tr>
 					<th>Programme Sponsor:</th>
@@ -233,7 +233,7 @@
 					</td>
 					<th>Type of Service provided:</th>
 					<td>
-					<input name="services" id="Cdrr_services" type="text" value="ART, PMTCT">
+					<input name="services" id="Cdrr_services" type="text" value="">
 					</td>
 				</tr>
 				<tr>
@@ -245,7 +245,13 @@
 					<input name="end_date" id="end_date" type="text">
 					</td>
 					<td>
+						<?php
+						$logged_in_facility = $this -> session -> userdata('facility_id');
+						$ordering_facility = $facility_object->id; 
+						if($logged_in_facility == $ordering_facility){?>
 					<input name="generate" id="generate" class="action_button" value="Get Dispensing Data">
+											<?php }
+						?>
 					</td>
 				</tr>
 			</tbody>

@@ -391,7 +391,7 @@ class Synchronize_Pharmacy extends MY_Controller {
 					$order_number = $separated_variables[2];
 					$transaction_date = $separated_variables[3];
 					//Get all new patients since the last synchronization
-					$drug_transaction_data = Drug_Stock_Movement::getPagedTransactions($offset, $items, $machine_code, $drug, $facility, $transaction_date,$order_number);
+					$drug_transaction_data = Drug_Stock_Movement::getPagedTransactions($offset, $limit, $machine_code, $drug, $facility, $transaction_date,$order_number);
 					
 					//Append the results to the array that will be sent back to the client machine
 					$aggregated_object += $drug_transaction_data;
