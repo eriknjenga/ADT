@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 			total_drugs = 0;
 			$(document).ready(function() {
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				message = $_GET['message'];
 				if(message != null) {
 					$("#message").text(message);
@@ -63,7 +63,7 @@
 				});
 				$(".bin_card").click(function() {
 					var drug = $(this).closest("tr").attr("drug_id");
-					var url = "bin_card.html?drug=" + drug;
+					var url = "bin_card.html#?drug=" + drug;
 					window.location.href = url;
 				});
 				//First add the hover listener to the passed element (table row)

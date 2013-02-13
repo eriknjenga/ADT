@@ -37,9 +37,9 @@ function processData(button) {
 						console.log(sql);
 						var url = "";
 						if(button.attr("id") == "dispense") {
-							url = "dispense.html?patient_number=" + dump["patient_number"];
+							url = "dispense.html#?patient_number=" + dump["patient_number"];
 						} else {
-							url = "patient_management.html?message=Patient record for " + dump["first_name"] + " " + dump["last_name"] + " saved successfully";
+							url = "patient_management.html#?message=Patient record for " + dump["first_name"] + " " + dump["last_name"] + " saved successfully";
 						}
 						var combined_object = {
 							0 : target,
@@ -100,7 +100,7 @@ function processData(button) {
 				    sql +=drug_consumption;
 				};
 				console.log(sql);
-				var url = "patient_management.html?message=Dispensing data for " + dump['patient'] + " saved successfully";
+				var url = "patient_management.html#?message=Dispensing data for " + dump['patient'] + " saved successfully";
 				var combined_object = {
 					0 : target,
 					1 : sql,
@@ -143,7 +143,7 @@ function processData(button) {
 					var sql = "INSERT INTO drug_stock_movement (drug, transaction_date, batch_number, transaction_type, source, destination, expiry_date, packs,quantity, unit_cost, amount, remarks, operator, order_number, facility, machine_code) VALUES ('" + drugs[i] + "', '" + dump["transaction_date"] + "', '" + batches[i] + "', '" + dump["transaction_type"] + "', '" + dump["source"] + "', '" + dump["destination"] + "', '" + expiries[i] + "', '" + packs[i] + "', '" + quantities[i] + "', '" + unit_costs[i] + "', '" + amounts[i] + "', '" + comments[i] + "','" + user + "','" + dump["reference_number"] + "','" + facility + "','" + machine_code + "');";
 					sql_queries += sql;
 				};
-				var url = "inventory.html?message=Stock inventory data saved successfully";
+				var url = "inventory.html#?message=Stock inventory data saved successfully";
 				var combined_object = {
 					0 : target,
 					1 : sql_queries,
@@ -185,10 +185,10 @@ function processData(button) {
 				var redirect_url = "";
 				if(dump["delete_trigger"] == "1") {
 					var sql = "delete from patient_visit WHERE patient_id='" + dump["patient"] + "' AND facility='" + facility + "' and dispensing_date='" + dump["original_dispensing_date"] + "' and drug_id='" + dump["original_drug"] + "';";
-					redirect_url = "patient_management.html?message=Dispensing Data for " + dump['patient'] + " deleted successfully";
+					redirect_url = "patient_management.html#?message=Dispensing Data for " + dump['patient'] + " deleted successfully";
 				} else {
 					var sql = "UPDATE patient_visit SET dispensing_date = '" + dump["dispensing_date"] + "', visit_purpose = '" + dump["purpose"] + "', current_weight='" + dump["weight"] + "', current_height='" + dump["height"] + "', regimen='" + dump["current_regimen"] + "', drug_id='" + dump["drug"] + "', batch_number='" + dump["batch"] + "', dose='" + dump["dose"] + "', duration='" + dump["duration"] + "', quantity='" + dump["qty_disp"] + "', brand='" + dump["brand"] + "', indication='" + dump["indication"] + "', pill_count='" + dump["pill_count"] + "', comment='" + dump["comment"] + "' WHERE patient_id='" + dump["patient"] + "' AND facility='" + facility + "' and dispensing_date='" + dump["original_dispensing_date"] + "' and drug_id='" + dump["original_drug"] + "';";
-					redirect_url = "patient_management.html?message=Edited Dispensing Data for " + dump['patient'] + " saved successfully";
+					redirect_url = "patient_management.html#?message=Edited Dispensing Data for " + dump['patient'] + " saved successfully";
 				}
 
 				//console.log(sql);
@@ -316,6 +316,7 @@ function notifyUserIsOffline() {
 
 //This function is to get the 'get' parameters passed in the url
 function getQueryParams(qs) {
+	qs = qs.substr(1);
 	qs = qs.split("+").join(" ");
 	var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
 

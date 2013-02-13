@@ -1,0 +1,50 @@
+CACHE MANIFEST
+# Version 9
+#This file outlines all resources that are to be cached by the browser!
+
+CACHE:
+offline.appcache
+add_patient.html
+add_stock.html
+bin_card.html
+dispense.html
+edit_dispensing.html
+edit_patient.html
+get_queries.html
+history.html
+inventory.html
+manage_stock.html
+patient_details.html
+patient_info.html
+patient_management.html
+reports.html
+offline.html
+settings.html
+reports/cumulative_patients.html
+reports/drug_consumption.html
+reports/expiring_drugs.html
+reports/patients_enrolled_in_period.html
+reports/patients_missing_appointments.html
+reports/patients_scheduled_to_visit.html
+reports/patients_visitied_for_refill.html
+reports/patients_who_changed_regimen.html
+
+CSS/style.css
+CSS/jquery-ui.css
+CSS/validator.css
+CSS/offline_css.css
+
+  
+Scripts/offlineData.js
+Scripts/offline_database.js
+Scripts/jquery.js
+Scripts/jquery-ui.js
+Scripts/validationEngine-en.js
+Scripts/validator.js
+Images/coat_of_arms-resized.png
+
+FALLBACK:
+/ offline.html
+
+NETWORK:
+*

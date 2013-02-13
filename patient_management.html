@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 			total_patients = 0;
 			$(document).ready(function() {
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				message = $_GET['message'];
 				if(message != null) {
 					$("#message").text(message);
@@ -50,23 +50,23 @@
 				//Add click listeners to the action links
 				$(".details").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "patient_details.html?patient_number=" + patient_medical_record_number;
+					var url = "patient_details.html#?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				});				
 				$(".edit").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "edit_patient.html?patient_number=" + patient_medical_record_number;
+					var url = "edit_patient.html#?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				});
 				$(".dispense").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "dispense.html?patient_number=" + patient_medical_record_number;
+					var url = "dispense.html#?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				});
 
 				$(".history").click(function() {
 					var patient_medical_record_number = $(this).closest("tr").attr("patient_number");
-					var url = "history.html?patient_number=" + patient_medical_record_number;
+					var url = "history.html#?patient_number=" + patient_medical_record_number;
 					window.location.href = url;
 				}); 
 				//First add the hover listener to the passed element (table row)

@@ -7,10 +7,11 @@
 		<link href="CSS/offline_css.css" type="text/css" rel="stylesheet"/>
 		<script type="text/javascript" src="Scripts/jquery.js"></script>
 		<script type="text/javascript" src="Scripts/offline_database.js"></script>
+		<script type="text/javascript" src="Scripts/offlineData.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				var patient_number = $_GET['patient_number'];
 				//Get the environmental variables to display the hospital name
 				selectEnvironmentVariables(function(transaction, results) {
@@ -43,15 +44,7 @@
 						$("#patient_appointment_history").append($(row_string));
 					}
 				});
-			});
-			function getQueryParams(qs) {
-				qs = qs.split("+").join(" ");
-				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
-				while( tokens = re.exec(qs)) {
-					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-				}
-				return params;
-			}
+			}); 
 
 			function getAge(dateString) {
 				var today = new Date();

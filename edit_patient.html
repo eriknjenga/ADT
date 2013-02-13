@@ -52,7 +52,7 @@
 					}
 
 				});
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				var patient_identification = $_GET['patient_number'];
 				$("#patient_number").attr("value", patient_identification);
 				//Dynamically load the list of statuses!
@@ -206,15 +206,7 @@
 						getMSQ();
 					}
 				});
-			});
-			function getQueryParams(qs) {
-				qs = qs.split("+").join(" ");
-				var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
-				while( tokens = re.exec(qs)) {
-					params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-				}
-				return params;
-			}
+			}); 
 
 			function getMSQ() {
 				var weight = $('#weight').attr('value');

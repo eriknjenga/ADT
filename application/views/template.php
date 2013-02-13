@@ -22,7 +22,7 @@ if ($access_level == "nascop_staff") {
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $title;?></title>
@@ -64,7 +64,7 @@ if (!$user_is_pharmacist) {?>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#my_profile_link_container").hover(function() {
-			var html = "<a href='<?php echo base_url().'user_management/change_password'?>' class='top_menu_link temp_link'>Change Password</a> <a href='<?php echo base_url().'user_management/logout'?>' class='top_menu_link temp_link'>Logout</a> ";
+			var html = "<a href='<?php echo site_url('user_management/change_password')?>' class='top_menu_link temp_link'>Change Password</a> <a href='<?php echo site_url('user_management/logout');?>' class='top_menu_link temp_link'>Logout</a> ";
 			$("#my_profile_link").css('display','none'); 
 			$(this).append(html);
 		}, function() {

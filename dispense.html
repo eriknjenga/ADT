@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="Scripts/validationEngine-en.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				patient_number = $_GET['patient_number'];
 				initDatabase();
 				getLastVisitData();

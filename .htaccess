@@ -1,3 +1,4 @@
+AddType text/cache-manifest .appcache
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /ADT
@@ -30,4 +31,5 @@
     # Submitted by: ElliotHaughin
 
     ErrorDocument 404 /index.php
+    
 </IfModule> 

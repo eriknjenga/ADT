@@ -16,7 +16,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				initDatabase();
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams(document.location.hash);
 				var drug = $_GET['drug'];
 				var monthly_consumption = 0;
 				//Get the drug details first

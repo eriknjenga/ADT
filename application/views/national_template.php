@@ -50,16 +50,7 @@ if($current == null){
                     	<li <?php if($current == 'refills'){echo "class='current'";}?>><a href="<?php echo site_url("patient_statistics/refills");?>" class="dashboard"><span>Number of Refill Patients</span></a></li>
                         <li <?php if($current == 'patients_per_regimen'){echo "class='current'";}?>><a href="<?php echo site_url("patient_statistics/patients_per_regimen");?>" class="dashboard"><span>Number of Patients per Regimen</span></a></li>
                         <li <?php if($current == 'service_breakdown'){echo "class='current'";}?>><a href="<?php echo site_url("patient_statistics/service_breakdown");?>" class="dashboard"><span>Breakdown of Patients</span></a></li>
-                        <li <?php if($current == 'service_offering'){echo "class='current'";}?>><a href="<?php echo site_url("service_offering");?>" class="dashboard"><span>Service Offering</span></a></li>
-                        <li <?php if($current == 'danger_signs'){echo "class='current'";}?>><a href="<?php echo site_url("danger_signs");?>" class="dashboard"><span>Danger Signs</span></a></li>
-                        <li <?php if($current == 'main_symptoms'){echo "class='current'";}?>><a href="<?php echo site_url("main_symptoms");?>" class="dashboard"><span>Four Main Symptoms</span></a></li>
-                        <li <?php if($current == 'checks'){echo "class='current'";}?>><a href="<?php echo site_url("checks");?>" class="dashboard"><span>Checks</span></a></li>
-                        <li <?php if($current == 'assessment'){echo "class='current'";}?>><a href="<?php echo site_url("assessment");?>" class="dashboard"><span>Assessment &amp; Classification For Children</span></a></li>
-                       <li <?php if($current == 'correct_assessment'){echo "class='current'";}?>><a href="<?php echo site_url("correct_assessment");?>" class="dashboard"><span>Is Assessment Correct?</span></a></li>
-                        <li <?php if($current == 'treatment_options'){echo "class='current'";}?>><a href="<?php echo site_url("treatment_options");?>" class="dashboard"><span>Treatment Options</span></a></li>
-                        <li <?php if($current == 'ort_corner'){echo "class='current'";}?>><a href="<?php echo site_url("ort_corner");?>" class="dashboard"><span>ORT Corner Assessment</span></a></li>
-                        
-                       
+          
                     </ul>
                         
                 </div><!--leftmenu-->

@@ -89,32 +89,32 @@
 					$("#year").dialog("open");
 				});
 				$("#generate_date_range_report").click(function() {
-					var report = $("#selected_report").attr("value") + ".html";
+					var report = $("#selected_report").attr("value") + ".html#";
 					var from = $("#date_range_from").attr("value");
 					var to = $("#date_range_to").attr("value");
 					var report_url = "reports/" + report + "?start_date=" + from + "&end_date=" + to;
 					window.location = report_url;
 				});
 				$("#generate_single_date_report").click(function() {
-					var report = $("#selected_report").attr("value") + ".html";
+					var report = $("#selected_report").attr("value") + ".html#";
 					var selected_date = $("#single_date_filter").attr("value");
 					var report_url = "reports/" + report + "?date=" + selected_date;
 					window.location = report_url;
 				});
 				$("#generate_single_year_report").click(function() {
-					var report = $("#selected_report").attr("value") + ".html";
+					var report = $("#selected_report").attr("value") + ".html#";
 					var selected_year = $("#single_year_filter").attr("value");
 					var report_url = "reports/" + report + "?year=" + selected_year;
 					window.location = report_url;
 				});
 				$("#generate_no_filter_report").click(function() {
-					var report = $("#selected_report").attr("value") + ".html"; 
+					var report = $("#selected_report").attr("value") + ".html#"; 
 					var report_url = "reports/" + report;
 					window.location = report_url;
 				});
 
 				$("#donor_generate_date_range_report").click(function() {
-					var report = $("#selected_report").attr("value") + ".html";
+					var report = $("#selected_report").attr("value") + ".html#";
 					var from = $("#donor_date_range_from").attr("value");
 					var to = $("#donor_date_range_to").attr("value");
 					var donor = $("#donor").attr("value");

@@ -66,9 +66,43 @@ class Patient_Statistics extends MY_Controller {
 					$result_array["other"]['total'] = $result_element['total'];
 				}
 			}
+		} 
+		$chart = '<chart  pieRadius="100" showPercentageValues="1" showPercentInToolTip="0" decimals="0" caption="' . $title . '"  bgColor="FFFFFF" showBorder="0" bgAlpha="100" exportEnabled="1" exportHandler="' . base_url() . 'scripts/FusionCharts/ExportHandlers/PHP/FCExporter.php" exportAtClient="0" exportAction="download">';
+		foreach ($result_array as $result_element) {
+			$chart .= '<set label="' . $result_element['line'] . '" value="' . $result_element['total'] . '"/>';
 		}
-		var_dump($result_array);
-		$chart = '<chart  pieRadius="200" showPercentageValues="1" showPercentInToolTip="0" decimals="0" caption="' . $title . '"  bgColor="FFFFFF" showBorder="0" bgAlpha="100" exportEnabled="1" exportHandler="' . base_url() . 'scripts/FusionCharts/ExportHandlers/PHP/FCExporter.php" exportAtClient="0" exportAction="download">';
+		$chart .= '</chart>';
+		echo $chart;
+	}
+	public function service_type_breakdown_data($facility, $year) {
+		$title = "Number of Active Patients by Service Type";
+		$this -> load -> database();
+		$sql = "";
+		if ($facility == "0") {
+			$sql = "select count(*) as total, line from patient p left join regimen r on p.current_regimen = r.id where year(date_enrolled) = '$year' and current_status = '1' group by line";
+		} else {
+			$sql = "select count(*) as total, line from patient p left join regimen r on p.current_regimen = r.id where year(date_enrolled) = '$year' and current_status = '1' and facility_code = '$facility' group by line";
+		}
+		$result = $this -> db -> query($sql) -> result_array();
+		$result_array = array();
+		foreach ($result as $result_element) {
+
+			if ($result_element['line'] == "1") {
+				$result_array[$result_element['line']]['line'] = "First Line";
+				$result_array[$result_element['line']]['total'] = $result_element['total'];
+			} else if ($result_element['line'] == "2") {
+				$result_array[$result_element['line']]['line'] = "Second Line";
+				$result_array[$result_element['line']]['total'] = $result_element['total'];
+			} else {
+				$result_array["other"]['line'] = "Others";
+				if (isset($result_array["other"]['total'])) {
+					$result_array["other"]['total'] += $result_element['total'];
+				} else {
+					$result_array["other"]['total'] = $result_element['total'];
+				}
+			}
+		} 
+		$chart = '<chart  pieRadius="100" showPercentageValues="1" showPercentInToolTip="0" decimals="0" caption="' . $title . '"  bgColor="FFFFFF" showBorder="0" bgAlpha="100" exportEnabled="1" exportHandler="' . base_url() . 'scripts/FusionCharts/ExportHandlers/PHP/FCExporter.php" exportAtClient="0" exportAction="download">';
 		foreach ($result_array as $result_element) {
 			$chart .= '<set label="' . $result_element['line'] . '" value="' . $result_element['total'] . '"/>';
 		}
